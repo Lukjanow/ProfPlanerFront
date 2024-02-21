@@ -1,0 +1,27 @@
+import {createBrowserRouter} from "react-router-dom";
+import Root from "./root.jsx";
+import ErrorPage from "../pages/ErrorPage.jsx";
+import TimetablePage, {loader as timetableLoader} from "../pages/TimetablePage.jsx";
+import ComponentPage from "../pages/ComponentPage.jsx";
+
+const router = createBrowserRouter([
+    {
+        path: "/",
+        element: <Root />,
+        errorElement: <ErrorPage />,
+        children: [
+            {
+                path: "timetable/:id",
+                element: <TimetablePage />,
+                loader: timetableLoader
+            }
+        ]
+    },
+    {
+        path: "/component",
+        element: <ComponentPage />,
+        errorElement: <ErrorPage />,
+    },
+]);
+
+export default router;
