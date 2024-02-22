@@ -1,22 +1,36 @@
-import {Button} from "@nextui-org/react";
-import {getLang, setLang} from "../i18n/i18n.js";
+import {Select, SelectItem} from "@nextui-org/react";
+import {useTranslation} from "react-i18next";
 
-// TODO: not switching between langs yet
 export function LangSwitcher() {
-    const currentLang = getLang();
-    console.log(currentLang);
+    const { t, i18n } = useTranslation();
+
+    const handleLanguageChange = (e) => {
+        const newLang = e.target.value;
+        i18n.changeLanguage(newLang);
+    };
 
     return (
         <>
-            <Button isIconOnly onClick={() => {
-                setLang(currentLang === "en" ? "de" : "en");
-            }}>
-                {getLang()}
-            </Button>
+            <Select
+                aria-label={t("language")}
+                disallowEmptySelection
+                className="max-w-xs"
+                defaultSelectedKeys={["en"]}
+                onChange={handleLanguageChange}
+            >
+                <SelectItem
+                    key="en"
+                    value="en"
+                >
+                    English
+                </SelectItem>
+                <SelectItem
+                    key="de"
+                    value="de"
+                >
+                    Deutsch
+                </SelectItem>
+            </Select>
         </>
-    )
+    );
 }
-
-// <span>
-//                 {t('hello')}
-//             </span>

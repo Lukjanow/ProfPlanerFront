@@ -1,8 +1,12 @@
 import {Link, Outlet} from "react-router-dom";
+import {useTranslation} from 'react-i18next';
+import BGGradient from "../components/BGGradient.jsx";
 
 export default function Root() {
+    const {t} = useTranslation();
     return (
         <>
+            <h1>{t('language')}</h1>
             <div id="sidebar">
                 <h1>React Router Contacts</h1>
                 <div>
@@ -42,6 +46,7 @@ export default function Root() {
             <div id="detail">
                 <Outlet/>
             </div>
+            <BGGradient/>
         </>
     );
 }

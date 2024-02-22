@@ -1,19 +1,20 @@
 import {Autocomplete, AutocompleteItem, Snippet} from "@nextui-org/react";
 import {animals} from "../stores/testData.js";
 import {ThemeSwitcher} from "../components/ThemeSwitcher.jsx";
-import {t} from "i18next";
 import {LangSwitcher} from "../components/LangSwitcher.jsx";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import axios from "axios";
 import {useEffect, useState} from "react";
+import {useTranslation} from "react-i18next";
 
 export default function ComponentPage() {
-    const [post, setPost] = useState();
+    const [post, setPost] = useState(null);
+    const { t } = useTranslation();
 
     useEffect(() => {
         axios.get(`https://jsonplaceholder.typicode.com/users`)
             .then(res => {
-               setPost(res.data);
+                setPost(res.data);
             })
     }, []);
 
@@ -43,8 +44,8 @@ export default function ComponentPage() {
             <Snippet>
                 {
                     post.map(person =>
-                            <li key={person.id}>{person.name}</li>
-                        )
+                        <li key={person.id}>{person.name}</li>
+                    )
                 }
             </Snippet>
 

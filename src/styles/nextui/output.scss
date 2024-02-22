@@ -690,6 +690,10 @@ video {
   top: var(--navbar-height);
 }
 
+.right-0 {
+  right: 0px;
+}
+
 .-z-30 {
   z-index: -30;
 }
@@ -1582,6 +1586,10 @@ video {
   align-items: center;
 }
 
+.items-stretch {
+  align-items: stretch;
+}
+
 .justify-start {
   justify-content: flex-start;
 }
@@ -2197,6 +2205,11 @@ video {
 .object-cover {
   -o-object-fit: cover;
      object-fit: cover;
+}
+
+.object-none {
+  -o-object-fit: none;
+     object-fit: none;
 }
 
 .p-1 {
