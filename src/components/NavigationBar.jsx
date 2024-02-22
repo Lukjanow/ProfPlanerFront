@@ -1,6 +1,6 @@
 import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import "../styles/components/navigationBar.scss"
+import "../styles/components/NavigationBar.scss"
 
 export function NavigationBar() {
 
@@ -29,7 +29,7 @@ export function NavigationBar() {
     ]
 
     return (
-        <nav className={"fixed w-[80px] shadow-md bg-white"}>
+        <nav className={"fixed w-[80px] shadow-md"}>
             {
                 navigationBarItems.map((navigationItem, index) => (
                         <Link className={"transition-colors"} key={index} to={navigationItem.path}>
