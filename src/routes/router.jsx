@@ -14,6 +14,21 @@ const router = createBrowserRouter([
                 path: "timetable",
                 element: <TimetablePage />,
                 errorElement: <ErrorPage />,
+            },
+            {
+                path: "basicdata",
+                element: <></>,
+                errorElement: <ErrorPage/>
+            },
+            {
+                path: "feedback",
+                element: <></>,
+                errorElement: <ErrorPage/>
+            },
+            {
+                path: "settings",
+                element: <></>,
+                errorElement: <ErrorPage/>
             }
         ]
     },
