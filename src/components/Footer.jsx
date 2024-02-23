@@ -1,3 +1,5 @@
+import moment from "moment";
+
 export function Footer() {
     return (
         <footer className={"flex flex-col items-center text-center gap-4 p-3 mt-10"}>
@@ -9,7 +11,7 @@ export function Footer() {
                 </span>
             </div>
             <span className={"text-xs font-extralight"}>
-                © 2024 — ProfPlaner
+                © {moment().year()} — ProfPlaner
             </span>
         </footer>
     )
