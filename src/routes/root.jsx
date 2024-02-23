@@ -7,7 +7,7 @@ export default function Root() {
         <>
             <Header/>
             <NavigationBar/>
-            <main className={"bg-neutral-50 min-w-full"} id="content">
+            <main className={"min-w-full"} id="content">
                 <Outlet/>
             </main>
         </>
