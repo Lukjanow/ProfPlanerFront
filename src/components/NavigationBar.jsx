@@ -1,7 +1,7 @@
 import {Link} from "react-router-dom";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import "../styles/components/NavigationBar.scss"
-import {Button, Navbar, NavbarContent, NavbarItem} from "@nextui-org/react";
+import {Badge, Button, Navbar, NavbarContent, NavbarItem} from "@nextui-org/react";
 
 export function NavigationBar() {
 
@@ -13,14 +13,14 @@ export function NavigationBar() {
             icon: "calendar-days"
         },
         {
+            path: "conflicts",
+            label: "Konflikte",
+            icon: "triangle-exclamation"
+        },
+        {
             path: "basicdata",
             label: "Stammdaten",
             icon: "database"
-        },
-        {
-            path: "feedback",
-            label: "Rückmeldung",
-            icon: "message"
         },
         {
             path: "settings",
@@ -35,12 +35,14 @@ export function NavigationBar() {
                 {
                     navigationBarItems.map((navigationItem, index) => (
                         <NavbarItem className={"w-20 px-0"} key={index}>
-                            <Button color="" className={"w-8 p-9"}>
-                                <Link className={"flex flex-col gap-1"} to={navigationItem.path}>
-                                    <FontAwesomeIcon  className={"text-xl"} icon={navigationItem.icon}/>
-                                    <span className={"text-[9px] font-extralight"}>{navigationItem.label}</span>
-                                </Link>
-                            </Button>
+                            <Badge content={"12"} color={"danger"}>
+                                <Button color="" className={"w-8 p-9"}>
+                                    <Link className={"flex flex-col gap-1"} to={navigationItem.path}>
+                                        <FontAwesomeIcon  className={"text-xl"} icon={navigationItem.icon}/>
+                                        <span className={"text-[9px] font-extralight"}>{navigationItem.label}</span>
+                                    </Link>
+                                </Button>
+                            </Badge>
                         </NavbarItem>
                         )
                     )
