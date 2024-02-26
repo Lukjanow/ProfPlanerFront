@@ -1,6 +1,7 @@
-import {useTheme} from "next-themes";
-import {useEffect, useState} from "react";
-import {Button} from "@nextui-org/react";
+import { useTheme } from "next-themes";
+import { useEffect, useState } from "react";
+import { Button, Tooltip } from "@nextui-org/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function ThemeSwitcher() {
     const [mounted, setMounted] = useState(false);
@@ -14,11 +15,19 @@ export function ThemeSwitcher() {
         return null;
     }
 
+    // TODO: Übersetzung einfügen
     return (
-        <>
-            <Button isIconOnly onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-                {theme}
+        <Tooltip content={"Erscheinungsbild ändern"}>
+            <Button
+                color={"none"}
+                isIconOnly
+                startContent={
+                    theme === "light" ?
+                        <FontAwesomeIcon className={"text-xl"} icon={"moon"} /> :
+                        <FontAwesomeIcon className={"text-xl"} icon={"sun"} />
+                }
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
             </Button>
-        </>
+        </Tooltip>
     )
 }
