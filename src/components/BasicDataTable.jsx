@@ -20,6 +20,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
 import React from "react";
 
+// Map, die den Status eines Benutzers mit einer Farbe verknüpft
 const statusColorMap = {
   active: "success",
   paused: "danger",
@@ -46,22 +47,27 @@ export default function BasicDataTable() {
 
   const hasSearchFilter = Boolean(filterValue);
 
+  // Berechnung der Header-Spalten
   const headerColumns = React.useMemo(() => {
-    if (visibleColumns === "all") return columns;
+    if (visibleColumns === "all") return columns; // Wenn alle Spalten sichtbar sind, gib alle Spalten zurück
 
-    return columns.filter((column) =>
+    return columns.filter((column) => // Andernfalls filtere die sichtbaren Spalten
       Array.from(visibleColumns).includes(column.uid)
     );
   }, [visibleColumns]);
 
+  // Filtern der Elemente basierend auf Suchbegriff und Statusfilter
   const filteredItems = React.useMemo(() => {
-    let filteredUsers = [...users];
+    let filteredUsers = [...users]; // Kopie der Benutzerliste
 
+    // Anwenden des Suchfilters
     if (hasSearchFilter) {
       filteredUsers = filteredUsers.filter((user) =>
         user.name.toLowerCase().includes(filterValue.toLowerCase())
       );
     }
+
+    // Anwenden des Statusfilters
     if (
       statusFilter !== "all" &&
       Array.from(statusFilter).length !== statusOptions.length
@@ -74,6 +80,7 @@ export default function BasicDataTable() {
     return filteredUsers;
   }, [users, filterValue, statusFilter]);
 
+  // Berechnung der angezeigten Elemente basierend auf Paginierung
   const items = React.useMemo(() => {
     const start = (page - 1) * rowsPerPage;
     const end = start + rowsPerPage;
@@ -81,6 +88,7 @@ export default function BasicDataTable() {
     return filteredItems.slice(start, end);
   }, [page, filteredItems, rowsPerPage]);
 
+  // Sortierung der Elemente basierend auf Sortierbeschreibung
   const sortedItems = React.useMemo(() => {
     return [...items].sort((a, b) => {
       const first = a[sortDescriptor.column];
@@ -91,9 +99,11 @@ export default function BasicDataTable() {
     });
   }, [sortDescriptor, items]);
 
+  // Funktion zum Rendern einer Zelle abhängig von der Spalte
   const renderCell = React.useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+    const cellValue = user[columnKey]; // Wert der Zelle basierend auf Spalte
 
+    // Rendern der Zelle basierend auf der Spalte
     switch (columnKey) {
       case "name":
         return (
@@ -153,11 +163,13 @@ export default function BasicDataTable() {
     }
   }, []);
 
+  // Handler für Änderungen der Anzahl von Zeilen pro Seite
   const onRowsPerPageChange = React.useCallback((e) => {
     setRowsPerPage(Number(e.target.value));
     setPage(1);
   }, []);
 
+  // Handler für Änderungen des Suchwerts
   const onSearchChange = React.useCallback((value) => {
     if (value) {
       setFilterValue(value);
@@ -167,6 +179,7 @@ export default function BasicDataTable() {
     }
   }, []);
 
+  // Top-Inhalt der Tabelle
   const topContent = React.useMemo(() => {
     return (
       <div className="flex flex-col gap-4">
@@ -190,65 +203,7 @@ export default function BasicDataTable() {
             onClear={() => setFilterValue("")}
             onValueChange={onSearchChange}
           />
-          <div className="flex gap-3">
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<FontAwesomeIcon icon={"chevron-down"} />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Status
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={statusFilter}
-                selectionMode="multiple"
-                onSelectionChange={setStatusFilter}
-              >
-                {statusOptions.map((status) => (
-                  <DropdownItem key={status.uid} className="uppercase">
-                    {status.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Dropdown>
-              <DropdownTrigger className="hidden sm:flex">
-                <Button
-                  endContent={<FontAwesomeIcon icon={"chevron-down"} />}
-                  size="sm"
-                  variant="flat"
-                >
-                  Columns
-                </Button>
-              </DropdownTrigger>
-              <DropdownMenu
-                disallowEmptySelection
-                aria-label="Table Columns"
-                closeOnSelect={false}
-                selectedKeys={visibleColumns}
-                selectionMode="multiple"
-                onSelectionChange={setVisibleColumns}
-              >
-                {columns.map((column) => (
-                  <DropdownItem key={column.uid} className="uppercase">
-                    {column.name}
-                  </DropdownItem>
-                ))}
-              </DropdownMenu>
-            </Dropdown>
-            <Button
-              className="bg-foreground text-background"
-              endContent={<FontAwesomeIcon icon={"plus"} />}
-              size="sm"
-            >
-              Add New
-            </Button>
-          </div>
+          <div className="flex gap-3"></div>
         </div>
         <div className="flex justify-between items-center font-bold font-poppins text-[52px]">
           <span className="text-semibold text-[22px]">
@@ -278,6 +233,7 @@ export default function BasicDataTable() {
     hasSearchFilter,
   ]);
 
+  // Bottom-Inhalt der Tabelle
   const bottomContent = React.useMemo(() => {
     return (
       <div className="py-2 px-2 flex justify-between items-center">
@@ -302,6 +258,7 @@ export default function BasicDataTable() {
     );
   }, [selectedKeys, items.length, page, pages, hasSearchFilter]);
 
+  // Klassen für die Tabellenkomponente
   const classNames = React.useMemo(
     () => ({
       wrapper: ["max-h-[382px]", "max-w-3xl"],
@@ -321,33 +278,34 @@ export default function BasicDataTable() {
     []
   );
 
+  // Rendern der Tabellenkomponente mit allen Props und Inhalten
   return (
     <Table
-      isCompact
-      removeWrapper
-      aria-label="Example table with custom cells, pagination and sorting"
-      bottomContent={bottomContent}
-      bottomContentPlacement="outside"
-      checkboxesProps={{
-        classNames: {
-          wrapper: "after:bg-foreground after:text-background text-background",
+      isCompact // Kompakte Darstellung der Tabelle
+      removeWrapper // Entfernt den äußeren Wrapper der Tabelle
+      aria-label="Example table with custom cells, pagination and sorting" // ARIA-Label für Barrierefreiheit
+      bottomContent={bottomContent} // Unten befindlicher Inhalt (Pagination und Anzahl der ausgewählten Elemente)
+      bottomContentPlacement="outside" // Positionierung des unteren Inhalts außerhalb der Tabelle
+      checkboxesProps={{ // Eigenschaften für Kontrollkästchen
+        classNames: { // Klassen für das Kontrollkästchen
+          wrapper: "after:bg-foreground after:text-background text-background", // Klassen für den Wrapper des Kontrollkästchens
         },
       }}
-      classNames={classNames}
-      selectedKeys={selectedKeys}
-      selectionMode="multiple"
-      sortDescriptor={sortDescriptor}
-      topContent={topContent}
-      topContentPlacement="outside"
-      onSelectionChange={setSelectedKeys}
-      onSortChange={setSortDescriptor}
+      classNames={classNames} // Klassen für die Tabelle (Wrapper, Header, Zellen usw.)
+      selectedKeys={selectedKeys} // Ausgewählte Schlüssel (für Mehrfachauswahl)
+      selectionMode="multiple" // Auswahlmodus (Mehrfachauswahl)
+      sortDescriptor={sortDescriptor} // Sortierbeschreibung
+      topContent={topContent} // Oben befindlicher Inhalt (Suche und Anzahl der Elemente)
+      topContentPlacement="outside" // Positionierung des oberen Inhalts außerhalb der Tabelle
+      onSelectionChange={setSelectedKeys} // Handler für Änderungen der Auswahl
+      onSortChange={setSortDescriptor} // Handler für Änderungen der Sortierung
     >
       <TableHeader columns={headerColumns}>
         {(column) => (
           <TableColumn
             key={column.uid}
-            align={column.uid === "actions" ? "center" : "start"}
-            allowsSorting={column.sortable}
+            align={column.uid === "actions" ? "center" : "start"} // Ausrichtung der Zelle (zentriert für Aktionen, sonst linksbündig)
+            allowsSorting={column.sortable} // Gibt an, ob die Spalte sortierbar ist
           >
             {column.name}
           </TableColumn>
