@@ -5,7 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import moment from 'moment';
 import "moment/locale/de";
-
+import {TimeTableFilter} from "../components/TimeTableFilter";
 // Lokalisierung für Moment.js einrichten
 moment.locale("de");
 
@@ -90,6 +90,7 @@ export default function MyCalendar() {
             <div
                 //onDropFromOutside={ backToOverview }
             >
+            <TimeTableFilter></TimeTableFilter>
                 {outsideEvents.map(event => (
                     <div
                         key={event.id}
@@ -101,7 +102,7 @@ export default function MyCalendar() {
                     </div>
                 ))}
             </div>
-
+    
             <div className="myCustomHeight">
                 <DnDCalendar
                     localizer={localizer}
