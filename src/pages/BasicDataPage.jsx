@@ -8,7 +8,7 @@ export default function BasicDataPage() {
     <>
       <div className="p-10">
         <div className="flex w-full justify-between">
-          <h1>Stammdaten</h1>
+          <h1 className="font-poppins font-semibold text-[48px]">Stammdaten</h1>
           <BasicDataButton />
         </div>
 
