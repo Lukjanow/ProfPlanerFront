@@ -14,13 +14,13 @@ const router = createBrowserRouter([
                 path: "timetable",
                 element: <TimetablePage />,
                 errorElement: <ErrorPage />,
-            },
-            {
-                path: "/component",
-                element: <ComponentPage />,
-                errorElement: <ErrorPage />,
-            },
+            }
         ]
+    },
+    {
+        path: "/component",
+        element: <ComponentPage />,
+        errorElement: <ErrorPage />,
     },
 ]);
 
