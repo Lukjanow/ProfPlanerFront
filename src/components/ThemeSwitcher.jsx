@@ -1,24 +1,27 @@
 import {useTheme} from "next-themes";
-import {useEffect, useState} from "react";
-import {Button} from "@nextui-org/react";
+import {Switch} from "@nextui-org/react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {faSun, faMoon} from "@fortawesome/free-solid-svg-icons";
 
 export function ThemeSwitcher() {
-    const [mounted, setMounted] = useState(false);
-    const { theme, setTheme } = useTheme();
-
-    useEffect(() => {
-        setMounted(true);
-    }, []);
-
-    if (!mounted) {
-        return null;
-    }
+    const {resolvedTheme, setTheme} = useTheme();
 
     return (
         <>
-            <Button isIconOnly onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-                {theme}
-            </Button>
+            <Switch
+                isSelected={resolvedTheme === "dark"}
+                variant="shadow"
+                size="lg"
+                color="secondary"
+                onValueChange={isSelected => setTheme(isSelected ? "dark" : "light")}
+                thumbIcon={({isSelected}) =>
+                    <FontAwesomeIcon
+                        color="black"
+                        icon={isSelected ? faMoon : faSun}
+                        size="sm"
+                    />
+                }
+            />
         </>
     )
 }

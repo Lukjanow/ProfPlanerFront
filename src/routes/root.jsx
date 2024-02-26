@@ -1,8 +1,20 @@
 import {Link, Outlet} from "react-router-dom";
+import {useTranslation} from "react-i18next";
+import {useLangStore} from "../stores/langStore.js";
+import {useEffect} from "react";
 
 export default function Root() {
+    const {i18n, t} = useTranslation();
+    const lang = useLangStore(state => state.lang);
+    const setLang = useLangStore(state => state.setLang);
+
+    useEffect(() => {
+        setLang(i18n, lang);
+    }, [lang]);
+
     return (
         <>
+            <h1>{t('language')}</h1>
             <div id="sidebar">
                 <h1>React Router Contacts</h1>
                 <div>
