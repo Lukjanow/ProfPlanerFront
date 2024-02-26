@@ -1,7 +1,6 @@
-import {Link} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import "../styles/components/NavigationBar.scss"
-import {Badge, Button, Navbar, NavbarContent, NavbarItem} from "@nextui-org/react";
+import { Badge, Button, Navbar, NavbarContent, NavbarItem } from "@nextui-org/react";
+import NavigationBarItem from "./NavigationBarItem.jsx";
 
 export function NavigationBar() {
 
@@ -33,18 +32,23 @@ export function NavigationBar() {
         <Navbar className={"fixed min-h-full w-20 py-20 items-start px-0 z-40"}>
             <NavbarContent className={"flex flex-col gap-1 px-0"}>
                 {
-                    navigationBarItems.map((navigationItem, index) => (
+                    navigationBarItems.map((navigationBarItem, index) => (
                         <NavbarItem className={"w-20 px-0"} key={index}>
-                            <Badge content={"12"} color={"danger"}>
-                                <Button color="" className={"w-8 p-9"}>
-                                    <Link className={"flex flex-col gap-1"} to={navigationItem.path}>
-                                        <FontAwesomeIcon  className={"text-xl"} icon={navigationItem.icon}/>
-                                        <span className={"text-[9px] font-extralight"}>{navigationItem.label}</span>
-                                    </Link>
-                                </Button>
-                            </Badge>
+                            <Button color="" className={"w-8 p-9"}>
+                                {
+                                    navigationBarItem.path === "conflicts" ?
+                                        <Badge
+                                            content="8"
+                                            color="danger"
+                                            size="md"
+                                        >
+                                            <NavigationBarItem item={navigationBarItem} />
+                                        </Badge> :
+                                        <NavigationBarItem item={navigationBarItem} />
+                                }
+                            </Button>
                         </NavbarItem>
-                        )
+                    )
                     )
                 }
             </NavbarContent>
