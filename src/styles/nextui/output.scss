@@ -1323,6 +1323,10 @@ video {
   max-width: 20rem;
 }
 
+.max-w-\[260px\] {
+  max-width: 260px;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -6616,6 +6620,11 @@ video {
     content: var(--tw-content);
     transition-property: none;
   }
+}
+
+:is(.dark .dark\:border-default-100) {
+  --tw-border-opacity: 1;
+  border-color: hsl(var(--nextui-default-100) / var(--nextui-default-100-opacity, var(--tw-border-opacity)));
 }
 
 :is(.dark .dark\:bg-background\/20) {
