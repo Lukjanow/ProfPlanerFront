@@ -3,6 +3,9 @@ import Root from "./root.jsx";
 import ErrorPage from "../pages/ErrorPage.jsx";
 import TimetablePage from "../pages/TimetablePage.jsx";
 import ComponentPage from "../pages/ComponentPage.jsx";
+import BasicDataPage from "../pages/BasicDataPage.jsx";
+import SettingsPage from "../pages/SettingsPage.jsx";
+import ConflictsPage from "../pages/ConflictsPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -17,17 +20,17 @@ const router = createBrowserRouter([
             },
             {
                 path: "basicdata",
-                element: <></>,
+                element: <BasicDataPage />,
                 errorElement: <ErrorPage/>
             },
             {
-                path: "feedback",
-                element: <></>,
+                path: "conflicts",
+                element: <ConflictsPage />,
                 errorElement: <ErrorPage/>
             },
             {
                 path: "settings",
-                element: <></>,
+                element: <SettingsPage />,
                 errorElement: <ErrorPage/>
             }
         ]

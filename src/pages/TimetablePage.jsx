@@ -83,9 +83,10 @@ export default function MyCalendar() {
         )
         */
 
+    // TODO: Übersetzung einfügen
     return (
         <>
-            <h1>Termine außerhalb des Kalenders</h1>
+            <h1>Lehrplanung</h1>
             <div
                 //onDropFromOutside={ backToOverview }
             >
