@@ -3,6 +3,7 @@ import Root from "./root.jsx";
 import ErrorPage from "../pages/ErrorPage.jsx";
 import TimetablePage from "../pages/TimetablePage.jsx";
 import ComponentPage from "../pages/ComponentPage.jsx";
+import ModulesPage from "../pages/ModulesPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -17,7 +18,7 @@ const router = createBrowserRouter([
             },
             {
                 path: "basicdata",
-                element: <></>,
+                element: <ModulesPage />,
                 errorElement: <ErrorPage/>
             },
             {
