@@ -1,13 +1,17 @@
 import {Select, SelectItem} from "@nextui-org/react";
 import {useTranslation} from "react-i18next";
+import {useLangStore} from "../stores/langStore.js";
+import {i18n as i18nConfig} from "../config"
 
 export function LangSwitcher() {
-    const { t, i18n } = useTranslation();
+    const {t, i18n} = useTranslation();
+    const lang = useLangStore(state => state.lang);
+    const setLang = useLangStore(state => state.setLang);
 
-    const handleLanguageChange = (e) => {
+    function handleLangChange(e) {
         const newLang = e.target.value;
-        i18n.changeLanguage(newLang);
-    };
+        setLang(i18n, newLang);
+    }
 
     return (
         <>
@@ -15,21 +19,14 @@ export function LangSwitcher() {
                 aria-label={t("language")}
                 disallowEmptySelection
                 className="max-w-xs"
-                defaultSelectedKeys={["en"]}
-                onChange={handleLanguageChange}
+                defaultSelectedKeys={[lang]}
+                onChange={handleLangChange}
             >
-                <SelectItem
-                    key="en"
-                    value="en"
-                >
-                    English
-                </SelectItem>
-                <SelectItem
-                    key="de"
-                    value="de"
-                >
-                    Deutsch
-                </SelectItem>
+                {i18n.languages.sort().map(lang => (
+                    <SelectItem key={lang} value={lang}>
+                        {i18nConfig.languageNames[lang]}
+                    </SelectItem>
+                ))}
             </Select>
         </>
     );

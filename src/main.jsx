@@ -11,7 +11,7 @@ import './plugins/fontawesome';
 ReactDOM.createRoot(document.getElementById("root")).render(
     <React.StrictMode>
         <NextUIProvider>
-            <ThemeProvider defaultTheme="dark">
+            <ThemeProvider resolvedTheme="true">
                 <RouterProvider router={router}/>
             </ThemeProvider>
         </NextUIProvider>

@@ -1,13 +1,17 @@
 import i18n from 'i18next';
-import { initReactI18next } from 'react-i18next';
-import LanguageDetector from 'i18next-browser-languagedetector';
+import {initReactI18next} from 'react-i18next';
 import Backend from 'i18next-http-backend';
+import {i18n as i18nConfig, debug as debugConfig} from '../config.js';
 
-i18n.use(Backend)
-    .use(LanguageDetector)
+i18n
+    .use(Backend)
     .use(initReactI18next)
     .init({
-        debug: true,
-        fallbackLng: 'en',
+        debug: debugConfig.active,
+        fallbackLng: i18nConfig.languageCodes,
+        interpolation: {
+            escapeValue: false
+        }
     });
+
 export default i18n;

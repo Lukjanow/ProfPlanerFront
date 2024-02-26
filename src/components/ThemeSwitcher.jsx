@@ -4,17 +4,17 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {faSun, faMoon} from "@fortawesome/free-solid-svg-icons";
 
 export function ThemeSwitcher() {
-    const {setTheme} = useTheme();
+    const {resolvedTheme, setTheme} = useTheme();
+
     return (
         <>
             <Switch
-                defaultSelected
+                isSelected={resolvedTheme === "dark"}
+                variant="shadow"
                 size="lg"
                 color="secondary"
-                onValueChange={isSelected => {
-                    setTheme(isSelected ? "dark" : "light");
-                }}
-                thumbIcon={({ isSelected }) =>
+                onValueChange={isSelected => setTheme(isSelected ? "dark" : "light")}
+                thumbIcon={({isSelected}) =>
                     <FontAwesomeIcon
                         color="black"
                         icon={isSelected ? faMoon : faSun}
