@@ -1,6 +1,7 @@
 import BasicDataList from "../components/BasicDataMenu";
 import BasicDataTable from "../components/BasicDataTable";
 import { FilledButton } from "../components/FilledButton";
+import { OutlinedButton } from "../components/OutlinedButton";
 
 export default function BasicDataPage() {
   return (
@@ -10,6 +11,12 @@ export default function BasicDataPage() {
         <div className="flex w-full justify-between">
           <h1 className="font-poppins font-semibold text-[48px]">Stammdaten</h1>
           <FilledButton text="Neues Modul" icon="plus" showIcon={true} />
+          <OutlinedButton
+            text="Neues Modul"
+            icon="plus"
+            showIcon={true}
+            color="secondary"
+          />
         </div>
 
         <div className="flex w-full">
