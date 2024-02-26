@@ -1,31 +1,51 @@
-import { Badge, Button, Tooltip } from "@nextui-org/react";
-import { getLang, setLang } from "../i18n/i18n.js";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {Select, SelectItem} from "@nextui-org/react";
+import {useTranslation} from "react-i18next";
+import {useLangStore} from "../stores/langStore.js";
+import {i18n as i18nConfig} from "../config";
 
-// TODO: not switching between langs yet
 export function LangSwitcher() {
-    const currentLang = getLang();
-    console.log(currentLang);
+    const {t, i18n} = useTranslation();
+    const lang = useLangStore(state => state.lang);
+    const setLang = useLangStore(state => state.setLang);
 
-    // TODO: Übersetzung einfügen
+    function handleLangChange(e) {
+        const newLang = e.target.value;
+        setLang(i18n, newLang);
+    }
+
     return (
-        <Badge
-            content={currentLang}
-            size={"lg"}
-        >
-            <Tooltip content={"Sprache ändern"}>
-                <Button
-                    isIconOnly
-                    color={"none"}
-                    endContent={<FontAwesomeIcon className={"text-xl"} icon={"globe"} />}
-                    onClick={() => {
-                        setLang(currentLang === "en" ? "de" : "en");
-                    }}>
-                    {
-
-                    }
-                </Button>
-            </Tooltip>
-        </Badge>
+        <>
+            <Select
+                aria-label={t("language")}
+                disallowEmptySelection
+                className="max-w-xs"
+                defaultSelectedKeys={[lang]}
+                onChange={handleLangChange}
+            >
+                {i18n.languages.sort().map(lang => (
+                    <SelectItem key={lang} value={lang}>
+                        {i18nConfig.languageNames[lang]}
+                    </SelectItem>
+                ))}
+            </Select>
+        </>
+        // <Badge
+        //     content={currentLang}
+        //     size={"lg"}
+        // >
+        //     <Tooltip content={"Sprache ändern"}>
+        //         <Button
+        //             isIconOnly
+        //             color={"none"}
+        //             endContent={<FontAwesomeIcon className={"text-xl"} icon={"globe"} />}
+        //             onClick={() => {
+        //                 setLang(currentLang === "en" ? "de" : "en");
+        //             }}>
+        //             {
+        //
+        //             }
+        //         </Button>
+        //     </Tooltip>
+        // </Badge>
     )
 }
