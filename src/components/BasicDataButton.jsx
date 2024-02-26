@@ -1,7 +1,5 @@
-import React from "react";
+import moment from "moment";
 
-const BasicDataButton = () => {
+export function BasicDataButton() {
   return <div>BasicDataButton</div>;
-};
-
-export default BasicDataButton;
+}

@@ -1,3 +1,7 @@
+import BasicDataList from "../components/BasicDataList";
+import BasicDataTable from "../components/BasicDataTable";
+import { BasicDataButton } from "../components/BasicDataButton";
+
 export default function BasicDataPage() {
   return (
     // TODO: Übersetzung einfügen
