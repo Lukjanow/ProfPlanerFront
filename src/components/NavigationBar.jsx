@@ -3,6 +3,29 @@ import { Badge, Button, Navbar, NavbarContent, NavbarItem } from "@nextui-org/re
 import NavigationBarItem from "./NavigationBarItem.jsx";
 
 export function NavigationBar() {
+  //TODO: NavigationBarItems Label übersetzen
+  const navigationBarItems = [
+    {
+      path: "timetable",
+      label: "Lehrplanung",
+      icon: "calendar-days",
+    },
+    {
+      path: "conflicts",
+      label: "Konflikte",
+      icon: "triangle-exclamation",
+    },
+    {
+      path: "basicdata",
+      label: "Stammdaten",
+      icon: "database",
+    },
+    {
+      path: "settings",
+      label: "Einstellungen",
+      icon: "gear",
+    },
+  ];
 
     //TODO: NavigationBarItems Label übersetzen
     const navigationBarItems = [
