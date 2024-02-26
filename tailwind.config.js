@@ -13,6 +13,11 @@ export default {
   darkMode: "class",
   plugins: [
     nextui({
+      layout: {
+        radius: {
+          small: "5px",
+        },
+      },
       themes: {
         light: {
           colors: {
