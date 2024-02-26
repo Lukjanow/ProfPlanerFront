@@ -1,4 +1,4 @@
-import BasicDataList from "../components/BasicDataList";
+import BasicDataList from "../components/BasicDataMenu";
 import BasicDataTable from "../components/BasicDataTable";
 import { BasicDataButton } from "../components/BasicDataButton";
 
