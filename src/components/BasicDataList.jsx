@@ -1,8 +1,10 @@
-import moment from "moment";
+import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Listbox, ListboxItem, cn } from "@nextui-org/react";
+import { Listbox, ListboxItem, SelectItem } from "@nextui-org/react";
 
 export default function BasicDataList() {
+  const [selectedItem, setSelectedItem] = useState("module");
+
   const items = [
     {
       key: "module",
@@ -26,6 +28,11 @@ export default function BasicDataList() {
     },
   ];
 
+  const handleItemClick = (itemKey) => {
+    setSelectedItem(itemKey);
+    console.log("SelectItem", SelectItem);
+  };
+
   return (
     <Listbox
       variant="flat"
@@ -37,6 +44,8 @@ export default function BasicDataList() {
           key={item.key}
           description={`Erstelle und bearbeite ${item.description}`}
           startContent={<FontAwesomeIcon icon={item.icon} />}
+          className={selectedItem === item.key ? "bg-primary-100" : ""}
+          onClick={() => handleItemClick(item.key)}
         >
           {item.description}
         </ListboxItem>

@@ -12,7 +12,7 @@ export default function BasicDataPage() {
           <BasicDataButton />
         </div>
 
-        <div>
+        <div className="flex w-full">
           <BasicDataList />
           <BasicDataTable />
         </div>
