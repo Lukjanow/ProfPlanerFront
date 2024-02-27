@@ -35,7 +35,7 @@ export function Container(props) {
           <></>
       }
       {
-        bodyVisibility ? <CardBody>{props.content}</CardBody> : <></>
+        bodyVisibility ? <CardBody className="transition-all">{props.content}</CardBody> : <></>
       }
     </Card >
   );
