@@ -1,4 +1,4 @@
-import { Container } from "../components/Container";
+import { SectionContainer } from "../components/SectionContainer";
 import { Checkbox, CheckboxGroup, Input } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import PageContainer from "../components/PageContainer";
