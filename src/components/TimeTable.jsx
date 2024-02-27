@@ -45,7 +45,7 @@ export function TimeTable({moduleItemList}) {
 ];
 
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
-    const [events, setEvents] = useState(EVENTS);
+    const [events, setEvents] = useState([]);
     const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
     const [draggedEvent, setDraggedEvent] = useState(null);
 
