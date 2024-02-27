@@ -66,6 +66,7 @@ export default function MyCalendar() {
         backgroundcolor: "#D6F5E2",
         bordercolor: "#46D27F",
         hideTime: true,
+        duration: 195,
       },
       {
         id: 2,
@@ -78,6 +79,7 @@ export default function MyCalendar() {
         backgroundcolor: "#9fc5e8",
         bordercolor: "#137ad8",
         hideTime: true,
+        duration: 195,
       },
       {
         id: 3,
@@ -90,6 +92,7 @@ export default function MyCalendar() {
         backgroundcolor: "#f9cb9c",
         bordercolor: "#d27b22",
         hideTime: true,
+        duration: 195,
       },
       {
         id: 4,
@@ -102,6 +105,7 @@ export default function MyCalendar() {
         backgroundcolor: "#d5a6bd",
         bordercolor: "#d32e7f",
         hideTime: true,
+        duration: 195,
       },
       {
         id: 5,
@@ -114,6 +118,7 @@ export default function MyCalendar() {
         backgroundcolor: "#ca9966",
         bordercolor: "#6f4316",
         hideTime: true,
+        duration: 195,
       },
       {
         id: 6,
@@ -126,6 +131,7 @@ export default function MyCalendar() {
         backgroundcolor: "#a2c4c9",
         bordercolor: "#106875",
         hideTime: true,
+        duration: 195,
       }
     ];
 

@@ -28,20 +28,6 @@ export function TimeTable({moduleItemList}) {
     },
 ];
 
-const OUTSIDEEVENTS = [
-  {
-      id: 3,
-      title: "Meeting 3",
-      duration: 120
-  },
-  {
-      id: 4,
-      title: "Meeting 4",
-      duration: 90
-  },
-];
-
-
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
     const [events, setEvents] = useState(EVENTS);
     const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
