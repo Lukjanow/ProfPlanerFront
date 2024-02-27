@@ -81,7 +81,7 @@ const OUTSIDEEVENTS = [
     <>
       <div className="myCustomHeight">
           <DnDCalendar
-              className="w-[73vw]"
+              className="w-[78vw]"
               localizer={localizer}
               events={events}
               startAccessor="start"
