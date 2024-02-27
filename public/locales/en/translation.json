@@ -1,5 +1,6 @@
 {
   "language": "Language",
   "hello": "Hello World!",
-  "themeSwitch": "Change Appearance"
+  "themeSwitch": "Change Appearance",
+  "languageSwitch": "Change Language"
 }
