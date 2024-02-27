@@ -8,5 +8,10 @@
   "scheduling": "Scheduling",
   "conflicts": "Conflicts",
   "basicData": "Basic data",
-  "settings": "Settings"
+  "settings": "Settings",
+  "module": "Module",
+  "rooms": "Räume",
+  "lecturer": "Lehrperson",
+  "building": "Gebäude",
+  "changeAndEdit": "Erstelle und bearbeite"
 }

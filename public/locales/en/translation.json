@@ -8,5 +8,10 @@
   "scheduling": "Planung",
   "conflicts": "Konflikte",
   "basicData": "Stammdaten",
-  "settings": "Einstellungen"
+  "settings": "Einstellungen",
+  "module": "Modules",
+  "rooms": "Rooms",
+  "lecturer": "Teacher",
+  "building": "Building",
+  "changeAndEdit": "Create and edit"
 }
