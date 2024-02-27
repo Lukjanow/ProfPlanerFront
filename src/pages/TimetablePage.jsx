@@ -86,6 +86,7 @@ export default function MyCalendar() {
     // TODO: Übersetzung einfügen
     return (
         <>
+        <div className="bg-[#FAFAFA]">
             <h1>Lehrplanung</h1>
             <div
                 //onDropFromOutside={ backToOverview }
@@ -129,6 +130,7 @@ export default function MyCalendar() {
                     drilldownView={null}
                 />
             </div>
+        </div>
         </>
     );
 }
