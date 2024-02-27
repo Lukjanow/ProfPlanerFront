@@ -129,22 +129,11 @@ export default function MyCalendar() {
       }
     ];
 
-    
-
-    function getModuleItems(moduleItemList) {
-        return(moduleItemList.map((item, index) => (
-        <div key={index}>
-          <ModuleItem moduleItemData={item}/>
-        </div>)
-      ))
-    }
-
     return (
         <>
             <h1>Lehrplanung</h1>
             <div className="flex">
-                <TimeTable moduleItemList={getModuleItems(moduleItemDataList)}/>
-                <ModuleBar moduleItemList={getModuleItems(moduleItemDataList)}/>
+                <TimeTable moduleItemList={moduleItemDataList}/>
             </div>
         </>
     );

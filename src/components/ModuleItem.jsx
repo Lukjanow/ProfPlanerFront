@@ -1,8 +1,9 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
-export function ModuleItem({ moduleItemData }) {  
+export function ModuleItem({ moduleItemData, dragEvent }) {  
     const {
+      id,
       title,
       start,
       end,
@@ -25,7 +26,7 @@ export function ModuleItem({ moduleItemData }) {
   }
   //`border-1 border-s-8 w-max border-[${bordercolor}] bg-[${backgroundcolor}] rounded-e-md p-3`}{
   return (
-      <div id="ModuleItem" className="border-1 border-s-8 w-[300px] rounded-e-md p-3" style={moduleStyle}>
+      <div key={id} id="ModuleItem" className="border-1 border-s-8 w-[300px] rounded-e-md p-3" style={moduleStyle} draggable onDragStart={() => dragEvent(moduleItemData)}>
         <p className="font-semibold" hidden={moduleItemData.hideTime}>
           {start.getHours()}:
           {fixZeros(start.getMinutes())} -{" "}
@@ -42,20 +43,6 @@ export function ModuleItem({ moduleItemData }) {
         <div className="flex">
           <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-location-dot" /></span><span>{room}</span>
         </div>
-        {/* <div className="mt-3 grid grid-rows-3 grid-flow-col">
-          <div>
-            <FontAwesomeIcon icon="fa-solid fa-graduation-cap" />
-          </div>
-          <div>
-            <FontAwesomeIcon icon="fa-solid fa-user" />
-          </div>
-          <div>
-            <FontAwesomeIcon icon="fa-solid fa-location-dot" />
-          </div>
-          <div className="ml-2">{dozent}</div>
-          <div className="ml-2">{room}</div>
-          <div className="ml-2">{studySemester}</div>
-        </div> */}
       </div>
   );
 }
