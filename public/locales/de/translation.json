@@ -4,5 +4,9 @@
   "themeSwitch": "Erscheinungsbild ändern",
   "languageSwitch": "Sprache ändern",
   "semesterSwitch": "Semester wählen",
-  "signOutButton": "Abmelden"
+  "signOutButton": "Abmelden",
+  "scheduling": "Scheduling",
+  "conflicts": "Conflicts",
+  "basicData": "Basic data",
+  "settings": "Settings"
 }
