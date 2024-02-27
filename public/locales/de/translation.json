@@ -5,9 +5,13 @@
   "languageSwitch": "Sprache ändern",
   "semesterSwitch": "Semester wählen",
   "signOutButton": "Abmelden",
+  "scheduling": "Scheduling",
+  "conflicts": "Conflicts",
+  "basicData": "Basic data",
+  "settings": "Settings",
   "module": "Module",
   "rooms": "Räume",
   "lecturer": "Lehrperson",
   "building": "Gebäude",
-  "changeAndEdit": "Erstelle und bearbeite "
+  "changeAndEdit": "Erstelle und bearbeite"
 }

@@ -1,11 +1,14 @@
 import { Container } from "../components/Container";
 import { Checkbox, CheckboxGroup, Input } from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
 
 
 export default function ConflictsPage() {
+    const { t } = useTranslation()
+
     return (
-        // TODO: Übersetzung einfügen
         <>
+            <h1 className="font-poppins font-semibold text-[48px]">{t("conflicts")}</h1>
             <Container
                 title={"Beispiel-Kachel"}
                 content={

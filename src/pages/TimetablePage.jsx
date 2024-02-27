@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import moment from 'moment';
 import "moment/locale/de";
+import { useTranslation } from "react-i18next";
 
 // Lokalisierung für Moment.js einrichten
 moment.locale("de");
@@ -47,6 +48,7 @@ export default function MyCalendar() {
     const [events, setEvents] = useState(EVENTS);
     const [outsideEvents, setOutsideEvents] = useState(OUTSIDEEVENTS);
     const [draggedEvent, setDraggedEvent] = useState(null);
+    const { t } = useTranslation()
 
     // Callback zum Aktualisieren der Terminzeit
     const onChangeEventTime = useCallback(
@@ -83,12 +85,11 @@ export default function MyCalendar() {
         )
         */
 
-    // TODO: Übersetzung einfügen
     return (
         <>
-            <h1>Lehrplanung</h1>
+            <h1 className="font-poppins font-semibold text-[48px]">{t("scheduling")}</h1>
             <div
-                //onDropFromOutside={ backToOverview }
+            //onDropFromOutside={ backToOverview }
             >
                 {outsideEvents.map(event => (
                     <div
