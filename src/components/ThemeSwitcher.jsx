@@ -1,49 +1,21 @@
-import {useTheme} from "next-themes";
-import {Switch} from "@nextui-org/react";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {faSun, faMoon} from "@fortawesome/free-solid-svg-icons";
+import { useTheme } from "next-themes";
+import { Button, Tooltip } from "@nextui-org/react";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslation } from "react-i18next";
+
 
 export function ThemeSwitcher() {
-    const {resolvedTheme, setTheme} = useTheme();
-    // const [mounted, setMounted] = useState(false);
-    // const { theme, setTheme } = useTheme();
-
-    // useEffect(() => {
-    //     setMounted(true);
-    // }, []);
-    //
-    // if (!mounted) {
-    //     return null;
-    // }
+    const { t } = useTranslation();
+    const { theme, setTheme } = useTheme();
 
     return (
-        <>
-            <Switch
-                isSelected={resolvedTheme === "dark"}
-                variant="shadow"
-                size="lg"
-                color="secondary"
-                onValueChange={isSelected => setTheme(isSelected ? "dark" : "light")}
-                thumbIcon={({isSelected}) =>
-                    <FontAwesomeIcon
-                        color="black"
-                        icon={isSelected ? faMoon : faSun}
-                        size="sm"
-                    />
-                }
-            />
-        </>
-        // <Tooltip content={"Erscheinungsbild ändern"}>
-        //     <Button
-        //         color={"none"}
-        //         isIconOnly
-        //         startContent={
-        //             theme === "light" ?
-        //                 <FontAwesomeIcon className={"text-xl"} icon={"moon"} /> :
-        //                 <FontAwesomeIcon className={"text-xl"} icon={"sun"} />
-        //         }
-        //         onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
-        //     </Button>
-        // </Tooltip>
+        <Tooltip content={t("themeSwitch")}>
+            <Button
+                color={"none"}
+                isIconOnly
+                startContent={<FontAwesomeIcon className={"text-xl"} icon={theme === "light" ? "moon" : "sun"} />}
+                onClick={() => setTheme(theme === "light" ? "dark" : "light")}>
+            </Button>
+        </Tooltip>
     )
 }
