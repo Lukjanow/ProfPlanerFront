@@ -143,7 +143,7 @@ export default function MyCalendar() {
       room: "D138",
       backgroundcolor: "#36abad",
       bordercolor: "#1b8f90",
-      hideTime: false,
+      hideTime: true,
       duration: 195,
     },
     {
@@ -156,7 +156,7 @@ export default function MyCalendar() {
       room: "A200",
       backgroundcolor: "#ea9999",
       bordercolor: "#e70000",
-      hideTime: false,
+      hideTime: true,
       duration: 195,
     }
     ];
