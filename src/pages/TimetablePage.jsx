@@ -96,7 +96,7 @@ export default function MyCalendar() {
       },
       {
         id: 4,
-        title: "Netzwerke",
+        title: "Rechnernetze und Netzwerksicherheit",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
         studySemester: "AI-B 2, WI-B 4",
@@ -109,13 +109,11 @@ export default function MyCalendar() {
       },
       {
         id: 5,
-        title: "Selbst und Methodenkompetenz",
-        // start: moment("2024-01-01T12:00").toDate(),
-        start: new Date(2024, 0, 1, 12, 0),
-        // end: moment("2024-01-01T15:00").toDate(),
-        end: new Date(2024, 0, 1, 15, 0),
+        title: "Selbst- und Methodenkompetenz",
+        start: moment("2024-01-01T12:00").toDate(),
+        end: moment("2024-01-01T15:00").toDate(),
         studySemester: "Angewandte Informatik, 1. FS",
-        dozent: "Wehrstein",
+        dozent: "Elisabeth Heinemann",
         room: "D137",
         backgroundcolor: "#ca9966",
         bordercolor: "#6f4316",
@@ -134,7 +132,33 @@ export default function MyCalendar() {
         bordercolor: "#106875",
         hideTime: true,
         duration: 195,
-      }
+      },
+      {
+      id: 7,
+      title: "Datenbanken",
+      start: moment("2024-01-01T12:00").toDate(),
+      end: moment("2024-01-01T15:00").toDate(),
+      studySemester: "Angewandte Informatik, 2. FS",
+      dozent: "Norman Riegel",
+      room: "D138",
+      backgroundcolor: "#36abad",
+      bordercolor: "#1b8f90",
+      hideTime: false,
+      duration: 195,
+    },
+    {
+      id: 8,
+      title: "Fullstack Webanwendungen",
+      start: moment("2024-01-02T14:00").toDate(),
+      end: moment("2024-01-02T18:00").toDate(),
+      studySemester: "Angewandte Informatik, 4. FS",
+      dozent: "Jens Kohler",
+      room: "A200",
+      backgroundcolor: "#ea9999",
+      bordercolor: "#e70000",
+      hideTime: false,
+      duration: 195,
+    }
     ];
 
     return (

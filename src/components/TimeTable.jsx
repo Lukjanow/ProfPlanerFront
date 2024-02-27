@@ -13,37 +13,6 @@ export function TimeTable({moduleItemList}) {
   const localizer = momentLocalizer(moment);
   const DnDCalendar = withDragAndDrop(Calendar);
 
-  const EVENTS = [
-    {
-        id: 7,
-        title: "Datenbnaken",
-        start: moment("2024-01-01T12:00").toDate(),
-        // start: new Date(2024, 0, 1, 12, 0),
-        end: moment("2024-01-01T15:00").toDate(),
-        // start: new Date(2024, 0, 1, 15, 0),
-        studySemester: "Angewandte Informatik, 2. FS",
-        dozent: "Gard",
-        room: "=138",
-        backgroundcolor: "#36abad",
-        bordercolor: "#1b8f90",
-        hideTime: false,
-        duration: 195,
-      },
-      {
-        id: 8,
-        title: "Fullstack Webentwicklung",
-        start: moment("2024-01-02T14:00").toDate(),
-        end: moment("2024-01-02T18:00").toDate(),
-        studySemester: "Angewandte Informatik, 4. FS",
-        dozent: "Alda Cola",
-        room: "A200",
-        backgroundcolor: "#ea9999",
-        bordercolor: "#e70000",
-        hideTime: false,
-        duration: 195,
-      }
-];
-
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
     const [events, setEvents] = useState([]);
     const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
@@ -88,7 +57,7 @@ export function TimeTable({moduleItemList}) {
     <>
       <div className="myCustomHeight">
           <DnDCalendar
-              className="w-[78vw]"
+              className="w-[77vw]"
               localizer={localizer}
               events={events}
               startAccessor="start"
