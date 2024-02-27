@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
-import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, Button, DropdownSection, Input } from "@nextui-org/react";
+import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, Button, DropdownSection, Input, ScrollShadow } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/components/DropDown.scss"
 
 
-{/*TODO: Deal with Performance when many Items exist*/}
+{/*
+TODO: Add functions for search
+TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever works) https://nextui.org/docs/components/dropdown#with-sections*/}
 
 //Allow Button to Display the Label of Item rather than the Key
 function GetLabels(selectedKeys, Items) {
@@ -30,15 +32,12 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
     const [value, setValue] = React.useState("Nothing Selected")
     const [dropped, setDropped] = React.useState(false)
 
+    //deal with arrow in Input in DropdownTrigger
     function toggleDropped() {
       setDropped(!dropped)
     }
 
-    function setSelected(input) {
-      setSelectedKeys(input)
-      setValue((selectedValue) ? GetLabels(input, Items) : "Nothing Selected")
-    }
-
+    //Update Labels of Input to show selected Items correctly
     useEffect(() => {
        setValue((selectedValue) ? GetLabels(selectedKeys, Items) : "Nothing Selected")
        console.log("Called useEffect")},
@@ -47,15 +46,15 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
 
     //const sections = Array.from(new Set(Items.map(obj => obj["section"]).filter(value => value !== undefined)));
     return (
-      <div>
+      <div
+      style={{backgroundColor: "#0000000F", width: width, borderBottom: "solid 2px black"}}>
         <Dropdown backdrop={backdrop}
           closeOnSelect={(selectionMode === "single") ? true : false}
           onOpenChange={toggleDropped}
+          shouldBlockScroll="false"
           >
           <DropdownTrigger>
             <Input
-              as="button"
-              variant="underlined"
               label={description}
               endContent= { (dropped) ? 
                 <div className="arrow-up"></div>
@@ -64,71 +63,67 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
               style={{width: width}}
               value={value}
             >
-
             </Input>
-
           </DropdownTrigger>
           <DropdownMenu aria-label="Static Actions"
                   selectionMode={selectionMode}
                   selectedKeys={selectedKeys}
                   onSelectionChange={
-                    setSelected
+                    setSelectedKeys
                   }
                   disabledKeys={disabledKeys}
                   variant={variant}
-                  style={{width: width}}>
-          
-          {(add.href && add.Item) ? 
-            <DropdownItem
-             href={add.href}
-             showDivider="true"
-            >            {/*TODO: Fix style*/}
-              <FontAwesomeIcon className={"text-small"} icon="plus" style={{marginRight: "5px"}}/>Füge ein(e) {add.Item} hinzu</DropdownItem>
-             : null
-          }
-          {/* TODO: Add functions for search
-            <DropdownSection title="Searchbar">
-              <DropdownItem id="DropSearchbar" contentEditable="true" data-selectable="false">
-                <Input id="SearchDrop"></Input>
-              </DropdownItem>
-            </DropdownSection>
-          */}  
+                  style={{width: width,
+                          overflow: "scroll", maxHeight: "400px"}}>
+            {(add.href && add.Item) ? 
+              <DropdownItem
+              href={add.href}
+              showDivider="true">
+                <FontAwesomeIcon className={"text-small"} icon="plus" style={{marginRight: "5px"}}/>Füge ein(e) {add.Item} hinzu</DropdownItem>
+              : null
+            }
+            {/* 
+              <DropdownSection title="Searchbar">
+                <DropdownItem id="DropSearchbar" contentEditable="true" data-selectable="false">
+                  <Input id="SearchDrop"></Input>
+                </DropdownItem>
+              </DropdownSection>
+            */}  
 
-          {/* TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever works) https://nextui.org/docs/components/dropdown#with-sections*/}
-           {
-            /*Items.some(e => e.section) ? (
-              sections.map((section) => {
-                {console.log(section)}
-                <DropdownSection
-                title={"section"}
-                showDivider={true}
-                >
-                { {
-                  Items.map((data) => (
-                    <DropdownItem key={data.key}
-                      color={data?.color}
-                      description={data?.description}
-                      className={data?.className}
-                      shortcut={data?.shortcut}
-                      startContent={data?.startContent}
-                      href={data?.href}
-                      title={data.label} />
-                 }
-                </DropdownSection>
-                }
-              ))
-              :*/
-                Items.map((data) => (
-                <DropdownItem key={data.key}
-                  color={data?.color}
-                  description={data?.description}
-                  className={data?.className}
-                  shortcut={data?.shortcut}
-                  startContent={data?.startContent}
-                  href={data?.href}
-                  title={data.label} />
+            {
+              /*Items.some(e => e.section) ? (
+                sections.map((section) => {
+                  {console.log(section)}
+                  <DropdownSection
+                  title={"section"}
+                  showDivider={true}
+                  >
+                  { {
+                    Items.map((data) => (
+                      <DropdownItem key={data.key}
+                        color={data?.color}
+                        description={data?.description}
+                        className={data?.className}
+                        shortcut={data?.shortcut}
+                        startContent={data?.startContent}
+                        href={data?.href}
+                        title={data.label} />
+                  }
+                  </DropdownSection>
+                  }
                 ))
-          } 
+                :*/
+                  Items.map((data) => (
+                  <DropdownItem key={data.key}
+                    color={data?.color}
+                    description={data?.description}
+                    className={data?.className}
+                    shortcut={data?.shortcut}
+                    startContent={data?.startContent}
+                    href={data?.href}
+                    title={data.label} />
+                  ))
+            } 
           </DropdownMenu>
         </Dropdown>
       </div>
