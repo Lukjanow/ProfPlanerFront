@@ -35,7 +35,7 @@ export function SectionContainer(props) {
           <></>
       }
       {
-        bodyVisibility ? <CardBody className="transition-all">{props.children}</CardBody> : <></>
+        bodyVisibility ? <CardBody>{props.children}</CardBody> : <></>
       }
     </Card >
   );
