@@ -2,5 +2,7 @@
   "language": "Sprache",
   "hello": "Hallo Welt!",
   "themeSwitch": "Erscheinungsbild ändern",
-  "languageSwitch": "Sprache ändern"
+  "languageSwitch": "Sprache ändern",
+  "semesterSwitch": "Semester wählen",
+  "signOutButton": "Abmelden"
 }
