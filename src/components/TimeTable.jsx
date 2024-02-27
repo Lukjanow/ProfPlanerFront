@@ -15,17 +15,33 @@ export function TimeTable({moduleItemList}) {
 
   const EVENTS = [
     {
-        id: 1,
-        title: "Meeting 1",
+        id: 7,
+        title: "Datenbnaken",
         start: moment("2024-01-01T12:00").toDate(),
+        // start: new Date(2024, 0, 1, 12, 0),
         end: moment("2024-01-01T15:00").toDate(),
-    },
-    {
-        id: 2,
-        title: "Meeting 2",
+        // start: new Date(2024, 0, 1, 15, 0),
+        studySemester: "Angewandte Informatik, 2. FS",
+        dozent: "Gard",
+        room: "=138",
+        backgroundcolor: "#36abad",
+        bordercolor: "#1b8f90",
+        hideTime: false,
+        duration: 195,
+      },
+      {
+        id: 8,
+        title: "Fullstack Webentwicklung",
         start: moment("2024-01-02T14:00").toDate(),
         end: moment("2024-01-02T18:00").toDate(),
-    },
+        studySemester: "Angewandte Informatik, 4. FS",
+        dozent: "Alda Cola",
+        room: "A200",
+        backgroundcolor: "#ea9999",
+        bordercolor: "#e70000",
+        hideTime: false,
+        duration: 195,
+      }
 ];
 
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
@@ -63,6 +79,11 @@ export function TimeTable({moduleItemList}) {
         []
     );
 
+    const CustomEvent = ({ event }) => (
+      <ModuleItem moduleItemData={event} dragEvent={setDraggedEvent} />
+    );
+
+
   return (
     <>
       <div className="myCustomHeight">
@@ -82,12 +103,8 @@ export function TimeTable({moduleItemList}) {
               timeslots={4}
               selectable
               resizable={false}
-              formats={{
-                  dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture),
-              }}
-              onEventDrop={({ start, end, event }) => {
-                  onChangeEventTime(start, end, event.id);
-              }}
+              formats={{dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture)}}
+              onEventDrop={({ start, end, event }) => {onChangeEventTime(start, end, event.id)}}
               onDropFromOutside={onDropFromOutside}
               drilldownView={null}
           />

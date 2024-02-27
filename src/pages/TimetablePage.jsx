@@ -110,8 +110,10 @@ export default function MyCalendar() {
       {
         id: 5,
         title: "Selbst und Methodenkompetenz",
-        start: moment("2024-01-01T12:00").toDate(),
-        end: moment("2024-01-01T15:00").toDate(),
+        // start: moment("2024-01-01T12:00").toDate(),
+        start: new Date(2024, 0, 1, 12, 0),
+        // end: moment("2024-01-01T15:00").toDate(),
+        end: new Date(2024, 0, 1, 15, 0),
         studySemester: "Angewandte Informatik, 1. FS",
         dozent: "Wehrstein",
         room: "D137",
