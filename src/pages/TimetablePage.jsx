@@ -83,11 +83,15 @@ export default function MyCalendar() {
         )
         */
 
-    // TODO: Übersetzung einfügen.
+    // TODO: Übersetzung einfügen
     return (
         <>
-        <div className="bg-[#FAFAFA]">
-            <h1>Lehrplanung</h1>
+        <div className="bg-[#EAEAEA]">
+        <br></br>
+        <br></br>
+        <br></br>
+
+            {/* <h1>Lehrplanung</h1> */}
             <div
                 //onDropFromOutside={ backToOverview }
             >
