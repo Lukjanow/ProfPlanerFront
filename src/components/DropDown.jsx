@@ -19,7 +19,8 @@ function GetLabels(selectedKeys, Items) {
   return Labels
 }
 
-export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="solid", backdrop="Transparent", description="" /*currently unused*/, add={}}) {
+export function DropDown({Items, selectionMode = "single", disabledKeys = [],
+ variant="solid", backdrop="Transparent", description="" /*currently unused*/, add={}}) {
     const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
     const selectedValue = React.useMemo(
        () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
@@ -63,7 +64,8 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
             </DropdownSection>
           */}  
 
-          {/* TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever works) https://nextui.org/docs/components/dropdown#with-sections*/}
+          {/* TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever works)
+           https://nextui.org/docs/components/dropdown#with-sections*/}
            {
             /*Items.some(e => e.section) ? (
               sections.map((section) => {

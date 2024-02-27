@@ -5,6 +5,7 @@ import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import moment from 'moment';
 import "moment/locale/de";
+import { PageTitle } from '../components/PageTitle'
 
 // Lokalisierung für Moment.js einrichten
 moment.locale("de");
@@ -86,7 +87,7 @@ export default function MyCalendar() {
     // TODO: Übersetzung einfügen
     return (
         <>
-            <h1>Lehrplanung</h1>
+            <PageTitle text="Lehrplanung"/>
             <div
                 //onDropFromOutside={ backToOverview }
             >
