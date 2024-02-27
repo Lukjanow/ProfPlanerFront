@@ -119,7 +119,7 @@ export default function DropDownTestPage() {
              add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                    Item: "item"}}
              width="500px"></DropDown>
-                <DropDown Items={testData} description="Testwert2" selectionMode="multiple"
+                <DropDown Items={testData} description="Testwert2"
              add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                    Item: "item"}}></DropDown>
             </div>

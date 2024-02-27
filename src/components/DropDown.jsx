@@ -34,15 +34,16 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
       setDropped(!dropped)
     }
 
-    /* TODO: get this to work the first time you load the site (probably with useEffect) */
     function setSelected(input) {
       setSelectedKeys(input)
       setValue((selectedValue) ? GetLabels(input, Items) : "Nothing Selected")
     }
 
-/*     useEffect(() => {
-      setValue((selectedValue) ? GetLabels(value, Items) : "Nothing Selected")
-    }, [selectedValue, value, Items]) */
+    useEffect(() => {
+       setValue((selectedValue) ? GetLabels(selectedKeys, Items) : "Nothing Selected")
+       console.log("Called useEffect")},
+          [setValue, value, Items, selectedValue, selectedKeys]
+        )
 
     //const sections = Array.from(new Set(Items.map(obj => obj["section"]).filter(value => value !== undefined)));
     return (
