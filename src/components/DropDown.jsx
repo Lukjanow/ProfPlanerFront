@@ -74,7 +74,8 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                     setSelected
                   }
                   disabledKeys={disabledKeys}
-                  variant={variant}>
+                  variant={variant}
+                  style={{width: width}}>
           
           {(add.href && add.Item) ? 
             <DropdownItem
