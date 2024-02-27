@@ -8,6 +8,7 @@ import {
   TableCell,
   Tooltip,
   Input,
+  user,
 } from "@nextui-org/react";
 import users from "./data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -49,7 +50,10 @@ export default function BasicDataTable() {
 
   const topContent = React.useMemo(() => {
     return (
-      <div className="flex w-full justify-end">
+      <div className="flex w-full justify-between items-center">
+        <h1 className="font-poppins font-bold text-2xl">
+          Überblick ({users.length})
+        </h1>
         <Input
           isClearable
           placeholder="Search by name..."
