@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, Button, DropdownSection, Input } from "@nextui-org/react";
-import addIcon from "../assets/addIcon.svg"  //Currently doesn't work
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import "../styles/components/DropDown.scss"
 
 
-{/*Deal with Performance when many Items exist*/}
+{/*TODO: Deal with Performance when many Items exist*/}
 
 //Allow Button to Display the Label of Item rather than the Key
 function GetLabels(selectedKeys, Items) {
@@ -20,32 +20,59 @@ function GetLabels(selectedKeys, Items) {
   return Labels
 }
 
-export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="solid", backdrop="Transparent", description="" /*currently unused*/, add={}}) {
+export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="", add={}, width="300px"}) {
     const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
     const selectedValue = React.useMemo(
        () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
       [selectedKeys],
     )
+
+    const [value, setValue] = React.useState("Nothing Selected")
+    const [dropped, setDropped] = React.useState(false)
+
+    function toggleDropped() {
+      setDropped(!dropped)
+    }
+
+    /* TODO: get this to work the first time you load the site (probably with useEffect) */
+    function setSelected(input) {
+      setSelectedKeys(input)
+      setValue((selectedValue) ? GetLabels(input, Items) : "Nothing Selected")
+    }
+
+/*     useEffect(() => {
+      setValue((selectedValue) ? GetLabels(value, Items) : "Nothing Selected")
+    }, [selectedValue, value, Items]) */
+
     //const sections = Array.from(new Set(Items.map(obj => obj["section"]).filter(value => value !== undefined)));
     return (
       <div>
         <Dropdown backdrop={backdrop}
-          closeOnSelect={(selectionMode === "single") ? true : false}>
+          closeOnSelect={(selectionMode === "single") ? true : false}
+          onOpenChange={toggleDropped}
+          >
           <DropdownTrigger>
-            {
-             /*TODO: Add styling according to Mockup 
-            TODO: Set to more fitting Component than Button (Depeding on style)*/
-            }
-            <Button>
-              {
-              (selectedValue) ? GetLabels(selectedKeys, Items) : "Nothing Selected"
+            <Input
+              as="button"
+              variant="underlined"
+              label={description}
+              endContent= { (dropped) ? 
+                <div className="arrow-up"></div>
+                : <div className="arrow-down"></div>
               }
-            </Button>
+              style={{width: width}}
+              value={value}
+            >
+
+            </Input>
+
           </DropdownTrigger>
           <DropdownMenu aria-label="Static Actions"
                   selectionMode={selectionMode}
                   selectedKeys={selectedKeys}
-                  onSelectionChange={setSelectedKeys}
+                  onSelectionChange={
+                    setSelected
+                  }
                   disabledKeys={disabledKeys}
                   variant={variant}>
           

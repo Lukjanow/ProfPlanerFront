@@ -114,9 +114,14 @@ export default function DropDownTestPage() {
     return (
         <>
             <h1>Edit this Module</h1>
+            <div style={{display: "flex", gap: "100px"}}>
             <DropDown Items={testData} description="Testwert" selectionMode="multiple"
              add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                    Item: "item"}}></DropDown>
+                <DropDown Items={testData} description="Testwert2" selectionMode="multiple"
+             add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                   Item: "item"}}></DropDown>
+            </div>
         </>
     );
 }
