@@ -1,6 +1,7 @@
 import React from "react";
 import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, Button, DropdownSection, Input } from "@nextui-org/react";
 import addIcon from "../assets/addIcon.svg"  //Currently doesn't work
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 
 {/*Deal with Performance when many Items exist*/}
@@ -51,8 +52,9 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
           {(add.href && add.Item) ? 
             <DropdownItem
              href={add.href}
-            ><span className="flex">              {/*TODO: Fix style*/}
-              <img src={addIcon} alt={"+"} style={{lineHeight: "0", width: "10%", height: "auto"}}/>Füge ein(e) {add.Item} hinzu</span></DropdownItem>
+             showDivider="true"
+            >            {/*TODO: Fix style*/}
+              <FontAwesomeIcon className={"text-small"} icon="plus" style={{marginRight: "5px"}}/>Füge ein(e) {add.Item} hinzu</DropdownItem>
              : null
           }
           {/* TODO: Add functions for search
