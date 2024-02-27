@@ -4,5 +4,10 @@
   "themeSwitch": "Change Appearance",
   "languageSwitch": "Change Language",
   "semesterSwitch": "Choose Semester",
-  "signOutButton": "Sign Out"
+  "signOutButton": "Sign Out",
+  "module": "Modules",
+  "rooms": "Rooms",
+  "lecturer": "Teacher",
+  "building": "Building",
+  "changeAndEdit": "Create and edit"
 }
