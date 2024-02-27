@@ -83,7 +83,7 @@ export default function MyCalendar() {
         )
         */
 
-    // TODO: Übersetzung einfügen
+    // TODO: Übersetzung einfügen.
     return (
         <>
         <div className="bg-[#FAFAFA]">
