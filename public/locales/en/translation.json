@@ -13,5 +13,6 @@
   "rooms": "Rooms",
   "lecturer": "Teacher",
   "building": "Building",
-  "changeAndEdit": "Create and edit"
+  "changeAndEdit": "Create and edit",
+  "defaultPageTitle": "Page Title"
 }

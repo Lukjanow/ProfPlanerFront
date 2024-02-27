@@ -13,5 +13,6 @@
   "rooms": "Räume",
   "lecturer": "Lehrperson",
   "building": "Gebäude",
-  "changeAndEdit": "Erstelle und bearbeite"
+  "changeAndEdit": "Erstelle und bearbeite",
+  "defaultPageTitle": "Seitentitel"
 }
