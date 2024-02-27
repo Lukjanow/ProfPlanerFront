@@ -6,8 +6,8 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  User,
   Tooltip,
+  Input,
 } from "@nextui-org/react";
 import users from "./data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -47,8 +47,32 @@ export default function BasicDataTable() {
     }
   }, []);
 
+  const topContent = React.useMemo(() => {
+    return (
+      <div className="flex w-full justify-end">
+        <Input
+          isClearable
+          placeholder="Search by name..."
+          className="flex-initial w-1/2"
+          startContent={
+            <FontAwesomeIcon
+              icon={"magnifying-glass"}
+              onClick={console.log("Test")}
+            />
+          }
+          radius="sm"
+          variant={"underlined"}
+        />
+      </div>
+    );
+  }, []);
+
   return (
-    <Table aria-label="Example table with custom cells">
+    <Table
+      aria-label="Example table with custom cells"
+      radius="sm"
+      topContent={topContent}
+    >
       <TableHeader columns={myColumns}>
         {(column) => (
           <TableColumn
