@@ -2,13 +2,13 @@ import { Switch, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { useState } from "react";
 
 
-export function Container(props) {
+export function SectionContainer(props) {
   const [bodyVisibility, setBodyVisibility] = useState(props.showContentSwitch && props.showContentSwitch !== undefined ? false : true)
 
   return (
     <Card
       radius={"sm"}
-      className={"m-10 p-5"}
+      className={"p-5"}
     >
       {
         props.showContentSwitch || props.title !== undefined ?
@@ -35,7 +35,7 @@ export function Container(props) {
           <></>
       }
       {
-        bodyVisibility ? <CardBody className="transition-all">{props.content}</CardBody> : <></>
+        bodyVisibility ? <CardBody className="transition-all">{props.children}</CardBody> : <></>
       }
     </Card >
   );
