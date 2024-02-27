@@ -7,6 +7,7 @@ import moment from 'moment';
 import {ModuleBar} from "../components/ModuleBar"
 import "moment/locale/de";
 import { ModuleItem } from "../components/ModuleItem";
+import { TimeTable } from "../components/TimeTable";
 
 // Lokalisierung für Moment.js einrichten
 moment.locale("de");
@@ -31,54 +32,20 @@ const EVENTS = [
     },
 ];
 
-const OUTSIDEEVENTS = [
-    {
-        id: 3,
-        title: "Meeting 3",
-        duration: 120
-    },
-    {
-        id: 4,
-        title: "Meeting 4",
-        duration: 90
-    },
-];
+// const OUTSIDEEVENTS = [
+//     {
+//         id: 3,
+//         title: "Meeting 3",
+//         duration: 120
+//     },
+//     {
+//         id: 4,
+//         title: "Meeting 4",
+//         duration: 90
+//     },
+// ];
 
 export default function MyCalendar() {
-    // State für Termine und außerhalb des Kalenders gezogene Ereignisse
-    const [events, setEvents] = useState(EVENTS);
-    const [outsideEvents, setOutsideEvents] = useState(OUTSIDEEVENTS);
-    const [draggedEvent, setDraggedEvent] = useState(null);
-
-    // Callback zum Aktualisieren der Terminzeit
-    const onChangeEventTime = useCallback(
-        (start, end, appointmentId) => {
-            setEvents(prevEvents =>
-                prevEvents.map(event =>
-                    event.id === appointmentId ? { ...event, start, end } : event
-                )
-            );
-        },
-        []
-    );
-
-    // Callback für das Ablegen von außerhalb des Kalenders gezogenen Ereignissen
-    const onDropFromOutside = useCallback(
-        ({ start, end }) => {
-            if (draggedEvent) {
-                console.log("Außerhalb des Kalenders abgelegt:", draggedEvent.title, start, end);
-                const newEvent = {
-                    ...draggedEvent,
-                    start,
-                    end: moment(start).add(draggedEvent.duration, 'minutes'),
-                    id: events.length + 1
-                };
-                setEvents(prevEvents => [...prevEvents, newEvent]);
-                setOutsideEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
-            }
-        },
-        [draggedEvent]
-    );
     /*
         const backToOverview = useCallback(
 
@@ -162,51 +129,22 @@ export default function MyCalendar() {
       }
     ];
 
+    
+
+    function getModuleItems(moduleItemList) {
+        return(moduleItemList.map((item, index) => (
+        <div key={index}>
+          <ModuleItem moduleItemData={item}/>
+        </div>)
+      ))
+    }
 
     return (
         <>
             <h1>Lehrplanung</h1>
             <div className="flex">
-                <div className="myCustomHeight">
-                    <DnDCalendar
-                        localizer={localizer}
-                        events={events}
-                        startAccessor="start"
-                        endAccessor="end"
-                        min={moment("2024-01-01T08:00").toDate()}
-                        max={moment("2024-01-01T22:00").toDate()}
-                        views={["work_week"]}
-                        defaultView="work_week"
-                        defaultDate={moment("2024-01-01T00:00").toDate()}
-                        toolbar={false}
-                        step={15}
-                        timeslots={4}
-                        selectable
-                        resizable={false}
-                        formats={{
-                            dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture),
-                        }}
-                        onEventDrop={({ start, end, event }) => {
-                            onChangeEventTime(start, end, event.id);
-                        }}
-                        onDropFromOutside={onDropFromOutside}
-                        drilldownView={null}
-                    />
-                </div>
-                <ModuleBar moduleItemList={moduleItemDataList}/>
-                {/* onDropFromOutside={ backToOverview } */}
-                <div>          
-                    {outsideEvents.map(event => (
-                    <div
-                        key={event.id}
-                        style={{ backgroundColor: 'blue', margin: '5px', padding: '5px', color: 'white' }}
-                        draggable
-                        onDragStart={() => setDraggedEvent(event)} // Funktion in onDragStart einbetten
-                    >
-                        {event.title}
-                    </div>
-                    ))}
-                </div>
+                <TimeTable moduleItemList={getModuleItems(moduleItemDataList)}/>
+                <ModuleBar moduleItemList={getModuleItems(moduleItemDataList)}/>
             </div>
         </>
     );
