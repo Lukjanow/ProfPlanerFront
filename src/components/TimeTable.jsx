@@ -5,7 +5,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useCallback, useState } from "react";
 import { ModuleItem } from "./ModuleItem";
 import { ModuleBar } from "./ModuleBar";
-//import "../styles/components/timeTableEvent.scss";
+import "../styles/components/timeTableEvent.scss";
 
 
 export function TimeTable({moduleItemList}) {
@@ -40,7 +40,8 @@ export function TimeTable({moduleItemList}) {
                   ...draggedEvent,
                   start,
                   end: moment(start).add(draggedEvent.duration, 'minutes'),
-                  id: events.length + 1
+                  id: events.length + 1,
+                  hideTime: false
               };
               setEvents(prevEvents => [...prevEvents, newEvent]);
               setOutsideEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
@@ -81,9 +82,9 @@ export function TimeTable({moduleItemList}) {
               defaultView="work_week"
               defaultDate={moment("2024-01-01T00:00").toDate()}
               toolbar={false}
-              /* components={{
+              components={{
                 event: CustomEvent
-              }} */
+              }}
               step={15}
               timeslots={4}
               selectable

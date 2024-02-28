@@ -1,18 +1,18 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
+import moment from "moment";
 
 export function ModuleItem({ moduleItemData, dragEvent }) {  
     const {
       id,
       title,
       start,
-      end,
       studySemester,
       dozent,
       room,
       backgroundcolor,
       bordercolor,
-      hideTime
+      hideTime,
+      duration
     } = moduleItemData;
 
     const moduleStyle = {
@@ -27,18 +27,41 @@ export function ModuleItem({ moduleItemData, dragEvent }) {
     }
 
 
+    function setTime(){
+      if(hideTime){
+        return <></>
+      }
+     const startHours = start.getHours()
+     const startMinutes = start.getMinutes()
+     const durationHours = Math.floor(duration/60)
+     const durationMinutes = duration % 60
+
+     var endMinutes = startMinutes + durationMinutes
+     var endHours = startHours + durationHours
+
+     if(endMinutes >= 60){
+      endHours += 1
+      endMinutes -= 60
+     }
+
+      return (
+        <p className="font-semibold" hidden={moduleItemData.hideTime}>
+          {startHours + ":"}
+          {fixZeros(startMinutes) + " - "}
+          {endHours + ":"}
+          {fixZeros(endMinutes) + " Uhr"}
+        </p>
+      )
+    }
+
   function fixZeros(num) {
     return (num < 10 ? "0" : "") + num;
   }
+
   //`border-1 border-s-8 w-max border-[${bordercolor}] bg-[${backgroundcolor}] rounded-e-md p-3`}{
   return (
       <div key={id} id="ModuleItem" className="border-1 border-s-8 w-[320px] rounded-e-md p-3" style={moduleStyle} draggable onDragStart={() => dragEvent(moduleItemData)}>
-        <p className="font-semibold" hidden={moduleItemData.hideTime}>
-          {start.getHours()}:
-          {fixZeros(start.getMinutes())} -{" "}
-          {end.getHours()}:
-          {fixZeros(end.getMinutes())} Uhr
-        </p>
+        {setTime()}
         <p className="font-semibold">{title}</p>
         <div className="flex">
           <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-graduation-cap" /></span><span>{studySemester}</span>
