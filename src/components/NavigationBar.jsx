@@ -7,28 +7,29 @@ import {
   NavbarItem,
 } from "@nextui-org/react";
 import NavigationBarItem from "./NavigationBarItem.jsx";
+import { useTranslation } from "react-i18next";
 
 export function NavigationBar() {
-  //TODO: NavigationBarItems Label übersetzen
+  const { t } = useTranslation()
   const navigationBarItems = [
     {
       path: "timetable",
-      label: "Lehrplanung",
+      label: t("scheduling"),
       icon: "calendar-days",
     },
     {
       path: "conflicts",
-      label: "Konflikte",
+      label: t("conflicts"),
       icon: "triangle-exclamation",
     },
     {
       path: "basicdata",
-      label: "Stammdaten",
+      label: t("basicData"),
       icon: "database",
     },
     {
       path: "settings",
-      label: "Einstellungen",
+      label: t("settings"),
       icon: "gear",
     },
   ];
