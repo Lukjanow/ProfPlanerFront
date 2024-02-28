@@ -14,5 +14,7 @@
   "lecturer": "Lehrperson",
   "building": "Gebäude",
   "changeAndEdit": "Erstelle und bearbeite",
-  "defaultPageTitle": "Seitentitel"
+  "defaultPageTitle": "Seitentitel",
+  "new": "Neue",
+  "general": "Allgemein"
 }

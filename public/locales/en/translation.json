@@ -14,5 +14,7 @@
   "lecturer": "Teacher",
   "building": "Building",
   "changeAndEdit": "Create and edit",
-  "defaultPageTitle": "Page Title"
+  "defaultPageTitle": "Page Title",
+  "new": "New",
+  "general": "General"
 }
