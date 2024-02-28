@@ -2,5 +2,17 @@
   "language": "Language",
   "hello": "Hello World!",
   "themeSwitch": "Change Appearance",
-  "languageSwitch": "Change Language"
+  "languageSwitch": "Change Language",
+  "semesterSwitch": "Choose Semester",
+  "signOutButton": "Sign Out",
+  "scheduling": "Scheduling",
+  "conflicts": "Conflicts",
+  "basicData": "Basic data",
+  "settings": "Settings",
+  "module": "Modules",
+  "rooms": "Rooms",
+  "lecturer": "Teacher",
+  "building": "Building",
+  "changeAndEdit": "Create and edit",
+  "defaultPageTitle": "Page Title"
 }
