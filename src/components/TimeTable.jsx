@@ -7,6 +7,8 @@ import { ModuleBar } from "./ModuleBar";
 import { PageTitle } from "../components/PageTitle";
 import {TimeTableFilter} from "../components/TimeTableFilter";
 import "../styles/components/timeTableEvent.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 
 export function TimeTable({moduleItemList}) {
@@ -51,9 +53,66 @@ export function TimeTable({moduleItemList}) {
         },
     );
 
-    const CustomEvent = ({ event }) => (
-        <ModuleItem moduleItemData={event} dragEvent={()=>{}}/>
-    );
+    const eventStyleGetter = (event) => {
+      let newStyle = {};
+
+      newStyle["backgroundColor"] = event.backgroundcolor;
+      newStyle["borderColor"] = event.bordercolor
+      newStyle["color"] = "#000000"
+      newStyle["border-inline-start-width"] = "8px"
+
+
+      return {
+        style: newStyle
+      };
+  };
+
+  function setTime(start, duration){
+     const startHours = start.getHours()
+     const startMinutes = start.getMinutes()
+     const durationHours = Math.floor(duration/60)
+     const durationMinutes = duration % 60
+
+     var endMinutes = startMinutes + durationMinutes
+     var endHours = startHours + durationHours
+
+     if(endMinutes >= 60){
+      endHours += 1
+      endMinutes -= 60
+     }
+
+      return (
+        <p className="font-semibold">
+          {startHours + ":"}
+          {fixZeros(startMinutes) + " - "}
+          {endHours + ":"}
+          {fixZeros(endMinutes) + " Uhr"}
+        </p>
+      )
+    }
+
+  function fixZeros(num) {
+    return (num < 10 ? "0" : "") + num;
+  }
+
+  const customEvent = ({ event }) => {
+    console.log(event.dozent)
+    return (
+          <div className="w-[13vw] rounded-e-md p-3 h-full w-full">
+            <p className="font-semibold">{event.title}</p>
+            {setTime(event.start, event.duration)}
+            <div className="flex">
+              <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-graduation-cap" /></span><span>{event.studySemester}</span>
+            </div>
+            <div className="flex">
+              <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-user" /></span><span>{event.dozent}</span>
+            </div>
+            <div className="flex">
+              <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-location-dot" /></span><span>{event.room}</span>
+            </div>
+        </div>
+    )
+  }
 
 
   return (
@@ -62,7 +121,7 @@ export function TimeTable({moduleItemList}) {
         <div>
           <PageTitle text="Lehrplanung"/>
           <TimeTableFilter></TimeTableFilter>
-          <div className="myCustomHeight">
+          <div className="h-[35vw]">
               <DnDCalendar
                   className="w-[78vw]"
                   localizer={localizer}
@@ -75,10 +134,11 @@ export function TimeTable({moduleItemList}) {
                   defaultView="work_week"
                   defaultDate={moment("2024-01-01T00:00").toDate()}
                   toolbar={false}
-                  components={{
-                    event: CustomEvent
-                  }}
+                  eventPropGetter={eventStyleGetter}
                   step={15}
+                  components={{         
+                    event: customEvent
+                  }}
                   timeslots={4}
                   selectable
                   resizable={false}
