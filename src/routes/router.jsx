@@ -38,13 +38,13 @@ const router = createBrowserRouter([
                 path: "/debug",
                 element: <ApiDebugPage />,
                 errorElement: <ErrorPage />,
-            }
+            },
+            {
+                path: "/component",
+                element: <ComponentPage />,
+                errorElement: <ErrorPage />,
+            },
         ]
-    },
-    {
-        path: "/component",
-        element: <ComponentPage />,
-        errorElement: <ErrorPage />,
     },
 ]);
 

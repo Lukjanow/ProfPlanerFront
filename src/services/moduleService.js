@@ -1,43 +1,124 @@
 import {ModuleModel} from "../models/moduleModel.js";
 import api from "./api.js";
-import {errorHandler} from "../utils/errorHandler.js";
 
-function getAllModules() {
+async function getAllModules() {
     return api
-        .get(`/module`)
+        .get(`/moduledata`)
         .then(resObj => {
-            errorHandler(resObj, "getAllModules");
             return {
                 data: resObj.data.map(item => new ModuleModel(item)),
+                status: resObj.status
+            }
+        });
+}
+
+async function getModuleById(id) {
+    return api
+        .get(`/moduledata/${id}`)
+        .then(resObj => {
+            return {
+                data: new ModuleModel(resObj.data),
+                status: resObj.status
+            }
+        });
+}
+
+async function getSelectedModules() {
+    return api
+        .get(`/modulesdata/select`)
+        .then(resObj => {
+            return {
+                data: resObj.data.map(item => new ModuleModel(item)),
+                status: resObj.status
+            }
+        });
+}
+
+async function getAllModulesByDozentId(dozentId) {
+    return api
+        .get(`/moduledata/dozent/${dozentId}`)
+        .then(resObj => {
+            return {
+                data: resObj.data.map(item => new ModuleModel(item)),
+                status: resObj.status
+            }
+        });
+}
+
+async function getAllModulesByStudySemesterId(studySemesterId) {
+    return api
+        .get(`/moduledata/studysemester/${studySemesterId}`)
+        .then(resObj => {
+            return {
+                data: resObj.data.map(item => new ModuleModel(item)),
+                status: resObj.status
+            }
+        });
+}
+
+async function addModule(id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type, frequency, selected) {
+    return api
+        .post(`/module`, {
+            id,
+            name,
+            dozent: dozentIdList,
+            room,
+            study_semester: studySemesterIdList,
+            duration,
+            approximate_attendance: approximateAttendance,
+            need,
+            type,
+            frequency,
+            selected
+        })
+        .then(resObj => {
+            return {
+                data: resObj.data,
+                status: resObj.status
+            }
+        });
+}
+
+async function updateModule(id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type, frequency, selected) {
+    return api
+        .put(`/module/${id}`, {
+            name,
+            dozent: dozentIdList,
+            room,
+            study_semester: studySemesterIdList,
+            selected,
+            duration,
+            approximate_attendance: approximateAttendance,
+            need,
+            type,
+            frequency,
+        })
+        .then(resObj => {
+            return {
+                data: resObj.data,
                 status: resObj.status
             }
         })
 }
 
-// function getModuleById(id) {
-//     return api.get(`/module/${id}`)
-//         .then(resObj => new ModuleModel(resObj.data))
-//         .catch(e => {
-//             // throw new Error(e);
-//             throw new Error(`Failed to fetch module with id: ${id}!`);
-//         });
-// }
-//
-// function addModule(id) {
-//     return api.post(`/module`, new ModuleModel(
-//         id
-//     ))
-//         .then(resObj => new ModuleModel(resObj))
-//         .catch(e => {
-//             // throw new Error(e);
-//             throw new Error(`Failed to create a module!`);
-//         });
-// }
-
-// TODO: other api requests
+async function deleteModule(id) {
+    return api
+        .delete(`/module/${id}`)
+        .then(resObj => {
+            return {
+                data: resObj.data,
+                status: resObj.status
+            }
+        });
+}
 
 export {
     getAllModules,
-    // getModuleById,
-    // addModule
+    getModuleById,
+    getSelectedModules,
+    getAllModulesByDozentId,
+    getAllModulesByStudySemesterId,
+    addModule,
+    updateModule,
+    deleteModule
 }
