@@ -58,7 +58,7 @@ export function ModuleItem({ moduleItemData, dragEvent }) {
 
   //`border-1 border-s-8 w-max border-[${bordercolor}] bg-[${backgroundcolor}] rounded-e-md p-3`}{
   return (
-      <div key={id} id="ModuleItem" className="border-1 border-s-8 w-[320px] rounded-e-md p-3" style={moduleStyle} draggable onDragStart={() => dragEvent(moduleItemData)}>
+      <div key={id} id="ModuleItem" className="border-1 border-s-8 w-[13vw] rounded-e-md p-3" style={moduleStyle} draggable onDragStart={() => dragEvent(moduleItemData)}>
         {setTime()}
         <p className="font-semibold">{title}</p>
         <div className="flex">
