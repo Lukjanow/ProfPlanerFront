@@ -2,7 +2,7 @@ import {Card, CardBody, CardHeader, CircularProgress, Code, Divider} from "@next
 import useDataFetcher from "../hooks/useDataFetcher.js";
 import {useModuleStore} from "../stores/moduleStore.js";
 
-export function ApiDebugger() {
+export default function ApiDebugger() {
     const {data: moduleList, isLoading: moduleListIsLoading, error: moduleListError} = useDataFetcher(async () => {
         await useModuleStore.getState().initModuleList();
         return useModuleStore.getState().moduleList;
