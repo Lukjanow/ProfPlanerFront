@@ -6,6 +6,7 @@ import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import moment from 'moment';
 import {ModuleBar} from "../components/ModuleBar"
 import "moment/locale/de";
+import {TimeTableFilter} from "../components/TimeTableFilter";
 import { ModuleItem } from "../components/ModuleItem";
 import { TimeTable } from "../components/TimeTable";
 
@@ -164,9 +165,13 @@ export default function MyCalendar() {
     return (
         <>
             <h1>Lehrplanung</h1>
+            <TimeTableFilter>
+                
+            </TimeTableFilter>
             <div className="flex">
                 <TimeTable moduleItemList={moduleItemDataList}/>
             </div>
+        
         </>
     );
 }
