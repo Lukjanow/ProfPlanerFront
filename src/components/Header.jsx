@@ -4,11 +4,12 @@ import "../styles/components/Header.scss"
 import logo from "../assets/logo.svg"
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Tooltip, Button } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslation } from "react-i18next";
 
 
 export function Header() {
+    const { t } = useTranslation()
 
-    // TODO: Übersetzung einfügen
     return (
         <Navbar isBordered maxWidth={"full"} className={"z-50 px-5 min-w-full"}>
             <NavbarContent className={""} justify={"start"}>
@@ -25,7 +26,7 @@ export function Header() {
                     <ThemeSwitcher />
                 </NavbarItem>
                 <NavbarItem>
-                    <Tooltip content={"Semester wählen"}>
+                    <Tooltip content={t("semesterSwitch")}>
                         <Button
                             color={"none"}
                             isIconOnly
@@ -35,7 +36,7 @@ export function Header() {
                     </Tooltip>
                 </NavbarItem>
                 <NavbarItem>
-                    <Tooltip content={"Abmelden"}>
+                    <Tooltip content={t("signOutButton")}>
                         <Button
                             color={"none"}
                             isIconOnly
