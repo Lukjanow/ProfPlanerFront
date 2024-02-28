@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, Button, DropdownSection, Input, ScrollShadow } from "@nextui-org/react";
+import React, { useEffect } from "react";
+import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, DropdownSection, Input } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/components/DropDown.scss"
 
@@ -8,7 +8,7 @@ import "../styles/components/DropDown.scss"
 TODO: Add functions for search
 TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever works) https://nextui.org/docs/components/dropdown#with-sections*/}
 
-//Allow Button to Display the Label of Item rather than the Key
+//Allow Input to Display the Label of Item rather than the Key
 function GetLabels(selectedKeys, Items) {
   let Labels = ""
   selectedKeys.forEach((element) => {
@@ -74,7 +74,9 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                   disabledKeys={disabledKeys}
                   variant={variant}
                   style={{width: width,
-                          overflow: "scroll", maxHeight: "400px"}}>
+                          overflow: "scroll",
+                          scrollbarWidth: "none",
+                          maxHeight: "385px"}}>
             {(add.href && add.Item) ? 
               <DropdownItem
               href={add.href}
