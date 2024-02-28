@@ -9,6 +9,7 @@ import "moment/locale/de";
 import {TimeTableFilter} from "../components/TimeTableFilter";
 import { ModuleItem } from "../components/ModuleItem";
 import { TimeTable } from "../components/TimeTable";
+import { PageTitle } from "../components/PageTitle";
 
 // Lokalisierung für Moment.js einrichten
 moment.locale("de");
@@ -164,10 +165,6 @@ export default function MyCalendar() {
 
     return (
         <>
-            <h1>Lehrplanung</h1>
-            <TimeTableFilter>
-                
-            </TimeTableFilter>
             <div className="flex">
                 <TimeTable moduleItemList={moduleItemDataList}/>
             </div>
