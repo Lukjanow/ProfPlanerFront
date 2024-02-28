@@ -1,5 +1,4 @@
 import moment from "moment";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useCallback, useState } from "react";
@@ -22,15 +21,16 @@ export function TimeTable({moduleItemList}) {
     // Callback für das Ablegen von außerhalb des Kalenders gezogenen Ereignissen
     const onDropFromOutside = useCallback(
       ({ start, end }) => {
+        console.log("Außerhalb des Kalenders abgelegt:", draggedEvent.title, start, end);
         if (draggedEvent) {
-              console.log("Außerhalb des Kalenders abgelegt:", draggedEvent.title, start, end);
               const newEvent = {
                   ...draggedEvent,
                   start,
                   end: moment(start).add(draggedEvent.duration, 'minutes'),
-                  id: events.length + 1,
+                  id: draggedEvent.id,
                   hideTime: false
               };
+
               setEvents(prevEvents => [...prevEvents, newEvent]);
               setOutsideEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
           }
@@ -47,11 +47,10 @@ export function TimeTable({moduleItemList}) {
                 )
             );
         },
-        []
     );
 
     const CustomEvent = ({ event }) => (
-        <ModuleItem moduleItemData={event} dragEvent={setDraggedEvent}/>
+        <ModuleItem moduleItemData={event} dragEvent={()=>{}}/>
     );
 
 
@@ -87,7 +86,7 @@ export function TimeTable({moduleItemList}) {
             //onDropFromOutside={ backToOverview }
             >
               <ModuleBar moduleItemList={outsideEvents.map(event => (
-                  <ModuleItem moduleItemData={event} dragEvent={setDraggedEvent}/>
+                  <ModuleItem key={event.id} moduleItemData={event} dragEvent={setDraggedEvent}/>
                 ))} />
             </div>
     </>
