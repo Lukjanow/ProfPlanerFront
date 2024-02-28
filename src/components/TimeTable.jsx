@@ -5,6 +5,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useCallback, useState } from "react";
 import { ModuleItem } from "./ModuleItem";
 import { ModuleBar } from "./ModuleBar";
+//import "../styles/components/timeTableEvent.scss";
 
 
 export function TimeTable({moduleItemList}) {
@@ -14,7 +15,19 @@ export function TimeTable({moduleItemList}) {
   const DnDCalendar = withDragAndDrop(Calendar);
 
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
-    const [events, setEvents] = useState([]);
+    const [events, setEvents] = useState([{
+        id: 1,
+        title: "Einführung in die Informatik",
+        start: moment("2024-01-01T12:00").toDate(),
+        end: moment("2024-01-01T15:00").toDate(),
+        studySemester: "Angewandte Informatik, 1. FS",
+        dozent: "Herbert Thielen",
+        room: "A200",
+        backgroundcolor: "#D6F5E2",
+        bordercolor: "#46D27F",
+        hideTime: false,
+        duration: 195,
+      }]);
     const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
     const [draggedEvent, setDraggedEvent] = useState(null);
 
@@ -49,7 +62,7 @@ export function TimeTable({moduleItemList}) {
     );
 
     const CustomEvent = ({ event }) => (
-      <ModuleItem moduleItemData={event} dragEvent={setDraggedEvent} />
+        <ModuleItem moduleItemData={event} dragEvent={setDraggedEvent}/>
     );
 
 
@@ -68,6 +81,9 @@ export function TimeTable({moduleItemList}) {
               defaultView="work_week"
               defaultDate={moment("2024-01-01T00:00").toDate()}
               toolbar={false}
+              /* components={{
+                event: CustomEvent
+              }} */
               step={15}
               timeslots={4}
               selectable
