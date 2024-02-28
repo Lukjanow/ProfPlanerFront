@@ -22,8 +22,6 @@ export function ModuleItem({ moduleItemData, dragEvent }) {
 
     if (!hideTime) {
       moduleStyle["height"] = "100%";
-      moduleStyle["color"] = "black";
-      moduleStyle["font-weight"] = 600;
     }
 
 

@@ -15,19 +15,7 @@ export function TimeTable({moduleItemList}) {
   const DnDCalendar = withDragAndDrop(Calendar);
 
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
-    const [events, setEvents] = useState([{
-        id: 1,
-        title: "Einführung in die Informatik",
-        start: moment("2024-01-01T12:00").toDate(),
-        end: moment("2024-01-01T15:00").toDate(),
-        studySemester: "Angewandte Informatik, 1. FS",
-        dozent: "Herbert Thielen",
-        room: "A200",
-        backgroundcolor: "#D6F5E2",
-        bordercolor: "#46D27F",
-        hideTime: false,
-        duration: 195,
-      }]);
+    const [events, setEvents] = useState([]);
     const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
     const [draggedEvent, setDraggedEvent] = useState(null);
 
