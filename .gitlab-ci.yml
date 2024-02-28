@@ -24,13 +24,31 @@ services:
 #cache:
 #  paths:
 #    - node_modules/
+build-job:
+  stage: build
+  script:
+    - echo "Hello, $GITLAB_USER_LOGIN!"
 
-test_async:
+test-job-async:
+  stage: test
   script:
 #    - npm install
     - echo "Hi, ich bin eine Sinnvolle Pipeline :P"
 
 #    - node ./specs/start.js ./specs/async.spec.js
+
+deploy-test:
+  stage: deploy
+  script:
+    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
+  environment: test
+
+
+deploy-prod:
+  stage: deploy
+  script:
+    - echo "This job deploys something from the $CI_COMMIT_BRANCH branch."
+  environment: production
 
 #test_db:
 #  script:
