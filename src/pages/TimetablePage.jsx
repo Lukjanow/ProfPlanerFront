@@ -8,7 +8,6 @@ import "moment/locale/de";
 import {TimeTableFilter} from "../components/TimeTableFilter";
 import { useTranslation } from "react-i18next";
 
->>>>>>> src/pages/TimetablePage.jsx
 // Lokalisierung für Moment.js einrichten
 moment.locale("de");
 
