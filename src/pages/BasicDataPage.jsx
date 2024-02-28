@@ -3,6 +3,7 @@ import BasicDataList from "../components/BasicDataMenu";
 import BasicDataTable from "../components/BasicDataTable";
 import { FilledButton } from "../components/FilledButton";
 import { OutlinedButton } from "../components/OutlinedButton";
+import { PageTitle } from '../components/PageTitle'
 
 
 export default function BasicDataPage() {

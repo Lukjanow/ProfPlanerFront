@@ -6,6 +6,7 @@ import ComponentPage from "../pages/ComponentPage.jsx";
 import BasicDataPage from "../pages/BasicDataPage.jsx";
 import SettingsPage from "../pages/SettingsPage.jsx";
 import ConflictsPage from "../pages/ConflictsPage.jsx";
+import DropDownTestPage from "../pages/DropDownTestPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -32,6 +33,11 @@ const router = createBrowserRouter([
                 path: "settings",
                 element: <SettingsPage />,
                 errorElement: <ErrorPage/>
+            },
+            {
+                path: "DropDownTestPage",
+                element: <DropDownTestPage />,
+                errorElement: <ErrorPage />
             }
         ]
     },

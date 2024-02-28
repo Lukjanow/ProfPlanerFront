@@ -1,6 +1,8 @@
-import moment from "moment";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export function PageTitle() {
-  return <div>PageTitle</div>;
+export function PageTitle({text, fontFamily = "Roboto", margin = "40px", fontSize = "48px", fontWeight = "800"}) {
+  return (
+  <div style={{fontSize: fontSize, fontWeight: fontWeight,
+   fontFamily: fontFamily, margin: margin}}>
+    {text}</div>
+  )
 }
