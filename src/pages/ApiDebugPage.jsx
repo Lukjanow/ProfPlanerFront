@@ -1,6 +1,6 @@
-import {ApiDebugger} from "../components/ApiDebugger.jsx";
+import ApiDebugger from "../components/ApiDebugger.jsx";
 
-export function ApiDebugPage() {
+export default function ApiDebugPage() {
     return (
         <>
             <ApiDebugger/>
