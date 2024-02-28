@@ -91,7 +91,7 @@ export function TimeTable({moduleItemList}) {
         </div>
         <div>
           <ModuleBar moduleItemList={outsideEvents.map(event => (
-              <ModuleItem moduleItemData={event} dragEvent={setDraggedEvent}/>
+              <ModuleItem key={event.id} moduleItemData={event} dragEvent={setDraggedEvent}/>
             ))} />
         </div>
       </div>
