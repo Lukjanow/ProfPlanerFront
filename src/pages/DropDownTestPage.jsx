@@ -20,7 +20,7 @@ export default function DropDownTestPage() {
       ,{ key: "8", label: "Item8"}
       ,{ key: "9", label: "Item9"}
       ,{ key: "10", label: "Item10"}
-      /*,{ key: "11", label: "Item11"}
+      ,{ key: "11", label: "Item11"}
       ,{ key: "12", label: "Item12"}
       ,{ key: "13", label: "Item13"}
       ,{ key: "14", label: "Item14"}
@@ -109,14 +109,20 @@ export default function DropDownTestPage() {
       ,{ key: "97", label: "Item97"}
       ,{ key: "98", label: "Item98"}
       ,{ key: "99", label: "Item99"}
-      ,{ key: "100", label: "Item100"}*/
+      ,{ key: "100", label: "Item100"}
     ]
     return (
         <>
             <h1>Edit this Module</h1>
+            <div style={{display: "flex", gap: "100px"}}>
             <DropDown Items={testData} description="Testwert" selectionMode="multiple"
              add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                   Item: "item"}}
+             width="500px"></DropDown>
+                <DropDown Items={testData} description="Testwert2"
+             add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                    Item: "item"}}></DropDown>
+            </div>
         </>
     );
 }
