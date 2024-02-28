@@ -12,13 +12,19 @@ export function ModuleItem({ moduleItemData, dragEvent }) {
       room,
       backgroundcolor,
       bordercolor,
-      hideTime,
+      hideTime
     } = moduleItemData;
 
     const moduleStyle = {
       backgroundColor: backgroundcolor,
       borderColor: bordercolor,
     };
+
+    if (!hideTime) {
+      moduleStyle["height"] = "100%";
+      moduleStyle["color"] = "black";
+      moduleStyle["font-weight"] = 600;
+    }
 
 
   function fixZeros(num) {
