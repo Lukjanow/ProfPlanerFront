@@ -1,29 +1,30 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Listbox, ListboxItem, SelectItem } from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
 
 export default function BasicDataList() {
   const [selectedItem, setSelectedItem] = useState("module");
-
+  const {t} = useTranslation()
   const items = [
     {
       key: "module",
-      description: "Module",
+      description: t("module"),
       icon: "pen-to-square",
     },
     {
       key: "room",
-      description: "Räume",
+      description: t("rooms"),
       icon: "door-closed",
     },
     {
       key: "teacher",
-      description: "Lehrpersonen",
+      description: t("lecturer"),
       icon: "user",
     },
     {
       key: "building",
-      description: "Gebäude",
+      description: t("building"),
       icon: "building",
     },
   ];
@@ -42,7 +43,7 @@ export default function BasicDataList() {
       {items.map((item) => (
         <ListboxItem
           key={item.key}
-          description={`Erstelle und bearbeite ${item.description}`}
+          description={`${t("changeAndEdit")} ${item.description}`}
           startContent={<FontAwesomeIcon icon={item.icon} />}
           className={selectedItem === item.key ? "bg-primary-100" : ""}
           onClick={() => handleItemClick(item.key)}

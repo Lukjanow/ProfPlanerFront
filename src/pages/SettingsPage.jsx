@@ -1,8 +1,10 @@
+import { useTranslation } from "react-i18next"
 
 
 export default function SettingsPage() {
+    const { t } = useTranslation()
+
     return (
-        // TODO: Übersetzung einfügen
-        <h1>Einstellungen</h1>
+        <h1 className="font-poppins font-semibold text-[48px]">{t("settings")}</h1>
     )
 }

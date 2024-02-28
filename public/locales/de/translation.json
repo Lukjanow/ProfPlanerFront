@@ -1,0 +1,18 @@
+{
+  "language": "Sprache",
+  "hello": "Hallo Welt!",
+  "themeSwitch": "Erscheinungsbild ändern",
+  "languageSwitch": "Sprache ändern",
+  "semesterSwitch": "Semester wählen",
+  "signOutButton": "Abmelden",
+  "scheduling": "Planung",
+  "conflicts": "Konflikte",
+  "basicData": "Stammdaten",
+  "settings": "Einstellungen",
+  "module": "Module",
+  "rooms": "Räume",
+  "lecturer": "Lehrperson",
+  "building": "Gebäude",
+  "changeAndEdit": "Erstelle und bearbeite",
+  "defaultPageTitle": "Seitentitel"
+}
