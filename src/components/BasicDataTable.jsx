@@ -8,24 +8,23 @@ import {
   TableCell,
   Tooltip,
   Input,
-  user,
 } from "@nextui-org/react";
-import users from "./data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function BasicDataTable() {
-  const myColumns = [
-    { name: "ID", uid: "id", sortable: true },
-    { name: "BEZEICHNUNG", uid: "bezeichnung", sortable: true },
-    { name: "MODULE-NR.", uid: "modulenr", sortable: true },
-    { name: "CODE", uid: "code", sortable: true },
-    { name: "FACHSEMESTER", uid: "fachsemester" },
-    { name: "STUDIENGANG", uid: "studiengang" },
-    { name: "ACTIONS", uid: "actions" },
-  ];
+export default function BasicDataTable({ tableData }) {
+  const generateColumns = () => {
+    if (!tableData || !tableData[0]) return []; // Wenn keine Daten vorhanden sind, leere Spalten zurückgeben
+    return Object.keys(tableData[0]).map((key) => ({
+      name: key.toUpperCase(),
+      uid: key.toLowerCase(),
+      sortable: true, // Annahme: Alle Spalten sind sortierbar, kann angepasst werden
+    }));
+  };
 
-  const renderCell = React.useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+  const myColumns = generateColumns();
+
+  const renderCell = React.useCallback((item, columnKey) => {
+    const cellValue = item[columnKey];
 
     switch (columnKey) {
       case "actions":
@@ -52,7 +51,7 @@ export default function BasicDataTable() {
     return (
       <div className="flex w-full justify-between items-center">
         <h1 className="font-poppins font-bold text-2xl">
-          Überblick ({users.length})
+          Überblick ({tableData.length})
         </h1>
         <Input
           isClearable
@@ -87,7 +86,7 @@ export default function BasicDataTable() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={users}>
+      <TableBody items={tableData}>
         {(item) => (
           <TableRow key={item.id}>
             {(columnKey) => (

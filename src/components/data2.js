@@ -182,4 +182,4 @@ const teachers = [
   },
 ];
 
-export default { modules, rooms, teachers };
+export { modules, rooms, teachers };

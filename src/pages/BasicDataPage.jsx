@@ -5,6 +5,7 @@ import BasicDataTable from "../components/BasicDataTable";
 import { FilledButton } from "../components/FilledButton";
 import { OutlinedButton } from "../components/OutlinedButton";
 import { PageTitle } from "../components/PageTitle";
+import { modules, rooms, teachers } from "../components/data2";
 
 export default function BasicDataPage() {
   const { t } = useTranslation();
@@ -21,6 +22,22 @@ export default function BasicDataPage() {
     teacher: t("newLecturer"),
     building: t("newBuilding"),
   };
+
+  // Dynamische Auswahl der Daten basierend auf dem ausgewählten Element
+  let selectedData;
+  switch (selectedItem) {
+    case "module":
+      selectedData = modules;
+      break;
+    case "room":
+      selectedData = rooms;
+      break;
+    case "teacher":
+      selectedData = teachers;
+      break;
+    default:
+      selectedData = modules; // Standardauswahl, wenn keine Übereinstimmung gefunden wurde
+  }
 
   return (
     <>
@@ -44,7 +61,7 @@ export default function BasicDataPage() {
             onItemClick={handleItemClick}
             selectedItem={selectedItem}
           />
-          <BasicDataTable />
+          <BasicDataTable tableData={selectedData} />
         </div>
       </div>
     </>
