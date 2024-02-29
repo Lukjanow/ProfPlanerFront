@@ -137,7 +137,7 @@ export function TimeTable({moduleItemList}) {
         <div>
           <PageTitle text="Lehrplanung"/>
           <TimeTableFilter></TimeTableFilter>
-          <div className="h-[35vw]">
+          <div className="h-[35vw]  shadow-2xl pb-5 pt-5 pr-3 pl-3">
               <DnDCalendar
                   className="w-[78vw]"
                   localizer={localizer}

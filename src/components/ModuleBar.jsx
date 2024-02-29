@@ -7,7 +7,7 @@ export function ModuleBar({moduleItemList}) {
     <div id="ModuleBar" className="ml-2 mt-10 shadow-2xl">
       <h2 className="text-3xl font-bold ml-2 pt-5">Module</h2>
       <div className="mt-4 ml-2">
-        <ScrollShadow size={0} className="h-[850px] w-[16vw] space-y-3">
+        <ScrollShadow size={0} className="h-[850px] w-[14vw] space-y-3">
             {moduleItemList}
         </ScrollShadow>
       </div>
