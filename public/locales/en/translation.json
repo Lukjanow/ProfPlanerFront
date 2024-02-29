@@ -20,5 +20,13 @@
   "lecture": "Lecture",
   "exercise": "Exercise",
   "training": "Training",
-  "module": "Module"
+  "module": "Module",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "save": "Save",
+  "title": "Title",
+  "prename": "Prename",
+  "lastname": "Lastname",
+  "email": "E-Mail Adress",
+  "internal": "Internal"
 }
