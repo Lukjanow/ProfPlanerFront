@@ -11,10 +11,13 @@ import { ModuleInfo } from './ModuleInfo';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment/dist/moment';
 import 'moment/dist/locale/de';
-
+import { useTranslation } from "react-i18next";
 
 export function TimeTable({moduleItemList}) {
-  moment.locale('fr')
+  const { i18n } = useTranslation();
+
+  moment.locale(i18n.language === "en" ? "en" : "de")
+  
   const localizer = momentLocalizer(moment) 
 
   const DnDCalendar = withDragAndDrop(Calendar);
