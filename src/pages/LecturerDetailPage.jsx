@@ -20,7 +20,8 @@ export default function LecturerDetailPage() {
     return (
         <PageContainer
             title={`${t("new")} ${t("lecturer")}`}
-            onClickSave={() => console.log(values)}
+            onClickPrimary={() => console.log(values)}
+            primaryButtonTitle={t("save")}
         >
             <SectionContainer title={t("general")}>
                 <div className="flex flex-row gap-5">
