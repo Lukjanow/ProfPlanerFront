@@ -22,7 +22,7 @@ function GetLabels(selectedKeys, Items) {
   return Labels
 }
 
-export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="", add={}, width="300px"}) {
+export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="", add={}, width="250px"}) {
     const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
     const selectedValue = React.useMemo(
        () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
