@@ -6,9 +6,12 @@ import { FilledButton } from "../components/FilledButton";
 import { OutlinedButton } from "../components/OutlinedButton";
 import { PageTitle } from "../components/PageTitle";
 import { modules, rooms, teachers } from "../components/data2";
+import { useNavigate, useLocation } from "react-router-dom";
 
 export default function BasicDataPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
+  let location = useLocation();
 
   const [selectedItem, setSelectedItem] = useState("module");
 
@@ -25,18 +28,23 @@ export default function BasicDataPage() {
 
   // Dynamische Auswahl der Daten basierend auf dem ausgewählten Element
   let selectedData;
+  let path;
   switch (selectedItem) {
     case "module":
       selectedData = modules;
+      path = "/basicdata"
       break;
     case "room":
       selectedData = rooms;
+      path = "/basicdata"
       break;
     case "teacher":
       selectedData = teachers;
+      path = "/lecturer-details"
       break;
     default:
       selectedData = modules; // Standardauswahl, wenn keine Übereinstimmung gefunden wurde
+      path = "/basicdata"
   }
 
   return (
@@ -51,7 +59,7 @@ export default function BasicDataPage() {
             icon="plus"
             showIcon={true}
             onClick={() => {
-              console.log("Button wurde geklickt!");
+              navigate(path);
             }}
           />
         </div>
