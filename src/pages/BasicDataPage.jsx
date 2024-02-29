@@ -6,9 +6,11 @@ import { FilledButton } from "../components/FilledButton";
 import { OutlinedButton } from "../components/OutlinedButton";
 import { PageTitle } from "../components/PageTitle";
 import { modules, rooms, teachers } from "../components/data2";
+import { useNavigate } from 'react-router-dom'
 
 export default function BasicDataPage() {
   const { t } = useTranslation();
+  const navigate = useNavigate();
 
   const [selectedItem, setSelectedItem] = useState("module");
 
@@ -51,6 +53,8 @@ export default function BasicDataPage() {
             icon="plus"
             showIcon={true}
             onClick={() => {
+              (selectedItem == "module") ? navigate("/editmodules")
+              :
               console.log("Button wurde geklickt!");
             }}
           />

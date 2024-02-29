@@ -221,9 +221,8 @@ export default function DropDownTestPage() {
 
     return (
         <>
-        <PageContainer title={""}>
-            <div style={{position: "relative", display: "flex", alignItems: "center"}}>
-                <PageTitle text={`${t("new")} ${t("module")}`} margin="0"/>
+        <PageContainer title={`${t("new")} ${t("module")}`}>
+            {/* <div style={{position: "relative", display: "flex", alignItems: "center"}}>
                 <div style={{
                     position: "absolute",
                     display: "flex",
@@ -248,7 +247,7 @@ export default function DropDownTestPage() {
                     }}
                     />
                 </div>
-            </div>
+            </div> */}
             <SectionContainer title={"Allgemein"}>
                 <div className="flex gap-5" style={{marginBottom: "25px"}}>
                     <DropDown Items={studyCourses} description="Studiengang" selectionMode="multiple"
