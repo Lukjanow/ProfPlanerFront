@@ -28,5 +28,13 @@
   "prename": "Prename",
   "lastname": "Lastname",
   "email": "E-Mail Adress",
-  "internal": "Internal"
+  "internal": "Internal",
+  "newModule": "New Module",
+  "newRoom": "New Room",
+  "newLecturer": "New Teacher",
+  "newBuilding": "New Building",
+  "description": "Description",
+  "studycourse": "Studycourse",
+  "capacity": "Capacity",
+  "equipment": "Equipment"
 }

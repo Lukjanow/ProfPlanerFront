@@ -1,47 +1,39 @@
-import moment from "moment";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import moment from 'moment'; 
+import 'moment/locale/de';  
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useCallback, useState } from "react";
 import { ModuleItem } from "./ModuleItem";
 import { ModuleBar } from "./ModuleBar";
-//import "../styles/components/timeTableEvent.scss";
-
+import { PageTitle } from "../components/PageTitle";
+import {TimeTableFilter} from "../components/TimeTableFilter";
+import "../styles/components/timeTableEvent.scss";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export function TimeTable({moduleItemList}) {
 
-
+  moment.locale("de");
   const localizer = momentLocalizer(moment);
   const DnDCalendar = withDragAndDrop(Calendar);
 
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
-    const [events, setEvents] = useState([{
-        id: 1,
-        title: "Einführung in die Informatik",
-        start: moment("2024-01-01T12:00").toDate(),
-        end: moment("2024-01-01T15:00").toDate(),
-        studySemester: "Angewandte Informatik, 1. FS",
-        dozent: "Herbert Thielen",
-        room: "A200",
-        backgroundcolor: "#D6F5E2",
-        bordercolor: "#46D27F",
-        hideTime: false,
-        duration: 195,
-      }]);
+    const [events, setEvents] = useState([]);
     const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
     const [draggedEvent, setDraggedEvent] = useState(null);
 
     // Callback für das Ablegen von außerhalb des Kalenders gezogenen Ereignissen
     const onDropFromOutside = useCallback(
       ({ start, end }) => {
+        console.log("Außerhalb des Kalenders abgelegt:", draggedEvent.title, start, end);
         if (draggedEvent) {
-              console.log("Außerhalb des Kalenders abgelegt:", draggedEvent.title, start, end);
               const newEvent = {
                   ...draggedEvent,
                   start,
                   end: moment(start).add(draggedEvent.duration, 'minutes'),
-                  id: events.length + 1
+                  id: draggedEvent.id,
+                  hideTime: false
               };
+
               setEvents(prevEvents => [...prevEvents, newEvent]);
               setOutsideEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
           }
@@ -58,49 +50,109 @@ export function TimeTable({moduleItemList}) {
                 )
             );
         },
-        []
     );
 
-    const CustomEvent = ({ event }) => (
-        <ModuleItem moduleItemData={event} dragEvent={setDraggedEvent}/>
-    );
+    const eventStyleGetter = (event) => {
+      let newStyle = {};
+
+      newStyle["backgroundColor"] = event.backgroundcolor;
+      newStyle["borderColor"] = event.bordercolor
+      newStyle["color"] = "#000000"
+      newStyle["border-inline-start-width"] = "8px"
+
+
+      return {
+        style: newStyle
+      };
+  };
+
+  function setTime(start, duration){
+     const startHours = start.getHours()
+     const startMinutes = start.getMinutes()
+     const durationHours = Math.floor(duration/60)
+     const durationMinutes = duration % 60
+
+     var endMinutes = startMinutes + durationMinutes
+     var endHours = startHours + durationHours
+
+     if(endMinutes >= 60){
+      endHours += 1
+      endMinutes -= 60
+     }
+
+      return (
+        <p className="font-semibold">
+          {startHours + ":"}
+          {fixZeros(startMinutes) + " - "}
+          {endHours + ":"}
+          {fixZeros(endMinutes) + " Uhr"}
+        </p>
+      )
+    }
+
+  function fixZeros(num) {
+    return (num < 10 ? "0" : "") + num;
+  }
+
+  const customEvent = ({ event }) => {
+    return (
+          <div className="w-[13vw] rounded-e-md p-3 h-full w-full">
+            <p className="font-semibold">{event.title}</p>
+            {setTime(event.start, event.duration)}
+            <div className="flex">
+              <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-graduation-cap" /></span><span>{event.studySemester}</span>
+            </div>
+            <div className="flex">
+              <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-user" /></span><span>{event.dozent}</span>
+            </div>
+            <div className="flex">
+              <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-location-dot" /></span><span>{event.room}</span>
+            </div>
+        </div>
+    )
+  }
 
 
   return (
     <>
-      <div className="myCustomHeight">
-          <DnDCalendar
-              className="w-[77vw]"
-              localizer={localizer}
-              events={events}
-              startAccessor="start"
-              endAccessor="end"
-              min={moment("2024-01-01T08:00").toDate()}
-              max={moment("2024-01-01T22:00").toDate()}
-              views={["work_week"]}
-              defaultView="work_week"
-              defaultDate={moment("2024-01-01T00:00").toDate()}
-              toolbar={false}
-              /* components={{
-                event: CustomEvent
-              }} */
-              step={15}
-              timeslots={4}
-              selectable
-              resizable={false}
-              formats={{dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture)}}
-              onEventDrop={({ start, end, event }) => {onChangeEventTime(start, end, event.id)}}
-              onDropFromOutside={onDropFromOutside}
-              drilldownView={null}
-          />
+      <div className="flex">
+        <div>
+          <PageTitle text="Lehrplanung"/>
+          <TimeTableFilter></TimeTableFilter>
+          <div className="h-[35vw]">
+              <DnDCalendar
+                  className="w-[78vw]"
+                  localizer={localizer}
+                  events={events}
+                  startAccessor="start"
+                  endAccessor="end"
+                  min={moment("2024-01-01T08:00").toDate()}
+                  max={moment("2024-01-01T22:00").toDate()}
+                  views={["work_week"]}
+                  defaultView="work_week"
+                  defaultDate={moment("2024-01-01T00:00").toDate()}
+                  toolbar={false}
+                  eventPropGetter={eventStyleGetter}
+                  step={15}
+                  components={{         
+                    event: customEvent
+                  }}
+                  timeslots={4}
+                  selectable
+                  resizable={false}
+                  formats={{dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture)}}
+                  onEventDrop={({ start, end, event }) => {onChangeEventTime(start, end, event.id)}}
+                  onDropFromOutside={onDropFromOutside}
+                  drilldownView={null}
+              />
+          </div>
+        </div>
+        <div>
+          <ModuleBar moduleItemList={outsideEvents.map(event => (
+              <ModuleItem key={event.id} moduleItemData={event} dragEvent={setDraggedEvent}/>
+            ))} />
+        </div>
       </div>
-      <div
-            //onDropFromOutside={ backToOverview }
-            >
-              <ModuleBar moduleItemList={outsideEvents.map(event => (
-                  <ModuleItem moduleItemData={event} dragEvent={setDraggedEvent}/>
-                ))} />
-            </div>
     </>
   );
 }
