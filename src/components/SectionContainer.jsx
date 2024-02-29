@@ -35,7 +35,7 @@ export function SectionContainer(props) {
           <></>
       }
       {
-        bodyVisibility ? <CardBody>{props.children}</CardBody> : <></>
+        bodyVisibility ? <CardBody className="gap-5">{props.children}</CardBody> : <></>
       }
     </Card >
   );

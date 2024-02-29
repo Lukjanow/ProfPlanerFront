@@ -1,0 +1,24 @@
+import { Select, SelectItem } from "@nextui-org/react"
+
+
+export default function SelectBox({ title, name, items, isMuliple = false, isRequired = false, onChange }) {
+    const selectMode = isMuliple === true ? "multiple" : "single";
+    return (
+        <Select
+            label={title}
+            selectionMode={selectMode}
+            isMultiline
+            isRequired={isRequired}
+            name={name}
+            onChange={onChange}
+        >
+            {
+                items.map((item, index) => (
+                    <SelectItem key={item}>
+                        {item}
+                    </SelectItem>
+                ))
+            }
+        </Select>
+    )
+}
