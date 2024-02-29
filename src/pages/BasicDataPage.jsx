@@ -7,6 +7,8 @@ import { OutlinedButton } from "../components/OutlinedButton";
 import { PageTitle } from "../components/PageTitle";
 import { modules, rooms, teachers } from "../components/data2";
 import { useNavigate, useLocation } from "react-router-dom";
+import PageContainer from "../components/PageContainer";
+
 
 export default function BasicDataPage() {
   const { t } = useTranslation();
@@ -48,30 +50,19 @@ export default function BasicDataPage() {
   }
 
   return (
-    <>
-      <div className="p-10">
-        <div className="flex w-full justify-between">
-          <h1 className="font-poppins font-semibold text-[48px]">
-            {t("basicData")}
-          </h1>
-          <FilledButton
-            text={itemKeyToText[selectedItem]}
-            icon="plus"
-            showIcon={true}
-            onClick={() => {
-              navigate(path);
-            }}
-          />
-        </div>
-
-        <div className="flex w-full">
-          <BasicDataMenu
-            onItemClick={handleItemClick}
-            selectedItem={selectedItem}
-          />
-          <BasicDataTable tableData={selectedData} />
-        </div>
-      </div>
-    </>
+    <PageContainer
+      title={t("basicData")}
+      showDeleteButton={false}
+      showCancelButton={false}
+      primaryButtonTitle={itemKeyToText[selectedItem]}
+      onClickPrimary={() => navigate(path)}
+      row={true}
+    >
+      <BasicDataMenu
+        onItemClick={handleItemClick}
+        selectedItem={selectedItem}
+      />
+      <BasicDataTable tableData={selectedData} />
+    </PageContainer>
   );
 }
