@@ -56,6 +56,7 @@ async function getAllModulesByStudySemesterId(studySemesterId) {
         });
 }
 
+// TODO: which params are optional?
 async function addModule(id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type, frequency, selected) {
     return api
         .post(`/module`, {
@@ -79,19 +80,30 @@ async function addModule(id, name, dozentIdList, room, studySemesterIdList, dura
         });
 }
 
-async function updateModule(id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type, frequency, selected) {
+async function updateModule(id, {
+    name = null,
+    dozentIdList = null,
+    room = null,
+    studySemesterIdList = null,
+    duration = null,
+    approximateAttendance = null,
+    need = null,
+    type = null,
+    frequency = null,
+    selected = null
+}) {
     return api
         .put(`/module/${id}`, {
-            name,
-            dozent: dozentIdList,
-            room,
-            study_semester: studySemesterIdList,
-            selected,
-            duration,
-            approximate_attendance: approximateAttendance,
-            need,
-            type,
-            frequency,
+            ...(name !== null && {name}),
+            ...(dozentIdList !== null && {dozent: dozentIdList}),
+            ...(room !== null && {room}),
+            ...(studySemesterIdList !== null && {study_semester: studySemesterIdList}),
+            ...(selected !== null && {selected}),
+            ...(duration !== null && {duration}),
+            ...(approximateAttendance !== null && {approximate_attendance: approximateAttendance}),
+            ...(need !== null && {need}),
+            ...(type !== null && {type}),
+            ...(frequency !== null && {frequency})
         })
         .then(resObj => {
             return {

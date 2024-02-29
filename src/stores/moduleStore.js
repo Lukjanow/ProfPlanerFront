@@ -43,10 +43,8 @@ export const useModuleStore = create(
                 need, type, frequency, selected);
             return data;
         },
-        updateModule: async (id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
-                             frequency, selected) => {
-            const {data} = await updateModule(id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance,
-                need, type, frequency, selected);
+        updateModule: async (id, {name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type, frequency, selected}) => {
+            const {data} = await updateModule(id, {name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type, frequency, selected});
             return data;
         },
         deleteModule: async (id) => {

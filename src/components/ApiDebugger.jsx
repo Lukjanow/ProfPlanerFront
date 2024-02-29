@@ -13,6 +13,7 @@ export default function ApiDebugger() {
     });
 
     console.log(moduleList);
+    console.log(module);
 
     return (
         <>

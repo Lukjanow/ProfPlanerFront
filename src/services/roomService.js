@@ -1,36 +1,35 @@
-import {DozentModel} from "../models/dozentModel.js";
+import {RoomModel} from "../models/roomModel.js";
 import api from "./api.js";
 
-async function getAllDozents() {
+async function getAllRooms() {
     return api
-        .get(`/dozent`)
+        .get(`/room`)
         .then(resObj => {
             return {
-                data: resObj.data.map(item => new DozentModel(item)),
+                data: resObj.data.map(item => new RoomModel(item)),
                 status: resObj.status
             }
         });
 }
 
-async function getDozentById(id) {
+async function getRoomById(id) {
     return api
-        .get(`/dozent/${id}`)
+        .get(`/room/${id}`)
         .then(resObj => {
             return {
-                data: new DozentModel(resObj.data),
+                data: new RoomModel(resObj.data),
                 status: resObj.status
             }
         });
 }
 
 // TODO: which params are optional?
-async function addDozent(name, email, title, intern) {
+async function addRoom(name, capacity, equipment) {
     return api
-        .post(`/dozent`, {
+        .post(`/room/add`, {
             name,
-            e_mail: email,
-            title,
-            intern
+            capacity,
+            equipment
         })
         .then(resObj => {
             return {
@@ -40,18 +39,16 @@ async function addDozent(name, email, title, intern) {
         });
 }
 
-async function updateDozent(id, {
-        name = null,
-        email = null,
-        title = null,
-        intern = null
-    }) {
+async function updateRoom(id, {
+    name = null,
+    capacity = null,
+    equipment = null
+}) {
     return api
-        .put(`/dozent/${id}`, {
+        .put(`/room/${id}`, {
             ...(name !== null && {name}),
-            ...(email !== null && {e_mail: email}),
-            ...(title !== null && {title}),
-            ...(intern !== null && {intern})
+            ...(capacity !== null && {capacity}),
+            ...(equipment !== null && {equipment})
         })
         .then(resObj => {
             return {
@@ -61,9 +58,9 @@ async function updateDozent(id, {
         })
 }
 
-async function deleteDozent(id) {
+async function deleteRoom(id) {
     return api
-        .delete(`/dozent/${id}`)
+        .delete(`/room/${id}`)
         .then(resObj => {
             return {
                 data: resObj.data,
@@ -73,9 +70,9 @@ async function deleteDozent(id) {
 }
 
 export {
-    getAllDozents,
-    getDozentById,
-    addDozent,
-    updateDozent,
-    deleteDozent
+    getAllRooms,
+    getRoomById,
+    addRoom,
+    updateRoom,
+    deleteRoom
 }
