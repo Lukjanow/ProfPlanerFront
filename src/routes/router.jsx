@@ -6,6 +6,7 @@ import ComponentPage from "../pages/ComponentPage.jsx";
 import BasicDataPage from "../pages/BasicDataPage.jsx";
 import SettingsPage from "../pages/SettingsPage.jsx";
 import ConflictsPage from "../pages/ConflictsPage.jsx";
+import ApiDebugPage from "../pages/ApiDebugPage.jsx";
 import DropDownTestPage from "../pages/DropDownTestPage.jsx";
 
 const router = createBrowserRouter([
@@ -35,16 +36,21 @@ const router = createBrowserRouter([
                 errorElement: <ErrorPage/>
             },
             {
+                path: "debug",
+                element: <ApiDebugPage />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: "component",
+                element: <ComponentPage />,
+                errorElement: <ErrorPage />,
+            },
+            {
                 path: "DropDownTestPage",
                 element: <DropDownTestPage />,
                 errorElement: <ErrorPage />
             }
         ]
-    },
-    {
-        path: "/component",
-        element: <ComponentPage />,
-        errorElement: <ErrorPage />,
     },
 ]);
 
