@@ -26,30 +26,6 @@ export default function BasicDataTable({ tableData }) {
 
   const myColumns = generateColumns();
 
-  const renderCell = React.useCallback((item, columnKey) => {
-    const cellValue = item[columnKey];
-
-    switch (columnKey) {
-      case "actions":
-        return (
-          <div className="relative flex items-center gap-2">
-            <Tooltip content="Edit user">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <FontAwesomeIcon icon={"pen"} />
-              </span>
-            </Tooltip>
-            <Tooltip color="danger" content="Delete user">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <FontAwesomeIcon icon={"trash"} />
-              </span>
-            </Tooltip>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
-
   const topContent = React.useMemo(() => {
     return (
       <div className="flex w-full justify-between items-center">
@@ -79,7 +55,9 @@ export default function BasicDataTable({ tableData }) {
       radius="sm"
       topContent={topContent}
     >
-      <TableHeader columns={myColumns}>
+      <TableHeader
+        columns={[...myColumns, { name: "ACTIONS", uid: "actions" }]}
+      >
         {(column) => (
           <TableColumn
             key={column.uid}
@@ -92,9 +70,23 @@ export default function BasicDataTable({ tableData }) {
       <TableBody items={tableData}>
         {(item) => (
           <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
+            {Object.keys(item).map((key, index) => (
+              <TableCell key={index}>{item[key]}</TableCell>
+            ))}
+            <TableCell>
+              <div className="relative flex items-center gap-2">
+                <Tooltip content="Edit user">
+                  <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                    <FontAwesomeIcon icon={"pen"} />
+                  </span>
+                </Tooltip>
+                <Tooltip color="danger" content="Delete user">
+                  <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                    <FontAwesomeIcon icon={"trash"} />
+                  </span>
+                </Tooltip>
+              </div>
+            </TableCell>
           </TableRow>
         )}
       </TableBody>
