@@ -139,7 +139,7 @@ export function TimeTable({moduleItemList}) {
           <TimeTableFilter></TimeTableFilter>
           <div className="h-[35vw]">
               <DnDCalendar
-                  className="w-[78vw] shadow-2xl pb-5 pt-5 pr-4 pl-4"
+                  className="w-[79vw] shadow-2xl pb-5 pt-5 pr-2 pl-2 select-none"
                   localizer={localizer}
                   events={events}
                   startAccessor="start"
