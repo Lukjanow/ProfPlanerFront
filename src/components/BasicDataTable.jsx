@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Table,
   TableHeader,
@@ -12,10 +13,12 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function BasicDataTable({ tableData }) {
+  const { t } = useTranslation();
+
   const generateColumns = () => {
     if (!tableData || !tableData[0]) return []; // Wenn keine Daten vorhanden sind, leere Spalten zurückgeben
     return Object.keys(tableData[0]).map((key) => ({
-      name: key.toUpperCase(),
+      name: t(key).toUpperCase(),
       uid: key.toLowerCase(),
       sortable: true, // Annahme: Alle Spalten sind sortierbar, kann angepasst werden
     }));

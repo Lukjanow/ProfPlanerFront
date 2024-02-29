@@ -18,5 +18,10 @@
   "newModule": "New Module",
   "newRoom": "New Room",
   "newLecturer": "New Teacher",
-  "newBuilding": "New Building"
+  "newBuilding": "New Building",
+  "description": "Description",
+  "studycourse": "Studycourse",
+  "capacity": "Capacity",
+  "equipment": "Equipment",
+  "title": "Title"
 }

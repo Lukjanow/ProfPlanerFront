@@ -18,5 +18,10 @@
   "newModule": "Neues Modul",
   "newRoom": "Neuer Raum",
   "newLecturer": "Neue Lehrperson",
-  "newBuilding": "Neues Gebäude"
+  "newBuilding": "Neues Gebäude",
+  "description": "Beschreibung",
+  "studycourse": "Studiengang",
+  "capacity": "Kapazität",
+  "equipment": "Austattung",
+  "title": "Titel"
 }
