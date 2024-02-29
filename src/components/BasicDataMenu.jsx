@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Listbox, ListboxItem, SelectItem } from "@nextui-org/react";
+import { Listbox, ListboxItem } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 
-export default function BasicDataList() {
-  const [selectedItem, setSelectedItem] = useState("module");
-  const {t} = useTranslation()
+export default function BasicDataMenu({ onItemClick, selectedItem }) {
+  const { t } = useTranslation();
+
   const items = [
     {
       key: "module",
@@ -30,8 +30,7 @@ export default function BasicDataList() {
   ];
 
   const handleItemClick = (itemKey) => {
-    setSelectedItem(itemKey);
-    console.log("SelectItem", SelectItem);
+    onItemClick(itemKey); // Aufruf der übergebenen Funktion
   };
 
   return (

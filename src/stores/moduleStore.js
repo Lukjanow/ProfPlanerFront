@@ -38,15 +38,16 @@ export const useModuleStore = create(
             const {data} = await getAllModulesByStudySemesterId(studySemesterId);
             return data;
         },
-        addModule: async (id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type, frequency, selected) => {
-            const {data} = await addModule(id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance,
-                need, type, frequency, selected);
+        addModule: async (id, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
+                          frequency, selected, color, note, groups) => {
+            const {data} = await addModule(id, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
+                frequency, selected, color, note, groups);
             return data;
         },
-        updateModule: async (id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
-                             frequency, selected) => {
-            const {data} = await updateModule(id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance,
-                need, type, frequency, selected);
+        updateModule: async (id, {name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
+            frequency, selected, color, note, groups}) => {
+            const {data} = await updateModule(id, {name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
+                frequency, selected, color, note, groups});
             return data;
         },
         deleteModule: async (id) => {
