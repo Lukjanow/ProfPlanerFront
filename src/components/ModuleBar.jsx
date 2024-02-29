@@ -1,6 +1,6 @@
 import { ModuleItem } from "./ModuleItem";
 import { ScrollShadow } from "@nextui-org/react";
-import React from "react"
+import React, { useState } from "react"
 
 
 export function ModuleBar({moduleItemList}) {  

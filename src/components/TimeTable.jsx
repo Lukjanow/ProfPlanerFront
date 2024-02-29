@@ -1,4 +1,5 @@
-import moment from "moment";
+import moment from 'moment'; 
+import 'moment/locale/de';  
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useCallback, useState } from "react";
@@ -9,11 +10,9 @@ import {TimeTableFilter} from "../components/TimeTableFilter";
 import "../styles/components/timeTableEvent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-
-
 export function TimeTable({moduleItemList}) {
 
-
+  moment.locale("de");
   const localizer = momentLocalizer(moment);
   const DnDCalendar = withDragAndDrop(Calendar);
 
@@ -96,7 +95,6 @@ export function TimeTable({moduleItemList}) {
   }
 
   const customEvent = ({ event }) => {
-    console.log(event.dozent)
     return (
           <div className="w-[13vw] rounded-e-md p-3 h-full w-full">
             <p className="font-semibold">{event.title}</p>

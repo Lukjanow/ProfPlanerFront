@@ -13,7 +13,7 @@ export function TimeTableFilter() {
           radius="sm">
             <CardBody
             className="bg-[#EEEEEE]">
-            Hallo
+            Hier ist der Filter für Studiengänge!
             </CardBody>
           </Card>  
         </Tab>
@@ -22,7 +22,7 @@ export function TimeTableFilter() {
           radius="sm">
             <CardBody
             className="bg-[#EEEEEE]">
-            Du
+            Hier ist der Filter für Lehrpersonen!
             </CardBody>
           </Card>  
         </Tab>
@@ -31,7 +31,7 @@ export function TimeTableFilter() {
           radius="sm">
             <CardBody
             className="bg-[#EEEEEE]">
-            Hund
+            Hier ist der Filter für Räume!
             </CardBody>
           </Card>  
         </Tab>
