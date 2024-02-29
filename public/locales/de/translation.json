@@ -14,5 +14,9 @@
   "lecturer": "Lehrperson",
   "building": "Gebäude",
   "changeAndEdit": "Erstelle und bearbeite",
-  "defaultPageTitle": "Seitentitel"
+  "defaultPageTitle": "Seitentitel",
+  "newModule": "Neues Modul",
+  "newRoom": "Neuer Raum",
+  "newLecturer": "Neue Lehrperson",
+  "newBuilding": "Neues Gebäude"
 }
