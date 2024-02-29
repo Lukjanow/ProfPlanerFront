@@ -9,10 +9,15 @@
   "conflicts": "Konflikte",
   "basicData": "Stammdaten",
   "settings": "Einstellungen",
-  "module": "Module",
+  "modules": "Module",
   "rooms": "Räume",
   "lecturer": "Lehrperson",
   "building": "Gebäude",
   "changeAndEdit": "Erstelle und bearbeite",
-  "defaultPageTitle": "Seitentitel"
+  "defaultPageTitle": "Seitentitel",
+  "new": "Neue",
+  "general": "Allgemein",
+  "lecture": "Vorlesung",
+  "exercise": "Übung",
+  "training": "Praktikum"
 }

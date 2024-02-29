@@ -22,7 +22,8 @@ function GetLabels(selectedKeys, Items) {
   return Labels
 }
 
-export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="", add={}, width="250px"}) {
+export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="",
+            add={}, width="250px", onChange = {/*pass*/}}) {
     const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
     const selectedValue = React.useMemo(
        () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
@@ -37,11 +38,15 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
       setDropped(!dropped)
     }
 
+
     //Update Labels of Input to show selected Items correctly
     useEffect(() => {
        setValue((selectedValue) ? GetLabels(selectedKeys, Items) : "Nothing Selected")
-       console.log("Called useEffect")},
-          [setValue, value, Items, selectedValue, selectedKeys]
+       onChange({
+        keys: selectedKeys,
+        description: description
+      })},
+          [setValue, value, Items, selectedValue, selectedKeys, onChange, description]
         )
 
     //const sections = Array.from(new Set(Items.map(obj => obj["section"]).filter(value => value !== undefined)));

@@ -1,4 +1,4 @@
-import {createBrowserRouter} from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import Root from "./root.jsx";
 import ErrorPage from "../pages/ErrorPage.jsx";
 import TimetablePage from "../pages/TimetablePage.jsx";
@@ -7,6 +7,7 @@ import BasicDataPage from "../pages/BasicDataPage.jsx";
 import SettingsPage from "../pages/SettingsPage.jsx";
 import ConflictsPage from "../pages/ConflictsPage.jsx";
 import EditModulesPage from "../pages/EditModulesPage.jsx";
+import LecturerDetailPage from "../pages/LecturerDetailPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -22,21 +23,26 @@ const router = createBrowserRouter([
             {
                 path: "basicdata",
                 element: <BasicDataPage />,
-                errorElement: <ErrorPage/>
+                errorElement: <ErrorPage />
             },
             {
                 path: "conflicts",
                 element: <ConflictsPage />,
-                errorElement: <ErrorPage/>
+                errorElement: <ErrorPage />
             },
             {
                 path: "settings",
                 element: <SettingsPage />,
-                errorElement: <ErrorPage/>
+                errorElement: <ErrorPage />
             },
             {
                 path: "EditModules",
                 element: <EditModulesPage />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "lecturer-details",
+                element: <LecturerDetailPage />,
                 errorElement: <ErrorPage />
             }
         ]
