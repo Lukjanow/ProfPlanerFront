@@ -1,6 +1,3 @@
-import moment from 'moment'; 
-import 'moment/locale/de';  
-import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useCallback, useState } from "react";
 import { ModuleItem } from "./ModuleItem";
@@ -11,11 +8,15 @@ import "../styles/components/timeTableEvent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {useDisclosure} from "@nextui-org/react";
 import { ModuleInfo } from './ModuleInfo';
+import { Calendar, momentLocalizer } from 'react-big-calendar'
+import moment from 'moment/dist/moment';
+import 'moment/dist/locale/de';
 
 
 export function TimeTable({moduleItemList}) {
-  moment.locale("de");
-  const localizer = momentLocalizer(moment);
+  moment.locale('fr')
+  const localizer = momentLocalizer(moment) 
+
   const DnDCalendar = withDragAndDrop(Calendar);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [modalEvent, setModalEvent] = useState('');
