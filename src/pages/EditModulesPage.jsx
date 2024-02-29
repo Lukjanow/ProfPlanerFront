@@ -3,13 +3,9 @@ import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { DropDown } from "../components/DropDown";
 import { SectionContainer } from "../components/SectionContainer";
-import { PageTitle } from "../components/PageTitle";
-import { OutlinedButton } from "../components/OutlinedButton";
-import { FilledButton } from "../components/FilledButton";
 import { HexColorPicker } from "react-colorful";
-import React, {useEffect} from "react";
+import React from "react";
 import { ModuleItem } from "../components/ModuleItem";
-import moment from 'moment';
 
 //Deal with Dozent, Room, duration, type
 
@@ -343,7 +339,25 @@ export default function DropDownTestPage() {
                         />
                     </div>
                 </div>
-                <p>Setze eine Farbe für das Modul fest</p>
+                <div className="flex gap-5">
+                    <p>Setze eine Farbe für das Modul fest (Feld work in Progress)</p>
+                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
+                        <Input 
+                            label="HEX-Code"
+                            variant="underlined"
+                            value={color}
+                            onChange={setColor}
+                        />
+                    </div>
+                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
+                        <Input 
+                            label="HEX-Code"
+                            variant="underlined"
+                            value={bordercolor}
+                            onChange={setBorderColor}
+                        />
+                    </div>
+                </div>
                 <div className="flex gap-5">
                     <HexColorPicker color={color} onChange={setColor} />
                     <HexColorPicker color={bordercolor} onChange={setBorderColor} />
