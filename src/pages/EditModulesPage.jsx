@@ -21,11 +21,11 @@ export default function DropDownTestPage() {
     const [trigger, setTrigger] = React.useState(false) //Use to force reload ModuleItem
     const [lecdata, setLecData] = React.useState({
         id: null,
-        name: null,
+        name: "TestModule",
         code: null,
-        dozent: [],
-        room: [],
-        study_semester: [],
+        dozent: ["Thielen"],
+        room: ["B200"],
+        study_semester: ["Angewandte Informatik"],
         duration: null,
         approximate_attendance: null,
         need: null,
@@ -452,32 +452,6 @@ export default function DropDownTestPage() {
                     onChange={getData}
                 />
             </SectionContainer>
-            <div style={{position: "relative", display: "flex", alignItems: "center", marginTop: "25px"}}>
-                <div style={{
-                        position: "absolute",
-                        display: "flex",
-                        right: "0px",
-                        gap: "10px"
-                        }}>
-                        <OutlinedButton text="Löschen"
-                        onClick={() => {
-                            console.log("Button löschen wurde geklickt!");
-                        }}
-                        color="danger"
-                        />
-                        <OutlinedButton text="Abbrechen"
-                        onClick={() => {
-                            console.log("Button Abbrechen wurde geklickt!");
-                        }}
-                        color="primary"
-                        />
-                        <FilledButton text="Speichern" icon="plus" showIcon={true} 
-                        onClick={() => {
-                            console.log("Button Speichern wurde geklickt!");
-                        }}
-                        />
-                    </div>
-                </div>
         </PageContainer>
         </>
     );
