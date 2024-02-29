@@ -174,6 +174,42 @@ export default function DropDownTestPage() {
         {
             key: "Heinemann",
             label: "Elisabeth Heinemann"
+        },
+        {
+            key: "Schwarzer",
+            label: "Volker Schwarzer"
+        },
+        {
+            key: "Kessler",
+            label: "Dagmar Kessler"
+        },
+        {
+            key: "Kohler",
+            label: "Jens Kohler"
+        },
+        {
+            key: "Werle-Rutter",
+            label: "Micheal Werle-Rutter"
+        },
+        {
+            key: "König",
+            label: "Werner König"
+        },
+        {
+            key: "Frank",
+            label: "Thorsten Frank"
+        },
+        {
+            key: "Gloger",
+            label: "Oliver Gloger"
+        },
+        {
+            key: "Kurpjuweit",
+            label: "Stephan Kurpjuweit"
+        },
+        {
+            key: "Wiebel",
+            label: "Alexander Wiebel"
         }
     ]
 
@@ -311,16 +347,13 @@ export default function DropDownTestPage() {
                 <div className="flex gap-5">
                     <HexColorPicker color={color} onChange={setColor} />
                     <HexColorPicker color={bordercolor} onChange={setBorderColor} />
-                    <ModuleItem moduleItemData={{id: lecdata.id,
+                    <ModuleItem moduleItemData={{
                                                 title: lecdata.name,
-                                                start: moment("2024-01-01T12:00").toDate(),
-                                                end: moment("2024-01-01T15:00").toDate(),
                                                 studySemester: lecdata.study_semester,
                                                 dozent: lecdata.dozent,
                                                 room: lecdata.room,
                                                 backgroundcolor: color,
                                                 bordercolor: bordercolor,
-                                                hidetime: null
                                                 }} key={trigger}/>
                 </div>
             </SectionContainer>
