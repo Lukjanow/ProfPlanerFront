@@ -7,7 +7,7 @@ import BasicDataPage from "../pages/BasicDataPage.jsx";
 import SettingsPage from "../pages/SettingsPage.jsx";
 import ConflictsPage from "../pages/ConflictsPage.jsx";
 import EditModulesPage from "../pages/EditModulesPage.jsx";
-import LecturerDetailPage from "../pages/LecturerDetailPage.jsx";
+import ApiDebugPage from "../pages/ApiDebugPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -38,19 +38,19 @@ const router = createBrowserRouter([
             {
                 path: "EditModules",
                 element: <EditModulesPage />,
-                errorElement: <ErrorPage />
+                errorElement: <ErrorPage />,
             },
             {
-                path: "lecturer-details",
-                element: <LecturerDetailPage />,
-                errorElement: <ErrorPage />
+                path: "debug",
+                element: <ApiDebugPage />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: "component",
+                element: <ComponentPage />,
+                errorElement: <ErrorPage />,
             }
         ]
-    },
-    {
-        path: "/component",
-        element: <ComponentPage />,
-        errorElement: <ErrorPage />,
     },
 ]);
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {
   Table,
   TableHeader,
@@ -8,51 +9,28 @@ import {
   TableCell,
   Tooltip,
   Input,
-  user,
 } from "@nextui-org/react";
-import users from "./data";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export default function BasicDataTable() {
-  const myColumns = [
-    { name: "ID", uid: "id", sortable: true },
-    { name: "BEZEICHNUNG", uid: "bezeichnung", sortable: true },
-    { name: "MODULE-NR.", uid: "modulenr", sortable: true },
-    { name: "CODE", uid: "code", sortable: true },
-    { name: "FACHSEMESTER", uid: "fachsemester" },
-    { name: "STUDIENGANG", uid: "studiengang" },
-    { name: "ACTIONS", uid: "actions" },
-  ];
+export default function BasicDataTable({ tableData }) {
+  const { t } = useTranslation();
 
-  const renderCell = React.useCallback((user, columnKey) => {
-    const cellValue = user[columnKey];
+  const generateColumns = () => {
+    if (!tableData || !tableData[0]) return []; // Wenn keine Daten vorhanden sind, leere Spalten zurückgeben
+    return Object.keys(tableData[0]).map((key) => ({
+      name: t(key).toUpperCase(),
+      uid: key.toLowerCase(),
+      sortable: true, // Annahme: Alle Spalten sind sortierbar, kann angepasst werden
+    }));
+  };
 
-    switch (columnKey) {
-      case "actions":
-        return (
-          <div className="relative flex items-center gap-2">
-            <Tooltip content="Edit user">
-              <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
-                <FontAwesomeIcon icon={"pen"} />
-              </span>
-            </Tooltip>
-            <Tooltip color="danger" content="Delete user">
-              <span className="text-lg text-danger cursor-pointer active:opacity-50">
-                <FontAwesomeIcon icon={"trash"} />
-              </span>
-            </Tooltip>
-          </div>
-        );
-      default:
-        return cellValue;
-    }
-  }, []);
+  const myColumns = generateColumns();
 
   const topContent = React.useMemo(() => {
     return (
       <div className="flex w-full justify-between items-center">
         <h1 className="font-poppins font-bold text-2xl">
-          Überblick ({users.length})
+          Überblick ({tableData.length})
         </h1>
         <Input
           isClearable
@@ -77,7 +55,9 @@ export default function BasicDataTable() {
       radius="sm"
       topContent={topContent}
     >
-      <TableHeader columns={myColumns}>
+      <TableHeader
+        columns={[...myColumns, { name: "ACTIONS", uid: "actions" }]}
+      >
         {(column) => (
           <TableColumn
             key={column.uid}
@@ -87,12 +67,26 @@ export default function BasicDataTable() {
           </TableColumn>
         )}
       </TableHeader>
-      <TableBody items={users}>
+      <TableBody items={tableData}>
         {(item) => (
           <TableRow key={item.id}>
-            {(columnKey) => (
-              <TableCell>{renderCell(item, columnKey)}</TableCell>
-            )}
+            {Object.keys(item).map((key, index) => (
+              <TableCell key={index}>{item[key]}</TableCell>
+            ))}
+            <TableCell>
+              <div className="relative flex items-center gap-2">
+                <Tooltip content="Edit user">
+                  <span className="text-lg text-default-400 cursor-pointer active:opacity-50">
+                    <FontAwesomeIcon icon={"pen"} />
+                  </span>
+                </Tooltip>
+                <Tooltip color="danger" content="Delete user">
+                  <span className="text-lg text-danger cursor-pointer active:opacity-50">
+                    <FontAwesomeIcon icon={"trash"} />
+                  </span>
+                </Tooltip>
+              </div>
+            </TableCell>
           </TableRow>
         )}
       </TableBody>

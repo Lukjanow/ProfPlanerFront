@@ -20,5 +20,21 @@
   "lecture": "Lecture",
   "exercise": "Exercise",
   "training": "Training",
-  "module": "Module"
+  "module": "Module",
+  "delete": "Delete",
+  "cancel": "Cancel",
+  "save": "Save",
+  "title": "Title",
+  "prename": "Prename",
+  "lastname": "Lastname",
+  "email": "E-Mail Adress",
+  "internal": "Internal",
+  "newModule": "New Module",
+  "newRoom": "New Room",
+  "newLecturer": "New Teacher",
+  "newBuilding": "New Building",
+  "description": "Description",
+  "studycourse": "Studycourse",
+  "capacity": "Capacity",
+  "equipment": "Equipment"
 }
