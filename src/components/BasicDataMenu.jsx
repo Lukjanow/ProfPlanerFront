@@ -37,14 +37,16 @@ export default function BasicDataMenu({ onItemClick, selectedItem }) {
     <Listbox
       variant="flat"
       aria-label="Listbox menu with descriptions"
-      className="w-full max-w-[260px] border-small px-1 py-2 rounded-small border-default-200 dark:border-default-100"
+      className="min-w-[200px] max-w-[200px] px-1 py-2 rounded-small bg-content1 shadow-small max-h-fit"
     >
       {items.map((item) => (
         <ListboxItem
           key={item.key}
-          description={`${t("changeAndEdit")} ${item.description}`}
-          startContent={<FontAwesomeIcon icon={item.icon} />}
-          className={selectedItem === item.key ? "bg-primary-100" : ""}
+          selectionMode={"single"}
+          // startContent={
+          //   <FontAwesomeIcon className={"text-md w-[25px]"} icon={item.icon} />
+          // }
+          className={`${selectedItem === item.key ? "bg-primary-100" : ""} p-3`}
           onClick={() => handleItemClick(item.key)}
         >
           {item.description}

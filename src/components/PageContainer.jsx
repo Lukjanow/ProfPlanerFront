@@ -4,7 +4,7 @@ import { OutlinedButton } from './OutlinedButton'
 import { FilledButton } from './FilledButton'
 import { useNavigate } from 'react-router-dom'
 
-export default function PageContainer({ title, showDeleteButton, onClickDelete, onClickSave, children, row }) {
+export default function PageContainer({ title, showDeleteButton = true, onClickDelete, showPrimaryButton = true, primaryButtonTitle, onClickPrimary, showCancelButton = true, children, row }) {
     const { t } = useTranslation()
     const navigate = useNavigate();
 
@@ -22,17 +22,25 @@ export default function PageContainer({ title, showDeleteButton, onClickDelete, 
                             /> :
                             <></>
                     }
-                    <OutlinedButton
-                        text={t("cancel")}
-                        color={"primary"}
-                        onClick={() => navigate("/basicdata")}
-                    />
-                    <FilledButton
-                        text={t("save")}
-                        showIcon={true}
-                        icon={"plus"}
-                        onClick={onClickSave}
-                    />
+                    {
+                        showCancelButton ?
+                            <OutlinedButton
+                                text={t("cancel")}
+                                color={"primary"}
+                                onClick={() => navigate("/basicdata")}
+                            /> :
+                            <></>
+                    }
+                    {
+                        showPrimaryButton ?
+                            <FilledButton
+                                text={primaryButtonTitle}
+                                showIcon={true}
+                                icon={"plus"}
+                                onClick={onClickPrimary}
+                            /> :
+                            <></>
+                    }
                 </div>
             </div>
             <div className={`flex gap-5 ${row ? 'flex-row' : 'flex-col'}`}>
