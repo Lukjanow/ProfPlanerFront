@@ -11,7 +11,7 @@ export default function PageContainer({ title, showDeleteButton, onClickDelete, 
     return (
         <div className={"m-10 flex flex-col gap-10"}>
             <div className={"flex flex-row gap-2 justify-between items-center"}>
-                <h2 className={"font-extrabold text-5xl"}>{title !== undefined ? title : t("defaultPageTitle")}</h2>
+                <h2 className={"font-bold text-5xl"}>{title !== undefined ? title : t("defaultPageTitle")}</h2>
                 <div className={"flex flex-row gap-3"}>
                     {
                         showDeleteButton ?

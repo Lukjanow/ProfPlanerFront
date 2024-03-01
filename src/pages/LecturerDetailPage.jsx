@@ -9,12 +9,14 @@ import TeacherModel from "../models/TeacherModel.js";
 
 export default function LecturerDetailPage() {
     const { t } = useTranslation();
-    const title = ["-", "Prof.", "Prof. Dr."]
+    const title = [" ", "Prof.", "Prof. Dr."]
+    const salutation = [" ", "Frau", "Herr"]
     const [values, setValues] = useState(new TeacherModel);
 
     const onChange = (e) => {
         const newValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
         setValues({ ...values, [e.target.name]: newValue });
+        console.log(e)
     }
 
     return (
@@ -23,13 +25,20 @@ export default function LecturerDetailPage() {
             onClickSave={() => console.log(values)}
         >
             <SectionContainer title={t("general")}>
-                <div className="flex flex-row gap-5">
+                <div className="flex lg:flex-row flex-col gap-5">
+                    <SelectBox
+                        name={"salutation"}
+                        title={t("salutation")}
+                        items={salutation}
+                        onChange={onChange}
+                        className={"lg:max-w-[175px]"}
+                    />
                     <SelectBox
                         name={"title"}
                         title={t("title")}
                         items={title}
-                        isRequired={true}
                         onChange={onChange}
+                        className={"lg:max-w-[175px]"}
                     />
                     <Input
                         name={"prename"}
@@ -37,6 +46,7 @@ export default function LecturerDetailPage() {
                         type="text"
                         label={t("prename")}
                         onChange={onChange}
+                        className={"lg:max-w-[350px]"}
                     />
                     <Input
                         name={"lastname"}
@@ -44,6 +54,7 @@ export default function LecturerDetailPage() {
                         type="text"
                         label={t("lastname")}
                         onChange={onChange}
+                        className={"lg:max-w-[350px]"}
                     />
                 </div>
                 <Input
@@ -52,14 +63,8 @@ export default function LecturerDetailPage() {
                     type="email"
                     label={t("email")}
                     onChange={onChange}
+                    className={"lg:max-w-[500px]"}
                 />
-                <Switch
-                    name={"intern"}
-                    defaultSelected
-                    onChange={onChange}
-                >
-                    {t("internal")} {t("lecturer")}
-                </Switch>
             </SectionContainer>
         </PageContainer >
     )
