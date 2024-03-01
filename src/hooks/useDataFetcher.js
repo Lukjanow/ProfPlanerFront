@@ -1,30 +1,40 @@
-import {useEffect, useState} from "react";
+import {useCallback, useState} from "react";
+import {debug} from "../config.js";
 
-function useDataFetcher(loadDataCallback) {
+export default function useDataFetcher(doOnDataLoad, callback = null, doOnError = null) {
     const [data, setData] = useState(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    async function fetchData() {
+    const executor = useCallback(async () => {
+        debug.active && console.log("useDataFetcher: Request started...");
+
+        if (isLoading) {
+            return;
+        }
+
         setError(null);
         setIsLoading(true);
 
         try {
-            const fetchedData = await loadDataCallback();
-            setData(fetchedData);
+            setData(await doOnDataLoad());
+            debug.active && console.log("useDataFetcher: Request finished!");
+            setIsLoading(false);
+
         } catch (e) {
-            console.error(e);
-            setError(e);
+            setIsLoading(false);
+            debug.active && console.log("useDataFetcher: Request failed!");
+
+            if (doOnError) {
+                doOnError(e);
+
+            } else {
+                console.error(e);
+                setError(e);
+            }
         }
 
-        setIsLoading(false);
-    }
+    }, [data, isLoading, error]);
 
-    useEffect(() => {
-        fetchData();
-    }, []);
-
-    return {data, isLoading, error};
+    return {data, isLoading, error, executor};
 }
-
-export default useDataFetcher;
