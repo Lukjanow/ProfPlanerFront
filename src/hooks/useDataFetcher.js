@@ -1,7 +1,7 @@
 import {useCallback, useState} from "react";
 import {debug} from "../config.js";
 
-export default function useDataFetcher(doOnDataLoad, callback = null, doOnError = null) {
+export default function useDataFetcher(doOnDataLoad) {
     const [data, setData] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(null);
@@ -25,13 +25,8 @@ export default function useDataFetcher(doOnDataLoad, callback = null, doOnError 
             setIsLoading(false);
             debug.active && console.log("useDataFetcher: Request failed!");
 
-            if (doOnError) {
-                doOnError(e);
-
-            } else {
-                console.error(e);
-                setError(e);
-            }
+            console.error(e);
+            setError(e);
         }
 
     }, [data, isLoading, error]);
