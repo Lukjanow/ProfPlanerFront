@@ -9,63 +9,129 @@ import TeacherModel from "../models/TeacherModel.js";
 
 export default function LecturerDetailPage() {
     const { t } = useTranslation();
-    const title = [" ", "Prof.", "Prof. Dr."]
-    const salutation = [" ", "Frau", "Herr"]
-    const [values, setValues] = useState(new TeacherModel);
+    const title = ["keine Angabe", "Prof.", "Prof. Dr."]
+    const salutation = ["keine Angabe", "Frau", "Herr"]
 
-    const onChange = (e) => {
+
+    const [formData, setFormData] = useState(new TeacherModel);
+    const [errors, setErrors] = useState({});
+
+
+    const handleChange = (e) => {
         const newValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
-        setValues({ ...values, [e.target.name]: newValue });
-        console.log(e)
+        setErrors({ ...errors, [e.target.name]: !e.target.validity?.valid })
+        setFormData({ ...formData, [e.target.name]: newValue });
     }
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        const validationErrors = validateForm(formData);
+
+        if (Object.keys(validationErrors).length === 0) {
+            // Form is valid, submit data or perform other actions
+            console.log("Data: ", formData);
+        } else {
+            // Display validation errors
+            setErrors(validationErrors);
+            console.log("Error: ", errors);
+        }
+    }
+
+
+    const validateForm = (formData) => {
+        let errors = {};
+
+        if (!formData.salutation.trim()) {
+            errors.salutation = true;
+        }
+
+        if (!formData.title.trim()) {
+            errors.title = true;
+        }
+
+        if (!formData.prename.trim()) {
+            errors.prename = true;
+        }
+
+        if (!formData.lastname.trim()) {
+            errors.lastname = true;
+        }
+
+        if (!formData.email.trim()) {
+            errors.email = true;
+        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+            errors.email = true;
+        }
+
+        return errors;
+    };
+
 
     return (
         <PageContainer
             title={`${t("new")} ${t("lecturer")}`}
-            onClickSave={() => console.log(values)}
+            onClickSave={handleSubmit}
         >
-            <SectionContainer title={t("general")}>
-                <div className="flex lg:flex-row flex-col gap-5">
-                    <SelectBox
-                        name={"salutation"}
-                        title={t("salutation")}
-                        items={salutation}
-                        onChange={onChange}
-                        className={"lg:max-w-[175px]"}
-                    />
-                    <SelectBox
-                        name={"title"}
-                        title={t("title")}
-                        items={title}
-                        onChange={onChange}
-                        className={"lg:max-w-[175px]"}
-                    />
+            <form>
+                <SectionContainer title={t("general")}>
+                    <div className="flex lg:flex-row flex-col gap-5">
+                        <SelectBox
+                            name={"salutation"}
+                            title={t("salutation")}
+                            disallowEmptySelection={true}
+                            isInvalid={errors.salutation}
+                            errorMessage={errors.salutation ? `${t("salutation")} ${t("isRequired")}` : ""}
+                            items={salutation}
+                            defaultSelectedKeys={[salutation[0]]}
+                            onChange={handleChange}
+                            className={"lg:max-w-[175px]"}
+                        />
+                        <SelectBox
+                            name={"title"}
+                            title={t("title")}
+                            disallowEmptySelection={true}
+                            isInvalid={errors.title}
+                            errorMessage={errors.title ? `${t("title")} ${t("isRequired")}` : ""}
+                            items={title}
+                            defaultSelectedKeys={[title[0]]}
+                            onChange={handleChange}
+                            className={"lg:max-w-[175px]"}
+                        />
+                        <Input
+                            name={"prename"}
+                            isRequired
+                            isInvalid={errors.prename}
+                            errorMessage={errors.prename ? `${t("prename")} ${t("isRequired")}` : ""}
+                            type="text"
+                            label={t("prename")}
+                            onChange={handleChange}
+                            className={"lg:max-w-[350px]"}
+                        />
+                        <Input
+                            name={"lastname"}
+                            isRequired
+                            isInvalid={errors.lastname}
+                            errorMessage={errors.lastname ? `${t("lastname")} ${t("isRequired")}` : ""}
+                            type="text"
+                            label={t("lastname")}
+                            onChange={handleChange}
+                            className={"lg:max-w-[350px]"}
+                        />
+                    </div>
                     <Input
-                        name={"prename"}
+                        name={"email"}
                         isRequired
-                        type="text"
-                        label={t("prename")}
-                        onChange={onChange}
-                        className={"lg:max-w-[350px]"}
+                        isInvalid={errors.email}
+                        errorMessage={errors.email ? `${t("email")} ${t("isInvalid")}` : ""}
+                        type="email"
+                        label={t("email")}
+                        onChange={handleChange}
+                        className={"lg:max-w-[500px]"}
                     />
-                    <Input
-                        name={"lastname"}
-                        isRequired
-                        type="text"
-                        label={t("lastname")}
-                        onChange={onChange}
-                        className={"lg:max-w-[350px]"}
-                    />
-                </div>
-                <Input
-                    name={"email"}
-                    isRequired
-                    type="email"
-                    label={t("email")}
-                    onChange={onChange}
-                    className={"lg:max-w-[500px]"}
-                />
-            </SectionContainer>
+                </SectionContainer>
+            </form>
         </PageContainer >
     )
 }

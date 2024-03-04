@@ -36,5 +36,7 @@
   "description": "Description",
   "studycourse": "Studycourse",
   "capacity": "Capacity",
-  "equipment": "Equipment"
+  "equipment": "Equipment",
+  "isRequired": " is required.",
+  "isInvalid": " is invalid."
 }

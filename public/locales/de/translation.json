@@ -35,5 +35,7 @@
   "description": "Beschreibung",
   "studycourse": "Studiengang",
   "capacity": "Kapazität",
-  "equipment": "Austattung"
+  "equipment": "Austattung",
+  "isRequired": " wird benötigt.",
+  "isInvalid": " ist ungültig."
 }
