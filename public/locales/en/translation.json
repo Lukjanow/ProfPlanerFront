@@ -24,11 +24,11 @@
   "delete": "Delete",
   "cancel": "Cancel",
   "save": "Save",
+  "salutation": "Salutation",
   "title": "Title",
   "prename": "Prename",
   "lastname": "Lastname",
   "email": "E-Mail Adress",
-  "internal": "Internal",
   "newModule": "New Module",
   "newRoom": "New Room",
   "newLecturer": "New Teacher",
@@ -36,5 +36,7 @@
   "description": "Description",
   "studycourse": "Studycourse",
   "capacity": "Capacity",
-  "equipment": "Equipment"
+  "equipment": "Equipment",
+  "isRequired": " is required.",
+  "isInvalid": " is invalid."
 }

@@ -4,7 +4,7 @@ import { Button } from "@nextui-org/react";
 
 export function FilledButton({ text, icon, showIcon, onClick }) {
   return (
-    <Button color="primary" radius={"sm"} onClick={onClick}>
+    <Button type="submit" color="primary" radius={"sm"} onClick={onClick}>
       {showIcon && <FontAwesomeIcon className={"text-xl"} icon={icon} />}
       <p className="font-poppins font-normal">{text}</p>
     </Button>
