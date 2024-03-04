@@ -78,8 +78,8 @@ function checkWarnings() {
 }
 
 function checkModuleWarnings(module_list, conflict_list, module_id){
-    console.log("MODUL LIST")
-    console.log(module_list)
+    // console.log("MODUL LIST")
+    // console.log(module_list)
     //1 MODUL NEHMEN
     // let module = null;
     // for (let i = 0; i < module_list.length; i++) {
@@ -89,8 +89,8 @@ function checkModuleWarnings(module_list, conflict_list, module_id){
     //     }
     // }
     const module = module_id
-    console.log("MODUL")
-    console.log(module)
+    // console.log("MODUL")
+    // console.log(module)
 
     //MODULE LIST FILTERN
     // for (let i = 0; i < module_list.length; i++) {
@@ -157,12 +157,14 @@ function checkModuleWarnings(module_list, conflict_list, module_id){
         }
     }
 
-    console.log(dozent_dict)
-    console.log(room_dict)
-    console.log(studySemester_dict)
+    // console.log(dozent_dict)
+    // console.log(room_dict)
+    // console.log(studySemester_dict)
 
     for (let i = 0; i < conflict_list.length; i++) {
-        dozent_dict[module.dozent[i]] = []
+        console.log(module)
+        console.log(conflict_list[0].mod1)
+        console.log(conflict_list[0].mod2)
         if(conflict_list[i].mod1 === module || conflict_list[i].mod2 === module){
             conflict_list.splice(i, 1);
             i--;

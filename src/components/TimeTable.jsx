@@ -25,11 +25,9 @@ export function TimeTable({moduleItemList}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [modalEvent, setModalEvent] = useState('');
 
-
-  var conflict_list = []
-
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
     const [events, setEvents] = useState([]);
+    const [conflict_list, setConflicts] = useState([]);
     const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
     const [draggedEvent, setDraggedEvent] = useState(null);
 
@@ -51,8 +49,10 @@ export function TimeTable({moduleItemList}) {
               setOutsideEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
               setDraggedEvent(null)
               events.push(newEvent)
-              console.log(events)
-              conflict_list = checkModuleWarnings(events, conflict_list, newEvent)
+              console.log("BEFORE")
+              console.log(conflict_list)
+              setConflicts(checkModuleWarnings(events, conflict_list, newEvent))
+              console.log("AFTER")
               console.log(conflict_list)
           }
 
