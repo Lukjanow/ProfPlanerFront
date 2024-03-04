@@ -12,6 +12,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment/dist/moment';
 import 'moment/dist/locale/de';
 import { useTranslation } from "react-i18next";
+import {checkModuleWarnings} from "../conflicts/conflicts";
 
 export function TimeTable({moduleItemList}) {
   const { i18n } = useTranslation();
@@ -24,6 +25,8 @@ export function TimeTable({moduleItemList}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [modalEvent, setModalEvent] = useState('');
 
+
+  var conflict_list = []
 
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
     const [events, setEvents] = useState([]);
@@ -47,7 +50,12 @@ export function TimeTable({moduleItemList}) {
               setEvents(prevEvents => [...prevEvents, newEvent]);
               setOutsideEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
               setDraggedEvent(null)
+              events.push(newEvent)
+              console.log(events)
+              conflict_list = checkModuleWarnings(events, conflict_list, newEvent)
+              console.log(conflict_list)
           }
+
       },
       [draggedEvent]
   );

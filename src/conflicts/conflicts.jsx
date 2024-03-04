@@ -1,91 +1,18 @@
+import Conflict from "./Conflict";
 //
-
-const moduleItemDataList = [
-    {
-      id: 1,
-      title: "Einführung in die Informatik",
-      start: moment("2024-01-01T12:00").toDate(),
-      end: moment("2024-01-01T15:00").toDate(),
-      studySemester: "Angewandte Informatik, 1. FS",
-      dozent: "Herbert Thielen",
-      room: "A200",
-      backgroundcolor: "#D6F5E2",
-      bordercolor: "#46D27F",
-      duration: 195,
-      planned: false,
-    },
-    {
-      id: 2,
-      title: "Rechnernetze und Netzwerksicherheit",
-      start: moment("2024-01-01T12:00").toDate(),
-      end: moment("2024-01-01T15:00").toDate(),
-      studySemester: "AI-B 2, WI-B 4",
-      dozent: "Herbert Thielen",
-      room: "A200",
-      backgroundcolor: "#d5a6bd",
-      bordercolor: "#d32e7f",
-      duration: 195,
-      planned: false,
-    },
-    {
-      id: 3,
-      title: "Betriebssysteme",
-      start: moment("2024-01-01T12:00").toDate(),
-      end: moment("2024-01-01T15:00").toDate(),
-      studySemester: "Angewandte Informatik, 2. FS",
-      dozent: "Jens Kohler",
-      room: "D137",
-      backgroundcolor: "#ca9966",
-      bordercolor: "#6f4316",
-      duration: 195,
-      planned: false,
-    },
-    {
-      id: 4,
-      title: "Softwarequalität",
-      start: moment("2024-01-01T12:00").toDate(),
-      end: moment("2024-01-01T15:00").toDate(),
-      studySemester: "Bachelor AI 3",
-      dozent: "Herbert Thielen",
-      room: "N37",
-      backgroundcolor: "#a2c4c9",
-      bordercolor: "#106875",
-      duration: 195,
-      planned: false,
-    },
-    {
-    id: 5,
-    title: "Datenbanken",
-    start: moment("2024-01-01T12:00").toDate(),
-    end: moment("2024-01-01T15:00").toDate(),
-    studySemester: "Angewandte Informatik, 2. FS",
-    dozent: "Norman Riegel",
-    room: "D138",
-    backgroundcolor: "#36abad",
-    bordercolor: "#1b8f90",
-    duration: 195,
-    planned: false,
-  },
-  {
-    id: 6,
-    title: "Fullstack Webanwendungen",
-    start: moment("2024-01-02T14:00").toDate(),
-    end: moment("2024-01-02T18:00").toDate(),
-    studySemester: "Angewandte Informatik, 4. FS",
-    dozent: "Jens Kohler",
-    room: "A200",
-    backgroundcolor: "#ea9999",
-    bordercolor: "#e70000",
-    duration: 195,
-    planned: false,
-  }
-  ];
 
 //function to prove if two modules are overlaping
 //returns boolean value (true = do overlap, false = do not overlap)
 function overlap(mod1, mod2, optional_break=0){
-    if(mod1.start + mod1.duration + optional_break > mod2.start && mod2.start + mod2.duration + optional_break > mod1.start) {
-        return true
+    console.log(mod1.start.getHours())
+    console.log(mod1.start.getMinutes())
+    console.log(mod1.start.getDay())
+    if(mod1.start.getDay() == mod2.start.getDay()) {
+        const start1 = mod1.start.getHours() * 60 + mod1.start.getMinutes()
+        const start2 = mod2.start.getHours() * 60 + mod2.start.getMinutes()
+        if(start1 + mod1.duration + optional_break > start2 && start2 + mod2.duration + optional_break > start1) {
+            return true
+        }
     }
     return false
 }
@@ -99,7 +26,7 @@ const mod2 = {
     start: 10 * 60,
     duration: 195,
 }
-console.log(overlap(mod1,mod2))
+// console.log(overlap(mod1,mod2))
 
 
 function checkProfConflict1(dozent) {
@@ -151,54 +78,122 @@ function checkWarnings() {
 }
 
 function checkModuleWarnings(module_list, conflict_list, module_id){
+    console.log("MODUL LIST")
+    console.log(module_list)
     //1 MODUL NEHMEN
-    let module = null;
-    for (let i = 0; i < module_list.length; i++) {
-        if (module_list[i].id === module_id) {
-            module = module_list[i];
-            break;
-        }
-    }
-    
+    // let module = null;
+    // for (let i = 0; i < module_list.length; i++) {
+    //     if (module_list[i].id === module_id) {
+    //         module = module_list[i];
+    //         break;
+    //     }
+    // }
+    const module = module_id
+    console.log("MODUL")
+    console.log(module)
+
     //MODULE LIST FILTERN
-    for (let i = 0; i < module_list.length; i++) {
-        if (module_list[i].planned === false) {
-            module_list.splice(i, 1);
-            i--;
-        }
-    }
+    // for (let i = 0; i < module_list.length; i++) {
+    //     if (module_list[i].planned === false) {
+    //         module_list.splice(i, 1);
+    //         i--;
+    //     }
+    // }
     //for each module in module list
     //if module is not planned, drop from list
 
     //2 MODUL ARRAYS ERSTELLEN
+
     const dozent_list = module.dozent
-    const room_list = module.rooms
-    const studySemester_list = module.studySemester
+    var dozent_dict = {}
+    for (let i = 0; i < module.dozent.length; i++) {
+        dozent_dict[module.dozent[i]] = []
+    }
 
-    //for each dozent in dozent_list
-    //create list
+    var room_dict = {}
+    for (let i = 0; i < module.room.length; i++) {
+        room_dict[module.room[i]] = []
+    }
 
-    //for each room in room_list
-    //create list
-
-    //for each studySemester in studySemester_list
-    //create list
+    var studySemester_dict = {}
+    for (let i = 0; i < module.studySemester.length; i++) {
+        studySemester_dict[module.studySemester[i]] = []
+    }
 
     //for each module in module list
-    //if module.dozent contains dozent
-    //add to list
-    //if module.rooms contains room
-    //add to list
-    //if module.studySemester contains StudySemester
-    //add to list
+    for (let i = 0; i < module_list.length; i++) {
+        //for each dozent in module
+        for (let j = 0; j < module_list[i].dozent.length; j++) {
+            //for each dozent in dozent_dict
+            for (const [key, value] of Object.entries(dozent_dict)) {
+                if (module_list[i].dozent[j] == key) {
+                    if(module_list[i] != module) {
+                        value.push(module_list[i])
+                    }
+                }
+            }
+        }
+        //for each room in module
+        for (let j = 0; j < module_list[i].room.length; j++) {
+            //for each room in dozent_dict
+            for (const [key, value] of Object.entries(room_dict)) {
+                if (module_list[i].room[j] == key) {
+                    if(module_list[i] != module) {
+                        value.push(module_list[i])
+                    }
+                }
+            }
+        }
+        //for each studySemester in module
+        for (let j = 0; j < module_list[i].studySemester.length; j++) {
+            //for each studySemester in dozent_dict
+            for (const [key, value] of Object.entries(studySemester_dict)) {
+                if (module_list[i].studySemester[j] == key) {
+                    if(module_list[i] != module) {
+                        value.push(module_list[i])
+                    }
+                }
+            }
+        }
+    }
+
+    console.log(dozent_dict)
+    console.log(room_dict)
+    console.log(studySemester_dict)
+
+    for (let i = 0; i < conflict_list.length; i++) {
+        dozent_dict[module.dozent[i]] = []
+        if(conflict_list[i].mod1 === module || conflict_list[i].mod2 === module){
+            conflict_list.splice(i, 1);
+            i--;
+        }
+    }
+
+
+    for (const [key, value] of Object.entries(dozent_dict)) {
+        for (let i = 0; i < value.length; i++) {
+            if(overlap(module, value[i])) {
+                conflict_list.push(new Conflict(module, value[i], key, 1))
+            }
+        }
+    }
+
 
     //3 CONFLICT ARRAY FILTERN
     //for each conflict in conflict list
     //if conflict contains module
     //delete conflict
 
+
+
     //4 KONFLIKTE ERKENNEN
+    for (let i = 0; i < conflict_list.length; i++) {
+        conflict_list[i].printError()
+    }
+    return conflict_list
 }
 
 
-checkModuleWarnings(moduleItemDataList, [], 1)
+// checkModuleWarnings(moduleItemDataList, [], 1)
+
+export {checkModuleWarnings}
