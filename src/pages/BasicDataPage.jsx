@@ -1,14 +1,31 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import BasicDataMenu from "../components/BasicDataMenu";
 import BasicDataTable from "../components/BasicDataTable";
 import { FilledButton } from "../components/FilledButton";
 import { OutlinedButton } from "../components/OutlinedButton";
 import { PageTitle } from "../components/PageTitle";
-import { modules, rooms, teachers } from "../components/data2";
+import PageContainer from "../components/PageContainer";
+import { useNavigate } from "react-router-dom";
+import { getAllBasicDataModules } from "../services/moduleService";
+import { rooms, teachers } from "../components/data2";
 
 export default function BasicDataPage() {
   const { t } = useTranslation();
+  const [modules, setModules] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const result = await getAllBasicDataModules();
+        setModules(result.data);
+      } catch (error) {
+        console.error("Error fetching modules:", error);
+      }
+    }
+    fetchData();
+  }, []);
 
   const [selectedItem, setSelectedItem] = useState("module");
 
@@ -40,30 +57,19 @@ export default function BasicDataPage() {
   }
 
   return (
-    <>
-      <div className="p-10">
-        <div className="flex w-full justify-between">
-          <h1 className="font-poppins font-semibold text-[48px]">
-            {t("basicData")}
-          </h1>
-          <FilledButton
-            text={itemKeyToText[selectedItem]}
-            icon="plus"
-            showIcon={true}
-            onClick={() => {
-              console.log("Button wurde geklickt!");
-            }}
-          />
-        </div>
-
-        <div className="flex w-full">
-          <BasicDataMenu
-            onItemClick={handleItemClick}
-            selectedItem={selectedItem}
-          />
-          <BasicDataTable tableData={selectedData} />
-        </div>
-      </div>
-    </>
+    <PageContainer
+      title={t("basicData")}
+      showDeleteButton={false}
+      showCancelButton={false}
+      primaryButtonTitle={itemKeyToText[selectedItem]}
+      onClickPrimary={() => navigate(path)}
+      row={true}
+    >
+      <BasicDataMenu
+        onItemClick={handleItemClick}
+        selectedItem={selectedItem}
+      />
+      <BasicDataTable tableData={selectedData} />
+    </PageContainer>
   );
 }

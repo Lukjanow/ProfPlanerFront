@@ -30,7 +30,7 @@ export default function BasicDataTable({ tableData }) {
     return (
       <div className="flex w-full justify-between items-center">
         <h1 className="font-poppins font-bold text-2xl">
-          Überblick ({tableData.length})
+          Überblick ({tableData.length + 1})
         </h1>
         <Input
           isClearable
@@ -50,11 +50,7 @@ export default function BasicDataTable({ tableData }) {
   }, []);
 
   return (
-    <Table
-      aria-label="Example table with custom cells"
-      radius="sm"
-      topContent={topContent}
-    >
+    <Table aria-label="table" radius="sm" topContent={topContent}>
       <TableHeader
         columns={[...myColumns, { name: "ACTIONS", uid: "actions" }]}
       >
