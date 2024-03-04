@@ -1,4 +1,3 @@
-import { ModuleItem } from "./ModuleItem";
 import { ScrollShadow } from "@nextui-org/react";
 import React, { useState } from "react"
 

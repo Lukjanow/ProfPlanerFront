@@ -9,12 +9,17 @@ import { PageTitle } from "../components/PageTitle";
 import {TimeTableFilter} from "../components/TimeTableFilter";
 import "../styles/components/timeTableEvent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {useDisclosure} from "@nextui-org/react";
+import { ModuleInfo } from './ModuleInfo';
+
 
 export function TimeTable({moduleItemList}) {
-
   moment.locale("de");
   const localizer = momentLocalizer(moment);
   const DnDCalendar = withDragAndDrop(Calendar);
+  const {isOpen, onOpen, onOpenChange} = useDisclosure();
+  const [modalEvent, setModalEvent] = useState('');
+
 
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
     const [events, setEvents] = useState([]);
@@ -58,7 +63,7 @@ export function TimeTable({moduleItemList}) {
       newStyle["backgroundColor"] = event.backgroundcolor;
       newStyle["borderColor"] = event.bordercolor
       newStyle["color"] = "#000000"
-      newStyle["border-inline-start-width"] = "8px"
+      newStyle["borderInlineStartWidth"] = "8px"
 
 
       return {
@@ -94,9 +99,22 @@ export function TimeTable({moduleItemList}) {
     return (num < 10 ? "0" : "") + num;
   }
 
+  function handleRightClick(event, click) {
+    setModalEvent(event)
+    click.preventDefault();
+    onOpen()
+  }
+
+  const handleRemoveEvent = () => {
+    const updatedEvents = events.filter(ev => ev.id !== modalEvent.id);
+    setEvents(updatedEvents);
+    setOutsideEvents(prevEvents => [...prevEvents, modalEvent])
+  };
+
   const customEvent = ({ event }) => {
     return (
-          <div className="w-[13vw] rounded-e-md p-3 h-full w-full">
+          <div id={event.id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
+            <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} moveFunction={handleRemoveEvent}/>
             <p className="font-semibold">{event.title}</p>
             {setTime(event.start, event.duration)}
             <div className="flex">

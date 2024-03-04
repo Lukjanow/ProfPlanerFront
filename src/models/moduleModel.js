@@ -40,3 +40,13 @@ export class ModuleModel {
         return this;
     }
 }
+export class ModuleBasicModel {
+  constructor(jsonObj) {
+    this.id = jsonObj.id;
+    this.name = jsonObj.name;
+    this.dozent = jsonObj.dozent;
+    this.room = jsonObj.room;
+    this.studySemester = jsonObj.study_semester;
+    this.duration = jsonObj.duration;
+  }
+}
