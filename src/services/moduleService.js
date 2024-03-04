@@ -1,4 +1,4 @@
-import {ModuleModel} from "../models/moduleModel.js";
+import {ModuleBasicModel, ModuleModel} from "../models/moduleModel.js";
 import api from "./api.js";
 
 async function getAllModules() {
@@ -7,6 +7,17 @@ async function getAllModules() {
         .then(resObj => {
             return {
                 data: resObj.data.map(item => new ModuleModel(item)),
+                status: resObj.status
+            }
+        });
+}
+
+async function getAllBasicDataModules() {
+    return api
+        .get(`/module/basicdata`)
+        .then(resObj => {
+            return {
+                data: resObj.data.map(item => new ModuleBasicModel(item)),
                 status: resObj.status
             }
         });
@@ -139,6 +150,7 @@ async function deleteModule(id) {
 
 export {
     getAllModules,
+    getAllBasicDataModules,
     getModuleById,
     getSelectedModules,
     getAllModulesByDozentId,
