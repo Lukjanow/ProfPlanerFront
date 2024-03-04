@@ -13,6 +13,7 @@ import { rooms, teachers } from "../components/data2";
 export default function BasicDataPage() {
   const { t } = useTranslation();
   const [modules, setModules] = useState([]);
+  // const [dataLength, setDataLength] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -20,6 +21,8 @@ export default function BasicDataPage() {
       try {
         const result = await getAllBasicDataModules();
         setModules(result.data);
+        setDataLength(result.data.length);
+        console.log("---------------------> Data length: ", result.data.length);
       } catch (error) {
         console.error("Error fetching modules:", error);
       }
@@ -46,19 +49,19 @@ export default function BasicDataPage() {
   switch (selectedItem) {
     case "module":
       selectedData = modules;
-      path = "/basicdata"
+      path = "/basicdata";
       break;
     case "room":
       selectedData = rooms;
-      path = "/basicdata"
+      path = "/basicdata";
       break;
     case "teacher":
       selectedData = teachers;
-      path = "/lecturer-details"
+      path = "/lecturer-details";
       break;
     default:
       selectedData = modules; // Standardauswahl, wenn keine Übereinstimmung gefunden wurde
-      path = "/basicdata"
+      path = "/basicdata";
   }
 
   return (

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Table,
@@ -14,40 +14,44 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function BasicDataTable({ tableData }) {
   const { t } = useTranslation();
+  const [length, setLength] = useState(0);
+
+  // Funktion zum Aktualisieren der Länge der Daten
+  useEffect(() => {
+    if (tableData) {
+      setLength(tableData.length);
+    }
+  }, [tableData]);
 
   const generateColumns = () => {
-    if (!tableData || !tableData[0]) return []; // Wenn keine Daten vorhanden sind, leere Spalten zurückgeben
+    if (!tableData || !tableData[0]) return [];
     return Object.keys(tableData[0]).map((key) => ({
       name: t(key).toUpperCase(),
       uid: key.toLowerCase(),
-      sortable: true, // Annahme: Alle Spalten sind sortierbar, kann angepasst werden
+      sortable: true,
     }));
   };
 
   const myColumns = generateColumns();
 
-  const topContent = React.useMemo(() => {
-    return (
-      <div className="flex w-full justify-between items-center">
-        <h1 className="font-poppins font-bold text-2xl">
-          Überblick ({tableData.length + 1})
-        </h1>
-        <Input
-          isClearable
-          placeholder="Search by name..."
-          className="flex-initial w-1/2"
-          startContent={
-            <FontAwesomeIcon
-              icon={"magnifying-glass"}
-              onClick={console.log("Test")}
-            />
-          }
-          radius="sm"
-          variant={"underlined"}
-        />
-      </div>
-    );
-  }, []);
+  const topContent = (
+    <div className="flex w-full justify-between items-center">
+      <h1 className="font-poppins font-bold text-2xl">Überblick ({length})</h1>
+      <Input
+        isClearable
+        placeholder="Search by name..."
+        className="flex-initial w-1/2"
+        startContent={
+          <FontAwesomeIcon
+            icon={"magnifying-glass"}
+            onClick={() => console.log("Test")}
+          />
+        }
+        radius="sm"
+        variant={"underlined"}
+      />
+    </div>
+  );
 
   return (
     <Table aria-label="table" radius="sm" topContent={topContent}>
