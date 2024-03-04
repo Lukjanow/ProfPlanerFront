@@ -30,6 +30,7 @@ export function TimeTable({moduleItemList}) {
     const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
     const [draggedEvent, setDraggedEvent] = useState(null);
 
+
     // Callback für das Ablegen von außerhalb des Kalenders gezogenen Ereignissen
     const onDropFromOutside = useCallback(
       ({ start, end }) => {
@@ -42,9 +43,10 @@ export function TimeTable({moduleItemList}) {
                   id: draggedEvent.id,
                   hideTime: false
               };
-
+              setEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
               setEvents(prevEvents => [...prevEvents, newEvent]);
               setOutsideEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
+              setDraggedEvent(null)
           }
       },
       [draggedEvent]
@@ -58,6 +60,9 @@ export function TimeTable({moduleItemList}) {
                     event.id === appointmentId ? { ...event, start, end } : event
                 )
             );
+            var div = document.getElementById("removeBorder")
+            div.classList.remove("bg-red-600")
+            div.classList.add("bg-white")
         },
     );
 
@@ -109,16 +114,15 @@ export function TimeTable({moduleItemList}) {
     onOpen()
   }
 
-  const handleRemoveEvent = () => {
+  const handleClickRemoveEvent = () => {
     const updatedEvents = events.filter(ev => ev.id !== modalEvent.id);
     setEvents(updatedEvents);
     setOutsideEvents(prevEvents => [...prevEvents, modalEvent])
   };
-
   const customEvent = ({ event }) => {
     return (
           <div id={event.id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
-            <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} moveFunction={handleRemoveEvent}/>
+            <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
             <p className="font-semibold">{event.title}</p>
             {setTime(event.start, event.duration)}
             <div className="flex">
@@ -134,7 +138,27 @@ export function TimeTable({moduleItemList}) {
     )
   }
 
+  var moveEvent = null
 
+  const handleMouseLeave = () => {
+    if(moveEvent == null){
+      return
+    } 
+    setOutsideEvents(prevEvents => [...prevEvents, moveEvent]); 
+    setEvents(prevEvents => prevEvents.filter(e => e.id !== moveEvent.id))
+    var div = document.getElementById("removeBorder")
+    div.classList.remove("bg-red-600")
+    div.classList.add("bg-white")
+  };
+
+  const handleDragStart = (event) => {
+    moveEvent = event.event
+
+    var div = document.getElementById("removeBorder")
+    div.classList.add("bg-red-600")
+    div.classList.remove("bg-white")
+  };
+  
   return (
     <>
       <div className="flex">
@@ -142,8 +166,9 @@ export function TimeTable({moduleItemList}) {
           <PageTitle text="Lehrplanung"/>
           <TimeTableFilter></TimeTableFilter>
           <div className="h-[35vw]">
+            <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4 bg-white">
               <DnDCalendar
-                  className="w-[79vw] shadow-2xl pb-5 pt-5 pr-2 pl-2 select-none"
+                  className="w-[78vw] select-none"
                   localizer={localizer}
                   events={events}
                   startAccessor="start"
@@ -166,7 +191,9 @@ export function TimeTable({moduleItemList}) {
                   onEventDrop={({ start, end, event }) => {onChangeEventTime(start, end, event.id)}}
                   onDropFromOutside={onDropFromOutside}
                   drilldownView={null}
+                  onDragStart={(event) => handleDragStart(event)}
               />
+              </div>
           </div>
         </div>
         <div>

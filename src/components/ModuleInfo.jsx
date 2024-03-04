@@ -2,7 +2,7 @@ import {Modal, ModalContent, ModalHeader, ModalBody, ModalFooter} from "@nextui-
 import { OutlinedButton } from "./OutlinedButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export function ModuleInfo({isOpen, onOpenChange, event, moveFunction}) {  
+export function ModuleInfo({isOpen, onOpenChange, event, removeFunction}) {  
     const modalStyle = {
       backgroundColor: event.backgroundcolor,
       borderColor: event.bordercolor,
@@ -29,7 +29,7 @@ export function ModuleInfo({isOpen, onOpenChange, event, moveFunction}) {
               </ModalBody>
               <ModalFooter>
                 <OutlinedButton color={"primary"} text={"Entfernen"} onClick={() => {
-                  moveFunction()
+                  removeFunction()
                   onClose()
                 }}/>
                 <OutlinedButton color={"danger"} text={"Schließen"} onClick={onClose}/>
