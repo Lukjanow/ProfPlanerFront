@@ -55,5 +55,9 @@
   "note": "Notes",
   "writeNotes": "Here you can write down some notes",
   "editModule": "Edit module",
-  "colorSelector": "Select a color for this module"
+  "colorSelector": "Select a color for this module",
+  "block": "Blocker",
+  "addExercises": "Add an Exercise or a Training session",
+  "addExercise": "Add Exercise",
+  "addTraining": "Add Training"
 }

@@ -3,9 +3,9 @@ import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { DropDown } from "../components/DropDown";
 import { SectionContainer } from "../components/SectionContainer";
-import { HexColorPicker } from "react-colorful";
 import React, { useEffect } from "react";
 import { ModuleItem } from "../components/ModuleItem";
+import { OutlinedButton } from "../components/OutlinedButton";
 
 //Deal with Dozent, Room, duration, type
 
@@ -16,7 +16,7 @@ export default function EditModulesPage({
     const { t } = useTranslation();
 
     const [ModuleID, setModuleID] = React.useState(module?.id)
-    const [ModuleName, setModuleName] = React.useState((module?.name) ? module.name : "Dies ist ein Testname")
+    const [ModuleName, setModuleName] = React.useState(module?.name)
     const [ModuleCode, setModuleCode] = React.useState(module?.code)
     const [ModuleDozent, setModuleDozent] = React.useState(module?.dozent)
     const [ModuleAssistent, setModuleAssistent] = React.useState(module?.assistents)
@@ -24,17 +24,20 @@ export default function EditModulesPage({
     const [ModuleStudySemester, setModuleStudySemester] = React.useState(module?.studySemester)
     const [ModuleDuration, setModuleDuration] = React.useState(module?.duration)
     const [ModuleAttendance, setModuleAttendance] = React.useState(module?.approximate_attendance)
-    const [ModuleNeed, setModuleNeed] = React.useState(module?.need)
+    const [ModuleNeed, setModuleNeed] = React.useState(module?.need)                                //TODO
     const [ModuleType, setModuleType] = React.useState(module?.type)
     const [ModuleFrequency, setModuleFrequency] = React.useState(module?.frequency)
     const [ModuleSelected, setModuleSelected] = React.useState(module?.selected)
     const [color, setColor] = React.useState(module?.color)
     const [bordercolor, setBorderColor] = React.useState(module?.bordercolor)
     const [ModuleNote, setModuleNote] = React.useState(module?.note)
-    const [ModuleGroups, setModuleGroups] = React.useState(module?.groups)
+    const [ModuleGroups, setModuleGroups] = React.useState(module?.groups)                          //To be dropped
 
     const [QSP, setQSP] = React.useState("")
     const [studyCourse, setStudyCourse] = React.useState([])
+
+    const [extra, setExtra] = React.useState([])            //Elements regarding Exercise/Training
+    const [extraData, setExtraData] = React.useState([])    //Save Data set up about Exercise/Training
     
     
     const QSPsa = [{
@@ -102,15 +105,15 @@ export default function EditModulesPage({
     const WinSom = [
         {
             key: "Win",
-            label: "Winter"
+            label: "Wintersemester"
         },
         {
             key: "Som",
-            label: "Sommer"
+            label: "Sommersemester"
         },
         {
             key: "Com",
-            label: "Winter und Sommer"
+            label: "Winter- und Sommersemester"
         }
     ]
     
@@ -350,6 +353,40 @@ export default function EditModulesPage({
                     </div>
                 </div>
             </SectionContainer>
+            
+            <SectionContainer title={t("exercise")}>
+                {t("addExercises")}  {/*TODO: Replace Elements with Input, State to save Data about Exercises, grouping together elements */}
+                <div className="flex gap-5">
+                    <OutlinedButton text={t("addExercise")} icon="plus" showIcon={true} color={"primary"}
+                                onClick={() =>
+                                    setExtra(extra.concat(<p style={{border: "solid 2px black"}}>
+                                        type: Exercise,
+                                        name: none,
+                                        approximate_attendance: 0,
+                                        assistents: [],
+                                        room: null,
+                                        duration: 0,
+                                        groups: 1,
+                                        group: 1
+                                    </p>))
+                                }></OutlinedButton>
+                    <OutlinedButton text={t("addTraining")} icon="plus" showIcon={true} color={"primary"}
+                                onClick={() => 
+                                    setExtra(extra.concat(<p style={{border: "solid 2px black"}}>
+                                        type: Training,
+                                        name: none,
+                                        approximate_attendance: 0,
+                                        assistents: [],
+                                        room: null,
+                                        duration: 0,
+                                        groups: 1,
+                                        group: 1
+                                    </p>))
+                                }></OutlinedButton>
+                </div>
+                {extra}
+                
+            </SectionContainer>
 
             <SectionContainer showContentSwitch={true} title={t("exercise")}>
                 <div className="flex flex-row gap-5">
@@ -411,7 +448,7 @@ export default function EditModulesPage({
                         >{t("training")} und {t("lecture")} als ein Block darstellen
                 </Checkbox>
             </SectionContainer>
-            
+
             <SectionContainer title={`${t("note")}`}>
                 <Textarea
                     minRows={3}
