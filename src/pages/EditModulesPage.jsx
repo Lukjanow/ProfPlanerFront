@@ -4,89 +4,40 @@ import { useTranslation } from "react-i18next";
 import { DropDown } from "../components/DropDown";
 import { SectionContainer } from "../components/SectionContainer";
 import { HexColorPicker } from "react-colorful";
-import React from "react";
+import React, { useEffect } from "react";
 import { ModuleItem } from "../components/ModuleItem";
 
 //Deal with Dozent, Room, duration, type
 
-export default function DropDownTestPage() {
+export default function EditModulesPage({
+    module = null, edit = false
+}
+) {
     const { t } = useTranslation();
-    const [selectedType, setSelectedType] = React.useState("")  //translate this to ObjectID 
-    const [color, setColor] = React.useState("#aabbcc");
-    const [bordercolor, setBorderColor] = React.useState("#aabbcc");
-    const [trigger, setTrigger] = React.useState(false) //Use to force reload ModuleItem
-    const [lecdata, setLecData] = React.useState({
-        id: null,
-        name: "TestModule",
-        code: null,
-        dozent: ["Thielen"],
-        room: ["B200"],
-        study_semester: ["Angewandte Informatik"],
-        duration: null,
-        approximate_attendance: null,
-        need: null,
-        type: [],
-        frequency: null,
-        selected: null,
-        color: color,
-        bordercolor: bordercolor,
-        note: null,
-        groups: null
-    })
-    const [secdata, setSecData] = React.useState({
-        id: null,
-        name: null,
-        code: null,
-        dozent: [],
-        room: [],
-        study_semester: [],
-        duration: null,
-        approximate_attendance: null,
-        need: null,
-        type: [],
-        frequency: null,
-        selected: null,
-        color: color,
-        bordercolor: bordercolor,
-        note: null,
-        groups: null
-    })
-    const getData = (data) => {
-        (data?.target) ? 
-            (data.target.ariaLabel === "Bezeichnung") ?
-                    lecdata.name = data.target.value
-                : (data.target.ariaLabel === "Modul-Nr.") ? 
-                    lecdata.id = data.target.value
-                : (data.target.ariaLabel === "Code") ? 
-                    lecdata.code = data.target.value
-                : (data.target.ariaLabel === "Dauer") ? 
-                    lecdata.duration = data.target.value
-                : (data.target.ariaLabel === "Erwartete Anzahl Studenten") ? 
-                    lecdata.approximate_attendance = data.target.value
-                : (data.target.ariaLabel === "Gruppenanzahl") ? 
-                    lecdata.groups = data.target.value
-                : (data.target.ariaLabel === "Notizen") ? 
-                    lecdata.note = data.target.value
-                : {}
-            :
-            (data.description === "Studiengang") ?
-                {}//Request studysemester by study from Database and update semester
-            : (data.description === "Fachsemester") ?
-                lecdata.study_semester = data.keys
-            : (data.description === "Wird angeboten in") ?
-                lecdata.frequency = data.keys
-            : (data.description === "Wunschraum") ?
-                lecdata.room = data.keys
-            : (data.description === "Qualifikationsschwerpunkt") ?
-                lecdata.study_semester = data.keys 
-            : (data.description === "Lehrperson") ?
-                lecdata.dozent = data.keys 
-            : {}
-        //setTrigger(!trigger)
-    }
-        
+
+    const [ModuleID, setModuleID] = React.useState(module?.id)
+    const [ModuleName, setModuleName] = React.useState((module?.name) ? module.name : "Dies ist ein Testname")
+    const [ModuleCode, setModuleCode] = React.useState(module?.code)
+    const [ModuleDozent, setModuleDozent] = React.useState(module?.dozent)
+    const [ModuleAssistent, setModuleAssistent] = React.useState(module?.assistents)
+    const [ModuleRoom, setModuleRoom] = React.useState(module?.room)
+    const [ModuleStudySemester, setModuleStudySemester] = React.useState(module?.studySemester)
+    const [ModuleDuration, setModuleDuration] = React.useState(module?.duration)
+    const [ModuleAttendance, setModuleAttendance] = React.useState(module?.approximate_attendance)
+    const [ModuleNeed, setModuleNeed] = React.useState(module?.need)
+    const [ModuleType, setModuleType] = React.useState(module?.type)
+    const [ModuleFrequency, setModuleFrequency] = React.useState(module?.frequency)
+    const [ModuleSelected, setModuleSelected] = React.useState(module?.selected)
+    const [color, setColor] = React.useState(module?.color)
+    const [bordercolor, setBorderColor] = React.useState(module?.bordercolor)
+    const [ModuleNote, setModuleNote] = React.useState(module?.note)
+    const [ModuleGroups, setModuleGroups] = React.useState(module?.groups)
+
+    const [QSP, setQSP] = React.useState("")
+    const [studyCourse, setStudyCourse] = React.useState([])
     
-    const QSP = [{
+    
+    const QSPsa = [{
             key: "NetSec",
             label: "Networks & Security"
             },
@@ -98,7 +49,8 @@ export default function DropDownTestPage() {
                 key: "VisCo",
                 label: "Visual Computing"
             }
-        ]
+    ]
+
     const studyCourses = [{
         key: "bScAI",
         label: "B. Sc. Angewandte Informatik"
@@ -220,7 +172,6 @@ export default function DropDownTestPage() {
         }
     ]
 
-
     const assistents = [{
         key: "1s",
         label: "Assi1"
@@ -253,81 +204,64 @@ export default function DropDownTestPage() {
 
     return (
         <>
-        <PageContainer title={`${t("new")} ${t("module")}`}>
-            {/* <div style={{position: "relative", display: "flex", alignItems: "center"}}>
-                <div style={{
-                    position: "absolute",
-                    display: "flex",
-                    right: "0px",
-                    gap: "10px"
-                    }}>
-                    <OutlinedButton text="Löschen"
-                    onClick={() => {
-                        console.log("Button löschen wurde geklickt!");
-                    }}
-                    color="danger"
-                    />
-                    <OutlinedButton text="Abbrechen"
-                    onClick={() => {
-                        console.log("Button Abbrechen wurde geklickt!");
-                    }}
-                    color="primary"
-                    />
-                    <FilledButton text="Speichern" icon="plus" showIcon={true} 
-                    onClick={() => {
-                        console.log("Button Speichern wurde geklickt!");
-                    }}
-                    />
-                </div>
-            </div> */}
-            <SectionContainer title={"Allgemein"}>
+        <PageContainer title={(edit) ? `${t("editModule")}`:`${t("newModule")}`} primaryButtonTitle={`${t("save")}`}>
+            <SectionContainer title={`${t("general")}`}>
                 <div className="flex gap-5" style={{marginBottom: "25px"}}>
-                    <DropDown Items={studyCourses} description="Studiengang" selectionMode="multiple"
-                        onChange={getData}
+                    <DropDown Items={studyCourses} description={`${t("studycourse")}`} selectionMode="multiple"
+                        onChange={setStudyCourse}
+                        values={studyCourse}
                         width="500px">
                     </DropDown>
-                    <DropDown Items={semester} description="Fachsemester" selectionMode="multiple"
-                     onChange={getData}>
+                    <DropDown Items={semester} description={`${t("semester")}`} selectionMode="multiple"
+                     onChange={setModuleStudySemester}
+                     values={ModuleStudySemester}>
                     </DropDown>
-                    <DropDown Items={WinSom} description="Wird angeboten in"
-                     onChange={getData}>
+                    <DropDown Items={WinSom} description={`${t("offeredIn")}`}
+                     onChange={setModuleFrequency} values={ModuleFrequency}>
                     </DropDown>
                     <Checkbox
                         defaultSelected color="primary"
-                        >wird dieses Semester angeboten
+                        onChange={setModuleSelected}
+                        value={ModuleSelected}
+                        >{`${t("isOffered")}`}
                     </Checkbox>
                 </div>
                 <RadioGroup
                     orientation="horizontal"
-                    value={selectedType}
-                    onValueChange={setSelectedType}
+                    value={ModuleType}
+                    onValueChange={setModuleType}
                     >
-                    <Radio value="Pflicht">Pflichtmodul</Radio>
-                    <Radio value="Wahlpflicht">Wahlpflichtfach</Radio>
-                    <Radio value="QSP">Qualifikationsschwerpunkt</Radio>
-                    <Radio value="Sonstiges">Sonstiges</Radio>
+                    <Radio value="Pflicht">{`${t("mandatory")}`}</Radio>
+                    <Radio value="Wahlpflicht">{`${t("compulsoryElectivemodule")}`}</Radio>
+                    <Radio value="QSP">{`${t("focusOfQualification")}`}</Radio>
+                    <Radio value="Sonstiges">{`${t("other")}`}</Radio>
                 </RadioGroup>
-                {(selectedType == "QSP") ? 
-                <DropDown Items={QSP} description="Qualifikationsschwerpunkt" selectionMode="multiple"
-                    onChange={getData}
+                {(ModuleType == "QSP") ? 
+                <DropDown Items={QSPsa} description={`${t("focusOfQualification")}`} selectionMode="multiple"
+                    onChange={setQSP}
+                    values={QSP}
                     width="500px">
                 </DropDown>: 
                 null}
                 <div className="flex gap-5" style={{marginTop: "25px",marginBottom: "25px"}}>
                     <div style={{width:"500px", backgroundColor: "#0000000F"}}>
                         <Input
-                            label="Bezeichnung"
+                            label={`${t("moduleName")}`}
                             variant="underlined"
                             color="default"
-                            onChange={getData}
+                            type="text"
+                            onChange={(e) => setModuleName(e.target.value)}
+                            value={ModuleName}
                         />
                     </div>
                     <div style={{width:"250px", backgroundColor: "#0000000F"}}>
                         <Input
-                            label="Modul-Nr."
+                            label={`${t("moduleNr")}`}
                             variant="underlined"
                             color="default"
-                            onChange={getData}
+                            type="text"
+                            onChange={(e) => setModuleID(e.target.value)}
+                            value={ModuleID}
                         />
                     </div>
                     <div style={{width:"250px", backgroundColor: "#0000000F"}}>
@@ -335,79 +269,83 @@ export default function DropDownTestPage() {
                             label="Code"
                             variant="underlined"
                             color="default"
-                            onChange={getData}
+                            onChange={(e) => setModuleCode(e.target.value)}
+                            value={ModuleCode}
                         />
                     </div>
                 </div>
                 <div className="flex gap-5">
-                    <p>Setze eine Farbe für das Modul fest (Feld work in Progress)</p>
-                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
-                        <Input 
-                            label="HEX-Code"
-                            variant="underlined"
-                            value={color}
-                            onChange={setColor}
-                        />
-                    </div>
-                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
-                        <Input 
-                            label="HEX-Code"
-                            variant="underlined"
-                            value={bordercolor}
-                            onChange={setBorderColor}
-                        />
-                    </div>
+                    <p>{t("colorSelector")}</p>
                 </div>
                 <div className="flex gap-5">
-                    <HexColorPicker color={color} onChange={setColor} />
-                    <HexColorPicker color={bordercolor} onChange={setBorderColor} />
+                    <div className="flex gap-5 flex-col" id="colorGrid">
+                        <div className="flex gap-5">
+                            <div style={{backgroundColor: "#FF0000", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FF0000")}></div>
+                            <div style={{backgroundColor: "#00FF00", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#00FF00")}></div>
+                            <div style={{backgroundColor: "#0000FF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#0000FF")}></div>
+                            <div style={{backgroundColor: "#FFFF00", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FFFF00")}></div>
+                            <div style={{backgroundColor: "#FF00FF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FF00FF")}></div>
+                        </div>
+                        <div className="flex gap-5">
+                            <div style={{backgroundColor: "#00FFFF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#00FFFF")}></div>
+                            <div style={{backgroundColor: "#FFA500", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FFA500")}></div>
+                            <div style={{backgroundColor: "#808080", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#808080")}></div>
+                            <div style={{backgroundColor: "#800080", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#800080")}></div>
+                            <div style={{backgroundColor: "#008080", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#008080")}></div>
+                        </div>
+                    </div>
                     <ModuleItem moduleItemData={{
-                                                title: lecdata.name,
-                                                studySemester: lecdata.study_semester,
-                                                dozent: lecdata.dozent,
-                                                room: lecdata.room,
+                                                title: ModuleName,
+                                                studySemester: ModuleStudySemester?.label,
+                                                dozent: ModuleDozent?.label,
+                                                room: ModuleRoom?.label,
                                                 backgroundcolor: color,
                                                 bordercolor: bordercolor,
-                                                }} key={trigger}/>
+                                                }} />
                 </div>
             </SectionContainer>
 
             <SectionContainer title={t("lecture")}>
                 <div className="flex gap-5" style={{marginTop: "25px"}}>
-                    <DropDown Items={teachers} description="Lehrperson" selectionMode="multiple"
+                    <DropDown Items={teachers} description={`${t("lecturer")}`} selectionMode="multiple"
                         add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                         Item: "Lehrende"}}
-                        onChange={getData}
+                        onChange={setModuleDozent}
+                        value={ModuleDozent}
                         width="500px">
                     </DropDown>
-                    <DropDown Items={assistents} description="Assistent" selectionMode="multiple"
+                    <DropDown Items={assistents} description={`${t("assistent")}`} selectionMode="multiple"
                         add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                         Item: "Assistent"}}
-                        onChange={getData}>
+                        onChange={setModuleAssistent}
+                        values={ModuleAssistent}>
                     </DropDown>
-                    <DropDown Items={room} description="Wunschraum" selectionMode="multiple"
+                    <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
                         add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                         Item: "Raum"}}
-                        onChange={getData}>
+                        onChange={setModuleRoom}
+                        values={ModuleRoom}>
                     </DropDown>
                 </div>
                 <div className="flex gap-5" style={{marginTop: "25px"}}>
                     <div style={{width:"237.5px", backgroundColor: "#0000000F"}}>
                         <Input
-                            label="Dauer"
+                            label={`${t("duration")}`}
                             variant="underlined"
                             color="default"
                             type="number"
-                            onChange={getData}
+                            onChange={(e) => setModuleDuration(e.target.value)}
+                            value={ModuleDuration}
                         />
                     </div>
                     <div style={{width:"237.5px", backgroundColor: "#0000000F"}}>
                         <Input
-                            label="Erwartete Anzahl Studenten"
+                            label={`${t("approximateAttendance")}`}
                             variant="underlined"
                             color="default"
                             type="number"
-                            onChange={getData}
+                            onChange={(e) => setModuleAttendance(e.target.value)}
+                            value={ModuleAttendance}
                         />
                     </div>
                 </div>
@@ -416,10 +354,10 @@ export default function DropDownTestPage() {
             <SectionContainer showContentSwitch={true} title={t("exercise")}>
                 <div className="flex flex-row gap-5">
                     <div style={{width:"250px", backgroundColor: "#0000000F"}}>
-                        <Input type="number" label="Gruppenanzahl" variant="underlined" onChange={getData}/>
+                        <Input type="number" label={`${t("groupNumber")}`} variant="underlined" onChange={(e) => setModuleGroups(e.target.value)} value={ModuleGroups}/>
                     </div>
                     <div style={{width:"250px", backgroundColor: "#0000000F"}}>
-                        <Input type="number" label="Dauer" variant="underlined" onChange={getData}/>
+                        <Input type="number" label={`${t("duration")}`} variant="underlined" onChange={(e) => setModuleDuration(e.target.value)} value={ModuleDuration}/>
                     </div>
                 </div>
                 <div className="flex gap-5">
@@ -427,12 +365,14 @@ export default function DropDownTestPage() {
                             add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                             Item: "Assistent"}}
                             width="500px"
-                            onChange={getData}>
+                            onChange={setModuleAssistent}
+                            values={ModuleAssistent}>
                     </DropDown>
-                    <DropDown Items={room} description="Wunschraum" selectionMode="multiple"
+                    <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
                             add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                             Item: "Raum"}}
-                            onChange={getData}>
+                            onChange={setModuleRoom}
+                            values={ModuleRoom}>
                     </DropDown>
                 </div>
                 <Checkbox
@@ -444,26 +384,40 @@ export default function DropDownTestPage() {
 
             <SectionContainer showContentSwitch={true} title={t("training")}>
                 <div className="flex flex-row gap-5">
-                    <Input type="number" label="Gruppenanzahl" variant="underlined" onChange={getData}/>
-                    <Input type="number" label="Dauer" variant="underlined" onChange={getData}/>
+                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
+                        <Input type="number" label={`${t("groupNumber")}`} variant="underlined" onChange={setModuleGroups} value={ModuleGroups}/>
+                    </div>
+                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
+                        <Input type="number" label={`${t("duration")}`} variant="underlined" onChange={setModuleDuration} value={ModuleDuration}/>
+                    </div>
                 </div>
-                <DropDown Items={assistents} description="Assistent"
-                        add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                        Item: "Assistent"}}
-                        width="500px"
-                        onChange={getData}>
-                </DropDown>
+                <div className="flex gap-5">
+                    <DropDown Items={assistents} description="Assistent"
+                            add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                            Item: "Assistent"}}
+                            width="500px"
+                            onChange={setModuleAssistent}
+                            values={ModuleAssistent}>
+                    </DropDown>
+                    <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
+                            add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+                            Item: "Raum"}}
+                            onChange={setModuleRoom}
+                            values={ModuleRoom}>
+                    </DropDown>
+                </div>
                 <Checkbox
                         defaultSelected color="primary"
                         >{t("training")} und {t("lecture")} als ein Block darstellen
                 </Checkbox>
             </SectionContainer>
-            <SectionContainer title="Notizen">
+            <SectionContainer title={`${t("note")}`}>
                 <Textarea
                     minRows={3}
-                    label="Notizen"
-                    placeholder="Hier können sie Notizen machen"
-                    onChange={getData}
+                    label={`${t("note")}`}
+                    placeholder={`${t("writeNotes")}`}
+                    onChange={(e) => setModuleNote(e.target.value)}
+                    value={ModuleNote}
                 />
             </SectionContainer>
         </PageContainer>

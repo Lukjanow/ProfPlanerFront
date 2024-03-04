@@ -1,7 +1,8 @@
 import React, { useEffect } from "react";
 import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, DropdownSection, Input } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../styles/components/DropDown.scss"
+import "../styles/components/DropDown.scss";
+import { useTranslation } from "react-i18next";
 
 
 {/*
@@ -23,14 +24,18 @@ function GetLabels(selectedKeys, Items) {
 }
 
 export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="",
-            add={}, width="250px", onChange = {/*pass*/}}) {
-    const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
+            add={}, width="250px", onChange = {/*pass*/}, values = []}) {
+    const { t } = useTranslation();
+
+    const [selectedKeys, setSelectedKeys] = React.useState(new Set(Object.values(values).filter(obj => Object.prototype.hasOwnProperty.call(obj, "key"))
+                                                                                                    .map(obj => obj["key"])));
     const selectedValue = React.useMemo(
        () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
       [selectedKeys],
     )
 
-    const [value, setValue] = React.useState("Nothing Selected")
+    const [value, setValue] = React.useState(t("nothingSelected"))
+    const [prevKeys, setPrevKeys] = React.useState(new Set([]))
     const [dropped, setDropped] = React.useState(false)
 
     //deal with arrow in Input in DropdownTrigger
@@ -41,12 +46,16 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
 
     //Update Labels of Input to show selected Items correctly
     useEffect(() => {
-       setValue((selectedValue) ? GetLabels(selectedKeys, Items) : "Nothing Selected")
-       onChange({
-        keys: selectedKeys,
-        description: description
-      })},
-          [setValue, value, Items, selectedValue, selectedKeys, onChange, description]
+      console.log(selectedKeys, prevKeys)
+      if ( prevKeys !== selectedKeys ){
+        setValue((selectedValue) ? GetLabels(selectedKeys, Items) : t("nothingSelected"))
+        onChange({
+          keys: selectedKeys
+        })
+        setPrevKeys(selectedKeys)
+      }
+    },
+          [setValue, value, Items, selectedValue, selectedKeys, onChange, description, t, setPrevKeys, prevKeys]
         )
 
     //const sections = Array.from(new Set(Items.map(obj => obj["section"]).filter(value => value !== undefined)));
@@ -98,28 +107,6 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
             */}  
 
             {
-              /*Items.some(e => e.section) ? (
-                sections.map((section) => {
-                  {console.log(section)}
-                  <DropdownSection
-                  title={"section"}
-                  showDivider={true}
-                  >
-                  { {
-                    Items.map((data) => (
-                      <DropdownItem key={data.key}
-                        color={data?.color}
-                        description={data?.description}
-                        className={data?.className}
-                        shortcut={data?.shortcut}
-                        startContent={data?.startContent}
-                        href={data?.href}
-                        title={data.label} />
-                  }
-                  </DropdownSection>
-                  }
-                ))
-                :*/
                   Items.map((data) => (
                   <DropdownItem key={data.key}
                     color={data?.color}
