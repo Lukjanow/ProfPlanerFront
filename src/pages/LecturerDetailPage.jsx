@@ -72,7 +72,8 @@ export default function LecturerDetailPage() {
     return (
         <PageContainer
             title={`${t("new")} ${t("lecturer")}`}
-            onClickSave={handleSubmit}
+            onClickPrimary={handleSubmit}
+            primaryButtonTitle={t("save")}
         >
             <form>
                 <SectionContainer title={t("general")}>

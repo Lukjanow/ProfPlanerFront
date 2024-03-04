@@ -22,8 +22,8 @@ export const useDozentStore = create(
             const {data} = await getDozentById(id);
             return data;
         },
-        addDozent: async (name, email, title, intern) => {
-            const {data} = await addDozent(name, email, title, intern);
+        addDozent: async (dozentModel) => {
+            const {data} = await addDozent(dozentModel);
             return data;
         },
         updateDozent: async (id, {name, email, title, intern}) => {
