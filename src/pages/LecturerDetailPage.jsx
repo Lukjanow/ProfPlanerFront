@@ -5,6 +5,7 @@ import { SectionContainer } from "../components/SectionContainer";
 import { Input } from "@nextui-org/react";
 import SelectBox from "../components/SelectBox";
 import TeacherModel from "../models/TeacherModel.js";
+import { addDozent } from "../services/dozentService.js";
 
 
 export default function LecturerDetailPage() {
@@ -32,6 +33,7 @@ export default function LecturerDetailPage() {
         if (Object.keys(validationErrors).length === 0) {
             // Form is valid, submit data or perform other actions
             console.log("Data: ", formData);
+            addDozent(formData);
         } else {
             // Display validation errors
             setErrors(validationErrors);
