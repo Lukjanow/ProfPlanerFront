@@ -1,23 +1,35 @@
-import {ModuleModel} from "../models/moduleModel.js";
+import {ModuleBasicModel, ModuleModel} from "../models/moduleModel.js";
 import api from "./api.js";
 
+// TODO: missing routes: getModuleById, getUnselectedModules
 async function getAllModules() {
     return api
         .get(`/moduledata`)
         .then(resObj => {
             return {
-                data: resObj.data.map(item => new ModuleModel(item)),
+                data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
                 status: resObj.status
             }
         });
 }
 
-async function getModuleById(id) {
+async function getAllBasicDataModules() {
     return api
-        .get(`/moduledata/${id}`)
+        .get(`/module/basicdata`)
         .then(resObj => {
             return {
-                data: new ModuleModel(resObj.data),
+                data: resObj.data.map(item => new ModuleBasicModel(item)),
+                status: resObj.status
+            }
+        });
+}
+
+async function getModulesByModuleId(moduleId) {
+    return api
+        .get(`/moduledata/${moduleId}`)
+        .then(resObj => {
+            return {
+                data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
                 status: resObj.status
             }
         });
@@ -28,7 +40,7 @@ async function getSelectedModules() {
         .get(`/modulesdata/select`)
         .then(resObj => {
             return {
-                data: resObj.data.map(item => new ModuleModel(item)),
+                data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
                 status: resObj.status
             }
         });
@@ -39,7 +51,7 @@ async function getAllModulesByDozentId(dozentId) {
         .get(`/moduledata/dozent/${dozentId}`)
         .then(resObj => {
             return {
-                data: resObj.data.map(item => new ModuleModel(item)),
+                data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
                 status: resObj.status
             }
         });
@@ -50,33 +62,16 @@ async function getAllModulesByStudySemesterId(studySemesterId) {
         .get(`/moduledata/studysemester/${studySemesterId}`)
         .then(resObj => {
             return {
-                data: resObj.data.map(item => new ModuleModel(item)),
+                data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
                 status: resObj.status
             }
         });
 }
 
-// TODO: which params are optional?
-async function addModule(id, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
-                         frequency, selected, color, note, groups) {
+// TODO: return created obj
+async function addModule(moduleModel) {
     return api
-        .post(`/module`, {
-            id,
-            name,
-            code,
-            dozent: dozentIdList,
-            room,
-            study_semester: studySemesterIdList,
-            duration,
-            approximate_attendance: approximateAttendance,
-            need,
-            type,
-            frequency,
-            selected,
-            color,
-            note,
-            groups
-        })
+        .post(`/module`, moduleModel)
         .then(resObj => {
             return {
                 data: resObj.data,
@@ -85,7 +80,9 @@ async function addModule(id, name, code, dozentIdList, room, studySemesterIdList
         });
 }
 
-async function updateModule(id, {
+// TODO: return updated obj
+// TODO: not working as expected, should be fixed
+async function updateModule(id, type, {
     name = null,
     code = null,
     dozentIdList = null,
@@ -94,7 +91,6 @@ async function updateModule(id, {
     duration = null,
     approximateAttendance = null,
     need = null,
-    type = null,
     frequency = null,
     selected = null,
     color = null,
@@ -112,7 +108,7 @@ async function updateModule(id, {
             ...(duration !== null && {duration}),
             ...(approximateAttendance !== null && {approximate_attendance: approximateAttendance}),
             ...(need !== null && {need}),
-            ...(type !== null && {type}),
+            type,
             ...(frequency !== null && {frequency}),
             ...(color !== null && {color}),
             ...(note !== null && {note}),
@@ -123,7 +119,7 @@ async function updateModule(id, {
                 data: resObj.data,
                 status: resObj.status
             }
-        })
+        });
 }
 
 async function deleteModule(id) {
@@ -139,7 +135,8 @@ async function deleteModule(id) {
 
 export {
     getAllModules,
-    getModuleById,
+    getAllBasicDataModules,
+    getModulesByModuleId,
     getSelectedModules,
     getAllModulesByDozentId,
     getAllModulesByStudySemesterId,

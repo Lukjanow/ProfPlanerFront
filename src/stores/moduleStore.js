@@ -5,7 +5,7 @@ import {
     getAllModules,
     getAllModulesByDozentId,
     getAllModulesByStudySemesterId,
-    getModuleById,
+    getModulesByModuleId,
     getSelectedModules,
     updateModule
 } from "../services/moduleService.js";
@@ -22,8 +22,8 @@ export const useModuleStore = create(
             });
             set(() => ({moduleList: updatedModuleList}));
         },
-        getModuleById: async (id) => {
-            const {data} = await getModuleById(id);
+        getModulesByModuleId: async (id) => {
+            const {data} = await getModulesByModuleId(id);
             return data;
         },
         getSelectedModules: async () => {
@@ -38,15 +38,13 @@ export const useModuleStore = create(
             const {data} = await getAllModulesByStudySemesterId(studySemesterId);
             return data;
         },
-        addModule: async (id, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
-                          frequency, selected, color, note, groups) => {
-            const {data} = await addModule(id, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
-                frequency, selected, color, note, groups);
+        addModule: async (moduleModel) => {
+            const {data} = await addModule(moduleModel);
             return data;
         },
-        updateModule: async (id, {name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
+        updateModule: async (id, type, {name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need,
             frequency, selected, color, note, groups}) => {
-            const {data} = await updateModule(id, {name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
+            const {data} = await updateModule(id, type, {name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need,
                 frequency, selected, color, note, groups});
             return data;
         },
