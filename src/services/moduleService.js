@@ -67,11 +67,14 @@ async function getAllModulesByStudySemesterId(studySemesterId) {
         });
 }
 
-async function addModule(id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type, frequency, selected) {
+// TODO: which params are optional?
+async function addModule(id, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type,
+                         frequency, selected, color, note, groups) {
     return api
         .post(`/module`, {
             id,
             name,
+            code,
             dozent: dozentIdList,
             room,
             study_semester: studySemesterIdList,
@@ -80,7 +83,10 @@ async function addModule(id, name, dozentIdList, room, studySemesterIdList, dura
             need,
             type,
             frequency,
-            selected
+            selected,
+            color,
+            note,
+            groups
         })
         .then(resObj => {
             return {
@@ -90,19 +96,38 @@ async function addModule(id, name, dozentIdList, room, studySemesterIdList, dura
         });
 }
 
-async function updateModule(id, name, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, type, frequency, selected) {
+async function updateModule(id, {
+    name = null,
+    code = null,
+    dozentIdList = null,
+    room = null,
+    studySemesterIdList = null,
+    duration = null,
+    approximateAttendance = null,
+    need = null,
+    type = null,
+    frequency = null,
+    selected = null,
+    color = null,
+    note = null,
+    groups = null
+}) {
     return api
         .put(`/module/${id}`, {
-            name,
-            dozent: dozentIdList,
-            room,
-            study_semester: studySemesterIdList,
-            selected,
-            duration,
-            approximate_attendance: approximateAttendance,
-            need,
-            type,
-            frequency,
+            ...(name !== null && {name}),
+            ...(code !== null && {code}),
+            ...(dozentIdList !== null && {dozent: dozentIdList}),
+            ...(room !== null && {room}),
+            ...(studySemesterIdList !== null && {study_semester: studySemesterIdList}),
+            ...(selected !== null && {selected}),
+            ...(duration !== null && {duration}),
+            ...(approximateAttendance !== null && {approximate_attendance: approximateAttendance}),
+            ...(need !== null && {need}),
+            ...(type !== null && {type}),
+            ...(frequency !== null && {frequency}),
+            ...(color !== null && {color}),
+            ...(note !== null && {note}),
+            ...(groups !== null && {groups})
         })
         .then(resObj => {
             return {
