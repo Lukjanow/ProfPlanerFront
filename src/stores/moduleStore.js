@@ -5,7 +5,7 @@ import {
     getAllModules,
     getAllModulesByDozentId,
     getAllModulesByStudySemesterId,
-    getModulesById,
+    getModulesByModuleId,
     getSelectedModules,
     updateModule
 } from "../services/moduleService.js";
@@ -22,8 +22,8 @@ export const useModuleStore = create(
             });
             set(() => ({moduleList: updatedModuleList}));
         },
-        getModulesById: async (id) => {
-            const {data} = await getModulesById(id);
+        getModulesByModuleId: async (id) => {
+            const {data} = await getModulesByModuleId(id);
             return data;
         },
         getSelectedModules: async () => {

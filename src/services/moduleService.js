@@ -1,6 +1,7 @@
 import {ModuleModel} from "../models/moduleModel.js";
 import api from "./api.js";
 
+// TODO: missing routes: getModuleById, getUnselectedModules
 async function getAllModules() {
     return api
         .get(`/moduledata`)
@@ -12,9 +13,9 @@ async function getAllModules() {
         });
 }
 
-async function getModulesById(id) {
+async function getModulesByModuleId(moduleId) {
     return api
-        .get(`/moduledata/${id}`)
+        .get(`/moduledata/${moduleId}`)
         .then(resObj => {
             return {
                 data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
@@ -56,18 +57,19 @@ async function getAllModulesByStudySemesterId(studySemesterId) {
         });
 }
 
-// TODO: which params are optional?
+// TODO: return created obj
 async function addModule(moduleModel) {
     return api
         .post(`/module`, moduleModel)
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new ModuleModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });
 }
 
+// TODO: return updated obj
 // TODO: not working as expected, should be fixed
 async function updateModule(id, type, {
     name = null,
@@ -103,7 +105,7 @@ async function updateModule(id, type, {
         })
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new ModuleModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });
@@ -114,7 +116,7 @@ async function deleteModule(id) {
         .delete(`/module/${id}`)
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new ModuleModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });
@@ -122,7 +124,7 @@ async function deleteModule(id) {
 
 export {
     getAllModules,
-    getModulesById,
+    getModulesByModuleId,
     getSelectedModules,
     getAllModulesByDozentId,
     getAllModulesByStudySemesterId,

@@ -23,19 +23,17 @@ async function getDozentById(id) {
         });
 }
 
-// TODO: which params are optional?
 async function addDozent(dozentModel) {
     return api
         .post(`/dozent`, dozentModel)
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new DozentModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });
 }
 
-// TODO: res => _id = null
 async function updateDozent(id, {
         name = null,
         email = null,
@@ -51,7 +49,7 @@ async function updateDozent(id, {
         })
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new DozentModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });
@@ -62,7 +60,7 @@ async function deleteDozent(id) {
         .delete(`/dozent/${id}`)
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new DozentModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });

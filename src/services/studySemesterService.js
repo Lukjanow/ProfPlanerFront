@@ -23,19 +23,17 @@ async function getStudySemesterById(id) {
         });
 }
 
-// TODO: which params are optional?
 async function addStudySemester(studySemesterModel) {
     return api
         .post(`/studysemester`, studySemesterModel)
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new StudySemesterModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });
 }
 
-// TODO: res => _id = null
 async function updateStudySemester(id, {
     name = null,
     study = null,
@@ -49,7 +47,7 @@ async function updateStudySemester(id, {
         })
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new StudySemesterModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });
@@ -60,7 +58,7 @@ async function deleteStudySemester(id) {
         .delete(`/studysemester/${id}`)
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new StudySemesterModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });

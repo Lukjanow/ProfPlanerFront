@@ -5,6 +5,8 @@ import {Button, Card, CardBody, CardHeader, CircularProgress, Code, Divider, Spa
 import {useDozentStore} from "../stores/dozentStore.js";
 import {useRoomStore} from "../stores/roomStore.js";
 import {RoomModel} from "../models/roomModel.js";
+// import {useCalendarStore} from "../stores/calendarStore.js";
+// import {getCalendarById} from "../services/calendarService.js";
 
 export default function ApiDebugger() {
 
@@ -36,33 +38,39 @@ export default function ApiDebugger() {
         return useRoomStore.getState().addRoom(new RoomModel("N144", 5, 2));
     });
 
+    // const {
+    //     data: res,
+    //     isLoading: resIsLoading,
+    //     error: resError,
+    //     executor: resExecutor
+    // } = useDataFetcher(async () => {
+    //     return useCalendarStore.getState().getCalendarById("65d61765c15324dcfc497c4f");
+    //     // return useModuleStore.getState().addModule(new ModuleModel(
+    //     //     "112",
+    //     //     "TEST",
+    //     //     "EINF",
+    //     //     ["65d706915c208e7fd4abebab"],
+    //     //     "65d854c3dfc97c0356792f8e",
+    //     //     ["65d71bdb8c4eb66943f53f14"],
+    //     //     90,
+    //     //     100,
+    //     //     1,
+    //     //     [1],
+    //     //     3,
+    //     //     false,
+    //     //     "#ff0000",
+    //     //     "Das ist eine Notiz",
+    //     //     2
+    //     // ));
+    // });
 
     useEffect(() => {
         dozentExecutor();
         moduleListExecutor();
+        // resExecutor();
     }, []);
 
-
-    // const {data: res} = useDataFetcher(async () => {
-    //     return useModuleStore.getState().addModule(new ModuleModel(
-    //         "112",
-    //         "TEST",
-    //         "EINF",
-    //         ["65d706915c208e7fd4abebab"],
-    //         "65d854c3dfc97c0356792f8e",
-    //         ["65d71bdb8c4eb66943f53f14"],
-    //         90,
-    //         100,
-    //         1,
-    //         [2],
-    //         3,
-    //         false,
-    //         "#ff0000",
-    //         "Das ist eine Notiz",
-    //         2
-    //     ));
-    // });
-    //
+    // console.log(res);
 
     return (
         <>

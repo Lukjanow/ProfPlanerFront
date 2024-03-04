@@ -23,19 +23,17 @@ async function getRoomById(id) {
         });
 }
 
-// TODO: which params are optional?
 async function addRoom(roomModel) {
     return api
         .post(`/room/add`, roomModel)
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new RoomModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });
 }
 
-// TODO: res => _id = null
 async function updateRoom(id, {
     name = null,
     capacity = null,
@@ -49,7 +47,7 @@ async function updateRoom(id, {
         })
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new RoomModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });
@@ -60,7 +58,7 @@ async function deleteRoom(id) {
         .delete(`/room/${id}`)
         .then(resObj => {
             return {
-                data: resObj.data, // TODO: paste in new RoomModel?
+                data: resObj.data,
                 status: resObj.status
             }
         });

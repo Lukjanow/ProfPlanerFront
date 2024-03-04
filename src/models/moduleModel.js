@@ -1,7 +1,8 @@
 export class ModuleModel {
     constructor(moduleId, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, typeList,
                 frequency, selected, color, note, groups) {
-        this.module_id = moduleId;
+        this.module_id = moduleId; // TODO: deprecated
+        this.id = moduleId; // TODO: new, should be added
         this.name = name;
         this.code = code;
         this.dozent = dozentIdList;
