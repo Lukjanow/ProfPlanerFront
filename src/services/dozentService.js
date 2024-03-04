@@ -6,7 +6,7 @@ async function getAllDozents() {
         .get(`/dozent`)
         .then(resObj => {
             return {
-                data: resObj.data.map(item => new DozentModel(item)),
+                data: resObj.data.map(item => new DozentModel().setJsonObj(item)),
                 status: resObj.status
             }
         });
@@ -17,21 +17,15 @@ async function getDozentById(id) {
         .get(`/dozent/${id}`)
         .then(resObj => {
             return {
-                data: new DozentModel(resObj.data),
+                data: new DozentModel().setJsonObj(resObj.data),
                 status: resObj.status
             }
         });
 }
 
-// TODO: which params are optional?
-async function addDozent(name, email, title, intern) {
+async function addDozent(dozentModel) {
     return api
-        .post(`/dozent`, {
-            name,
-            e_mail: email,
-            title,
-            intern
-        })
+        .post(`/dozent`, dozentModel)
         .then(resObj => {
             return {
                 data: resObj.data,
@@ -58,7 +52,7 @@ async function updateDozent(id, {
                 data: resObj.data,
                 status: resObj.status
             }
-        })
+        });
 }
 
 async function deleteDozent(id) {

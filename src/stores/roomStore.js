@@ -17,8 +17,8 @@ export const useRoomStore = create(
             const {data} = await getRoomById(id);
             return data;
         },
-        addRoom: async (name, capacity, equipment) => {
-            const {data} = await addRoom(name, capacity, equipment);
+        addRoom: async (roomModel) => {
+            const {data} = await addRoom(roomModel);
             return data;
         },
         updateRoom: async (id, {name, capacity, equipment}) => {
