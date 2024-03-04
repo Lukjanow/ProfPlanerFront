@@ -289,9 +289,9 @@ export default function EditModulesPage({
                         <div className="flex gap-5">
                             <div style={{backgroundColor: "#00FFFF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#00FFFF")}></div>
                             <div style={{backgroundColor: "#FFA500", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FFA500")}></div>
-                            <div style={{backgroundColor: "#808080", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#808080")}></div>
-                            <div style={{backgroundColor: "#800080", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#800080")}></div>
-                            <div style={{backgroundColor: "#008080", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#008080")}></div>
+                            <div style={{backgroundColor: "#327207", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#327207")}></div>
+                            <div style={{backgroundColor: "#000000", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#000000")}></div>
+                            <div style={{backgroundColor: "#FFFFFF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FFFFFF")}></div>
                         </div>
                     </div>
                     <ModuleItem moduleItemData={{
@@ -411,6 +411,7 @@ export default function EditModulesPage({
                         >{t("training")} und {t("lecture")} als ein Block darstellen
                 </Checkbox>
             </SectionContainer>
+            
             <SectionContainer title={`${t("note")}`}>
                 <Textarea
                     minRows={3}

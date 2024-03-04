@@ -9,19 +9,6 @@ import { useTranslation } from "react-i18next";
 TODO: Add functions for search
 TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever works) https://nextui.org/docs/components/dropdown#with-sections*/}
 
-//Allow Input to Display the Label of Item rather than the Key
-function GetLabels(selectedKeys, Items) {
-  let Labels = ""
-  selectedKeys.forEach((element) => {
-    Items.forEach((item) =>{
-      if (item.key === element){
-        Labels += item.label + ", "
-      }
-    })
-  }
-  )
-  return Labels
-}
 
 export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="",
             add={}, width="250px", onChange = {/*pass*/}, values = []}) {
@@ -43,10 +30,25 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
       setDropped(!dropped)
     }
 
+      //Allow Input to Display the Label of Item rather than the Key
+    function GetLabels(selectedKeys, Items) {
+      let Labels = ""
+      let arr = Array.from(selectedKeys)
+      arr.forEach((element, index, array) => {
+        Items.forEach((item) =>{
+          if (item.key === element){
+            Labels += item.label
+            if (index !== array.length - 1) { Labels += ", " }  //Deal with seperation
+          }
+        })
+      }
+      )
+      return Labels
+    }
+
 
     //Update Labels of Input to show selected Items correctly
     useEffect(() => {
-      console.log(selectedKeys, prevKeys)
       if ( prevKeys !== selectedKeys ){
         setValue((selectedValue) ? GetLabels(selectedKeys, Items) : t("nothingSelected"))
         onChange({
@@ -74,7 +76,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                 <div className="arrow-up"></div>
                 : <div className="arrow-down"></div>
               }
-              style={{width: width}}
+              style={{width: width, alignContent: "left"}}
               value={value}
             >
             </Input>
