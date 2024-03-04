@@ -13,7 +13,6 @@ export function ModuleInfo({ isOpen, onOpenChange, event, removeFunction }) {
     backgroundColor: event.backgroundcolor,
     borderColor: event.bordercolor,
     borderInlineStartWidth: "15px",
-    borderColor: event.bordercolor,
   };
 
   return (
