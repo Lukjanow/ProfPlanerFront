@@ -3,6 +3,7 @@ import {
     addModule,
     deleteModule,
     getAllModules,
+    getAllBasicDataModules,
     getAllModulesByDozentId,
     getAllModulesByStudySemesterId, getModuleById,
     getModulesByModuleId,
@@ -24,6 +25,10 @@ export const useModuleStore = create(
                 return newModule ? newModule : oldModule;
             });
             set(() => ({moduleList: updatedModuleList}));
+        },
+        getAllBasicDataModules: async() => {
+            const {data} = await getAllBasicDataModules();
+            return data;
         },
         getModulesByModuleId: async (moduleId) => {
             const {data} = await getModulesByModuleId(moduleId);

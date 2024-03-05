@@ -8,12 +8,11 @@ import {
 import { OutlinedButton } from "./OutlinedButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export function ModuleInfo({ isOpen, onOpenChange, event, moveFunction }) {
+export function ModuleInfo({ isOpen, onOpenChange, event, removeFunction }) {
   const modalStyle = {
     backgroundColor: event.backgroundcolor,
     borderColor: event.bordercolor,
     borderInlineStartWidth: "15px",
-    borderColor: event.bordercolor,
   };
 
   return (
@@ -48,7 +47,7 @@ export function ModuleInfo({ isOpen, onOpenChange, event, moveFunction }) {
                 color={"primary"}
                 text={"Entfernen"}
                 onClick={() => {
-                  moveFunction();
+                  removeFunction();
                   onClose();
                 }}
               />

@@ -22,11 +22,6 @@ export default function BasicDataMenu({ onItemClick, selectedItem }) {
       description: t("lecturer"),
       icon: "user",
     },
-    {
-      key: "building",
-      description: t("building"),
-      icon: "building",
-    },
   ];
 
   const handleItemClick = (itemKey) => {
