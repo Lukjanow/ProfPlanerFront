@@ -1,8 +1,6 @@
 import {DozentModel} from "../models/dozentModel.js";
 import api from "./api.js";
 
-// TODO: FIX!!!
-
 async function getAllDozents() {
     return api
         .get(`/dozent`)
@@ -37,17 +35,19 @@ async function addDozent(dozentModel) {
 }
 
 async function updateDozent(id, {
-        name = null,
+        prename = null,
+        lastname = null,
         email = null,
         title = null,
-        intern = null
+        salutation = null
     }) {
     return api
         .put(`/dozent/${id}`, {
-            ...(name !== null && {name}),
+            ...(prename !== null && {prename}),
+            ...(lastname !== null && {lastname}),
             ...(email !== null && {e_mail: email}),
             ...(title !== null && {title}),
-            ...(intern !== null && {intern})
+            ...(salutation !== null && {salutation}),
         })
         .then(resObj => {
             return {

@@ -1,17 +1,19 @@
 export class DozentModel {
-    constructor(name, email, title, intern) {
-        this.name = name;
-        this.e_mail = email;
+    constructor(prename, lastname, email, title, salutation) {
+        this.prename = prename;
+        this.lastname = lastname;
+        this.email = email;
         this.title = title;
-        this.intern = intern;
+        this.salutation = salutation;
     }
 
     setJsonObj(jsonObj) {
         this._id = jsonObj._id;
-        this.name = jsonObj.name;
-        this.e_mail = jsonObj.e_mail;
+        this.prename = jsonObj.prename;
+        this.lastname = jsonObj.lastname;
+        this.email = jsonObj.email;
         this.title = jsonObj.title;
-        this.intern = jsonObj.intern;
+        this.salutation = jsonObj.salutation;
         return this;
     }
 }

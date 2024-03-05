@@ -1,16 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer";
-import { Switch, Input } from "@nextui-org/react";
+import { Input } from "@nextui-org/react";
 import SelectBox from "../components/SelectBox";
-import TeacherModel from "../models/TeacherModel.js";
+import {DozentModel} from "../models/dozentModel.js";
 
 
 export default function LecturerDetailPage() {
     const { t } = useTranslation();
     const title = ["-", "Prof.", "Prof. Dr."]
-    const [values, setValues] = useState(new TeacherModel);
+    const [values, setValues] = useState(new DozentModel());
 
     const onChange = (e) => {
         const newValue = e.target.type === 'checkbox' ? e.target.checked : e.target.value;
@@ -54,13 +54,6 @@ export default function LecturerDetailPage() {
                     label={t("email")}
                     onChange={onChange}
                 />
-                <Switch
-                    name={"intern"}
-                    defaultSelected
-                    onChange={onChange}
-                >
-                    {t("internal")} {t("lecturer")}
-                </Switch>
             </SectionContainer>
         </PageContainer >
     )

@@ -131,16 +131,17 @@ export default function ApiDebugger() {
                 <Card>
                     <CardHeader className="flex gap-3">
                         <div className="flex flex-col">
-                            <p className="text-md">{dozent.name}</p>
+                            <p className="text-md">{dozent.prename} {dozent.lastname}</p>
                             <p className="text-small text-default-500">_id: {dozent._id}</p>
                         </div>
                     </CardHeader>
                     <CardBody>
                         <p>_id: {dozent._id}</p>
-                        <p>name: {dozent.name}</p>
-                        <p>e_mail: {dozent.e_mail}</p>
+                        <p>prename: {dozent.prename}</p>
+                        <p>lastname: {dozent.lastname}</p>
+                        <p>email: {dozent.email}</p>
                         <p>title: {dozent.title}</p>
-                        <p>intern: {dozent.intern ? "true" : "false"}</p>
+                        <p>salutation: {dozent.salutation}</p>
                     </CardBody>
                 </Card>
             }
@@ -187,7 +188,7 @@ export default function ApiDebugger() {
                         <p>_id: {module._id}</p>
                         <p>name: {module.name}</p>
                         <p>code: {module.code}</p>
-                        <p>dozent: {module.dozent[0].name} | {module.dozent[0].e_mail}</p>
+                        <p>dozent: {module.dozent[0].prename} {module.dozent[0].lastname} | {module.dozent[0].email}</p>
                         {module && module.room && <p>room: {module.room.name}</p>}
                         {module && module.study_semester && <p>study_semester: {module.study_semester[0].name}</p>}
                         <p>duration: {module.duration}</p>

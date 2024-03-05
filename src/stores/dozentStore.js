@@ -30,8 +30,8 @@ export const useDozentStore = create(
             await get().refreshDozentList();
             return data;
         },
-        updateDozent: async (id, {name, email, title, intern}) => {
-            const {data} = await updateDozent(id, {name, email, title, intern});
+        updateDozent: async (id, {prename, lastname, email, title, salutation}) => {
+            const {data} = await updateDozent(id, {prename, lastname, email, title, salutation});
             await get().refreshDozentList();
             return data;
         },
