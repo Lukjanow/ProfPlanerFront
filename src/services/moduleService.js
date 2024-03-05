@@ -68,7 +68,6 @@ async function getAllModulesByStudySemesterId(studySemesterId) {
         });
 }
 
-// TODO: return created obj
 async function addModule(moduleModel) {
     return api
         .post(`/module`, moduleModel)
@@ -80,9 +79,8 @@ async function addModule(moduleModel) {
         });
 }
 
-// TODO: return updated obj
-// TODO: not working as expected, should be fixed
-async function updateModule(id, type, {
+async function updateModule(id, {
+    moduleId = null,
     name = null,
     code = null,
     dozentIdList = null,
@@ -91,6 +89,7 @@ async function updateModule(id, type, {
     duration = null,
     approximateAttendance = null,
     need = null,
+    typeList = null,
     frequency = null,
     selected = null,
     color = null,
@@ -99,6 +98,7 @@ async function updateModule(id, type, {
 }) {
     return api
         .put(`/module/${id}`, {
+            ...(moduleId !== null && {moduleId}),
             ...(name !== null && {name}),
             ...(code !== null && {code}),
             ...(dozentIdList !== null && {dozent: dozentIdList}),
@@ -108,7 +108,7 @@ async function updateModule(id, type, {
             ...(duration !== null && {duration}),
             ...(approximateAttendance !== null && {approximate_attendance: approximateAttendance}),
             ...(need !== null && {need}),
-            type,
+            ...(typeList !== null && {type: typeList}),
             ...(frequency !== null && {frequency}),
             ...(color !== null && {color}),
             ...(note !== null && {note}),

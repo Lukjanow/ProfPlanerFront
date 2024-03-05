@@ -14,6 +14,9 @@ export const useModuleStore = create(
     (set, get) => ({
         moduleList: [],
         initModuleList: async () => {
+            await get().refreshModuleList();
+        },
+        refreshModuleList: async () => {
             const oldModuleList = get().moduleList;
             const {data} = await getAllModules();
             const updatedModuleList = data.map(newModule => {
@@ -22,8 +25,8 @@ export const useModuleStore = create(
             });
             set(() => ({moduleList: updatedModuleList}));
         },
-        getModulesByModuleId: async (id) => {
-            const {data} = await getModulesByModuleId(id);
+        getModulesByModuleId: async (moduleId) => {
+            const {data} = await getModulesByModuleId(moduleId);
             return data;
         },
         getSelectedModules: async () => {
@@ -40,16 +43,19 @@ export const useModuleStore = create(
         },
         addModule: async (moduleModel) => {
             const {data} = await addModule(moduleModel);
+            await get().refreshModuleList();
             return data;
         },
-        updateModule: async (id, type, {name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need,
+        updateModule: async (id, {moduleId, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, typeList,
             frequency, selected, color, note, groups}) => {
-            const {data} = await updateModule(id, type, {name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need,
+            const {data} = await updateModule(id, {moduleId, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, typeList,
                 frequency, selected, color, note, groups});
+            await get().refreshModuleList();
             return data;
         },
         deleteModule: async (id) => {
             const {data} = await deleteModule(id);
+            await get().refreshModuleList();
             return data;
         },
     }),

@@ -1,8 +1,7 @@
 export class ModuleModel {
     constructor(moduleId, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, typeList,
                 frequency, selected, color, note, groups) {
-        this.module_id = moduleId; // TODO: deprecated
-        this.id = moduleId; // TODO: new, should be added
+        this.module_id = moduleId;
         this.name = name;
         this.code = code;
         this.dozent = dozentIdList;
@@ -20,8 +19,7 @@ export class ModuleModel {
     }
 
     setJsonObj(jsonObj) {
-        this._id = jsonObj.id; // TODO: deprecated
-        // this._id = jsonObj._id; // TODO: new, should be added
+        this._id = jsonObj._id;
         this.module_id = jsonObj.module_id;
         this.name = jsonObj.name;
         this.code = jsonObj.code;
@@ -40,6 +38,7 @@ export class ModuleModel {
         return this;
     }
 }
+
 export class ModuleBasicModel {
   constructor(jsonObj) {
     this.id = jsonObj.id;
