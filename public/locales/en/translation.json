@@ -41,5 +41,10 @@
   "isInvalid": " is invalid.",
   "noContentAvailable": "No Content Available!",
   "noContentInstruction": "You can attempt to add new data using the button above. If data exists but isn't displayed, try refreshing the page.",
-  "refresh": "Refresh"
+  "refresh": "Refresh",
+  "classroom": "Klassenzimmer",
+  "auditorium": "Auditorium",
+  "laboratory": "Labor",
+  "roomType": "Room Typ",
+  "roomNumber": "Roomnumber"
 }
