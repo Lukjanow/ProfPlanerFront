@@ -2,9 +2,8 @@ import api from "./api.js";
 import {CalendarModel} from "../models/calendarModel.js";
 import {CalendarEntryModel} from "../models/calendarEntryModel.js";
 
-// TODO: routes needed: getAllCalendars, updateCalendar, getCalendarEntriesFromCalendar
+// TODO: routes needed: updateCalendar, getCalendarEntriesFromCalendar
 
-// TODO: missing routes?
 async function getAllCalendars() {
     return api
         .get(`/calendar`)
@@ -16,7 +15,6 @@ async function getAllCalendars() {
         });
 }
 
-// TODO: check
 async function getCalendarById(id) {
     return api
         .get(`/calendar/${id}`)
@@ -28,7 +26,6 @@ async function getCalendarById(id) {
         });
 }
 
-// TODO: check
 async function addCalendar(calendarModel) {
     return api
         .post(`/calendar`, calendarModel)
@@ -58,7 +55,6 @@ async function updateCalendar(id, {
         });
 }
 
-// TODO: check
 async function deleteCalendar(id) {
     return api
         .delete(`/calendar/${id}`)
@@ -70,11 +66,9 @@ async function deleteCalendar(id) {
         });
 }
 
-// TODO: check
-// TODO: calendarId necessary?
-async function getCalendarEntryForCalendar(calendarId, calendarEntryId) {
+async function getCalendarEntry(id) {
     return api
-        .get(`/calendar/calendarentry/${calendarId}/${calendarEntryId}`)
+        .get(`/calendar/calendarentry/${id}`)
         .then(resObj => {
             return {
                 data: new CalendarEntryModel().setJsonObj(resObj.data),
@@ -83,8 +77,7 @@ async function getCalendarEntryForCalendar(calendarId, calendarEntryId) {
         });
 }
 
-// TODO: check
-async function getCalendarEntriesForStudySemester(calendarId, studySemesterId) {
+async function getCalendarEntriesForStudySemesterAndCalendar(calendarId, studySemesterId) {
     return api
         .get(`/calendar/studysemester/${calendarId}/${studySemesterId}`)
         .then(resObj => {
@@ -95,8 +88,7 @@ async function getCalendarEntriesForStudySemester(calendarId, studySemesterId) {
         });
 }
 
-// TODO: check
-async function getCalendarEntriesForDozent(calendarId, dozentId) {
+async function getCalendarEntriesForDozentAndCalendar(calendarId, dozentId) {
     return api
         .get(`/calendar/dozent/${calendarId}/${dozentId}`)
         .then(resObj => {
@@ -107,10 +99,9 @@ async function getCalendarEntriesForDozent(calendarId, dozentId) {
         });
 }
 
-// TODO: check
-async function getCalendarEntriesForRoom(calendarId, roomId) {
+async function getCalendarEntriesForRoomAndCalendar(calendarId, roomId) {
     return api
-        .delete(`/calendar/room/${calendarId}/${roomId}`)
+        .get(`/calendar/room/${calendarId}/${roomId}`)
         .then(resObj => {
             return {
                 data: resObj.data.map(item => new CalendarEntryModel().setJsonObj(item)),
@@ -119,11 +110,9 @@ async function getCalendarEntriesForRoom(calendarId, roomId) {
         });
 }
 
-// TODO: possible to read calendarId from body?
-// TODO: check
-async function addCalendarEntryForCalendar(calendarEntryModel) {
+async function addCalendarEntryForCalendar(calendarId, calendarEntryModel) {
     return api
-        .post(`/calendar/calendarentry`, calendarEntryModel)
+        .post(`/calendar/calendarentry/${calendarId}`, calendarEntryModel)
         .then(resObj => {
             return {
                 data: resObj.data,
@@ -132,15 +121,16 @@ async function addCalendarEntryForCalendar(calendarEntryModel) {
         });
 }
 
-// TODO: check
-async function updateCalendarEntryForCalendar(calendarId, calendarEntryId, {
-    name = null,
-    entryIdList = null,
+async function updateCalendarEntry(id, {
+    moduleId = null,
+    timeStampModel = null,
+    comment = null,
 }) {
     return api
-        .put(`/calendar/calendarentry/${calendarId}/${calendarEntryId}`, {
-            ...(name !== null && {name}),
-            ...(entryIdList !== null && {entries: entryIdList})
+        .put(`/calendar/calendarentry/${id}`, {
+            ...(moduleId !== null && {module: moduleId}),
+            ...(timeStampModel !== null && {time_stamp: timeStampModel}),
+            ...(comment !== null && {comment})
         })
         .then(resObj => {
             return {
@@ -150,14 +140,12 @@ async function updateCalendarEntryForCalendar(calendarId, calendarEntryId, {
         });
 }
 
-// TODO: check
-// TODO: calendarId missing
-async function deleteCalendarEntryForCalendar(calendarId, calendarEntryId) {
+async function deleteCalendarEntry(id) {
     return api
-        .delete(`/calendar/calendarentry/${calendarId}/${calendarEntryId}`)
+        .delete(`/calendar/calendarentry/${id}`)
         .then(resObj => {
             return {
-                data: new CalendarEntryModel().setJsonObj(resObj.data),
+                data: resObj.data,
                 status: resObj.status
             }
         });
@@ -169,11 +157,11 @@ export {
     addCalendar,
     updateCalendar,
     deleteCalendar,
-    getCalendarEntryForCalendar,
-    getCalendarEntriesForStudySemester,
-    getCalendarEntriesForDozent,
-    getCalendarEntriesForRoom,
+    getCalendarEntry,
+    getCalendarEntriesForStudySemesterAndCalendar,
+    getCalendarEntriesForDozentAndCalendar,
+    getCalendarEntriesForRoomAndCalendar,
     addCalendarEntryForCalendar,
-    updateCalendarEntryForCalendar,
-    deleteCalendarEntryForCalendar
+    updateCalendarEntry,
+    deleteCalendarEntry
 }

@@ -81,7 +81,22 @@ export default function ApiDebugger() {
             {/*CREATE ROOM BUTTON*/}
 
             <Button onClick={roomExecutor}>Create room</Button>
-            {room && <p>Room: {room._id}</p>}
+            {room &&
+                <Card>
+                    <CardHeader className="flex gap-3">
+                        <div className="flex flex-col">
+                            <p className="text-md">{room.name}</p>
+                            <p className="text-small text-default-500">_id: {room._id}</p>
+                        </div>
+                    </CardHeader>
+                    <CardBody>
+                        <p>_id: {room._id}</p>
+                        <p>name: {room.name}</p>
+                        <p>capacity: {room.capacity}</p>
+                        <p>equipment: {room.equipment ? room.equipment : "null"}</p>
+                    </CardBody>
+                </Card>
+            }
 
 
 
@@ -113,7 +128,7 @@ export default function ApiDebugger() {
             {/*DOZENT*/}
 
             {dozent &&
-                <Card key={dozent._id}>
+                <Card>
                     <CardHeader className="flex gap-3">
                         <div className="flex flex-col">
                             <p className="text-md">{dozent.name}</p>
@@ -161,12 +176,11 @@ export default function ApiDebugger() {
             {/*MODULE-LIST*/}
 
             {moduleList && moduleList.map(module => (
-                <Card key={module._id + module.type}>
+                <Card key={module._id}>
                     <CardHeader className="flex gap-3">
                         <div className="flex flex-col">
                             <p className="text-md">{module.name}</p>
                             <p className="text-small text-default-500">_id: {module._id}</p>
-                            <p className="text-small text-default-500">key: {module._id + module.type}</p>
                         </div>
                     </CardHeader>
                     <CardBody>

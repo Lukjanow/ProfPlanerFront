@@ -22,8 +22,8 @@ export default function useDataFetcher(doOnDataLoad) {
             setIsLoading(false);
 
         } catch (e) {
-            setIsLoading(false);
             debug.active && console.log("useDataFetcher: Request failed!");
+            setIsLoading(false);
 
             console.error(e);
             setError(e);

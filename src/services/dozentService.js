@@ -1,6 +1,8 @@
 import {DozentModel} from "../models/dozentModel.js";
 import api from "./api.js";
 
+// TODO: FIX!!!
+
 async function getAllDozents() {
     return api
         .get(`/dozent`)
