@@ -76,7 +76,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                 <div className="arrow-up"></div>
                 : <div className="arrow-down"></div>
               }
-              style={{width: width, alignContent: "left"}}
+              style={{width: width, textAlign: "left"}}
               value={value}
             >
             </Input>
