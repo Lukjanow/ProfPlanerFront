@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer";
 import { Input } from "@nextui-org/react";
 import SelectBox from "../components/SelectBox";
-import TeacherModel from "../models/TeacherModel.js";
 import { addDozent } from "../services/dozentService.js";
+import { DozentModel } from "../models/dozentModel.js";
 
 
 export default function LecturerDetailPage() {
@@ -14,7 +14,7 @@ export default function LecturerDetailPage() {
     const salutation = ["keine Angabe", "Frau", "Herr"]
 
 
-    const [formData, setFormData] = useState(new TeacherModel);
+    const [formData, setFormData] = useState(new DozentModel);
     const [errors, setErrors] = useState({});
 
 
@@ -61,9 +61,7 @@ export default function LecturerDetailPage() {
             errors.lastname = true;
         }
 
-        if (!formData.email.trim()) {
-            errors.email = true;
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        if (!/\S+@\S+\.\S+/.test(formData.email)) {
             errors.email = true;
         }
 
