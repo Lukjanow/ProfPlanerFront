@@ -12,7 +12,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment/dist/moment';
 import 'moment/dist/locale/de';
 import { useTranslation } from "react-i18next";
-import {checkModuleWarnings} from "../conflicts/conflicts";
+import {checkModuleWarnings, deleteConflictsWithCurrentModule} from "../conflicts/conflicts";
 
 export function TimeTable({moduleItemList}) {
   const { i18n } = useTranslation();
@@ -49,10 +49,8 @@ export function TimeTable({moduleItemList}) {
               setOutsideEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
               setDraggedEvent(null)
               events.push(newEvent)
-              console.log("BEFORE")
-              console.log(conflict_list)
               setConflicts(checkModuleWarnings(events, conflict_list, newEvent))
-              console.log("AFTER")
+              console.log("conflict_list")
               console.log(conflict_list)
           }
 
@@ -71,6 +69,20 @@ export function TimeTable({moduleItemList}) {
             var div = document.getElementById("removeBorder")
             div.classList.remove("bg-red-600")
             div.classList.add("bg-white")
+            
+            console.log(appointmentId)
+            let module = null;
+            for (let i = 0; i < events.length; i++) {
+                if (events[i].id === appointmentId) {
+                    module = events[i];
+                    break;
+                }
+            }
+            module.start = start
+            module.end = end
+            setConflicts(checkModuleWarnings(events, conflict_list, module))
+            console.log("conflict_list")
+            console.log(conflict_list)
         },
     );
 
@@ -157,6 +169,9 @@ export function TimeTable({moduleItemList}) {
     var div = document.getElementById("removeBorder")
     div.classList.remove("bg-red-600")
     div.classList.add("bg-white")
+    setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
+    console.log("conflict_list")
+    console.log(conflict_list)
   };
 
   const handleDragStart = (event) => {

@@ -19,6 +19,7 @@ export default function MyCalendar() {
       {
         id: 1,
         title: "Einführung in die Informatik",
+        type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
         studySemester: ["AI-B 1"],
@@ -31,6 +32,7 @@ export default function MyCalendar() {
       {
         id: 2,
         title: "Rechnernetze und Netzwerksicherheit",
+        type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
         studySemester: ["AI-B 2", "WI-B 4"],
@@ -43,6 +45,7 @@ export default function MyCalendar() {
       {
         id: 3,
         title: "Betriebssysteme",
+        type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
         studySemester: ["AI-B 2"],
@@ -55,6 +58,7 @@ export default function MyCalendar() {
       {
         id: 4,
         title: "Softwarequalität",
+        type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
         studySemester: ["AI-B 3"],
@@ -67,6 +71,7 @@ export default function MyCalendar() {
       {
       id: 5,
       title: "Datenbanken",
+      type: "Modul",
       start: moment("2024-01-01T12:00").toDate(),
       end: moment("2024-01-01T15:00").toDate(),
       studySemester: ["AI-B 2"],
@@ -79,6 +84,7 @@ export default function MyCalendar() {
     {
       id: 6,
       title: "Fullstack Webanwendungen",
+      type: "Modul",
       start: moment("2024-01-02T14:00").toDate(),
       end: moment("2024-01-02T18:00").toDate(),
       studySemester: ["AI-B 4"],
@@ -87,7 +93,20 @@ export default function MyCalendar() {
       backgroundcolor: "#ea9999",
       bordercolor: "#e70000",
       duration: 195,
-    }
+    },
+    {
+      id: 7,
+      title: "Katze Streicheln",
+      type: "Abwesenheit",
+      start: moment("2024-01-01T12:00").toDate(),
+      end: moment("2024-01-01T15:00").toDate(),
+      studySemester: [],
+      dozent: ["Herbert Thielen"],
+      room: [],
+      backgroundcolor: "#a2c4c9",
+      bordercolor: "#106875",
+      duration: 300,
+    },
     ];
 
     return (
