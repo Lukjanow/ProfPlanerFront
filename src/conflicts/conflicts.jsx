@@ -79,7 +79,6 @@ function checkWarnings() {
 
 function checkMiddayPause(module_list){
     let day = module_list[0].start.getDay()
-    console.log("MIDDAY PAUSE")
     var pauseStart = 11 * 60 + 30
     let pauseEnd = 14 * 60 + 30
     while(pauseStart <= pauseEnd - 45){
@@ -281,14 +280,11 @@ function checkModuleWarnings(module_list, conflict_list, module_id){
         //CONFLICT 7
         const moduleStart = module.start.getHours() * 60 + module.start.getMinutes()
         const moduleEnd = moduleStart + module.duration
-        console.log(moduleStart)
-        console.log(moduleEnd)
         if(!(moduleStart >= 14 * 60 + 30 || moduleEnd <= 11 * 60 + 30)){
             var dayModuleList = []
             for (let i = 0; i < value.length; i++) {
                 //only get modules from same day
                 if (value[i].start.getDay() == module.start.getDay()) {
-                    console.log(value[i])
                     const imoduleStart = value[i].start.getHours() * 60 + value[i].start.getMinutes()
                     const imoduleEnd = imoduleStart + value[i].duration
                     if(!(imoduleStart >= 14 * 60 + 30 || imoduleEnd <= 11 * 60 + 30)){
@@ -297,7 +293,6 @@ function checkModuleWarnings(module_list, conflict_list, module_id){
                 }
             }
             dayModuleList.push(module)
-            // console.log(checkMiddayPause(dayModuleList))
             if(checkMiddayPause(dayModuleList)) {
                 conflict_list.push(new Conflict(module, dayModuleList[0], key, 7))
             }

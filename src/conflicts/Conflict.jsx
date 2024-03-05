@@ -1,5 +1,5 @@
 class Conflict {
-    constructor(mod1, mod2, name, index=0, name2="", ignore=false) {
+    constructor(mod1, mod2, name, index=0, name2="", ignore=false, id=0) {
       this.mod1 = mod1;
       this.mod2 = mod2;
       this.index = index;
@@ -48,6 +48,7 @@ class Conflict {
           break;
       }
       this.ignore = ignore;
+      this.id = id;
     }
     printError(){
       console.log(this.error_message)

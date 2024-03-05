@@ -2,6 +2,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useCallback, useState } from "react";
 import { ModuleItem } from "./ModuleItem";
 import { ModuleBar } from "./ModuleBar";
+import { ConflictDisplay } from "./ConflictDisplay";
 import { PageTitle } from "../components/PageTitle";
 import {TimeTableFilter} from "../components/TimeTableFilter";
 import "../styles/components/timeTableEvent.scss";
@@ -70,7 +71,6 @@ export function TimeTable({moduleItemList}) {
             div.classList.remove("bg-red-600")
             div.classList.add("bg-white")
             
-            console.log(appointmentId)
             let module = null;
             for (let i = 0; i < events.length; i++) {
                 if (events[i].id === appointmentId) {
@@ -188,7 +188,7 @@ export function TimeTable({moduleItemList}) {
         <div>
           <PageTitle text="Lehrplanung"/>
           <TimeTableFilter></TimeTableFilter>
-          <div className="h-[35vw]">
+          <div>
             <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4 bg-white">
               <DnDCalendar
                   className="w-[78vw] select-none"
@@ -217,6 +217,7 @@ export function TimeTable({moduleItemList}) {
                   onDragStart={(event) => handleDragStart(event)}
               />
               </div>
+              <ConflictDisplay data={conflict_list}/>
           </div>
         </div>
         <div>
