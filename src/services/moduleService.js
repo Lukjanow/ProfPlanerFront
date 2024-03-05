@@ -1,7 +1,6 @@
 import {ModuleBasicModel, ModuleModel} from "../models/moduleModel.js";
 import api from "./api.js";
 
-// TODO: missing routes: getModuleById, getUnselectedModules
 async function getAllModules() {
     return api
         .get(`/moduledata`)
@@ -26,7 +25,7 @@ async function getAllBasicDataModules() {
 
 async function getModulesByModuleId(moduleId) {
     return api
-        .get(`/moduledata/${moduleId}`)
+        .get(`/moduledata/module/${moduleId}`)
         .then(resObj => {
             return {
                 data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
@@ -35,9 +34,31 @@ async function getModulesByModuleId(moduleId) {
         });
 }
 
+async function getModuleById(id) {
+    return api
+        .get(`/moduledata/${id}`)
+        .then(resObj => {
+            return {
+                data: new ModuleModel().setJsonObj(resObj.data),
+                status: resObj.status
+            }
+        });
+}
+
 async function getSelectedModules() {
     return api
         .get(`/modulesdata/select`)
+        .then(resObj => {
+            return {
+                data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
+                status: resObj.status
+            }
+        });
+}
+
+async function getUnselectedModules() {
+    return api
+        .get(`/modulesdata/unselect`)
         .then(resObj => {
             return {
                 data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
@@ -137,7 +158,9 @@ export {
     getAllModules,
     getAllBasicDataModules,
     getModulesByModuleId,
+    getModuleById,
     getSelectedModules,
+    getUnselectedModules,
     getAllModulesByDozentId,
     getAllModulesByStudySemesterId,
     addModule,

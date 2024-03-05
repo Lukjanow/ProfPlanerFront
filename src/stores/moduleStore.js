@@ -4,9 +4,9 @@ import {
     deleteModule,
     getAllModules,
     getAllModulesByDozentId,
-    getAllModulesByStudySemesterId,
+    getAllModulesByStudySemesterId, getModuleById,
     getModulesByModuleId,
-    getSelectedModules,
+    getSelectedModules, getUnselectedModules,
     updateModule
 } from "../services/moduleService.js";
 
@@ -29,8 +29,16 @@ export const useModuleStore = create(
             const {data} = await getModulesByModuleId(moduleId);
             return data;
         },
+        getModuleById: async (id) => {
+            const {data} = await getModuleById(id);
+            return data;
+        },
         getSelectedModules: async () => {
             const {data} = await getSelectedModules();
+            return data;
+        },
+        getUnselectedModules: async () => {
+            const {data} = await getUnselectedModules();
             return data;
         },
         getAllModulesByDozentId: async (dozentId) => {
