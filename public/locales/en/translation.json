@@ -38,5 +38,8 @@
   "capacity": "Capacity",
   "equipment": "Equipment",
   "isRequired": " is required.",
-  "isInvalid": " is invalid."
+  "isInvalid": " is invalid.",
+  "noContentAvailable": "No Content Available!",
+  "noContentInstruction": "You can attempt to add new data using the button above. If data exists but isn't displayed, try refreshing the page.",
+  "refresh": "Refresh"
 }
