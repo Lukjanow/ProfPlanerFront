@@ -2,8 +2,6 @@ import api from "./api.js";
 import {CalendarModel} from "../models/calendarModel.js";
 import {CalendarEntryModel} from "../models/calendarEntryModel.js";
 
-// TODO: routes needed: updateCalendar, getCalendarEntriesFromCalendar
-
 async function getAllCalendars() {
     return api
         .get(`/calendar`)
@@ -37,7 +35,6 @@ async function addCalendar(calendarModel) {
         });
 }
 
-// TODO: missing route?
 async function updateCalendar(id, {
         name = null,
         entryIdList = null,
@@ -72,6 +69,17 @@ async function getCalendarEntry(id) {
         .then(resObj => {
             return {
                 data: new CalendarEntryModel().setJsonObj(resObj.data),
+                status: resObj.status
+            }
+        });
+}
+
+async function getCalendarEntriesForCalendar(calendarId) {
+    return api
+        .get(`/calendar/entrys/${calendarId}`)
+        .then(resObj => {
+            return {
+                data: resObj.data.map(item => new CalendarEntryModel().setJsonObj(item)),
                 status: resObj.status
             }
         });
@@ -158,6 +166,7 @@ export {
     updateCalendar,
     deleteCalendar,
     getCalendarEntry,
+    getCalendarEntriesForCalendar,
     getCalendarEntriesForStudySemesterAndCalendar,
     getCalendarEntriesForDozentAndCalendar,
     getCalendarEntriesForRoomAndCalendar,

@@ -3,7 +3,7 @@ import {
     addCalendar, addCalendarEntryForCalendar,
     deleteCalendar, deleteCalendarEntry,
     getAllCalendars,
-    getCalendarById,
+    getCalendarById, getCalendarEntriesForCalendar,
     getCalendarEntriesForDozentAndCalendar,
     getCalendarEntriesForRoomAndCalendar,
     getCalendarEntriesForStudySemesterAndCalendar, getCalendarEntry,
@@ -46,6 +46,10 @@ export const useCalendarStore = create(
         },
         getCalendarEntry: async (id) => {
             const {data} = await getCalendarEntry(id);
+            return data;
+        },
+        getCalendarEntriesForCalendar: async (calendarId) => {
+            const {data} = await getCalendarEntriesForCalendar(calendarId);
             return data;
         },
         getCalendarEntriesForStudySemesterAndCalendar: async (calendarId, studySemesterId) => {
