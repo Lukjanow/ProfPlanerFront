@@ -23,11 +23,11 @@
   "delete": "Löschen",
   "cancel": "Abbrechen",
   "save": "Speichern",
+  "salutation": "Anrede",
   "title": "Titel",
   "prename": "Vorname",
   "lastname": "Nachname",
   "email": "E-Mail-Adresse",
-  "internal": "Interne",
   "newModule": "Neues Modul",
   "newRoom": "Neuer Raum",
   "newLecturer": "Neue Lehrperson",
@@ -59,5 +59,10 @@
   "addExercises": "Füge eine Übung oder ein Praktikum hinzu",
   "addExercise": "Übung hinzufügen",
   "addTraining": "Praktikum hinzufügen",
-  "group": "In Gruppe: (Vorlesung ist Gruppe 1)"
+  "group": "In Gruppe: (Vorlesung ist Gruppe 1)",
+  "isRequired": " wird benötigt.",
+  "isInvalid": " ist ungültig.",
+  "noContentAvailable": "Keine Inhalte verfügbar!",
+  "noContentInstruction": "Sie können versuchen, neue Daten mit der Schaltfläche oben hinzuzufügen. Wenn Daten vorhanden sind, aber nicht angezeigt werden, versuchen Sie, die Seite neu zu laden.",
+  "refresh": "Aktualisieren"
 }

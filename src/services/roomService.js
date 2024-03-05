@@ -6,7 +6,7 @@ async function getAllRooms() {
         .get(`/room`)
         .then(resObj => {
             return {
-                data: resObj.data.map(item => new RoomModel(item)),
+                data: resObj.data.map(item => new RoomModel().setJsonObj(item)),
                 status: resObj.status
             }
         });
@@ -17,20 +17,15 @@ async function getRoomById(id) {
         .get(`/room/${id}`)
         .then(resObj => {
             return {
-                data: new RoomModel(resObj.data),
+                data: new RoomModel().setJsonObj(resObj.data),
                 status: resObj.status
             }
         });
 }
 
-// TODO: which params are optional?
-async function addRoom(name, capacity, equipment) {
+async function addRoom(roomModel) {
     return api
-        .post(`/room/add`, {
-            name,
-            capacity,
-            equipment
-        })
+        .post(`/room/add`, roomModel)
         .then(resObj => {
             return {
                 data: resObj.data,
@@ -55,7 +50,7 @@ async function updateRoom(id, {
                 data: resObj.data,
                 status: resObj.status
             }
-        })
+        });
 }
 
 async function deleteRoom(id) {

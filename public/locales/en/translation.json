@@ -24,11 +24,11 @@
   "delete": "Delete",
   "cancel": "Cancel",
   "save": "Save",
+  "salutation": "Salutation",
   "title": "Title",
   "prename": "Prename",
   "lastname": "Lastname",
   "email": "E-Mail Adress",
-  "internal": "Internal",
   "newModule": "New Module",
   "newRoom": "New Room",
   "newLecturer": "New Teacher",
@@ -60,5 +60,10 @@
   "addExercises": "Add an Exercise or a Training session",
   "addExercise": "Add Exercise",
   "addTraining": "Add Training",
-  "group": "In group: (Lecture is group 1)"
+  "group": "In group: (Lecture is group 1)",
+  "isRequired": " is required.",
+  "isInvalid": " is invalid.",
+  "noContentAvailable": "No Content Available!",
+  "noContentInstruction": "You can attempt to add new data using the button above. If data exists but isn't displayed, try refreshing the page.",
+  "refresh": "Refresh"
 }
