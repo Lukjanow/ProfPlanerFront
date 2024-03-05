@@ -59,5 +59,6 @@
   "block": "Blocker",
   "addExercises": "Add an Exercise or a Training session",
   "addExercise": "Add Exercise",
-  "addTraining": "Add Training"
+  "addTraining": "Add Training",
+  "group": "In group: (Lecture is group 1)"
 }

@@ -6,6 +6,7 @@ import { SectionContainer } from "../components/SectionContainer";
 import React, { useEffect } from "react";
 import { ModuleItem } from "../components/ModuleItem";
 import { OutlinedButton } from "../components/OutlinedButton";
+import Exercise from "../components/Exercise";
 
 //Deal with Dozent, Room, duration, type
 //TODO: Allow to send data
@@ -37,46 +38,32 @@ export default function EditModulesPage({
     const [QSP, setQSP] = React.useState("")
     const [studyCourse, setStudyCourse] = React.useState([])
 
-    const [prevExtra, setPrevExtra] = React.useState([])            //Elements regarding Exercise/Training
+    // const [prevExtra, setPrevExtra] = React.useState([])            //Elements regarding Exercise/Training
     const [extra, setExtra] = React.useState([])            //Elements regarding Exercise/Training
-    const [extraData, setExtraData] = React.useState([])    //Save Data set up about Exercise
-
-    function updateExtraData(field, newValue, array){
-        let newArr = array
-        newArr[newArr.length - 1][field] = newValue
-        return newArr
-    }
-
+    // const [extraData, setExtraData] = React.useState([])    //Save Data set up about Exercise
     
 
-    useEffect(() => {
-    console.log(extraData)
+/*     useEffect(() => {
     if (prevExtra.length !== extraData.length) {
-        console.log(extraData?.length)
-        let newArr
-        setExtra(extra.concat(<div style={{border: "solid 2px black"}}>
-            type: {extraData[extraData.length - 1].type},
-            <Input label="Name" 
-                variant="underlined"
-                color="default"
-                type="text"
-                onChange={(e) => (
-                    newArr = updateExtraData("name", e.target.value, extraData),
-                    setExtraData(newArr)
-                )}
-                value={extraData[(extraData?.length) ? extraData.length - 1 : 0].name}/>,
-            approximate_attendance: 0,
-            assistents: [],
-            room: null,
-            duration: 0,
-            groups: 1,
-            group: 1
-        </div>)
+        setExtra(extra.concat(<Exercise extraData={extraData[extraData.length - 1]} onChange={(setExtraData)}/>)
         )
         setPrevExtra(extraData)
+        console.log(extraData)
     }
-    }, [extra, setExtra, prevExtra, setPrevExtra, extraData, updateExtraData])
+    }, [extra, setExtra, prevExtra, setPrevExtra, extraData]) */
+
+    const DeleteExercise = (index) => {
+        const list = [...extra]
+        list.splice(index, 1)
+        setExtra(list)
+
+    }
     
+    const setExtraHelper = (value, attribute ,index) => {
+        const list = [...extra]
+        list[index][attribute] = value
+        setExtra(list)
+    }
     
     
     const QSPsa = [{
@@ -395,60 +382,43 @@ export default function EditModulesPage({
             
             <SectionContainer title={t("exercise")}>
                 {t("addExercises")}  {/*TODO: Replace Elements with Input, State to save Data about Exercises, grouping together elements */}
-                <div className="flex gap-5">
+                <div className="flex gap-5" style={{marginBottom: "10px"}}>
                     <OutlinedButton text={t("addExercise")} icon="plus" showIcon={true} color={"primary"}
                                 onClick={() =>(
-                                    setExtraData(old => [...old, {
+                                    setExtra(old => [...old, {
                                         type: 2,
-                                        name: "",
-                                        approximate_attendance: 0,
+                                        approximate_attendance:"",
+                                        dozent: [],
                                         assistents: [],
                                         room: "",
-                                        duration: 0,
-                                        groups: 1,
-                                        group: extraData.length + 1
+                                        duration: "",
+                                        group: ""
                                     }]))
                                 }></OutlinedButton>
                     <OutlinedButton text={t("addTraining")} icon="plus" showIcon={true} color={"primary"}
                                 onClick={() => (
-                                    setExtraData(old => [...old, {
+                                    setExtra(old => [...old, {
                                         type: 3,
-                                        name: "",
-                                        approximate_attendance: 0,
+                                        approximate_attendance: "",
                                         assistents: [],
+                                        dozent: [],
                                         room: "",
-                                        duration: 0,
-                                        groups: 1,
-                                        group: extraData.length + 1
-                                    }]),
-                                    setExtra(extra.concat(<div style={{border: "solid 2px black"}}>
-                                        type: Training,
-                                        <Input label="Name" 
-                                            variant="underlined"
-                                            color="default"
-                                            type="text"
-                                            onChange={(e) => (
-                                                setExtraData(old => {
-                                                    old.name = e.target.value
-                                                })
-                                            )}
-                                            value={extraData[(extraData?.length) ? extraData.length + 1 : 1].name}/>
-                                        approximate_attendance: 0,
-                                        assistents: [],
-                                        room: null,
-                                        duration: 0,
-                                        groups: 1,
-                                        group: 1
-                                    </div>)),
-                                    console.log(extraData)
-                                )
-                                }></OutlinedButton>
+                                        duration: "",
+                                        group: ""
+                                    }]
+                                ))
+                                }/>
                 </div>
-                {extra}
+                <div style={{borderBottom: "solid black 2px"}}></div>
+                {extra.map((data, index) => (
+                     <Exercise data={data} key={index} onDelete={() => DeleteExercise(index)} onChange={setExtraHelper} index={index}/>
+                ))}
                 
             </SectionContainer>
 
-            <SectionContainer showContentSwitch={true} title={t("exercise")}>
+           {/*  OBSELETE OBSELTE OBSELETE REPLACED BY SECTION ABOVE
+
+           <SectionContainer showContentSwitch={true} title={t("exercise")}>
                 <div className="flex flex-row gap-5">
                     <div style={{width:"250px", backgroundColor: "#0000000F"}}>
                         <Input type="number" label={`${t("groupNumber")}`} variant="underlined" onChange={(e) => setModuleGroups(e.target.value)} value={ModuleGroups}/>
@@ -507,7 +477,7 @@ export default function EditModulesPage({
                         defaultSelected color="primary"
                         >{t("training")} und {t("lecture")} als ein Block darstellen
                 </Checkbox>
-            </SectionContainer>
+            </SectionContainer> */}
 
             <SectionContainer title={`${t("note")}`}>
                 <Textarea
