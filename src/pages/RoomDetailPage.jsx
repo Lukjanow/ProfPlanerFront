@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useCallback } from "react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer";
@@ -10,33 +10,45 @@ import { RoomModel } from "../models/roomModel.js";
 export default function RoomDetailPage() {
   const { t } = useTranslation();
 
-  const roomTypes = ["Classroom", "Auditorium", "Meeting Room", "Laboratory"];
+  // Definiere verfügbare Raumtypen
+  const roomTypes = ["Classroom", "Auditorium", "Laboratory"];
+
+  // Initialisiere Formulardaten und Fehlerzustand
   const [formData, setFormData] = useState(new RoomModel());
   const [errors, setErrors] = useState({});
 
-  const handleChange = (e) => {
-    const newValue =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    setErrors({ ...errors, [e.target.name]: !e.target.validity?.valid });
-    setFormData({ ...formData, [e.target.name]: newValue });
-  };
+  // Funktion zum Handhaben von Eingabeänderungen im Formular
+  const handleChange = useCallback((e) => {
+    const { name, value, checked, validity } = e.target;
+    const newValue = e.target.type === "checkbox" ? checked : value;
+    const isError = !validity.valid;
+    // Setze Fehlerzustand und aktualisiere Formulardaten
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: isError }));
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: newValue }));
+  }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  // Funktion zum Einreichen des Formulars
+  const handleSubmit = useCallback(
+    (e) => {
+      e.preventDefault();
 
-    const validationErrors = validateForm(formData);
+      // Validiere das Formular
+      const validationErrors = validateForm(formData);
 
-    if (Object.keys(validationErrors).length === 0) {
-      // Form is valid, submit data or perform other actions
-      console.log("Data:", formData);
-      addRoom(formData); // Hier fügst du die Daten zu deinem Service hinzu
-    } else {
-      // Display validation errors
-      setErrors(validationErrors);
-      console.log("Errors:", validationErrors);
-    }
-  };
+      if (Object.keys(validationErrors).length === 0) {
+        // Das Formular ist gültig, übermittle die Daten
+        console.log("Data:", formData);
+        addRoom(formData); // Hier fügst du die Daten zu deinem Service hinzu
+      } else {
+        // Zeige Validierungsfehler an
+        setErrors(validationErrors);
+        console.log("Errors:", validationErrors);
+      }
+    },
+    [formData]
+  );
 
+  // Funktion zur Validierung des Formulars
   const validateForm = (formData) => {
     let errors = {};
 
@@ -46,6 +58,10 @@ export default function RoomDetailPage() {
 
     if (!formData.description.trim()) {
       errors.description = true;
+    }
+
+    if (!formData.roomType) {
+      errors.roomType = true;
     }
 
     if (!formData.capacity.trim()) {
@@ -63,46 +79,50 @@ export default function RoomDetailPage() {
     >
       <form>
         <SectionContainer title={t("roomDetails")}>
+          {/* Eingabefeld für Raumnummer */}
           <Input
-            name={"roomNumber"}
+            name="roomNumber"
             isRequired
             isInvalid={errors.roomNumber}
             errorMessage={
-              errors.roomNumber ? `${t("roomNumber")} ${t("isRequired")}` : ""
+              errors.roomNumber && `${t("roomNumber")} ${t("isRequired")}`
             }
             type="text"
             label={t("roomNumber")}
             onChange={handleChange}
           />
+          {/* Eingabefeld für Raum Beschreibung */}
           <Input
-            name={"description"}
-            isRequired
+            name="description"
             isInvalid={errors.description}
             errorMessage={
-              errors.description ? `${t("description")} ${t("isRequired")}` : ""
+              errors.description && `${t("description")} ${t("isRequired")}`
             }
             type="text"
             label={t("description")}
             onChange={handleChange}
           />
+          {/* Selectbox für Raumtyp */}
           <SelectBox
-            name={"roomType"}
+            name="roomType"
             title={t("roomType")}
-            disallowEmptySelection={true}
+            isRequired
+            disallowEmptySelection
             isInvalid={errors.roomType}
             errorMessage={
-              errors.roomType ? `${t("roomType")} ${t("isRequired")}` : ""
+              errors.roomType && `${t("roomType")} ${t("isRequired")}`
             }
             items={roomTypes}
             defaultSelectedKeys={[]}
             onChange={handleChange}
           />
+          {/* Eingabefeld für Raumkapazität */}
           <Input
-            name={"capacity"}
+            name="capacity"
             isRequired
             isInvalid={errors.capacity}
             errorMessage={
-              errors.capacity ? `${t("capacity")} ${t("isRequired")}` : ""
+              errors.capacity && `${t("capacity")} ${t("isRequired")}`
             }
             type="number"
             label={t("capacity")}
