@@ -61,9 +61,7 @@ export default function LecturerDetailPage() {
             errors.lastname = true;
         }
 
-        if (!formData.email.trim()) {
-            errors.email = true;
-        } else if (!/\S+@\S+\.\S+/.test(formData.email)) {
+        if (!/\S+@\S+\.\S+/.test(formData.email)) {
             errors.email = true;
         }
 
