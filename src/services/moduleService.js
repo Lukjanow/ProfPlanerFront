@@ -1,7 +1,6 @@
 import {ModuleBasicModel, ModuleModel} from "../models/moduleModel.js";
 import api from "./api.js";
 
-// TODO: missing routes: getModuleById, getUnselectedModules
 async function getAllModules() {
     return api
         .get(`/moduledata`)
@@ -26,7 +25,7 @@ async function getAllBasicDataModules() {
 
 async function getModulesByModuleId(moduleId) {
     return api
-        .get(`/moduledata/${moduleId}`)
+        .get(`/moduledata/module/${moduleId}`)
         .then(resObj => {
             return {
                 data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
@@ -35,9 +34,31 @@ async function getModulesByModuleId(moduleId) {
         });
 }
 
+async function getModuleById(id) {
+    return api
+        .get(`/moduledata/${id}`)
+        .then(resObj => {
+            return {
+                data: new ModuleModel().setJsonObj(resObj.data),
+                status: resObj.status
+            }
+        });
+}
+
 async function getSelectedModules() {
     return api
         .get(`/modulesdata/select`)
+        .then(resObj => {
+            return {
+                data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
+                status: resObj.status
+            }
+        });
+}
+
+async function getUnselectedModules() {
+    return api
+        .get(`/modulesdata/unselect`)
         .then(resObj => {
             return {
                 data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
@@ -68,7 +89,6 @@ async function getAllModulesByStudySemesterId(studySemesterId) {
         });
 }
 
-// TODO: return created obj
 async function addModule(moduleModel) {
     return api
         .post(`/module`, moduleModel)
@@ -80,9 +100,8 @@ async function addModule(moduleModel) {
         });
 }
 
-// TODO: return updated obj
-// TODO: not working as expected, should be fixed
-async function updateModule(id, type, {
+async function updateModule(id, {
+    moduleId = null,
     name = null,
     code = null,
     dozentIdList = null,
@@ -91,6 +110,7 @@ async function updateModule(id, type, {
     duration = null,
     approximateAttendance = null,
     need = null,
+    typeList = null,
     frequency = null,
     selected = null,
     color = null,
@@ -99,6 +119,7 @@ async function updateModule(id, type, {
 }) {
     return api
         .put(`/module/${id}`, {
+            ...(moduleId !== null && {moduleId}),
             ...(name !== null && {name}),
             ...(code !== null && {code}),
             ...(dozentIdList !== null && {dozent: dozentIdList}),
@@ -108,7 +129,7 @@ async function updateModule(id, type, {
             ...(duration !== null && {duration}),
             ...(approximateAttendance !== null && {approximate_attendance: approximateAttendance}),
             ...(need !== null && {need}),
-            type,
+            ...(typeList !== null && {type: typeList}),
             ...(frequency !== null && {frequency}),
             ...(color !== null && {color}),
             ...(note !== null && {note}),
@@ -137,7 +158,9 @@ export {
     getAllModules,
     getAllBasicDataModules,
     getModulesByModuleId,
+    getModuleById,
     getSelectedModules,
+    getUnselectedModules,
     getAllModulesByDozentId,
     getAllModulesByStudySemesterId,
     addModule,

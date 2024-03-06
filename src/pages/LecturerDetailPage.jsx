@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer";
