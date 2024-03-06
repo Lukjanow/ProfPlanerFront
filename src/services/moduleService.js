@@ -14,7 +14,7 @@ async function getAllModules() {
 
 async function getAllBasicDataModules() {
     return api
-        .get(`/module/basicdata`)
+        .get(`/module/basicdata/`)
         .then(resObj => {
             return {
                 data: resObj.data.map(item => new ModuleBasicModel(item)),
@@ -105,7 +105,7 @@ async function updateModule(id, {
     name = null,
     code = null,
     dozentIdList = null,
-    room = null,
+    roomIdList = null,
     studySemesterIdList = null,
     duration = null,
     approximateAttendance = null,
@@ -123,7 +123,7 @@ async function updateModule(id, {
             ...(name !== null && {name}),
             ...(code !== null && {code}),
             ...(dozentIdList !== null && {dozent: dozentIdList}),
-            ...(room !== null && {room}),
+            ...(roomIdList !== null && {room: roomIdList}),
             ...(studySemesterIdList !== null && {study_semester: studySemesterIdList}),
             ...(selected !== null && {selected}),
             ...(duration !== null && {duration}),

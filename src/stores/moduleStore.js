@@ -59,9 +59,9 @@ export const useModuleStore = create(
             await get().refreshModuleList();
             return data;
         },
-        updateModule: async (id, {moduleId, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, typeList,
+        updateModule: async (id, {moduleId, name, code, dozentIdList, roomIdList, studySemesterIdList, duration, approximateAttendance, need, typeList,
             frequency, selected, color, note, groups}) => {
-            const {data} = await updateModule(id, {moduleId, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, typeList,
+            const {data} = await updateModule(id, {moduleId, name, code, dozentIdList, roomIdList, studySemesterIdList, duration, approximateAttendance, need, typeList,
                 frequency, selected, color, note, groups});
             await get().refreshModuleList();
             return data;
