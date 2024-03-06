@@ -179,40 +179,20 @@ function checkModuleWarnings(module_list, conflict_list, module_id){
     }
 
     //for each module in module list
-    for (let i = 0; i < module_list.length; i++) {
-        //for each dozent in module
-        for (let j = 0; j < module_list[i].dozent.length; j++) {
-            //for each dozent in dozent_dict
-            for (const [key, value] of Object.entries(dozent_dict)) {
-                if (module_list[i].dozent[j] == key) {
-                    if(module_list[i] != module) {
-                        value.push(module_list[i])
-                    }
+    function updateDictionary(dict, currentModule, module, property) {
+        if (currentModule !== module) {
+            for (const item of currentModule[property]) {
+                if (dict.hasOwnProperty(item)) {
+                    dict[item].push(currentModule);
                 }
             }
         }
-        //for each room in module
-        for (let j = 0; j < module_list[i].room.length; j++) {
-            //for each room in dozent_dict
-            for (const [key, value] of Object.entries(room_dict)) {
-                if (module_list[i].room[j] == key) {
-                    if(module_list[i] != module) {
-                        value.push(module_list[i])
-                    }
-                }
-            }
-        }
-        //for each studySemester in module
-        for (let j = 0; j < module_list[i].studySemester.length; j++) {
-            //for each studySemester in dozent_dict
-            for (const [key, value] of Object.entries(studySemester_dict)) {
-                if (module_list[i].studySemester[j] == key) {
-                    if(module_list[i] != module) {
-                        value.push(module_list[i])
-                    }
-                }
-            }
-        }
+    }
+
+    for (const currentModule of module_list) {
+        updateDictionary(dozent_dict, currentModule, module, 'dozent');
+        updateDictionary(room_dict, currentModule, module, 'room');
+        updateDictionary(studySemester_dict, currentModule, module, 'studySemester');
     }
 
 
