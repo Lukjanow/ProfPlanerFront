@@ -1,5 +1,4 @@
 import Conflict from "./Conflict";
-//
 
 //function to prove if two modules are overlaping
 //returns boolean value (true = do overlap, false = do not overlap)
@@ -17,65 +16,6 @@ function overlap(mod1, mod2, optional_break=0){
     return false
 }
 
-//testing overlap
-const mod1 = {
-    start: 15 * 60,
-    duration: 195,
-}
-const mod2 = {
-    start: 10 * 60,
-    duration: 195,
-}
-// console.log(overlap(mod1,mod2))
-
-
-function checkProfConflict1(dozent) {
-    dozent.getModules();
-}
-
-
-
-
-//checks all warnings in the timetable
-function checkWarnings() {
-    //create conflict list
-
-    //check conflict 1 + 2
-        //get all profs
-        //for each prof
-        //get all modules + absences
-        //for each module
-        //do overlap function with every module with higher index
-        //if true and both are modules, add to conflict list with index 1
-        //if true and one is module and one is absence, add to conflict list with index 2
-
-    //check conflict 3 + 4 + 7
-        //get all StudySemester (only normal and QSP)
-        //for each Studysemester
-        //get all modules (only mandatory)
-        //for each module
-        //do overlap function with every module with higher index
-        //if true and StudySemester is normal, add to conflict list with index 3
-        //if true and StudySemester is QSP, add to conflict list with index 4
-        //if false, do overlap function again with breack=45
-        //if then true, add to conflict list with index 7
-
-    //check conflict 5
-        //get all StudySemester (only normal)
-        //for each StudySemester (except the last in every study)
-        //get all modules (only mandatory)
-        //for each module
-        //do overlap function with every module from the next StudySemester
-        //if true, add to conflict list with index 5
-
-    //check conflict 6
-        //get all rooms
-        //for each room
-        //get all modules
-        //for each module
-        //do overlap function with every module with higher index
-        //if true, add to conflict list with index 6
-}
 
 function checkMiddayPause(module_list){
     let day = module_list[0].start.getDay()
@@ -137,31 +77,19 @@ function deleteConflictsWithCurrentModule(conflict_list, module) {
 }
 
 
-function checkModuleWarnings(module_list, conflict_list, module_id){
-    // console.log("MODUL LIST")
-    // console.log(module_list)
-    //1 MODUL NEHMEN
-    // let module = null;
-    // for (let i = 0; i < module_list.length; i++) {
-    //     if (module_list[i].id === module_id) {
-    //         module = module_list[i];
-    //         break;
-    //     }
-    // }
-    const module = module_id
-    //MODULE LIST FILTERN
-    // for (let i = 0; i < module_list.length; i++) {
-    //     if (module_list[i].planned === false) {
-    //         module_list.splice(i, 1);
-    //         i--;
-    //     }
-    // }
-    //for each module in module list
-    //if module is not planned, drop from list
+function updateDictionary(dict, currentModule, module, property) {
+    if (currentModule !== module) {
+        for (const item of currentModule[property]) {
+            if (dict.hasOwnProperty(item)) {
+                dict[item].push(currentModule);
+            }
+        }
+    }
+}
 
-    //2 MODUL ARRAYS ERSTELLEN
 
-    const dozent_list = module.dozent
+function checkModuleWarnings(module_list, conflict_list, module){
+    //CREATE DICTIONARIES FOR THE DOZENT, ROOM & STUDYSEMESTER OF THE CURRENT MODULE
     var dozent_dict = {}
     for (let i = 0; i < module.dozent.length; i++) {
         dozent_dict[module.dozent[i]] = []
@@ -177,17 +105,8 @@ function checkModuleWarnings(module_list, conflict_list, module_id){
         studySemester_dict[module.studySemester[i]] = []
     }
 
+    //FILL THE DICTIONARIES WITH ALL MODULES WITH THE SAME VALUE
     //for each module in module list
-    function updateDictionary(dict, currentModule, module, property) {
-        if (currentModule !== module) {
-            for (const item of currentModule[property]) {
-                if (dict.hasOwnProperty(item)) {
-                    dict[item].push(currentModule);
-                }
-            }
-        }
-    }
-
     for (const currentModule of module_list) {
         updateDictionary(dozent_dict, currentModule, module, 'dozent');
         updateDictionary(room_dict, currentModule, module, 'room');
@@ -195,7 +114,7 @@ function checkModuleWarnings(module_list, conflict_list, module_id){
     }
 
 
-    // CONFLICT LIST EINTRÄGE MIT AKTUELLLEM MODUL WERDEN GELÖSCHT
+    //DELETE ALL CONFLICTS WITH THE CURRENT MODULE
     for (let i = 0; i < conflict_list.length; i++) {
         if(conflict_list[i].mod1.id == module.id || conflict_list[i].mod2.id == module.id){
             conflict_list.splice(i, 1);
@@ -203,7 +122,7 @@ function checkModuleWarnings(module_list, conflict_list, module_id){
         }
     }
 
-    // CONFLICT LIST EINTRÄGE WERDEN ERSTELLT
+    //CREATE NEW CONFLICTS WITH THE DICTIONARIES
     for (const [key, value] of Object.entries(dozent_dict)) {
         for (let i = 0; i < value.length; i++) {
             if(overlap(module, value[i])) {
@@ -279,22 +198,11 @@ function checkModuleWarnings(module_list, conflict_list, module_id){
         }
     }
 
-
-    //3 CONFLICT ARRAY FILTERN
-    //for each conflict in conflict list
-    //if conflict contains module
-    //delete conflict
-
-
-
-    //4 KONFLIKTE AUSGEBEN
+    //4 KONFLIKTE IN DER KONSOLE AUSGEBEN
     for (let i = 0; i < conflict_list.length; i++) {
         conflict_list[i].printError()
     }
     return conflict_list
 }
-
-
-// checkModuleWarnings(moduleItemDataList, [], 1)
 
 export {checkModuleWarnings, deleteConflictsWithCurrentModule}
