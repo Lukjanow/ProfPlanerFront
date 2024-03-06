@@ -17,11 +17,9 @@ function overlap(mod1, mod2, optional_break=0){
 }
 
 
-function checkMiddayPause(module_list){
+function checkMiddayPause(module_list, pauseStart, pauseEnd, pauseDuration){
     let day = module_list[0].start.getDay()
-    var pauseStart = 11 * 60 + 30
-    let pauseEnd = 14 * 60 + 30
-    while(pauseStart <= pauseEnd - 45){
+    while(pauseStart <= pauseEnd - pauseDuration){
         var value = true
         //check start of pause
         for (let i = 0; i < module_list.length; i++) {
@@ -38,7 +36,7 @@ function checkMiddayPause(module_list){
             for (let i = 0; i < module_list.length; i++) {
                 const moduleStart = module_list[i].start.getHours() * 60 + module_list[i].start.getMinutes()
                 const moduleEnd = moduleStart + module_list[i].duration
-                if (moduleStart < pauseStart + 45 && pauseStart +45 <= moduleEnd) {
+                if (moduleStart < pauseStart + pauseDuration && pauseStart + pauseDuration <= moduleEnd) {
                     pauseStart = moduleEnd
                     value = false
                     break;
@@ -192,7 +190,7 @@ function checkModuleWarnings(module_list, conflict_list, module){
                 }
             }
             dayModuleList.push(module)
-            if(checkMiddayPause(dayModuleList)) {
+            if(checkMiddayPause(dayModuleList, 11 * 60 + 30, 14 * 60 + 30, 45)) {
                 conflict_list.push(new Conflict(module, dayModuleList[0], key, 7))
             }
         }
