@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import {
-    addModule,
+    addModule, addXLSXModule,
     deleteModule,
     getAllModules,
     getAllBasicDataModules,
@@ -56,6 +56,11 @@ export const useModuleStore = create(
         },
         addModule: async (moduleModel) => {
             const {data} = await addModule(moduleModel);
+            await get().refreshModuleList();
+            return data;
+        },
+        addXLSX: async (moduleXLSX) => {
+            const {data} = await addXLSXModule(moduleXLSX);
             await get().refreshModuleList();
             return data;
         },

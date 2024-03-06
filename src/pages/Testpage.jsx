@@ -1,20 +1,22 @@
 import React, { useState } from "react";
-import CSVImport from "../components/CSVImport";
+import { addXLSXModule } from "../services/moduleService";
+import XLSXImport from "../components/xlsxImport";
 
 export default function Testpage(
 ) {
 
-    const [CSV, setCSV] = React.useState([])
+    const [xlsx, setxlsx] = React.useState([])
 
-    const handleCSV = (CSVin) => (
-        console.log(CSVin),
-        setCSV(CSVin)
+    const handlexlsx = (xlsxin) => (
+        setxlsx(xlsxin),
+        addXLSXModule(xlsxin)
     )
     
 
   return (
     <div>
-        <CSVImport onClick={handleCSV}/>
+        <XLSXImport onClick={handlexlsx}/>
+        
     </div>
   );
 }

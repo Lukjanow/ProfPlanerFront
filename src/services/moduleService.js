@@ -100,6 +100,17 @@ async function addModule(moduleModel) {
         });
 }
 
+async function addXLSXModule(moduleXLSX) {
+    return api
+        .post(`/moduleXLSX`, moduleXLSX)
+        .then(resObj => {
+            return {
+                data: resObj.data,
+                status: resObj.status
+            }
+        });
+}
+
 async function updateModule(id, {
     moduleId = null,
     name = null,
@@ -165,5 +176,6 @@ export {
     getAllModulesByStudySemesterId,
     addModule,
     updateModule,
-    deleteModule
+    deleteModule,
+    addXLSXModule
 }

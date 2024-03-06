@@ -14,7 +14,7 @@ import { getAllRooms } from "../services/roomService";
 import { rooms, teachers } from "../components/data2";
 import useDataFetcher from "../hooks/useDataFetcher";
 import { useModuleStore } from "../stores/moduleStore";
-import CSVImport from "../components/CSVImport";
+import XLSXImport from "../components/xlsxImport";
 
 export default function BasicDataPage() {
   const { t } = useTranslation();
@@ -25,17 +25,17 @@ export default function BasicDataPage() {
   const [dataLength, setDataLength] = useState(0);
   const navigate = useNavigate();
 
- /*  const [CSV, setCSV] = useState([])
+ /*  const [XLSX, setXLSX] = useState([])
   const [fun, setFun] = useState()
 
   const [moduleKeys, setModuleKeys] = useState(["name", "code", "duration"])
 
-    const handleCSV = (CSVin) => (
-      setCSV(CSVin),
-      console.log(CSVin[0]["dozent[0]"]),
+    const handleXLSX = (XLSXin) => (
+      setXLSX(XLSXin),
+      console.log(XLSXin[0]["dozent[0]"]),
       //Module was imported
-      (moduleKeys.every(key => Object.keys(CSVin[0]).includes(key)) ? 
-        CSVin.forEach((module) => (
+      (moduleKeys.every(key => Object.keys(XLSXin[0]).includes(key)) ? 
+        XLSXin.forEach((module) => (
           setModules(old => ([...old, {
                           name: module.name,
                           code: module.code,
@@ -166,7 +166,7 @@ export default function BasicDataPage() {
         <NoContent />
       )}
       
-      {/* <CSVImport onClick={handleCSV}/> */}
+      {/* <XLSXImport onClick={handleXLSX}/> */}
     </PageContainer>
   );
 }
