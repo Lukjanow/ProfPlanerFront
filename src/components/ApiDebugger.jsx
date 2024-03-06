@@ -188,9 +188,18 @@ export default function ApiDebugger() {
                         <p>_id: {module._id}</p>
                         <p>name: {module.name}</p>
                         <p>code: {module.code}</p>
-                        <p>dozent: {module.dozent[0].prename} {module.dozent[0].lastname} | {module.dozent[0].email}</p>
-                        {module && module.room && <p>room: {module.room.name}</p>}
-                        {module && module.study_semester && <p>study_semester: {module.study_semester[0].name}</p>}
+                        {dozent && <p> dozent: {module.dozent && module.dozent.map(dozent => (
+                            <span key={dozent.id}>{dozent.prename} {dozent.lastname} | {dozent.email}, </span>
+                        ))}
+                        </p>}
+                        {module && <p> room: {module.room && module.room.map(room => (
+                                <span key={room.id}>{room.name}, </span>
+                        ))}</p>
+                        }
+                        {module && <p> study_semester: {module.study_semester && module.study_semester.map(studySemester => (
+                            <span key={studySemester.id}>{studySemester.name}, </span>
+                        ))}
+                        </p>}
                         <p>duration: {module.duration}</p>
                         <p>approximate_attendance: {module.approximate_attendance}</p>
                         <p>need: {module.need === null ? "null" : module.need}</p>

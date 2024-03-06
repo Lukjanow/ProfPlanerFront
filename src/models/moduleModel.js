@@ -1,11 +1,11 @@
 export class ModuleModel {
-    constructor(moduleId, name, code, dozentIdList, room, studySemesterIdList, duration, approximateAttendance, need, typeList,
+    constructor(moduleId, name, code, dozentIdList, roomIdList, studySemesterIdList, duration, approximateAttendance, need, typeList,
                 frequency, selected, color, note, groups) {
         this.module_id = moduleId;
         this.name = name;
         this.code = code;
         this.dozent = dozentIdList;
-        this.room = room;
+        this.room = roomIdList;
         this.study_semester = studySemesterIdList;
         this.duration = duration;
         this.approximate_attendance = approximateAttendance;
