@@ -11,31 +11,31 @@ export default function Exercise({
 
     const assistents = [{
         key: "1s",
-        label: "Assi1"
+        label: "Assistent1"
         },
         {
             key: "2s",
-            label: "Assi2"
+            label: "Assistent2"
         },
         {
             key: "3s",
-            label: "Assi3"
+            label: "Assistent3"
         },
         {
             key: "4s",
-            label: "Assi4"
+            label: "Assistent4"
         },
         {
             key: "5s",
-            label: "Assi5"
+            label: "Assistent5"
         },
         {
             key: "6s",
-            label: "Assi6"
+            label: "Assistent6"
         },
         {
             key: "7s",
-            label: "Assi7"
+            label: "Assistent7"
         }
     ]
 

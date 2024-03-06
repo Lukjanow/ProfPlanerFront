@@ -14,6 +14,7 @@ import { getAllRooms } from "../services/roomService";
 import { rooms, teachers } from "../components/data2";
 import useDataFetcher from "../hooks/useDataFetcher";
 import { useModuleStore } from "../stores/moduleStore";
+import CSVImport from "../components/CSVImport";
 
 export default function BasicDataPage() {
   const { t } = useTranslation();
@@ -23,6 +24,28 @@ export default function BasicDataPage() {
 
   const [dataLength, setDataLength] = useState(0);
   const navigate = useNavigate();
+
+ /*  const [CSV, setCSV] = useState([])
+  const [fun, setFun] = useState()
+
+  const [moduleKeys, setModuleKeys] = useState(["name", "code", "duration"])
+
+    const handleCSV = (CSVin) => (
+      setCSV(CSVin),
+      console.log(CSVin[0]["dozent[0]"]),
+      //Module was imported
+      (moduleKeys.every(key => Object.keys(CSVin[0]).includes(key)) ? 
+        CSVin.forEach((module) => (
+          setModules(old => ([...old, {
+                          name: module.name,
+                          code: module.code,
+                          duration: module.duration
+                        }]))
+        )) 
+      : 
+      console.log("FAIL"))
+    ) */
+    
 
   /*
   const {
@@ -72,6 +95,7 @@ export default function BasicDataPage() {
 
         console.log("----------> ResultsModule: ", resultModule);
         console.log("----------> ResultsRooms: ", resultRooms);
+        console.log("----------> ResultsTeacher: ", resultTeacher);
       } catch (error) {
         console.error("Error fetching modules:", error);
       }
@@ -101,8 +125,8 @@ export default function BasicDataPage() {
     case "module":
       //setSelectedData(moduleList);
       selectedData = modules;
-      //path = "/editModules"
-      path = "/basicdata";
+      path = "/editModules"
+      //path = "/basicdata";
       console.log("-----------> Module!!!!", selectedData);
       break;
     case "room":
@@ -141,6 +165,8 @@ export default function BasicDataPage() {
       ) : (
         <NoContent />
       )}
+      
+      {/* <CSVImport onClick={handleCSV}/> */}
     </PageContainer>
   );
 }

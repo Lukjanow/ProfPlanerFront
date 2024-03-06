@@ -8,6 +8,7 @@ import SettingsPage from "../pages/SettingsPage.jsx";
 import ConflictsPage from "../pages/ConflictsPage.jsx";
 import EditModulesPage from "../pages/EditModulesPage.jsx";
 import ApiDebugPage from "../pages/ApiDebugPage.jsx";
+import Testpage from "../pages/Testpage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -48,6 +49,11 @@ const router = createBrowserRouter([
             {
                 path: "component",
                 element: <ComponentPage />,
+                errorElement: <ErrorPage />,
+            },
+            {
+                path: "test",
+                element: <Testpage />,
                 errorElement: <ErrorPage />,
             }
         ]
