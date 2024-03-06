@@ -20,7 +20,7 @@ export function ConflictDisplay(data) {
             {list.map((item, index) => (
                 <Card shadow="sm" key={index} isPressable onPress={() => {
                     const newCardStates = [...cardStates];
-                    // Umschalten der Farbe zwischen "white" und "secondary"
+                    // Umschalten der Farbe zwischen "white" und "secondary."
                     newCardStates[item.id] = cardStates[item.id] === "white" ? "secondary" : "white";
                     setCardStates(newCardStates);
                 }}
