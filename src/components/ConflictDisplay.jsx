@@ -1,50 +1,54 @@
-import React from "react";
-import {Listbox, ListboxItem} from "@nextui-org/react";
-import {ListboxWrapper} from "./ListboxWrapper";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import moment from "moment";
+import React, { useState, useEffect } from 'react';
+import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
 
-export function ConflictDisplay(data) {  
-
+export function ConflictDisplay(data) {
     const conflict_list = data.data;
+    const list = conflict_list;
+    const [cardStates, setCardStates] = useState([]);
 
-    for (let i = 0; i < conflict_list.length; i++) {
-        conflict_list[i].id = i     
-    }
+    useEffect(() => {
+      const newCardStates = [...cardStates];
+      newCardStates.push("secondary");
+      setCardStates(newCardStates);
+    }, [list.length]);
 
-      function changeIgnore(key) {
-        conflict_list[key].ignore = !conflict_list[key].ignore
-        if(!conflict_list[key].ignore){
-          conflict_list[key].style="border-1 border-s-8 rounded-e-md p-3 border-yellow-500/100 bg-yellow-500/50"
-        } else {
-          conflict_list[key].style="border-1 border-s-8 rounded-e-md p-3 border-grey-500/100 bg-grey-500/50"
-        }
-        console.log(conflict_list[key].ignore)
-        console.log(conflict_list[key].style)
-      }
-    
-  return (
-    <ListboxWrapper>
-      <Listbox
-        items={conflict_list}
-        aria-label="Dynamic Actions"
-        onAction={(key) => changeIgnore(key)}
-      >
-        {(item) => (
-          <ListboxItem
-            key={item.id}
-            className="border-1 border-s-8 rounded-e-md p-3 border-yellow-500/100 bg-yellow-500/50"
-          >
-            <div className="grid grid-rows-1 grid-flow-col">
-              <div>
-                <p className="font-bold">{item.error_message}</p>
-                <p>Ausgelöst durch "{item.mod1.title}"</p>
-              </div>
-              <div className="">
-              </div>
-              {/* <button className="w-32 border-1 rounded-md border-yellow-500/100">Ignorieren</button> */}
-              </div>
-          </ListboxItem>
-        )}
-      </Listbox>
-    </ListboxWrapper>
-  );
+    //const [clickedCardIds, setClickedCardIds] = useState([]);
+
+    //Gemini baut die Funktion ein aber nutzt Sie nicht?? vllt nützlich später?
+    // const handleClick = (index) => {
+    //   const newCardStates = [...cardStates];
+    //   newCardStates[index] = "white";
+    //   setCardStates(newCardStates);
+
+    //   // Neue ID hinzufügen, wenn noch nicht vorhanden
+    //   if (!clickedCardIds.includes(item.id)) {
+    //     setClickedCardIds([...clickedCardIds, item.id]);
+    //   }
+    // };
+
+
+    return (
+        <div className="gap-4 grid grid-cols-10 sm:grid-cols-5">
+            {list.map((item, index) => (
+                <Card shadow="sm" key={index} isPressable onPress={() => {
+                    const newCardStates = [...cardStates];
+                    // Umschalten der Farbe zwischen "white" und "secondary"
+                    newCardStates[index] = cardStates[index] === "white" ? "secondary" : "white";
+                    setCardStates(newCardStates);
+                }}
+                >
+                    <CardFooter className={`text-small justify-between h-full bg-${
+                      cardStates[index] === "white" //|| clickedCardIds.includes(item.id)
+                        ? "white"
+                        : "secondary"
+                    }`}>
+
+                        <b>{item.error_message}</b>
+                    </CardFooter>
+                </Card>
+            ))}
+        </div>
+    );
 }

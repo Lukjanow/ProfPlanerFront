@@ -5,19 +5,19 @@ class Conflict {
       this.index = index;
       switch (index) {
         case 1:
-          this.error_message = "WARNUNG: zwei Vorlesungen derselben Lehrperson (" + name + ") überschneiden sich!";
+          this.error_message = "WARNUNG: Zwei Vorlesungen derselben Lehrperson (" + name + ") überschneiden sich!";
           break;
         case 2:
-          this.error_message = "WARNUNG: eine Vorlesung einer Lehrperson (" + name + ") liegt in ihrer eingetragenen Abwesenheit!";
+          this.error_message = "WARNUNG: Eine Vorlesung einer Lehrperson (" + name + ") liegt in ihrer eingetragenen Abwesenheit!";
           break;
         case 3:
-          this.error_message = "WARNUNG: zwei Vorlesungen desselben Semester (" + name + ") überschneiden sich!";
+          this.error_message = "WARNUNG: Zwei Vorlesungen desselben Semester (" + name + ") überschneiden sich!";
           break;
         case 5:
-          this.error_message = "WARNUNG: zwei Vorlesungen aus aufeinanderfolgenden Semestern (" + name + ", " + name2 + ") überschneiden sich!";
+          this.error_message = "WARNUNG: Zwei Vorlesungen aus aufeinanderfolgenden Semestern (" + name + ", " + name2 + ") überschneiden sich!";
           break;
         case 6:
-          this.error_message = "WARNUNG: zwei Module mit demselben Raum (" + name + ") überschneiden sich!";
+          this.error_message = "WARNUNG: Zwei Module mit demselben Raum (" + name + ") überschneiden sich!";
           break;
         case 7:
           var day = ""
