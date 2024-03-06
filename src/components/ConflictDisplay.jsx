@@ -25,13 +25,14 @@ export function ConflictDisplay(data) {
                     setCardStates(newCardStates);
                 }}
                 >
-                    <CardFooter className={`text-small justify-between h-full bg-${
+                    <CardFooter className={`text-small justify-between grid grid-rows-2 h-full bg-${
                       cardStates[item.id] === "white"
                         ? "white"
                         : "secondary"
                     }`}>
 
                         <b>{item.error_message}</b>
+                        <b className="font-normal">{item.module_string}</b>
                     </CardFooter>
                 </Card>
             ))}

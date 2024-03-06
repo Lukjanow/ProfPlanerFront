@@ -3,6 +3,11 @@ class Conflict {
 
       this.mod1 = mod1;
       this.mod2 = mod2;
+      if(mod1.id != mod2.id){
+        this.module_string = "(" + String(mod1.title) + ") & (" + String(mod2.title) + ")"
+      } else {
+        this.module_string = "(" + String(mod1.title) + ")"
+      }
       this.index = index;
       this.id = mod1.id<=mod2.id ? mod1.id*80*7 + mod2.id*7 + index : mod2.id*80*7 + mod1.id*7 + index
 
