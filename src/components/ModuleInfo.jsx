@@ -20,8 +20,8 @@ export function ModuleInfo({ isOpen, onOpenChange, event, removeFunction }) {
       <ModalContent className="border-1" style={modalStyle}>
         {(onClose) => (
           <>
-            <ModalHeader></ModalHeader>
             <ModalBody>
+              <ModalHeader></ModalHeader>
               <p className="font-semibold">{event.title}</p>
               <div className="flex">
                 <span className="flex justify-center items-center justify-self-center w-[30px]">
