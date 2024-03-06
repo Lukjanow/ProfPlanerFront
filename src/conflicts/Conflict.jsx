@@ -1,8 +1,11 @@
 class Conflict {
     constructor(mod1, mod2, name, index=0, name2="", ignore=false, id=0) {
+
       this.mod1 = mod1;
       this.mod2 = mod2;
       this.index = index;
+      this.id = mod1.id<=mod2.id ? mod1.id*80*7 + mod2.id*7 + index : mod2.id*80*7 + mod1.id*7 + index
+
       switch (index) {
         case 1:
           this.error_message = "WARNUNG: Zwei Vorlesungen derselben Lehrperson (" + name + ") überschneiden sich!";
@@ -53,7 +56,6 @@ class Conflict {
       } else {
         this.style="border-1 border-s-8 rounded-e-md p-3 border-grey-500/100 bg-grey-500/50"
       }
-      this.id = id;
     }
     printError(){
       console.log(this.error_message)

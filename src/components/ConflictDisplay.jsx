@@ -14,20 +14,6 @@ export function ConflictDisplay(data) {
       setCardStates(newCardStates);
     }, [list.length]);
 
-    //const [clickedCardIds, setClickedCardIds] = useState([]);
-
-    //Gemini baut die Funktion ein aber nutzt Sie nicht?? vllt nützlich später?
-    // const handleClick = (index) => {
-    //   const newCardStates = [...cardStates];
-    //   newCardStates[index] = "white";
-    //   setCardStates(newCardStates);
-
-    //   // Neue ID hinzufügen, wenn noch nicht vorhanden
-    //   if (!clickedCardIds.includes(item.id)) {
-    //     setClickedCardIds([...clickedCardIds, item.id]);
-    //   }
-    // };
-
 
     return (
         <div className="gap-4 grid grid-cols-10 sm:grid-cols-5">
@@ -35,12 +21,12 @@ export function ConflictDisplay(data) {
                 <Card shadow="sm" key={index} isPressable onPress={() => {
                     const newCardStates = [...cardStates];
                     // Umschalten der Farbe zwischen "white" und "secondary"
-                    newCardStates[index] = cardStates[index] === "white" ? "secondary" : "white";
+                    newCardStates[item.id] = cardStates[item.id] === "white" ? "secondary" : "white";
                     setCardStates(newCardStates);
                 }}
                 >
                     <CardFooter className={`text-small justify-between h-full bg-${
-                      cardStates[index] === "white" //|| clickedCardIds.includes(item.id)
+                      cardStates[item.id] === "white"
                         ? "white"
                         : "secondary"
                     }`}>
