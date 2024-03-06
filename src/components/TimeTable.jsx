@@ -181,6 +181,13 @@ export function TimeTable({moduleItemList}) {
     div.classList.add("bg-red-600")
     div.classList.remove("bg-white")
   };
+
+  const handleMouseUp = () => {
+    moveEvent = null
+    var div = document.getElementById("removeBorder")
+    div.classList.remove("bg-red-600")
+    div.classList.add("bg-white")
+  }
   
   return (
     <>
@@ -189,7 +196,7 @@ export function TimeTable({moduleItemList}) {
           <PageTitle text="Lehrplanung"/>
           <TimeTableFilter></TimeTableFilter>
           <div>
-            <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4 bg-white">
+            <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4 bg-white" onMouseUp={handleMouseUp}>
               <DnDCalendar
                   className="w-[78vw] select-none"
                   localizer={localizer}

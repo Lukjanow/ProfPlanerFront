@@ -48,6 +48,11 @@ class Conflict {
           break;
       }
       this.ignore = ignore;
+      if(!this.ignore){
+        this.style="border-1 border-s-8 rounded-e-md p-3 border-yellow-500/100 bg-yellow-500/50"
+      } else {
+        this.style="border-1 border-s-8 rounded-e-md p-3 border-grey-500/100 bg-grey-500/50"
+      }
       this.id = id;
     }
     printError(){
