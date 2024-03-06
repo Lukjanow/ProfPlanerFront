@@ -40,5 +40,7 @@
   "isInvalid": " ist ungültig.",
   "noContentAvailable": "Keine Inhalte verfügbar!",
   "noContentInstruction": "Sie können versuchen, neue Daten mit der Schaltfläche oben hinzuzufügen. Wenn Daten vorhanden sind, aber nicht angezeigt werden, versuchen Sie, die Seite neu zu laden.",
-  "refresh": "Aktualisieren"
+  "refresh": "Aktualisieren",
+  "deleteQuestion": "Bist du sicher?",
+  "deleteDozentInfo": "Wenn du diese Lehrperson löschst, werden alle Zuweisungen zu den Modulen verloren gehen!"
 }
