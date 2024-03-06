@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -10,11 +10,14 @@ import {TimeTableFilter} from "../components/TimeTableFilter";
 import { ModuleItem } from "../components/ModuleItem";
 import { TimeTable } from "../components/TimeTable";
 import { PageTitle } from "../components/PageTitle";
+import { getAllModules } from "../services/moduleService"
 
 moment.locale("de");
 const localizer = momentLocalizer(moment);
 
 export default function MyCalendar() {
+  const [modules, setModules] = useState([]);
+
     const moduleItemDataList = [
       {
         id: 1,
@@ -24,7 +27,7 @@ export default function MyCalendar() {
         end: moment("2024-01-01T15:00").toDate(),
         studySemester: ["AI-B 1"],
         dozent: ["Herbert Thielen"],
-        room: ["A200"],
+        room: ["B200"],
         backgroundcolor: "#D6F5E2",
         bordercolor: "#46D27F",
         duration: 195,
@@ -109,12 +112,63 @@ export default function MyCalendar() {
     },
     ];
 
+    function initModules(module_list){
+      var list = []
+
+      for (let i = 0; i < module_list.length; i++) {
+        // try{
+          list.push({
+            id: i + 1,
+            name: module_list[i].name,
+            type: "Type",
+            start: moment("2024-01-01T12:00").toDate(),
+            end: moment("2024-01-01T15:00").toDate(),
+            study_semester_name: " S",
+            dozent_name: String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname),
+            room_name: module_list[i].room[0] != null? String(module_list[i].room[0].name) : "kein Raum",
+            backgroundcolor: "#D6F5E2",
+            bordercolor: "46D27F",
+            duration: 195
+          })
+        //   module_list[i].backgroundcolor = "#D6F5E2";
+        //   module_list[i].bordercolor = "#46D27F";
+        //   module_list[i].start = moment("2024-01-01T12:00").toDate();
+        //   module_list[i].end = moment("2024-01-01T15:00").toDate();
+        //   module_list[i].dozent_name = String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname);
+        //   module_list[i].room_name = String(module_list[i].room[0].name);
+        //   module_list[i].study_semester_name = String(module_list[i].study_semester[0].name);
+        //   module_list[i].backgroundcolor = "#D6F5E2";
+        //   module_list[i].backgroundcolor = "#D6F5E2";
+        //   module_list[i].id = i + 1
+        //   console.log("ITEM ",i,": ", module_list[i])
+        // } catch(error) {
+        //   module_list.splice(i, 1)
+        //   i--;
+        // }
+      // }
+        }
+        return list
+    }
+
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const result = await getAllModules();
+          setModules(result.data);
+        } catch(error) {
+          console.log("Error: ", error);
+        }
+      }
+      fetchData()
+    }, []);
+
     return (
         <>
+        { modules.length !== 0 ?
             <div className="flex">
                 <TimeTable moduleItemList={moduleItemDataList}/>
-            </div>
-        
+            </div> : <TimeTable moduleItemList={[]}/>
+        }
         </>
     );
 }

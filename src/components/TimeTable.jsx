@@ -16,6 +16,7 @@ import { useTranslation } from "react-i18next";
 import {checkModuleWarnings, deleteConflictsWithCurrentModule} from "../conflicts/conflicts";
 
 export function TimeTable({moduleItemList}) {
+  
   const { i18n } = useTranslation();
 
   moment.locale(i18n.language === "en" ? "en" : "de")
@@ -32,11 +33,10 @@ export function TimeTable({moduleItemList}) {
     const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
     const [draggedEvent, setDraggedEvent] = useState(null);
 
-
     // Callback für das Ablegen von außerhalb des Kalenders gezogenen Ereignissen
     const onDropFromOutside = useCallback(
       ({ start, end }) => {
-        console.log("Außerhalb des Kalenders abgelegt:", draggedEvent.title, start, end);
+        console.log("Außerhalb des Kalenders abgelegt:", draggedEvent.name, start, end);
         if (draggedEvent) {
               const newEvent = {
                   ...draggedEvent,
@@ -51,8 +51,8 @@ export function TimeTable({moduleItemList}) {
               setDraggedEvent(null)
               events.push(newEvent)
               setConflicts(checkModuleWarnings(events, conflict_list, newEvent))
-              console.log("conflict_list")
-              console.log(conflict_list)
+              // console.log("conflict_list")
+              // console.log(conflict_list)
           }
 
       },
@@ -143,7 +143,7 @@ export function TimeTable({moduleItemList}) {
     return (
           <div id={event.id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
             <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
-            <p className="font-semibold">{event.title}</p>
+            <p className="font-semibold">{event.name}</p>
             {setTime(event.start, event.duration)}
             <div className="flex">
               <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-graduation-cap" /></span><span>{event.studySemester}</span>
