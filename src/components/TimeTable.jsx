@@ -51,7 +51,7 @@ export function TimeTable({moduleItemListPara}) {
       return moduleItemList.filter(e => e.isPlaced === true)
     }
 
-    function moduleSetPlaced(event){
+    function updateModule(event){
       const newList = []
       for (let i = 0; i < moduleItemList.length; i++) {
         if(moduleItemList[i]._id === event._id){
@@ -85,7 +85,7 @@ export function TimeTable({moduleItemListPara}) {
                   _id: draggedEvent._id,
                   isPlaced: true
               };
-              moduleSetPlaced(newEvent)
+              updateModule(newEvent)
               setEvents(filterForEvents())
               setDraggedEvent(null)
               setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, newEvent))
@@ -118,6 +118,8 @@ export function TimeTable({moduleItemListPara}) {
             }
             module.start = start
             module.end = end
+        
+            updateModule(module)
             setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
             console.log("conflict_list")
             console.log(conflict_list)
