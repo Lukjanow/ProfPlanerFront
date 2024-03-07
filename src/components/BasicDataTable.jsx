@@ -11,10 +11,13 @@ import {
   Input,
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {printArrAsStringByKey, printArrAsStringByKeys} from "../utils/stringUtils.js";
 
 export default function BasicDataTable({ tableData }) {
   const { t } = useTranslation();
   const [length, setLength] = useState(0);
+  const excludeColumnKeys = ["_id"];
+  let columnKeys = [];
 
   // Funktion zum Aktualisieren der Länge der Daten
   useEffect(() => {
@@ -25,11 +28,15 @@ export default function BasicDataTable({ tableData }) {
 
   const generateColumns = () => {
     if (!tableData || !tableData[0]) return [];
-    return Object.keys(tableData[0]).map((key) => ({
-      name: t(key).toUpperCase(),
-      uid: key.toLowerCase(),
-      sortable: true,
-    }));
+    columnKeys = Object.keys(tableData[0]).filter(key => !excludeColumnKeys.includes(key));
+
+    return Object.keys(columnKeys).map((key) => {
+        return {
+            name: t(columnKeys[key]).toUpperCase(),
+            uid: columnKeys[key].toLowerCase(),
+            sortable: true,
+        }
+    });
   };
 
   const myColumns = generateColumns();
@@ -53,6 +60,18 @@ export default function BasicDataTable({ tableData }) {
     </div>
   );
 
+  function determineRendering(key, value) {
+      if (Array.isArray(value)) {
+          if (key === "dozent") {
+              return <TableCell>{printArrAsStringByKeys(value, ["prename", "lastname"])}</TableCell>;
+          } else if (key === "room" || key === "studySemester") {
+              return <TableCell>{printArrAsStringByKey(value, "name")}</TableCell>;
+          }
+          return <TableCell key={key}>Unknown key: {key}</TableCell>
+      }
+      return <TableCell key={key}>{value}</TableCell>;
+  }
+
   return (
     <Table aria-label="table" radius="sm" topContent={topContent}>
       <TableHeader
@@ -69,10 +88,10 @@ export default function BasicDataTable({ tableData }) {
       </TableHeader>
       <TableBody items={tableData}>
         {(item) => (
-          <TableRow key={item.id}>
-            {Object.keys(item).map((key, index) => (
-              <TableCell key={index}>{item[key]}</TableCell>
-            ))}
+          <TableRow key={item._id}>
+              {columnKeys.map(key => (
+                  determineRendering(key, item[key])
+              ))}
             <TableCell>
               <div className="relative flex items-center gap-2">
                 <Tooltip content="Edit user">

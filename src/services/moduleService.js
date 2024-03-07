@@ -16,6 +16,9 @@ async function getAllBasicDataModules() {
     return api
         .get(`/module/basicdata/`)
         .then(resObj => {
+
+            console.log("resObj:", resObj.data.map(item => new ModuleBasicModel(item)));
+
             return {
                 data: resObj.data.map(item => new ModuleBasicModel(item)),
                 status: resObj.status
