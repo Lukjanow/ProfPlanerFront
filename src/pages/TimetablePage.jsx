@@ -118,16 +118,19 @@ export default function MyCalendar() {
       for (let i = 0; i < module_list.length; i++) {
         // try{
           list.push({
-            id: i + 1,
+            _id: i + 1,
             name: module_list[i].name,
             type: "Type",
             start: moment("2024-01-01T12:00").toDate(),
             end: moment("2024-01-01T15:00").toDate(),
-            study_semester_name: " S",
-            dozent_name: String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname),
-            room_name: module_list[i].room[0] != null? String(module_list[i].room[0].name) : "kein Raum",
+            study_semester_string: module_list[i].study_semester[0] != null? String(module_list[i].study_semester[0].name) : "Kein Semester",
+            study_semester: module_list[i].study_semester,
+            dozent_string: module_list[i].dozent[0] !== undefined ? String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname) : "Kein Dozent",
+            dozent: module_list[i].dozent,
+            room_string: module_list[i].room[0] != null? String(module_list[i].room[0].name) : "kein Raum",
+            room: module_list[i].room,
             backgroundcolor: "#D6F5E2",
-            bordercolor: "46D27F",
+            bordercolor: "#46D27F",
             duration: 195
           })
         //   module_list[i].backgroundcolor = "#D6F5E2";
@@ -163,15 +166,15 @@ export default function MyCalendar() {
     }, []);
 
     return (
-        <div className="flex">
-          <TimeTable moduleItemList={moduleItemDataList}/>
-        </div>
-        // <>
-        // { modules.length !== 0 ?
-        //     <div className="flex">
-        //         <TimeTable moduleItemList={moduleItemDataList}/>
-        //     </div> : <TimeTable moduleItemList={[]}/>
-        // }
-        // </>
+        // <div className="flex">
+        //   <TimeTable moduleItemList={moduleItemDataList}/>
+        // </div>
+        <>
+        { modules.length !== 0 ?
+            <div className="flex">
+                <TimeTable moduleItemList={initModules(modules)}/>
+            </div> : <TimeTable moduleItemList={[]}/>
+        }
+        </>
     );
 }

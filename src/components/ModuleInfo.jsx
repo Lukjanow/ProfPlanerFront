@@ -27,19 +27,19 @@ export function ModuleInfo({ isOpen, onOpenChange, event, removeFunction }) {
                 <span className="flex justify-center items-center justify-self-center w-[30px]">
                   <FontAwesomeIcon icon="fa-solid fa-graduation-cap" />
                 </span>
-                <span>{event.studySemester}</span>
+                <span>{event.study_semester_string}</span>
               </div>
               <div className="flex">
                 <span className="flex justify-center items-center justify-self-center w-[30px]">
                   <FontAwesomeIcon icon="fa-solid fa-user" />
                 </span>
-                <span>{event.dozent}</span>
+                <span>{event.dozent_string}</span>
               </div>
               <div className="flex">
                 <span className="flex justify-center items-center justify-self-center w-[30px]">
                   <FontAwesomeIcon icon="fa-solid fa-location-dot" />
                 </span>
-                <span>{event.room}</span>
+                <span>{event.room_string}</span>
               </div>
             </ModalBody>
             <ModalFooter>

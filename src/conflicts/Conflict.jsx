@@ -1,5 +1,5 @@
 class Conflict {
-    constructor(mod1, mod2, name, index=0, name2="") {
+    constructor(mod1, mod2, id_of_name, name, index=0, name2="") {
 
       this.mod1 = mod1;
       this.mod2 = mod2;
