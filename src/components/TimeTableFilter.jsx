@@ -14,7 +14,7 @@ export function TimeTableFilter({module_list}) {
           radius="sm">
             <CardBody
             className="bg-[#EEEEEE]">
-            <DropDown2 module_list={module_list} />
+            <DropDown2 module_list={module_list} category="study_semester"/>
             </CardBody>
           </Card>  
         </Tab>
@@ -23,7 +23,7 @@ export function TimeTableFilter({module_list}) {
           radius="sm">
             <CardBody
             className="bg-[#EEEEEE]">
-            Hier ist der Filter für Lehrpersonen!
+            <DropDown2 module_list={module_list} category="dozent"/>
             </CardBody>
           </Card>  
         </Tab>
@@ -32,7 +32,7 @@ export function TimeTableFilter({module_list}) {
           radius="sm">
             <CardBody
             className="bg-[#EEEEEE]">
-            Hier ist der Filter für Räume!
+            <DropDown2 module_list={module_list} category="room"/>
             </CardBody>
           </Card>  
         </Tab>

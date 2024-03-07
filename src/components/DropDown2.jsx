@@ -4,13 +4,24 @@ import {animals} from "./Data3";
 import {filterDozent, filterRoom, filterStudySemester} from "../filter/filter"
 
 
-
-
 // uses Dummy data from Data3.js, pls change!!!
-export function DropDown2({module_list}) {
+export function DropDown2({module_list, category}) {
   
   const updateModules = (id) => {
-    filterDozent(id, module_list)
+    switch (category) {
+      case "dozent":
+        filterDozent(id, module_list)
+        break;
+        case "room":
+        filterRoom(id, module_list)
+        break;
+        case "study_semester":
+        filterStudySemester(id, module_list)
+        break;
+      default:
+        console.log("incorrect category")
+        break;
+    }
   }
 
   return (

@@ -43,7 +43,6 @@ export function TimeTable({moduleItemList}) {
                   start,
                   end: moment(start).add(draggedEvent.duration, 'minutes'),
                   _id: draggedEvent._id,
-                  hideTime: false
               };
               setEvents(prevEvents => prevEvents.filter(event => event._id !== draggedEvent._id))
               setEvents(prevEvents => [...prevEvents, newEvent]);
@@ -173,6 +172,8 @@ export function TimeTable({moduleItemList}) {
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
     console.log("conflict_list")
     console.log(conflict_list)
+    
+
   };
 
   const handleDragStart = (event) => {

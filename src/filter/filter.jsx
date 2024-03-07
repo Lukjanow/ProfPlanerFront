@@ -11,7 +11,7 @@ function filterDozent(dropdownInput, module_list){
         module.visible = visible
     }
 }
-function filterRoom(dropdownInput){
+function filterRoom(dropdownInput, module_list){
     for (const module of module_list) {
         var visible = false
         for(const room of module.room){
@@ -24,7 +24,7 @@ function filterRoom(dropdownInput){
         module.visible = visible
     }
 }
-function filterStudySemester(dropdownInput){
+function filterStudySemester(dropdownInput, module_list){
     for (const module of module_list) {
         var visible = false
         for(const study_semester of module.study_semester){
