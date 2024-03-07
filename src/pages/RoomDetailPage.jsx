@@ -109,12 +109,12 @@ export default function RoomDetailPage() {
   const validateForm = () => {
     let errors = {};
 
-    if (!capacity.trim()) {
-      errors.capacity = true;
-    }
-
     if (!roomNumber.trim()) {
       errors.roomNumber = true;
+    }
+
+    if (!/^\d+$/.test(capacity)) {
+      errors.capacity = true;
     }
 
     setErrors(errors);
@@ -175,7 +175,7 @@ export default function RoomDetailPage() {
               isRequired
               isInvalid={errors.capacity}
               errorMessage={
-                errors.capacity ? `${t("capacity")} ${t("isRequired")}` : ""
+                errors.capacity ? `${t("capacity")} ${t("isInvalid")}` : ""
               }
               type="text"
               label={t("capacity")}
@@ -183,7 +183,7 @@ export default function RoomDetailPage() {
               value={capacity}
               onValueChange={(value) => {
                 setCapacity(value);
-                if (!value.trim()) {
+                if (!/^\d+$/.test(value)) {
                   setErrors({ ...errors, capacity: true });
                 } else {
                   setErrors({ ...errors, capacity: false });

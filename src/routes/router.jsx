@@ -11,6 +11,8 @@ import DropDownTestPage from "../pages/DropDownTestPage.jsx";
 import RoomDetailPage from "../pages/RoomDetailPage.jsx";
 import DozentDetailPage from "../pages/DozentDetailPage.jsx";
 
+
+// TODO: make for example /dozent-details, /room-details a child from /basicdata
 const router = createBrowserRouter([
   {
     path: "/",
