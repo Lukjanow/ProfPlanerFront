@@ -88,11 +88,11 @@ export function TimeTable({moduleItemList}) {
     const eventStyleGetter = (event) => {
       let newStyle = {};
 
-      newStyle["backgroundColor"] = event.backgroundcolor;
+      newStyle["backgroundColor"] = event.backgroundcolor
       newStyle["borderColor"] = event.bordercolor
       newStyle["color"] = "#000000"
       newStyle["borderInlineStartWidth"] = "8px"
-
+      newStyle["visibility"] = event.visible ? "visible" : "hidden"
 
       return {
         style: newStyle
@@ -139,9 +139,10 @@ export function TimeTable({moduleItemList}) {
     setOutsideEvents(prevEvents => [...prevEvents, modalEvent])
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, modalEvent))
   };
+
   const customEvent = ({ event }) => {
     return (
-          <div disabled={!event.visible} id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
+          <div hidden={!event.visible} id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
             <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
             <p className="font-semibold">{event.name}</p>
             {setTime(event.start, event.duration)}
