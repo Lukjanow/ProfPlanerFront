@@ -102,7 +102,7 @@ export default function BasicDataPage() {
     case "module":
       //setSelectedData(moduleList);
       selectedData = modules;
-      path = "/basicdata";
+      path = "/module-details";
       console.log("-----------> Module!!!!", selectedData);
       break;
     case "room":
@@ -114,7 +114,7 @@ export default function BasicDataPage() {
     case "teacher":
       //setSelectedData(teacherList);
       selectedData = teachers;
-      path = "/lecturer-details";
+      path = "/dozent-details";
       console.log("-----------> TEACHER!!!!", selectedData);
       break;
     default:
@@ -137,7 +137,7 @@ export default function BasicDataPage() {
         selectedItem={selectedItem}
       />
       {selectedData && selectedData.length > 0 ? (
-        <BasicDataTable tableData={selectedData} />
+        <BasicDataTable tableData={selectedData} path={path} />
       ) : (
         <NoContent />
       )}
