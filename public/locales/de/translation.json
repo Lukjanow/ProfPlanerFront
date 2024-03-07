@@ -59,7 +59,7 @@
   "addExercises": "Füge eine Übung oder ein Praktikum hinzu",
   "addExercise": "Übung hinzufügen",
   "addTraining": "Praktikum hinzufügen",
-  "group": "In Gruppe: (Vorlesung ist Gruppe 1)",
+  "group": "In Gruppe",
   "isRequired": " wird benötigt.",
   "isInvalid": " ist ungültig.",
   "noContentAvailable": "Keine Inhalte verfügbar!",
@@ -73,5 +73,6 @@
   "roomType": "Raum Typ",
   "roomNumber": "Raumnummer",
   "deleteRoomInfo": "Wenn du diesen Raum löschst, werden alle Zuweisungen zu den Modulen verloren gehen!",
-  "room": "Raum"
+  "room": "Raum",
+  "type": "Art der Veranstaltung"
 }

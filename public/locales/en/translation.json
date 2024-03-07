@@ -60,7 +60,7 @@
   "addExercises": "Add an Exercise or a Training session",
   "addExercise": "Add Exercise",
   "addTraining": "Add Training",
-  "group": "In group: (Lecture is group 1)",
+  "group": "In group",
   "isRequired": " is required.",
   "isInvalid": " is invalid.",
   "noContentAvailable": "No Content Available!",
@@ -74,5 +74,6 @@
   "roomType": "Room Typ",
   "roomNumber": "Roomnumber",
   "deleteRoomInfo": "If you delete this room, all asigments to the modules will be lost!",
-  "room": "Room"
+  "room": "Room",
+  "type": "Type of Event"
 }

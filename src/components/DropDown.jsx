@@ -83,6 +83,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
             </Input>
           </DropdownTrigger>
           <DropdownMenu aria-label="Static Actions"
+                  disallowEmptySelection={required}
                   selectionMode={selectionMode}
                   selectedKeys={selectedKeys}
                   onSelectionChange={

@@ -11,28 +11,29 @@ import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
 import { getAllStudySemesters } from "../services/studySemesterService"
 import { ModuleModel } from "../models/moduleModel";
-import { addModule,getModuleById } from "../services/moduleService";
+import { addModule, deleteModule, getModuleById,updateModule } from "../services/moduleService";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import DeleteModal from "../components/DeleteModal.jsx";
 
 //Deal with Dozent, Room, duration, type
 //TODO: Allow to send data
 
-export default function EditModulesPage({ edit = false
-}
+export default function EditModulesPage(
 ) {
     const { t } = useTranslation();
     const { moduleId } = useParams();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
 
-    const [ModuleID, setModuleID] = React.useState()
-    const [ModuleName, setModuleName] = React.useState()
-    const [ModuleCode, setModuleCode] = React.useState()
-    const [ModuleFrequency, setModuleFrequency] = React.useState()
+    const [ModuleID, setModuleID] = React.useState("")
+    const [ModuleName, setModuleName] = React.useState("")
+    const [ModuleCode, setModuleCode] = React.useState("")
+    const [ModuleStudySemester, setModuleStudySemester] = useState([])
+    const [ModuleFrequency, setModuleFrequency] = React.useState("")
     const [ModuleSelected, setModuleSelected] = React.useState(true)
-    const [color, setColor] = React.useState()
-    const [ModuleNote, setModuleNote] = React.useState()
+    const [color, setColor] = React.useState("")
+    const [ModuleNote, setModuleNote] = React.useState("")
 
     const [QSP, setQSP] = React.useState("")
     const [studyCourse, setStudyCourse] = React.useState([])
@@ -59,11 +60,8 @@ export default function EditModulesPage({ edit = false
     const [errors, setErrors] = useState({
         module_id: false,
         name: false,
-        code: false,
         frequency: false,
-        selected: false,
-        color: false,
-        note: false,
+        extra: false,
     });
     
     function setRoomsHelper(data){
@@ -71,7 +69,7 @@ export default function EditModulesPage({ edit = false
         data.forEach(room => {
             let dict = {}
             dict["key"] = room["_id"]
-            dict["label"] = room["name"]
+            dict["label"] = room["roomNumber"]
             rooms.push(dict)
         });
         setRooms(rooms)
@@ -122,6 +120,7 @@ export default function EditModulesPage({ edit = false
                     setModuleID(response.data.module_id)
                     setModuleName(response.data.name)
                     setModuleCode(response.data.code)
+                    setModuleStudySemester([response.data.study_semester])
                     setModuleFrequency(response.data.frequency)
                     setModuleSelected(response.data.selected)
                     setModuleNote(response.data.note)
@@ -181,87 +180,103 @@ export default function EditModulesPage({ edit = false
             label: "Winter- und Sommersemester"
         }
     ]
+
+
+    const handleSubmit = (e) => {
+        e.preventDefault()
+
+        const validationErrors = validateForm();
+
+        if (Object.keys(validationErrors).length === 0) {
+            if (moduleId) {
+                const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse, extra)
+                updateModule(moduleId, newModule)
+                    .then(response => {
+                        console.log("Module updated: ", response);
+                    })
+                    .catch(error => {
+                        console.error("Error updating Module:", error);
+                    })
+
+                return
+            }
+
+            const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse, extra)
+            addModule(newModule)
+                .then(response => {
+                    console.log("Module saved: ", response);
+                })
+                .catch(error => {
+                    console.error("Error saving Module:", error);
+                })
+        } else {
+            console.error("Error: ", errors);
+        }
+    }
+
+    const handleDelete = () => {
+        deleteModule(moduleId)
+            .then(response => {
+                console.log("Module deleted: ", response);
+            })
+            .catch(error => {
+                console.error("Error deleting Module:", error);
+            })
+        navigate("/basicdata")
+    }
+
+    const validateForm = () => {
+        let errors = {};
+
+         if (!ModuleID.trim()) {
+            errors.module_id = true;
+        }
+
+        if (!ModuleName.trim()) {
+            errors.name = true;
+        }
+
+        if (!ModuleFrequency.keys[0]) {
+            errors.frequency = true;
+        } 
+        
+        extra.forEach((data) =>{
+            if (data.error == false){
+                errors.extra = true;
+                console.log(data, "extra")
+            }
+        })
+
+        setErrors(errors);
+        return errors;
+    };
     
 
-    const saveToDB = ()=>{
-        //TODO: Complete Rework
-        let error = ""
-        let groups = new Set([])
-        let Module = new ModuleModel(
-            ModuleID,
-            ModuleName,
-            (ModuleCode) ? ModuleCode : null,
-            new Set(Array.from(ModuleDozent.keys)),
-            new Set(Array.from(ModuleRoom.keys)),
-            Array.from(ModuleStudySemester.keys),
-            ModuleDuration,
-            ModuleAttendance,
-            null,
-            new Set([1])/* (ModuleType?.keys ? Array.from(ModuleType?.keys): []) */,
-            parseInt(Array.from(ModuleFrequency.keys)[0]),
-            ModuleSelected,
-            color,
-            (ModuleNote) ? ModuleNote: null,
-            (ModuleGroups) ? ModuleGroups: 0
-        )
-        extra.forEach((training) =>(
-            (training["group"] == "1") ? (
-                (training["type"] != null) ? Module.type.add(training["type"]) : {},
-                (training["dozent"].keys != null) ? Module.dozent.add(...training["dozent"].keys) : {},
-                (training["room"].keys != null) ? Module.room.add(...training["room"].keys) : {},
-                (training["addTime"] != null) ? 
-                    Module.duration = String(parseInt(Module.duration) + parseInt(training.pause) + parseInt(training.duration))
-                : {},
-                console.log(Module)
-            ) : 
-                groups.add(training["group"])
-            
-        ))
-        Module.type = Array.from(Module.type)
-        Module.dozent = Array.from(Module.dozent)
-        Module.room = Array.from(Module.room)
-        addModule(Module)
-        groups.forEach((group) => (
-            error = "",
-            Module.type = new Set([]),
-            Module.dozent = new Set([]),
-            Module.room = new Set([]),
-            Module.type = new Set([]),
-            Module.duration = "0",
-            Module.approximate_attendance = "0",
-            extra.forEach((training) =>(
-                (training["group"] == group) ? (
-                    (training["type"] != null) ? Module.type.add(training["type"]) : {},
-                    (training["dozent"].keys != null) ? Module.dozent.add(...training["dozent"].keys) : {},
-                    (training["room"].keys != null) ? Module.room.add(...training["room"].keys) : {},
-                    (training["addTime"] != null) ? 
-                        (Module.approximate_attendance = training["approximate_attendance"],
-                        Module.duration = String(parseInt(Module.duration) + parseInt(training.pause) + parseInt(training.duration)))
-                    : Module.approximate_attendance = String(parseInt(training["approximate_attendance"]) + parseInt(Module.approximate_attendance))
-                ) : {},
-            (Module.duration == "0") ?
-                    error += "Duration is Zero." : {},
-            (Module.approximate_attendance == "0") ?
-                    error += "Approximate Attendace is Zero." : {},
-            console.log(Module),
-            (error !== "") ?
-                    (console.log("Group", group, "will not be added to database for this reason:", error))
-                    :
-                    addModule(Module)      
-            ))
-        ))
-    }
 
     return (
         <>
-        <PageContainer title={(edit) ? `${t("editModule")}`:`${t("newModule")}`} primaryButtonTitle={`${t("save")}`} showDeleteButton={edit} onClickPrimary={saveToDB}>
+        <PageContainer title={(moduleId) ? `${ModuleID} ${ModuleName}`:`${t("newModule")}`}
+         primaryButtonTitle={`${t("save")}`} 
+         showDeleteButton={moduleId ? true : false}
+         onClickDelete={() => setShowModal(true)}
+        onClickPrimary={(e) => handleSubmit(e)}>
+
+            <DeleteModal
+                value={showModal}
+                onClickCancel={() => {
+                    setShowModal(false)
+                }}
+                onClickDelete={handleDelete}
+                headlineText={t("deleteQuestion")}
+                bodyText={"This can't be reversed and can cause Issues in the Planer"}
+            />
+        <form>
             <SectionContainer title={`${t("general")}`}>
-                <div className="flex gap-5" style={{marginBottom: "25px"}}>
+                <div className="flex lg:flex-row flex-col gap-5">
                     <DropDown Items={studyCourses} description={`${t("studycourse")}`} selectionMode="multiple"
                         onChange={setStudyCourse}
                         values={studyCourse}
-                        width="500px"
-                        required={true}>
+                        width="500px">
                     </DropDown>
                     <DropDown Items={semester} description={`${t("semester")}`} selectionMode="multiple"
                      onChange={setModuleStudySemester}
@@ -280,7 +295,7 @@ export default function EditModulesPage({ edit = false
                         >{`${t("isOffered")}`}
                     </Checkbox>
                 </div>
-                <RadioGroup
+{/*                 <RadioGroup    //TODO: Check to solution to allow selecting multiple
                     orientation="horizontal"
                     value={ModuleType}
                     onValueChange={setModuleType}
@@ -290,39 +305,56 @@ export default function EditModulesPage({ edit = false
                     <Radio value="Wahlpflicht">{`${t("compulsoryElectivemodule")}`}</Radio>
                     <Radio value="QSP">{`${t("focusOfQualification")}`}</Radio>
                     <Radio value="Sonstiges">{`${t("other")}`}</Radio>
-                </RadioGroup>
-                {(ModuleType == "QSP") ? 
+                </RadioGroup> */}
                 <DropDown Items={QSPsa} description={`${t("focusOfQualification")}`} selectionMode="multiple"
                     onChange={setQSP}
                     values={QSP}
                     width="500px">
-                </DropDown>: 
-                null}
-                <div className="flex gap-5" style={{marginTop: "25px",marginBottom: "25px"}}>
+                </DropDown>
+                <div className="flex lg:flex-row flex-col gap-5">
                         <Input
                             label={`${t("moduleName")}`}
-                            
+                            isInvalid={errors.name}
+                            errorMessage={errors.name ? `${t("moduleName")} ${t("isRequired")}` : ""}
                             color="default"
                             type="text"
-                            onChange={(e) => setModuleName(e.target.value)}
+                            onValueChange={
+                                (value) => {
+                                    setModuleName(value)
+                                    if (!value.trim()) {
+                                        setErrors({ ...errors, name: true })
+                                    } else {
+                                        setErrors({ ...errors, name: false })
+                                    }
+                                }
+                            }
                             value={ModuleName}
                             isRequired
+                            className={"lg:max-w-[500px]"}
                         />
                         <Input
                             label={`${t("moduleNr")}`}
-                            
+                            className={"lg:max-w-[250px]"}
                             color="default"
                             type="text"
-                            onChange={(e) => setModuleID(e.target.value)}
+                            isInvalid={errors.module_Id}
+                            errorMessage={errors.module_Id ? `${t("moduleNr")} ${t("isRequired")}` : ""}
+                            onValueChange={(value) =>  {
+                                setModuleID(value)
+                                if (!value.trim()) {
+                                    setErrors({ ...errors, module_Id: true })
+                                } else {
+                                    setErrors({ ...errors, module_Id: false })
+                                }}}
                             value={ModuleID}
                             isRequired
                         />
                         <Input
                             label="Code"
-                            
                             color="default"
                             onChange={(e) => setModuleCode(e.target.value)}
                             value={ModuleCode}
+                            className={"lg:max-w-[250px]"}
                         />
                 </div>
                 <div className="flex gap-5">
@@ -348,14 +380,12 @@ export default function EditModulesPage({ edit = false
                     <ModuleItem moduleItemData={{
                                                 title: ModuleName,
                                                 studySemester: ModuleStudySemester?.label,
-                                                dozent: ModuleDozent?.label,
-                                                room: ModuleRoom?.label,
                                                 backgroundcolor: color
                                                 }} />
                 </div>
             </SectionContainer>
 
-            <SectionContainer title={t("lecture")}>
+{/*             <SectionContainer title={t("lecture")}>
                 <div className="flex gap-5" style={{marginTop: "25px"}}>
                     <DropDown Items={teachers} description={`${t("lecturer")}`} selectionMode="multiple"
                         add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -383,26 +413,15 @@ export default function EditModulesPage({ edit = false
                             value={ModuleDuration}
                             isRequired
                         />
-                        <Input
-                            label={`${t("approximateAttendance")}`}
-                            
-                            color="default"
-                            type="number"
-                            onChange={(e) => setModuleAttendance(e.target.value)}
-                            value={ModuleAttendance}
-                            isRequired
-                        />
                 </div>
-            </SectionContainer>
+            </SectionContainer> */}
             
-            <SectionContainer title={""}>
-                {t("addExercises")}
+            <SectionContainer title={"Veranstaltungen"}>
                 <div className="flex gap-5" style={{marginBottom: "10px"}}>
-                    <OutlinedButton text="Füge " icon="plus" showIcon={true} color={"primary"}
+                    <OutlinedButton text="Füge eine Veranstaltung hinzu" icon="plus" showIcon={true} color={"primary"}
                                 onClick={() =>(
                                     setExtra(old => [...old, {
                                         type: "",
-                                        approximate_attendance:"",
                                         dozent: [],
                                         assistents: [],
                                         room: "",
@@ -410,7 +429,8 @@ export default function EditModulesPage({ edit = false
                                         pause: "",
                                         group: "",
                                         need: [],
-                                        addTime: false
+                                        addTime: false,
+                                        error: false
                                     }]))
                                 }></OutlinedButton>
 
@@ -432,6 +452,7 @@ export default function EditModulesPage({ edit = false
                     value={ModuleNote}
                 />
             </SectionContainer>
+            </form>
         </PageContainer>
         </>
     );
