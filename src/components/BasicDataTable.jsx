@@ -28,6 +28,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null); // State to store the ID of the item to be deleted
+  const [searchPlaceholder, setSearchPlaceholder] = useState("Search");
   let columnKeys = [];
 
   // Funktion zum Aktualisieren der Länge der Daten
@@ -36,6 +37,26 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       setLength(tableData.length);
     }
   }, [tableData]);
+
+  useEffect(() => {
+    const pathParts = path.split("-");
+    const element = pathParts[0];
+
+    switch (element) {
+      case "/room":
+        setSearchPlaceholder(t("searchByRoom"));
+        break;
+      case "/dozent":
+        setSearchPlaceholder(t("searchByDozent"));
+        break;
+      case "/module":
+        setSearchPlaceholder(t("searchByModule"));
+        break;
+      default:
+        console.error("Unknown element type:", element);
+        return;
+    }
+  }, [path, t]);
 
   const generateColumns = () => {
     if (!tableData || !tableData[0]) return [];
@@ -99,7 +120,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       <h1 className="font-poppins font-bold text-2xl">Überblick ({length})</h1>
       <Input
         isClearable
-        placeholder="Search by name..."
+        placeholder={searchPlaceholder}
         className="flex-initial w-1/2"
         startContent={
           <FontAwesomeIcon
@@ -154,7 +175,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
 
       <Table aria-label="table" radius="sm" topContent={topContent}>
         <TableHeader
-          columns={[...myColumns, { name: "ACTIONS", uid: "actions" }]}
+          columns={[...myColumns, { name: t("actions"), uid: "actions" }]}
         >
           {(column) => (
             <TableColumn
