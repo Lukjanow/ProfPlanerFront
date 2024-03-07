@@ -4,12 +4,29 @@ class Conflict {
       this.mod1 = mod1;
       this.mod2 = mod2;
       if(mod1.id != mod2.id){
-        this.module_string = "(" + String(mod1.title) + ") & (" + String(mod2.title) + ")"
+        this.module_string = "(" + String(mod1.name) + ") & (" + String(mod2.name) + ")"
       } else {
-        this.module_string = "(" + String(mod1.title) + ")"
+        this.module_string = "(" + String(mod1.name) + ")"
       }
       this.index = index;
-      this.id = mod1.id<=mod2.id ? mod1.id*80*7 + mod2.id*7 + index : mod2.id*80*7 + mod1.id*7 + index
+      if(mod1.id === mod2.id){
+        this.id = String(mod1.id) + String(mod2.id) + String(index)
+      } else {
+        for (let i = 0; i < mod1.id.length; i++) {
+          const mod1_num = parseInt(mod1.id[i], 16)
+          console.log("MOD1 NUMMER: ", mod1_num)
+          const mod2_num = parseInt(mod2.id[i], 16)
+          console.log("MOD2 NUMMER: ", mod2_num)
+          if (mod1_num < mod2_num) {
+            this.id = String(mod1.id) + String(mod2.id) + String(index)
+            break;
+          } else if (mod2_num < mod1_num){
+            this.id = String(mod2.id) + String(mod1.id) + String(index)
+            break;
+          }
+        }
+      }
+      // this.id = mod1.id<=mod2.id ? mod1.id*80*7 + mod2.id*7 + index : mod2.id*80*7 + mod1.id*7 + index
 
       switch (index) {
         case 1:

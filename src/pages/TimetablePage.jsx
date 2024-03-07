@@ -20,8 +20,8 @@ export default function MyCalendar() {
 
     const moduleItemDataList = [
       {
-        id: 1,
-        title: "Einführung in die Informatik",
+        id: "65d70a20bd82b03aeac92a56",
+        name: "Einführung in die Informatik",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
@@ -33,8 +33,8 @@ export default function MyCalendar() {
         duration: 195,
       },
       {
-        id: 2,
-        title: "Rechnernetze und Netzwerksicherheit",
+        id: "65d70acbbd82b03aeac92a5c",
+        name: "Rechnernetze und Netzwerksicherheit",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
@@ -46,8 +46,8 @@ export default function MyCalendar() {
         duration: 195,
       },
       {
-        id: 3,
-        title: "Betriebssysteme",
+        id: "65d71e619004f2a19971f8bd",
+        name: "Betriebssysteme",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
@@ -59,8 +59,8 @@ export default function MyCalendar() {
         duration: 195,
       },
       {
-        id: 4,
-        title: "Softwarequalität",
+        id: "65d738b5a421a928cd955b63",
+        name: "Softwarequalität",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
@@ -73,7 +73,7 @@ export default function MyCalendar() {
       },
       {
       id: 5,
-      title: "Datenbanken",
+      name: "Datenbanken",
       type: "Modul",
       start: moment("2024-01-01T12:00").toDate(),
       end: moment("2024-01-01T15:00").toDate(),
@@ -86,7 +86,7 @@ export default function MyCalendar() {
     },
     {
       id: 6,
-      title: "Fullstack Webanwendungen",
+      name: "Fullstack Webanwendungen",
       type: "Modul",
       start: moment("2024-01-02T14:00").toDate(),
       end: moment("2024-01-02T18:00").toDate(),
@@ -99,7 +99,7 @@ export default function MyCalendar() {
     },
     {
       id: 7,
-      title: "Katze Streicheln",
+      name: "Katze Streicheln",
       type: "Abwesenheit",
       start: moment("2024-01-01T12:00").toDate(),
       end: moment("2024-01-01T15:00").toDate(),
@@ -163,12 +163,15 @@ export default function MyCalendar() {
     }, []);
 
     return (
-        <>
-        { modules.length !== 0 ?
-            <div className="flex">
-                <TimeTable moduleItemList={moduleItemDataList}/>
-            </div> : <TimeTable moduleItemList={[]}/>
-        }
-        </>
+        <div className="flex">
+          <TimeTable moduleItemList={moduleItemDataList}/>
+        </div>
+        // <>
+        // { modules.length !== 0 ?
+        //     <div className="flex">
+        //         <TimeTable moduleItemList={moduleItemDataList}/>
+        //     </div> : <TimeTable moduleItemList={[]}/>
+        // }
+        // </>
     );
 }

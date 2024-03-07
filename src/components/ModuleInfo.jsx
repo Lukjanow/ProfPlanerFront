@@ -22,7 +22,7 @@ export function ModuleInfo({ isOpen, onOpenChange, event, removeFunction }) {
           <>
             <ModalBody>
               <ModalHeader></ModalHeader>
-              <p className="font-semibold">{event.title}</p>
+              <p className="font-semibold">{event.name}</p>
               <div className="flex">
                 <span className="flex justify-center items-center justify-self-center w-[30px]">
                   <FontAwesomeIcon icon="fa-solid fa-graduation-cap" />
