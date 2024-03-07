@@ -214,7 +214,7 @@ export function TimeTable({moduleItemList}) {
                   components={{         
                     event: customEvent
                   }}
-                  timeslots={4}
+                  timeslots={2}
                   selectable
                   resizable={false}
                   formats={{dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture)}}

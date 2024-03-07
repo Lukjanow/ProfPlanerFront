@@ -125,34 +125,45 @@ export default function MyCalendar() {
             end: moment("2024-01-01T15:00").toDate(),
             study_semester_string: module_list[i].study_semester[0] != null? String(module_list[i].study_semester[0].name) : "Kein Semester",
             study_semester: module_list[i].study_semester,
-            dozent_string: module_list[i].dozent[0] !== undefined ? String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname) : "Kein Dozent",
+            dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname) : "Kein Dozent",
             dozent: module_list[i].dozent,
-            room_string: module_list[i].room[0] != null? String(module_list[i].room[0].name) : "kein Raum",
+            room_string: module_list[i].room[0] !== null && module_list[i].room[0] !== undefined ? String(module_list[i].room[0].roomNumber) : "kein Raum",
             room: module_list[i].room,
-            backgroundcolor: "#D6F5E2",
-            bordercolor: "#46D27F",
-            duration: 195
+            backgroundcolor: module_list[i].color !== null && module_list[i].color !== undefined ? module_list[i].color : "#eeeeee",
+            bordercolor: module_list[i].color !== null && module_list[i].color !== undefined ? changeColor(module_list[i].color, -40) : "#bcbcbc",
+            duration: module_list[i].duration
           })
-          console.log("HEUL LEISE DU OPFER",module_list[i]._id)
-        //   module_list[i].backgroundcolor = "#D6F5E2";
-        //   module_list[i].bordercolor = "#46D27F";
-        //   module_list[i].start = moment("2024-01-01T12:00").toDate();
-        //   module_list[i].end = moment("2024-01-01T15:00").toDate();
-        //   module_list[i].dozent_name = String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname);
-        //   module_list[i].room_name = String(module_list[i].room[0].name);
-        //   module_list[i].study_semester_name = String(module_list[i].study_semester[0].name);
-        //   module_list[i].backgroundcolor = "#D6F5E2";
-        //   module_list[i].backgroundcolor = "#D6F5E2";
-        //   module_list[i].id = i + 1
-        //   console.log("ITEM ",i,": ", module_list[i])
-        // } catch(error) {
-        //   module_list.splice(i, 1)
-        //   i--;
-        // }
-      // }
         }
+        
         return list
     }
+
+    function changeColor(col, amt) {
+      var usePound = false;
+    
+      if (col[0] == "#") {
+          col = col.slice(1);
+          usePound = true;
+      }
+  
+      var num = parseInt(col,16);
+      var r = (num >> 16) + amt;
+  
+      if (r > 255) r = 255;
+      else if  (r < 0) r = 0;
+  
+      var b = ((num >> 8) & 0x00FF) + amt;
+  
+      if (b > 255) b = 255;
+      else if  (b < 0) b = 0;
+  
+      var g = (num & 0x0000FF) + amt;
+  
+      if (g > 255) g = 255;
+      else if (g < 0) g = 0;
+  
+      return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+  }
 
     useEffect(() => {
       async function fetchData() {
