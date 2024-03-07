@@ -45,7 +45,7 @@ export function NavigationBar() {
           <NavbarItem className={"w-20 h-20 px-0"} key={index}>
             <Button color="" className={`p-0 h-20 ${activeNavItem === navigationBarItem.path ? "bg-activeButton" : ""}`}>
               {navigationBarItem.path === "conflicts" ? (
-                <Badge content="8" color="danger" size="md">
+                <Badge content="8" color="danger" size="md" showOutline={false}>
                   <NavigationBarItem item={navigationBarItem} />
                 </Badge>
               ) : (
