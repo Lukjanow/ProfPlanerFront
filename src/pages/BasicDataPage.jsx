@@ -59,25 +59,27 @@ export default function BasicDataPage() {
   }, []);
   */
 
-  useEffect(() => {
-    async function fetchData() {
-      try {
-        const resultModule = await getAllBasicDataModules();
-        const resultRooms = await getAllRooms();
-        const resultTeacher = await getAllDozents();
-        setModules(resultModule.data);
-        setDataLength(resultModule.data.length);
-        setRooms(resultRooms.data);
-        setTeachers(resultTeacher.data);
+  // Funktion zum Datenabrufen
+  async function fetchData() {
+    try {
+      const resultModule = await getAllBasicDataModules();
+      const resultRooms = await getAllRooms();
+      const resultTeacher = await getAllDozents();
+      setModules(resultModule.data);
+      setDataLength(resultModule.data.length);
+      setRooms(resultRooms.data);
+      setTeachers(resultTeacher.data);
 
-        console.log("----------> ResultsModule: ", resultModule);
-        console.log("----------> ResultsRooms: ", resultRooms);
-        console.log("----------> ResultsTeachers: ", resultTeacher);
-      } catch (error) {
-        console.error("Error fetching modules:", error);
-      }
+      console.log("----------> ResultsModule: ", resultModule);
+      console.log("----------> ResultsRooms: ", resultRooms);
+      console.log("----------> ResultsTeachers: ", resultTeacher);
+    } catch (error) {
+      console.error("Error fetching modules:", error);
     }
-    fetchData();
+  }
+
+  useEffect(() => {
+    fetchData(); // Daten beim Laden der Seite abrufen
   }, []);
 
   const [selectedItem, setSelectedItem] = useState("module");
@@ -137,7 +139,11 @@ export default function BasicDataPage() {
         selectedItem={selectedItem}
       />
       {selectedData && selectedData.length > 0 ? (
-        <BasicDataTable tableData={selectedData} path={path} />
+        <BasicDataTable
+          tableData={selectedData}
+          path={path}
+          fetchData={fetchData}
+        />
       ) : (
         <NoContent />
       )}

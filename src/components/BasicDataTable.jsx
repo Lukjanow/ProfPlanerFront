@@ -21,7 +21,7 @@ import { deleteDozent } from "../services/dozentService.js";
 import { deleteModule } from "../services/moduleService.js";
 import { deleteRoom } from "../services/roomService.js";
 
-export default function BasicDataTable({ tableData, path }) {
+export default function BasicDataTable({ tableData, path, fetchData }) {
   const { t } = useTranslation();
   const [length, setLength] = useState(0);
   const excludeColumnKeys = ["_id"];
@@ -52,22 +52,13 @@ export default function BasicDataTable({ tableData, path }) {
     });
   };
 
-  const handleDelete = (id) => {
+  const handleDelete = async (id) => {
     let deleteFunction;
     let elementType;
-
-    console.log("You are in handle Delete Funktion!!");
 
     // Extrahiere den Typ des Elements und die ID aus dem Pfad
     const pathParts = path.split("-");
     const element = pathParts[0];
-
-    console.log(
-      "You are in handle Delete Funktion, this is your ID: ",
-      id,
-      "Element: ",
-      element
-    );
 
     // Bestimme den Typ des Elements basierend auf dem Pfad
     switch (element) {
@@ -88,18 +79,17 @@ export default function BasicDataTable({ tableData, path }) {
         return;
     }
 
-    // Rufe die entsprechende Löschfunktion auf
-    deleteFunction(id)
-      .then((response) => {
-        console.log(`${elementType} deleted: `, response);
-      })
-      .catch((error) => {
-        console.error(`Error deleting ${elementType}:`, error);
-      });
+    try {
+      // Rufe die entsprechende Löschfunktion auf
+      await deleteFunction(id);
+      console.log(`${elementType} deleted successfully`);
+      setShowModal(false);
 
-    setShowModal(false);
-
-    navigate("/basicdata");
+      // Nach dem Löschen erneut Daten abrufen und die Tabelle aktualisieren
+      fetchData();
+    } catch (error) {
+      console.error(`Error deleting ${elementType}:`, error);
+    }
   };
 
   const myColumns = generateColumns();
@@ -156,7 +146,7 @@ export default function BasicDataTable({ tableData, path }) {
           setShowModal(false);
         }}
         onClickDelete={() => {
-          handleDelete(deleteItemId); // Übergeben Sie das deleteItemId an handleDelete
+          handleDelete(deleteItemId);
         }}
         headlineText={t("deleteQuestion")}
         bodyText={t("deleteDozentInfo")}
