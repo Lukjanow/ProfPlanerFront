@@ -40,6 +40,9 @@ export default function RoomDetailPage() {
           setRoomNumber(response.data.roomNumber);
           setCapacity(response.data.capacity);
           setRoomType([response.data.roomType]);
+          console.log("-------------------------------------> RoomType: ", [
+            response.data.roomType,
+          ]);
         })
         .catch((error) => {
           console.error("Error fetching room:", error);
@@ -81,8 +84,7 @@ export default function RoomDetailPage() {
         parseInt(capacity),
         roomTypesOptions[0]
       );
-      console.log("=====> NewRoom: ", newRoom);
-      console.log("=====> NewRoom2: ", new RoomModel("N101", 3, "Labor"));
+
       addRoom(newRoom)
         .then((response) => {
           console.log("Room saved: ", response);
@@ -108,6 +110,10 @@ export default function RoomDetailPage() {
 
   const validateForm = () => {
     let errors = {};
+
+    if (!capacity) {
+      errors.capacity = true;
+    }
 
     if (!roomNumber.trim()) {
       errors.roomNumber = true;
@@ -183,7 +189,7 @@ export default function RoomDetailPage() {
               value={capacity}
               onValueChange={(value) => {
                 setCapacity(value);
-                if (!/^\d+$/.test(value)) {
+                if (!value) {
                   setErrors({ ...errors, capacity: true });
                 } else {
                   setErrors({ ...errors, capacity: false });
