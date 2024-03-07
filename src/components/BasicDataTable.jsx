@@ -62,14 +62,23 @@ export default function BasicDataTable({ tableData }) {
 
   function determineRendering(key, value) {
       if (Array.isArray(value)) {
+          if (value.length === 0) {
+              return <TableCell>-</TableCell>;
+          }
+
           if (key === "dozent") {
               return <TableCell>{printArrAsStringByKeys(value, ["prename", "lastname"])}</TableCell>;
-          } else if (key === "room" || key === "studySemester") {
+
+          } else if (key === "studySemester") {
               return <TableCell>{printArrAsStringByKey(value, "name")}</TableCell>;
+
+          } else if (key === "room") {
+              return <TableCell>{printArrAsStringByKey(value, "roomNumber")}</TableCell>;
           }
+
           return <TableCell key={key}>Unknown key: {key}</TableCell>
       }
-      return <TableCell key={key}>{value}</TableCell>;
+      return <TableCell key={key}>{value ? value : "-"}</TableCell>;
   }
 
   return (
