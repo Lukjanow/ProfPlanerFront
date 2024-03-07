@@ -13,8 +13,7 @@ import { useLocation } from 'react-router-dom';
 export function NavigationBar() {
   const { t } = useTranslation();
   const location = useLocation();
-  // TODO: Update this to extract the word between the first to slashes
-  const activeNavItem = location.pathname.split("/").join("")
+  const activeNavItem = location.pathname.split("/")[1]
 
   const navigationBarItems = [
     {
