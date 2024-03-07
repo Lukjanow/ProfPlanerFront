@@ -29,6 +29,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   const [showModal, setShowModal] = useState(false);
   const [deleteItemId, setDeleteItemId] = useState(null); // State to store the ID of the item to be deleted
   const [searchPlaceholder, setSearchPlaceholder] = useState("Search");
+  const [deleteMessage, setDeleteMessage] = useState("");
   let columnKeys = [];
 
   // Funktion zum Aktualisieren der Länge der Daten
@@ -45,12 +46,15 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
     switch (element) {
       case "/room":
         setSearchPlaceholder(t("searchByRoom"));
+        setDeleteMessage(t("deleteRoomInfo"));
         break;
       case "/dozent":
         setSearchPlaceholder(t("searchByDozent"));
+        setDeleteMessage(t("deleteDozentInfo"));
         break;
       case "/module":
         setSearchPlaceholder(t("searchByModule"));
+        setDeleteMessage(t("deleteModuleInfo"));
         break;
       default:
         console.error("Unknown element type:", element);
@@ -170,7 +174,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
           handleDelete(deleteItemId);
         }}
         headlineText={t("deleteQuestion")}
-        bodyText={t("deleteDozentInfo")}
+        bodyText={deleteMessage}
       />
 
       <Table aria-label="table" radius="sm" topContent={topContent}>
