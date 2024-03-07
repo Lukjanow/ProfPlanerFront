@@ -20,7 +20,7 @@ export default function MyCalendar() {
 
     const moduleItemDataList = [
       {
-        id: "65d70a20bd82b03aeac92a56",
+        _id: "65d70a20bd82b03aeac92a56",
         name: "Einführung in die Informatik",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
@@ -33,7 +33,7 @@ export default function MyCalendar() {
         duration: 195,
       },
       {
-        id: "65d70acbbd82b03aeac92a5c",
+        _id: "65d70acbbd82b03aeac92a5c",
         name: "Rechnernetze und Netzwerksicherheit",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
@@ -46,7 +46,7 @@ export default function MyCalendar() {
         duration: 195,
       },
       {
-        id: "65d71e619004f2a19971f8bd",
+        _id: "65d71e619004f2a19971f8bd",
         name: "Betriebssysteme",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
@@ -59,7 +59,7 @@ export default function MyCalendar() {
         duration: 195,
       },
       {
-        id: "65d738b5a421a928cd955b63",
+        _id: "65d738b5a421a928cd955b63",
         name: "Softwarequalität",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),

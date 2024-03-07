@@ -66,7 +66,7 @@ function getNewSemester(semester, next=true){
 
 function deleteConflictsWithCurrentModule(conflict_list, module) {
     for (let i = 0; i < conflict_list.length; i++) {
-        if(conflict_list[i].mod1.id == module.id || conflict_list[i].mod2.id == module.id){
+        if(conflict_list[i].mod1._id == module._id || conflict_list[i].mod2._id == module._id){
             conflict_list.splice(i, 1);
             i--;
         }
@@ -114,7 +114,7 @@ function checkModuleWarnings(module_list, conflict_list, module){
 
     //DELETE ALL CONFLICTS WITH THE CURRENT MODULE
     for (let i = 0; i < conflict_list.length; i++) {
-        if(conflict_list[i].mod1.id == module.id || conflict_list[i].mod2.id == module.id){
+        if(conflict_list[i].mod1._id == module._id || conflict_list[i].mod2._id == module._id){
             conflict_list.splice(i, 1);
             i--;
         }

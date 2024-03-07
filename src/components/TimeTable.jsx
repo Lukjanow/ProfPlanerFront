@@ -42,12 +42,12 @@ export function TimeTable({moduleItemList}) {
                   ...draggedEvent,
                   start,
                   end: moment(start).add(draggedEvent.duration, 'minutes'),
-                  id: draggedEvent.id,
+                  _id: draggedEvent._id,
                   hideTime: false
               };
-              setEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
+              setEvents(prevEvents => prevEvents.filter(event => event._id !== draggedEvent._id))
               setEvents(prevEvents => [...prevEvents, newEvent]);
-              setOutsideEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
+              setOutsideEvents(prevEvents => prevEvents.filter(event => event._id !== draggedEvent._id))
               setDraggedEvent(null)
               events.push(newEvent)
               setConflicts(checkModuleWarnings(events, conflict_list, newEvent))
@@ -64,7 +64,7 @@ export function TimeTable({moduleItemList}) {
         (start, end, appointmentId) => {
             setEvents(prevEvents =>
                 prevEvents.map(event =>
-                    event.id === appointmentId ? { ...event, start, end } : event
+                    event._id === appointmentId ? { ...event, start, end } : event
                 )
             );
             var div = document.getElementById("removeBorder")
@@ -73,7 +73,7 @@ export function TimeTable({moduleItemList}) {
             
             let module = null;
             for (let i = 0; i < events.length; i++) {
-                if (events[i].id === appointmentId) {
+                if (events[i]._id === appointmentId) {
                     module = events[i];
                     break;
                 }
@@ -135,13 +135,13 @@ export function TimeTable({moduleItemList}) {
   }
 
   const handleClickRemoveEvent = () => {
-    const updatedEvents = events.filter(ev => ev.id !== modalEvent.id);
+    const updatedEvents = events.filter(ev => ev._id !== modalEvent._id);
     setEvents(updatedEvents);
     setOutsideEvents(prevEvents => [...prevEvents, modalEvent])
   };
   const customEvent = ({ event }) => {
     return (
-          <div id={event.id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
+          <div id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
             <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
             <p className="font-semibold">{event.name}</p>
             {setTime(event.start, event.duration)}
@@ -165,7 +165,7 @@ export function TimeTable({moduleItemList}) {
       return
     } 
     setOutsideEvents(prevEvents => [...prevEvents, moveEvent]); 
-    setEvents(prevEvents => prevEvents.filter(e => e.id !== moveEvent.id))
+    setEvents(prevEvents => prevEvents.filter(e => e._id !== moveEvent._id))
     var div = document.getElementById("removeBorder")
     div.classList.remove("bg-red-600")
     div.classList.add("bg-white")
@@ -218,7 +218,7 @@ export function TimeTable({moduleItemList}) {
                   selectable
                   resizable={false}
                   formats={{dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture)}}
-                  onEventDrop={({ start, end, event }) => {onChangeEventTime(start, end, event.id)}}
+                  onEventDrop={({ start, end, event }) => {onChangeEventTime(start, end, event._id)}}
                   onDropFromOutside={onDropFromOutside}
                   drilldownView={null}
                   onDragStart={(event) => handleDragStart(event)}
@@ -229,7 +229,7 @@ export function TimeTable({moduleItemList}) {
         </div>
         <div>
           <ModuleBar moduleItemList={outsideEvents.map(event => (
-              <ModuleItem key={event.id} moduleItemData={event} dragEvent={setDraggedEvent}/>
+              <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent}/>
             ))} />
         </div>
       </div>

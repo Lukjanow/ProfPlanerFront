@@ -1,27 +1,27 @@
 class Conflict {
-    constructor(mod1, mod2, name, index=0, name2="", ignore=false, id=0) {
+    constructor(mod1, mod2, name, index=0, name2="") {
 
       this.mod1 = mod1;
       this.mod2 = mod2;
-      if(mod1.id != mod2.id){
+      if(mod1._id != mod2._id){
         this.module_string = "(" + String(mod1.name) + ") & (" + String(mod2.name) + ")"
       } else {
         this.module_string = "(" + String(mod1.name) + ")"
       }
       this.index = index;
-      if(mod1.id === mod2.id){
-        this.id = String(mod1.id) + String(mod2.id) + String(index)
+      if(mod1._id === mod2._id){
+        this.id = String(mod1._id) + String(mod2._id) + String(index)
       } else {
-        for (let i = 0; i < mod1.id.length; i++) {
-          const mod1_num = parseInt(mod1.id[i], 16)
+        for (let i = 0; i < mod1._id.length; i++) {
+          const mod1_num = parseInt(mod1._id[i], 16)
           console.log("MOD1 NUMMER: ", mod1_num)
-          const mod2_num = parseInt(mod2.id[i], 16)
+          const mod2_num = parseInt(mod2._id[i], 16)
           console.log("MOD2 NUMMER: ", mod2_num)
           if (mod1_num < mod2_num) {
-            this.id = String(mod1.id) + String(mod2.id) + String(index)
+            this.id = String(mod1._id) + String(mod2._id) + String(index)
             break;
           } else if (mod2_num < mod1_num){
-            this.id = String(mod2.id) + String(mod1.id) + String(index)
+            this.id = String(mod2._id) + String(mod1._id) + String(index)
             break;
           }
         }
@@ -71,12 +71,6 @@ class Conflict {
         default:
           this.error_message = "FEHLER";
           break;
-      }
-      this.ignore = ignore;
-      if(!this.ignore){
-        this.style="border-1 border-s-8 rounded-e-md p-3 border-yellow-500/100 bg-yellow-500/50"
-      } else {
-        this.style="border-1 border-s-8 rounded-e-md p-3 border-grey-500/100 bg-grey-500/50"
       }
     }
     printError(){
