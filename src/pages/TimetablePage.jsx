@@ -118,7 +118,7 @@ export default function MyCalendar() {
       for (let i = 0; i < module_list.length; i++) {
         // try{
           list.push({
-            _id: i + 1,
+            _id: module_list[i]._id,
             name: module_list[i].name,
             type: "Type",
             start: moment("2024-01-01T12:00").toDate(),
@@ -133,6 +133,7 @@ export default function MyCalendar() {
             bordercolor: "#46D27F",
             duration: 195
           })
+          console.log("HEUL LEISE DU OPFER",module_list[i]._id)
         //   module_list[i].backgroundcolor = "#D6F5E2";
         //   module_list[i].bordercolor = "#46D27F";
         //   module_list[i].start = moment("2024-01-01T12:00").toDate();

@@ -175,14 +175,14 @@ function checkModuleWarnings(module_list, conflict_list, module){
                 // } else if((module.type === "Modul" && value[i].type === "Abwesenheit") || (module.type === "Abwesenheit" && value[i].type === "Modul")) {
                 //     conflict_list.push(new Conflict(module, value[i], key, 2))
                 // }
-                conflict_list.push(new Conflict(module, value[i], key, getConflictName(module, key, "dozent"), 1))
+                conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "dozent"), 1))
             }
         }
     }
     for (const [key, value] of Object.entries(room_dict)) {
         for (let i = 0; i < value.length; i++) {
             if(overlap(module, value[i])) {
-                conflict_list.push(new Conflict(module, value[i], key, getConflictName(module, key, "room"), 6))
+                conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "room"), 6))
             }
         }
     }
@@ -208,17 +208,17 @@ function checkModuleWarnings(module_list, conflict_list, module){
         }
         for (let i = 0; i < value.length; i++) {
             if(overlap(module, value[i])) {
-                conflict_list.push(new Conflict(module, value[i], key, getConflictName(module, key, "study_semester"), 3))  
+                conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "study_semester"), 3))  
             }
         }
         for (let i = 0; i < prevList.length; i++) {
             if(overlap(module, prevList[i])) {
-                    conflict_list.push(new Conflict(module, prevList[i], prevValue, getConflictName(module, key, "study_semester"), 5, getNewSemester(getConflictName(module, key, "study_semester"), false)))  
+                    conflict_list.push(new Conflict(module, prevList[i], getConflictName(module, key, "study_semester"), 5, getNewSemester(getConflictName(module, key, "study_semester"), false)))  
             }
         }
         for (let i = 0; i < nextList.length; i++) {
             if(overlap(module, nextList[i])) {
-                    conflict_list.push(new Conflict(module, nextList[i], key, getConflictName(module, key, "study_semester"), 5, getNewSemester(getConflictName(module, key, "study_semester"), true)))  
+                    conflict_list.push(new Conflict(module, nextList[i], getConflictName(module, key, "study_semester"), 5, getNewSemester(getConflictName(module, key, "study_semester"), true)))  
             }
         }
         //CONFLICT 7
@@ -238,7 +238,7 @@ function checkModuleWarnings(module_list, conflict_list, module){
             }
             dayModuleList.push(module)
             if(checkMiddayPause(dayModuleList, 11 * 60 + 30, 14 * 60 + 30, 45)) {
-                conflict_list.push(new Conflict(module, dayModuleList[0], key, getConflictName(module, key, "study_semester"), 7))
+                conflict_list.push(new Conflict(module, dayModuleList[0], getConflictName(module, key, "study_semester"), 7))
             }
         }
     }

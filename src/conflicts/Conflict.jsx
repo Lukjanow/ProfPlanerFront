@@ -1,5 +1,5 @@
 class Conflict {
-    constructor(mod1, mod2, id_of_name, name, index=0, name2="") {
+    constructor(mod1, mod2, name, index=0, name2="") {
 
       this.mod1 = mod1;
       this.mod2 = mod2;
@@ -9,22 +9,22 @@ class Conflict {
         this.module_string = "(" + String(mod1.name) + ")"
       }
       this.index = index;
+      var conflict_id
       if(mod1._id === mod2._id){
-        this.id = String(mod1._id) + String(mod2._id) + String(index)
+        conflict_id = String(mod1._id) + "|" + String(mod2._id) + "|" + String(index)
       } else {
         for (let i = 0; i < mod1._id.length; i++) {
           const mod1_num = parseInt(mod1._id[i], 16)
-          console.log("MOD1 NUMMER: ", mod1_num)
           const mod2_num = parseInt(mod2._id[i], 16)
-          console.log("MOD2 NUMMER: ", mod2_num)
           if (mod1_num < mod2_num) {
-            this.id = String(mod1._id) + String(mod2._id) + String(index)
+            conflict_id = String(mod1._id) + "|" + String(mod2._id) + "|" + String(index)
             break;
           } else if (mod2_num < mod1_num){
-            this.id = String(mod2._id) + String(mod1._id) + String(index)
+            conflict_id = String(mod2._id) + "|" + String(mod1._id) + "|" + String(index)
             break;
           }
         }
+        this.id = conflict_id
       }
       // this.id = mod1.id<=mod2.id ? mod1.id*80*7 + mod2.id*7 + index : mod2.id*80*7 + mod1.id*7 + index
 
