@@ -31,13 +31,13 @@ async function addRoom(roomModel) {
 
 async function updateRoom(
   id,
-  { name = null, capacity = null, equipment = null }
+  { roomNumber = null, capacity = null, roomType = null }
 ) {
   return api
     .put(`/room/${id}`, {
-      ...(name !== null && { name }),
+      ...(roomNumber !== null && { roomNumber }),
       ...(capacity !== null && { capacity }),
-      ...(equipment !== null && { equipment }),
+      ...(roomType !== null && { roomType }),
     })
     .then((resObj) => {
       return {

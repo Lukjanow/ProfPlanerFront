@@ -84,8 +84,7 @@ export default function RoomDetailPage() {
         parseInt(capacity),
         roomTypesOptions[0]
       );
-      console.log("=====> NewRoom: ", newRoom);
-      console.log("=====> NewRoom2: ", new RoomModel("N101", 3, "Labor"));
+
       addRoom(newRoom)
         .then((response) => {
           console.log("Room saved: ", response);
@@ -112,7 +111,7 @@ export default function RoomDetailPage() {
   const validateForm = () => {
     let errors = {};
 
-    if (!capacity.trim()) {
+    if (!capacity) {
       errors.capacity = true;
     }
 
@@ -186,7 +185,7 @@ export default function RoomDetailPage() {
               value={capacity}
               onValueChange={(value) => {
                 setCapacity(value);
-                if (!value.trim()) {
+                if (!value) {
                   setErrors({ ...errors, capacity: true });
                 } else {
                   setErrors({ ...errors, capacity: false });
