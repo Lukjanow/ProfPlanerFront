@@ -9,22 +9,20 @@ class Conflict {
         this.module_string = "(" + String(mod1.name) + ")"
       }
       this.index = index;
-      var conflict_id
       if(mod1._id === mod2._id){
-        conflict_id = String(mod1._id) + "|" + String(mod2._id) + "|" + String(index)
+        this.id = String(mod1._id) + "|" + String(mod2._id) + "|" + String(index)
       } else {
         for (let i = 0; i < mod1._id.length; i++) {
           const mod1_num = parseInt(mod1._id[i], 16)
           const mod2_num = parseInt(mod2._id[i], 16)
           if (mod1_num < mod2_num) {
-            conflict_id = String(mod1._id) + "|" + String(mod2._id) + "|" + String(index)
+            this.id = String(mod1._id) + "|" + String(mod2._id) + "|" + String(index)
             break;
           } else if (mod2_num < mod1_num){
-            conflict_id = String(mod2._id) + "|" + String(mod1._id) + "|" + String(index)
+            this.id = String(mod2._id) + "|" + String(mod1._id) + "|" + String(index)
             break;
           }
         }
-        this.id = conflict_id
       }
       // this.id = mod1.id<=mod2.id ? mod1.id*80*7 + mod2.id*7 + index : mod2.id*80*7 + mod1.id*7 + index
 

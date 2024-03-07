@@ -238,6 +238,7 @@ function checkModuleWarnings(module_list, conflict_list, module){
             }
             dayModuleList.push(module)
             if(checkMiddayPause(dayModuleList, 11 * 60 + 30, 14 * 60 + 30, 45)) {
+                console.log("DAY_MODULE_LIST:",dayModuleList)
                 conflict_list.push(new Conflict(module, dayModuleList[0], getConflictName(module, key, "study_semester"), 7))
             }
         }
