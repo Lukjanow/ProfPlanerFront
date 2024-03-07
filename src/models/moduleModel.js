@@ -41,7 +41,7 @@ export class ModuleModel {
 
 export class ModuleBasicModel {
   constructor(jsonObj) {
-    this.id = jsonObj._id;
+    this._id = jsonObj._id;
     this.name = jsonObj.name;
     this.dozent = jsonObj.dozent;
     this.room = jsonObj.room;

@@ -47,8 +47,8 @@ export function ModuleInfo({ isOpen, onOpenChange, event, removeFunction }) {
                 color={"primary"}
                 text={"Entfernen"}
                 onClick={() => {
-                  removeFunction();
                   onClose();
+                  removeFunction();
                 }}
               />
               <OutlinedButton
