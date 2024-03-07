@@ -5,14 +5,10 @@ import { useTranslation } from "react-i18next";
 import { DropDown } from './DropDown';
 
 export default function Exercise({
-    data, onChange, onDelete, index, assistents, room, teachers, equipment
+    data, onChange, onDelete, index, room, teachers
 }) {
     const { t } = useTranslation();
 
-
-    const assistentsDropdownhelper = (items) => {
-        onChange(items, "assistents", index)
-    }
 
     const teachersDropdownhelper = (items) => {
         onChange(items, "dozent", index)
@@ -20,10 +16,6 @@ export default function Exercise({
 
     const roomDropdownhelper = (items) => {
         onChange(items, "room", index)
-    }
-
-    const needDropdownhelper = (items) => {
-        onChange(items, "need", index)
     }
 
 
@@ -44,14 +36,9 @@ export default function Exercise({
                         onChange={teachersDropdownhelper}
                         value={data.dozent}
                         width="500px"
+                        required={true}
                         >
                     </DropDown>
-            <DropDown Items={assistents} description={`${t("assistent")}`} selectionMode='multiple'
-                                    add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                                    Item: "Assistent"}}
-                                    width="500px"
-                                    onChange={assistentsDropdownhelper}
-                                    values={data.assistents}/> 
             <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
                                 add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                                 Item: "Raum"}}
@@ -100,24 +87,18 @@ export default function Exercise({
                         isRequired
                     />
             </div>
-            {(!data.addTime) ?
-                <div style={{width:"240px", backgroundColor: "#0000000F"}}>
-                    <Input label={`${t("approximateAttendance")}`}
-                        variant="underlined"
-                        color="default"
-                        type="number"
-                        onChange={(e) => (
-                            onChange(e.target.value, "approximate_attendance", index)
-                        )}
-                        value={data.approximate_attendance}
-                        isRequired/>
-                </div> : null
-            }
-{/*             <DropDown Items={equipment} description={`${t("equipment")}`} selectionMode="multiple"
-                        onChange={needDropdownhelper}
-                        values={data.need}
-                        width="250px">
-            </DropDown> */}
+            
+            <div style={{width:"240px", backgroundColor: "#0000000F"}}>
+                <Input label={`${t("approximateAttendance")}`}
+                    variant="underlined"
+                    color="default"
+                    type="number"
+                    onChange={(e) => (
+                        onChange(e.target.value, "approximate_attendance", index)
+                    )}
+                    value={data.approximate_attendance}
+                    />
+            </div>
         </div>
     </div> 
   )

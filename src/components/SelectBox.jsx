@@ -1,7 +1,7 @@
 import { Select, SelectItem } from "@nextui-org/react"
 
 
-export default function SelectBox({ title, name, items, isMultiple = false, isRequired = false, onChange, className, disallowEmptySelection = true, defaultSelectedKeys }) {
+export default function SelectBox({ title, name, items, isMultiple = false, isRequired = false, onChange, selectedKeys, className, disallowEmptySelection = true }) {
     const selectMode = isMultiple === true ? "multiple" : "single";
 
 
@@ -12,9 +12,9 @@ export default function SelectBox({ title, name, items, isMultiple = false, isRe
             isMultiline
             isRequired={isRequired}
             name={name}
-            defaultSelectedKeys={defaultSelectedKeys}
             disallowEmptySelection={disallowEmptySelection}
             onChange={onChange}
+            selectedKeys={selectedKeys}
             className={className}
         >
             {

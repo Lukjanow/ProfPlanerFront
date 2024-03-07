@@ -9,6 +9,7 @@ import ConflictsPage from "../pages/ConflictsPage.jsx";
 import EditModulesPage from "../pages/EditModulesPage.jsx";
 import ApiDebugPage from "../pages/ApiDebugPage.jsx";
 import Testpage from "../pages/Testpage.jsx";
+import DozentDetailPage from "../pages/DozentDetailPage.jsx";
 
 const router = createBrowserRouter([
     {
@@ -54,7 +55,17 @@ const router = createBrowserRouter([
             {
                 path: "test",
                 element: <Testpage />,
-                errorElement: <ErrorPage />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "dozent-details",
+                element: <DozentDetailPage />,
+                errorElement: <ErrorPage />
+            },
+            {
+                path: "dozent-details/:dozentId",
+                element: <DozentDetailPage />,
+                errorElement: <ErrorPage />
             }
         ]
     },

@@ -66,5 +66,7 @@
   "noContentAvailable": "No Content Available!",
   "noContentInstruction": "You can attempt to add new data using the button above. If data exists but isn't displayed, try refreshing the page.",
   "refresh": "Refresh",
-  "pause": "Pause in Minutes"
+  "pause": "Pause in Minutes",
+  "deleteQuestion": "Are you sure?",
+  "deleteDozentInfo": "If you delete this teacher, all asigments to the modules will be lost!"
 }

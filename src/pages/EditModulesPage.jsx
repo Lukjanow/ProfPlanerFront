@@ -26,7 +26,6 @@ export default function EditModulesPage({
     const [ModuleName, setModuleName] = React.useState(module?.name)
     const [ModuleCode, setModuleCode] = React.useState(module?.code)
     const [ModuleDozent, setModuleDozent] = React.useState(module?.dozent)
-    const [ModuleAssistent, setModuleAssistent] = React.useState(module?.assistents)
     const [ModuleRoom, setModuleRoom] = React.useState(module?.room)
     const [ModuleStudySemester, setModuleStudySemester] = React.useState(module?.studySemester)
     const [ModuleDuration, setModuleDuration] = React.useState(module?.duration)
@@ -36,7 +35,6 @@ export default function EditModulesPage({
     const [ModuleFrequency, setModuleFrequency] = React.useState(module?.frequency)
     const [ModuleSelected, setModuleSelected] = React.useState((module?.selected) ? module.selected : true)
     const [color, setColor] = React.useState(module?.color)
-    const [bordercolor, setBorderColor] = React.useState(module?.bordercolor)
     const [ModuleNote, setModuleNote] = React.useState(module?.note)
     const [ModuleGroups, setModuleGroups] = React.useState(module?.groups)                          //To be dropped/Reworked
 
@@ -155,48 +153,9 @@ export default function EditModulesPage({
     ]
     
 
-    const assistents = [{
-        key: "1s",
-        label: "Assistent1"
-        },
-        {
-            key: "2s",
-            label: "Assistent2"
-        },
-        {
-            key: "3s",
-            label: "Assistent3"
-        },
-        {
-            key: "4s",
-            label: "Assistent4"
-        },
-        {
-            key: "5s",
-            label: "Assistent5"
-        },
-        {
-            key: "6s",
-            label: "Assistent6"
-        },
-        {
-            key: "7s",
-            label: "Assistent7"
-        }
-    ]
-
-    const equipment = [
-        {
-            key: "1",
-            label: "Computer"
-        },
-        {
-            key: "2",
-            label: "Network"
-        }
-    ]
-
-    function saveToDB(){
+    const saveToDB = ()=>{
+        //TODO: Complete Rework
+        let error = ""
         let groups = new Set([])
         let Module = new ModuleModel(
             ModuleID,
@@ -217,12 +176,13 @@ export default function EditModulesPage({
         )
         extra.forEach((training) =>(
             (training["group"] == "1") ? (
-                Module.type.add(training["type"]),
-                Module.dozent.add(...training["dozent"].keys),
-                Module.room.add(...training["room"].keys),
-                (training["addTime"]) ? 
+                (training["type"] != null) ? Module.type.add(training["type"]) : {},
+                (training["dozent"].keys != null) ? Module.dozent.add(...training["dozent"].keys) : {},
+                (training["room"].keys != null) ? Module.room.add(...training["room"].keys) : {},
+                (training["addTime"] != null) ? 
                     Module.duration = String(parseInt(Module.duration) + parseInt(training.pause) + parseInt(training.duration))
-                : {}
+                : {},
+                console.log(Module)
             ) : 
                 groups.add(training["group"])
             
@@ -230,6 +190,36 @@ export default function EditModulesPage({
         Module.type = Array.from(Module.type)
         Module.dozent = Array.from(Module.dozent)
         Module.room = Array.from(Module.room)
+        addModule(Module)
+        groups.forEach((group) => (
+            error = "",
+            Module.type = new Set([]),
+            Module.dozent = new Set([]),
+            Module.room = new Set([]),
+            Module.type = new Set([]),
+            Module.duration = "0",
+            Module.approximate_attendance = "0",
+            extra.forEach((training) =>(
+                (training["group"] == group) ? (
+                    (training["type"] != null) ? Module.type.add(training["type"]) : {},
+                    (training["dozent"].keys != null) ? Module.dozent.add(...training["dozent"].keys) : {},
+                    (training["room"].keys != null) ? Module.room.add(...training["room"].keys) : {},
+                    (training["addTime"] != null) ? 
+                        (Module.approximate_attendance = training["approximate_attendance"],
+                        Module.duration = String(parseInt(Module.duration) + parseInt(training.pause) + parseInt(training.duration)))
+                    : Module.approximate_attendance = String(parseInt(training["approximate_attendance"]) + parseInt(Module.approximate_attendance))
+                ) : {},
+            (Module.duration == "0") ?
+                    error += "Duration is Zero." : {},
+            (Module.approximate_attendance == "0") ?
+                    error += "Approximate Attendace is Zero." : {},
+            console.log(Module),
+            (error !== "") ?
+                    (console.log("Group", group, "will not be added to database for this reason:", error))
+                    :
+                    addModule(Module)      
+            ))
+        ))
     }
 
     return (
@@ -336,8 +326,7 @@ export default function EditModulesPage({
                                                 studySemester: ModuleStudySemester?.label,
                                                 dozent: ModuleDozent?.label,
                                                 room: ModuleRoom?.label,
-                                                backgroundcolor: color,
-                                                bordercolor: bordercolor,
+                                                backgroundcolor: color
                                                 }} />
                 </div>
             </SectionContainer>
@@ -351,12 +340,6 @@ export default function EditModulesPage({
                         value={ModuleDozent}
                         width="500px"
                         required={true}>
-                    </DropDown>
-                    <DropDown Items={assistents} description={`${t("assistent")}`} selectionMode="multiple"
-                        add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                        Item: "Assistent"}}
-                        onChange={setModuleAssistent}
-                        values={ModuleAssistent}>
                     </DropDown>
                     <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
                         add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -389,12 +372,6 @@ export default function EditModulesPage({
                             isRequired
                         />
                     </div>
-                    <DropDown Items={equipment} description={`${t("equipment")}`} selectionMode="multiple"
-                        onChange={setModuleNeed}
-                        values={ModuleNeed}
-                        width="250px"
-                        >
-                    </DropDown>
                 </div>
             </SectionContainer>
             
@@ -436,73 +413,10 @@ export default function EditModulesPage({
                 <div style={{borderBottom: "solid black 2px"}}></div>
                 {extra.map((data, index) => (
                      <Exercise data={data} key={index} onDelete={() => DeleteExercise(index)} onChange={setExtraHelper} index={index}
-                        assistents={assistents} teachers={teachers} room={room} equipment={equipment}/>
+                         teachers={teachers} room={room} />
                 ))}
                 
             </SectionContainer>
-
-           {/*  OBSELETE OBSELTE OBSELETE REPLACED BY SECTION ABOVE
-
-           <SectionContainer showContentSwitch={true} title={t("exercise")}>
-                <div className="flex flex-row gap-5">
-                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
-                        <Input type="number" label={`${t("groupNumber")}`} variant="underlined" onChange={(e) => setModuleGroups(e.target.value)} value={ModuleGroups}/>
-                    </div>
-                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
-                        <Input type="number" label={`${t("duration")}`} variant="underlined" onChange={(e) => setModuleDuration(e.target.value)} value={ModuleDuration}/>
-                    </div>
-                </div>
-                <div className="flex gap-5">
-                    <DropDown Items={assistents} description="Assitent"
-                            add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                            Item: "Assistent"}}
-                            width="500px"
-                            onChange={setModuleAssistent}
-                            values={ModuleAssistent}>
-                    </DropDown>
-                    <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
-                            add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                            Item: "Raum"}}
-                            onChange={setModuleRoom}
-                            values={ModuleRoom}>
-                    </DropDown>
-                </div>
-                <Checkbox
-                        defaultSelected color="primary"
-                        >{t("exercise")} und {t("lecture")} als ein Block darstellen
-                </Checkbox>
-            </SectionContainer>
-
-
-            <SectionContainer showContentSwitch={true} title={t("training")}>
-                <div className="flex flex-row gap-5">
-                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
-                        <Input type="number" label={`${t("groupNumber")}`} variant="underlined" onChange={setModuleGroups} value={ModuleGroups}/>
-                    </div>
-                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
-                        <Input type="number" label={`${t("duration")}`} variant="underlined" onChange={setModuleDuration} value={ModuleDuration}/>
-                    </div>
-                </div>
-                <div className="flex gap-5">
-                    <DropDown Items={assistents} description="Assistent"
-                            add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                            Item: "Assistent"}}
-                            width="500px"
-                            onChange={setModuleAssistent}
-                            values={ModuleAssistent}>
-                    </DropDown>
-                    <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
-                            add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                            Item: "Raum"}}
-                            onChange={setModuleRoom}
-                            values={ModuleRoom}>
-                    </DropDown>
-                </div>
-                <Checkbox
-                        defaultSelected color="primary"
-                        >{t("training")} und {t("lecture")} als ein Block darstellen
-                </Checkbox>
-            </SectionContainer> */}
 
             <SectionContainer title={`${t("note")}`}>
                 <Textarea
