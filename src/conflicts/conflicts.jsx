@@ -17,11 +17,9 @@ function overlap(mod1, mod2, optional_break=0){
 }
 
 
-function checkMiddayPause(module_list){
+function checkMiddayPause(module_list, pauseStart, pauseEnd, pauseDuration){
     let day = module_list[0].start.getDay()
-    var pauseStart = 11 * 60 + 30
-    let pauseEnd = 14 * 60 + 30
-    while(pauseStart <= pauseEnd - 45){
+    while(pauseStart <= pauseEnd - pauseDuration){
         var value = true
         //check start of pause
         for (let i = 0; i < module_list.length; i++) {
@@ -38,7 +36,7 @@ function checkMiddayPause(module_list){
             for (let i = 0; i < module_list.length; i++) {
                 const moduleStart = module_list[i].start.getHours() * 60 + module_list[i].start.getMinutes()
                 const moduleEnd = moduleStart + module_list[i].duration
-                if (moduleStart < pauseStart + 45 && pauseStart +45 <= moduleEnd) {
+                if (moduleStart < pauseStart + pauseDuration && pauseStart + pauseDuration <= moduleEnd) {
                     pauseStart = moduleEnd
                     value = false
                     break;
@@ -50,6 +48,49 @@ function checkMiddayPause(module_list){
         }
     }
     return true
+}
+
+function getConflictName(module, id, category=""){
+    switch (category) {
+        case "dozent":
+            for (const dozent of module.dozent) {
+                if(dozent._id == id){
+                    return String(dozent.prename) + " " + String(dozent.lastname)
+                }
+            }
+            break;
+        case "room":
+            for (const room of module.room) {
+                if(room._id == id){
+                    return String(room.name)
+                }
+            }
+            break;
+        case "study_semester":
+            for (const study_semester of module.study_semester) {
+                if(study_semester._id == id){
+                    return String(study_semester.name)
+                }
+            }
+        default:
+            for (const dozent of module.dozent) {
+                if(dozent._id == id){
+                    return String(dozent.prename) + " " + String(dozent.lastname)
+                }
+            }
+            for (const room of module.room) {
+                if(room._id == id){
+                    return String(room.name)
+                }
+            }
+            for (const study_semester of module.study_semester) {
+                if(study_semester._id == id){
+                    return String(study_semester.name)
+                }
+            }
+            break;
+    }
+    return id;
 }
 
 
@@ -68,7 +109,7 @@ function getNewSemester(semester, next=true){
 
 function deleteConflictsWithCurrentModule(conflict_list, module) {
     for (let i = 0; i < conflict_list.length; i++) {
-        if(conflict_list[i].mod1.id == module.id || conflict_list[i].mod2.id == module.id){
+        if(conflict_list[i].mod1._id == module._id || conflict_list[i].mod2._id == module._id){
             conflict_list.splice(i, 1);
             i--;
         }
@@ -79,9 +120,11 @@ function deleteConflictsWithCurrentModule(conflict_list, module) {
 
 function updateDictionary(dict, currentModule, module, property) {
     if (currentModule !== module) {
+        //loop through every dozent/room/study_semester in module
         for (const item of currentModule[property]) {
-            if (dict.hasOwnProperty(item)) {
-                dict[item].push(currentModule);
+
+            if (dict.hasOwnProperty(item._id)) {
+                dict[item._id].push(currentModule);
             }
         }
     }
@@ -92,17 +135,17 @@ function checkModuleWarnings(module_list, conflict_list, module){
     //CREATE DICTIONARIES FOR THE DOZENT, ROOM & STUDYSEMESTER OF THE CURRENT MODULE
     var dozent_dict = {}
     for (let i = 0; i < module.dozent.length; i++) {
-        dozent_dict[module.dozent[i]] = []
+        dozent_dict[module.dozent[i]._id] = []
     }
 
     var room_dict = {}
     for (let i = 0; i < module.room.length; i++) {
-        room_dict[module.room[i]] = []
+        room_dict[module.room[i]._id] = []
     }
 
-    var studySemester_dict = {}
-    for (let i = 0; i < module.studySemester.length; i++) {
-        studySemester_dict[module.studySemester[i]] = []
+    var study_semester_dict = {}
+    for (let i = 0; i < module.study_semester.length; i++) {
+        study_semester_dict[module.study_semester[i]._id] = []
     }
 
     //FILL THE DICTIONARIES WITH ALL MODULES WITH THE SAME VALUE
@@ -110,13 +153,14 @@ function checkModuleWarnings(module_list, conflict_list, module){
     for (const currentModule of module_list) {
         updateDictionary(dozent_dict, currentModule, module, 'dozent');
         updateDictionary(room_dict, currentModule, module, 'room');
-        updateDictionary(studySemester_dict, currentModule, module, 'studySemester');
+        updateDictionary(study_semester_dict, currentModule, module, 'study_semester');
     }
+    console.log("DOZENT_DICT: ", dozent_dict)
 
 
     //DELETE ALL CONFLICTS WITH THE CURRENT MODULE
     for (let i = 0; i < conflict_list.length; i++) {
-        if(conflict_list[i].mod1.id == module.id || conflict_list[i].mod2.id == module.id){
+        if(conflict_list[i].mod1._id == module._id || conflict_list[i].mod2._id == module._id){
             conflict_list.splice(i, 1);
             i--;
         }
@@ -126,35 +170,36 @@ function checkModuleWarnings(module_list, conflict_list, module){
     for (const [key, value] of Object.entries(dozent_dict)) {
         for (let i = 0; i < value.length; i++) {
             if(overlap(module, value[i])) {
-                if(module.type === "Modul" && value[i].type === "Modul") {
-                    conflict_list.push(new Conflict(module, value[i], key, 1))
-                } else if((module.type === "Modul" && value[i].type === "Abwesenheit") || (module.type === "Abwesenheit" && value[i].type === "Modul")) {
-                    conflict_list.push(new Conflict(module, value[i], key, 2))
-                }
+                // if(module.type === "Modul" && value[i].type === "Modul") {
+                //     conflict_list.push(new Conflict(module, value[i], key, 1))
+                // } else if((module.type === "Modul" && value[i].type === "Abwesenheit") || (module.type === "Abwesenheit" && value[i].type === "Modul")) {
+                //     conflict_list.push(new Conflict(module, value[i], key, 2))
+                // }
+                conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "dozent"), 1))
             }
         }
     }
     for (const [key, value] of Object.entries(room_dict)) {
         for (let i = 0; i < value.length; i++) {
             if(overlap(module, value[i])) {
-                conflict_list.push(new Conflict(module, value[i], key, 6))
+                conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "room"), 6))
             }
         }
     }
-    for (const [key, value] of Object.entries(studySemester_dict)) {
-        const prevValue = getNewSemester(key, false)
-        const nextValue = getNewSemester(key, true)
+    for (const [key, value] of Object.entries(study_semester_dict)) {
+        const prevValue = getNewSemester(getConflictName(module, key, "study_semester"), false)
+        const nextValue = getNewSemester(getConflictName(module, key, "study_semester"), true)
         var prevList = []
         var nextList = []
         for (let i = 0; i < module_list.length; i++) {
             //for each studySemester in module
-            for (let j = 0; j < module_list[i].studySemester.length; j++) {
-                if (module_list[i].studySemester[j] == prevValue) {
+            for (let j = 0; j < module_list[i].study_semester.length; j++) {
+                if (module_list[i].study_semester[j].name == prevValue) {
                     if(module_list[i] != module) {
                         prevList.push(module_list[i])
                     }
                 }
-                else if (module_list[i].studySemester[j] == nextValue) {
+                else if (module_list[i].study_semester[j].name == nextValue) {
                     if(module_list[i] != module) {
                         nextList.push(module_list[i])
                     }
@@ -163,17 +208,17 @@ function checkModuleWarnings(module_list, conflict_list, module){
         }
         for (let i = 0; i < value.length; i++) {
             if(overlap(module, value[i])) {
-                conflict_list.push(new Conflict(module, value[i], key, 3))  
+                conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "study_semester"), 3))  
             }
         }
         for (let i = 0; i < prevList.length; i++) {
             if(overlap(module, prevList[i])) {
-                    conflict_list.push(new Conflict(module, prevList[i], prevValue, 5, key))  
+                    conflict_list.push(new Conflict(module, prevList[i], getConflictName(module, key, "study_semester"), 5, getNewSemester(getConflictName(module, key, "study_semester"), false)))  
             }
         }
         for (let i = 0; i < nextList.length; i++) {
             if(overlap(module, nextList[i])) {
-                    conflict_list.push(new Conflict(module, nextList[i], key, 5, nextValue))  
+                    conflict_list.push(new Conflict(module, nextList[i], getConflictName(module, key, "study_semester"), 5, getNewSemester(getConflictName(module, key, "study_semester"), true)))  
             }
         }
         //CONFLICT 7
@@ -192,8 +237,9 @@ function checkModuleWarnings(module_list, conflict_list, module){
                 }
             }
             dayModuleList.push(module)
-            if(checkMiddayPause(dayModuleList)) {
-                conflict_list.push(new Conflict(module, dayModuleList[0], key, 7))
+            if(checkMiddayPause(dayModuleList, 11 * 60 + 30, 14 * 60 + 30, 45)) {
+                console.log("DAY_MODULE_LIST:",dayModuleList)
+                conflict_list.push(new Conflict(module, dayModuleList[0], getConflictName(module, key, "study_semester"), 7))
             }
         }
     }

@@ -11,32 +11,28 @@ import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
 import { getAllStudySemesters } from "../services/studySemesterService"
 import { ModuleModel } from "../models/moduleModel";
-import { addModule } from "../services/moduleService";
+import { addModule,getModuleById } from "../services/moduleService";
+import { useParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 //Deal with Dozent, Room, duration, type
 //TODO: Allow to send data
 
-export default function EditModulesPage({
-    module = null, edit = false
+export default function EditModulesPage({ edit = false
 }
 ) {
     const { t } = useTranslation();
+    const { moduleId } = useParams();
+    const navigate = useNavigate();
+    const [showModal, setShowModal] = useState(false);
 
-    const [ModuleID, setModuleID] = React.useState(module?.id)
-    const [ModuleName, setModuleName] = React.useState(module?.name)
-    const [ModuleCode, setModuleCode] = React.useState(module?.code)
-    const [ModuleDozent, setModuleDozent] = React.useState(module?.dozent)
-    const [ModuleRoom, setModuleRoom] = React.useState(module?.room)
-    const [ModuleStudySemester, setModuleStudySemester] = React.useState(module?.studySemester)
-    const [ModuleDuration, setModuleDuration] = React.useState(module?.duration)
-    const [ModuleAttendance, setModuleAttendance] = React.useState(module?.approximate_attendance)
-    const [ModuleNeed, setModuleNeed] = React.useState(module?.need)                                //TODO
-    const [ModuleType, setModuleType] = React.useState(module?.type)
-    const [ModuleFrequency, setModuleFrequency] = React.useState(module?.frequency)
-    const [ModuleSelected, setModuleSelected] = React.useState((module?.selected) ? module.selected : true)
-    const [color, setColor] = React.useState(module?.color)
-    const [ModuleNote, setModuleNote] = React.useState(module?.note)
-    const [ModuleGroups, setModuleGroups] = React.useState(module?.groups)                          //To be dropped/Reworked
+    const [ModuleID, setModuleID] = React.useState()
+    const [ModuleName, setModuleName] = React.useState()
+    const [ModuleCode, setModuleCode] = React.useState()
+    const [ModuleFrequency, setModuleFrequency] = React.useState()
+    const [ModuleSelected, setModuleSelected] = React.useState(true)
+    const [color, setColor] = React.useState()
+    const [ModuleNote, setModuleNote] = React.useState()
 
     const [QSP, setQSP] = React.useState("")
     const [studyCourse, setStudyCourse] = React.useState([])
@@ -46,7 +42,29 @@ export default function EditModulesPage({
     const [room, setRooms] = useState([])     //rooms to display
     const [teachers, setTeachers] = useState([])     //teachers to display
     const [semester, setSemester] = useState([])     //Studysemester to display
-    const [QSPsa, setQSPsa] = useState([])           //QSP to display
+    const [QSPsa, setQSPsa] = useState([{
+        key: "SED",
+        label: "Software Engineering and Development"
+    },
+    {
+        key: "VISCO",
+        label: "Visual Computing"
+    },
+    {
+        key: "Netsec",
+        label: "Networks and Security"
+    }])           //QSP to display
+
+
+    const [errors, setErrors] = useState({
+        module_id: false,
+        name: false,
+        code: false,
+        frequency: false,
+        selected: false,
+        color: false,
+        note: false,
+    });
     
     function setRoomsHelper(data){
         let rooms = []
@@ -70,21 +88,17 @@ export default function EditModulesPage({
         setTeachers(dozents)
     }
 
-    function setStudySemesterQSPHelper(data){
+    function setStudySemesterHelper(data){
         let StudySemester = []
-        let QSP = []
         data.forEach((semester) => {
             let dict = {}
             dict["key"] = semester["_id"]
             dict["label"] = semester["name"]
             if (semester["content"] < 3){
                 StudySemester.push(dict)
-            } else if (semester["content"] == 3){
-                QSP.push(dict)
-            }
+            } 
         });
         setSemester(StudySemester)
-        setQSPsa(QSP)
     }
 
      useEffect(() => {
@@ -95,13 +109,30 @@ export default function EditModulesPage({
               const resultStudySemester = await getAllStudySemesters();
               setRoomsHelper(resultRooms.data);
               setTeachersHelper(resultTeacher.data);
-              setStudySemesterQSPHelper(resultStudySemester.data);
+              setStudySemesterHelper(resultStudySemester.data);
             } catch (error) {
               console.error("Error fetching modules:", error);
             }
           }
           fetchData();
-        }, []) 
+          if (moduleId) {
+            getModuleById(moduleId)
+                .then(response => {
+                    console.log("Dozent fetched: ", response.data)
+                    setModuleID(response.data.module_id)
+                    setModuleName(response.data.name)
+                    setModuleCode(response.data.code)
+                    setModuleFrequency(response.data.frequency)
+                    setModuleSelected(response.data.selected)
+                    setModuleNote(response.data.note)
+                    setExtra([response.data.events])
+                    setQSP([response.data.qsp])
+                })
+                .catch(error => {
+                    console.error("Error fetching Module:", error);
+                });
+        }
+        }, [moduleId]) 
 
     const DeleteExercise = (index) => {
         const list = [...extra]
@@ -115,7 +146,6 @@ export default function EditModulesPage({
         list[index][attribute] = value
         setExtra(list)
     }
-    
     
 
     const studyCourses = [{
@@ -269,37 +299,31 @@ export default function EditModulesPage({
                 </DropDown>: 
                 null}
                 <div className="flex gap-5" style={{marginTop: "25px",marginBottom: "25px"}}>
-                    <div style={{width:"500px", backgroundColor: "#0000000F"}}>
                         <Input
                             label={`${t("moduleName")}`}
-                            variant="underlined"
+                            
                             color="default"
                             type="text"
                             onChange={(e) => setModuleName(e.target.value)}
                             value={ModuleName}
                             isRequired
                         />
-                    </div>
-                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
                         <Input
                             label={`${t("moduleNr")}`}
-                            variant="underlined"
+                            
                             color="default"
                             type="text"
                             onChange={(e) => setModuleID(e.target.value)}
                             value={ModuleID}
                             isRequired
                         />
-                    </div>
-                    <div style={{width:"250px", backgroundColor: "#0000000F"}}>
                         <Input
                             label="Code"
-                            variant="underlined"
+                            
                             color="default"
                             onChange={(e) => setModuleCode(e.target.value)}
                             value={ModuleCode}
                         />
-                    </div>
                 </div>
                 <div className="flex gap-5">
                     <p>{t("colorSelector")}</p>
@@ -350,38 +374,34 @@ export default function EditModulesPage({
                     </DropDown>
                 </div>
                 <div className="flex gap-5" style={{marginTop: "25px"}}>
-                    <div style={{width:"240px", backgroundColor: "#0000000F"}}>
                         <Input
                             label={`${t("duration")}`}
-                            variant="underlined"
+                            
                             color="default"
                             type="number"
                             onChange={(e) => setModuleDuration(e.target.value)}
                             value={ModuleDuration}
                             isRequired
                         />
-                    </div>
-                    <div style={{width:"240px", backgroundColor: "#0000000F"}}>
                         <Input
                             label={`${t("approximateAttendance")}`}
-                            variant="underlined"
+                            
                             color="default"
                             type="number"
                             onChange={(e) => setModuleAttendance(e.target.value)}
                             value={ModuleAttendance}
                             isRequired
                         />
-                    </div>
                 </div>
             </SectionContainer>
             
-            <SectionContainer title={t("exercise")}>
+            <SectionContainer title={""}>
                 {t("addExercises")}
                 <div className="flex gap-5" style={{marginBottom: "10px"}}>
-                    <OutlinedButton text={t("addExercise")} icon="plus" showIcon={true} color={"primary"}
+                    <OutlinedButton text="Füge " icon="plus" showIcon={true} color={"primary"}
                                 onClick={() =>(
                                     setExtra(old => [...old, {
-                                        type: 2,
+                                        type: "",
                                         approximate_attendance:"",
                                         dozent: [],
                                         assistents: [],
@@ -393,22 +413,7 @@ export default function EditModulesPage({
                                         addTime: false
                                     }]))
                                 }></OutlinedButton>
-                    <OutlinedButton text={t("addTraining")} icon="plus" showIcon={true} color={"primary"}
-                                onClick={() => (
-                                    setExtra(old => [...old, {
-                                        type: 3,
-                                        approximate_attendance: "",
-                                        assistents: [],
-                                        dozent: [],
-                                        room: "",
-                                        duration: "",
-                                        pause: "",
-                                        group: "",
-                                        need: [],
-                                        addTime: false
-                                    }]
-                                ))
-                                }/>
+
                 </div>
                 <div style={{borderBottom: "solid black 2px"}}></div>
                 {extra.map((data, index) => (

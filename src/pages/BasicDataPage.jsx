@@ -132,7 +132,7 @@ export default function BasicDataPage() {
     case "room":
       //setSelectedData(roomList);
       selectedData = rooms;
-      path = "/basicdata";
+      path = "/room-details";
       console.log("-----------> ROOM!!!!", selectedData);
       break;
     case "teacher":

@@ -9,6 +9,14 @@ export default function Exercise({
 }) {
     const { t } = useTranslation();
 
+    const [errors, setErrors] = useState({
+        dozent: false,
+        room: false,
+        duration: false,
+        pause: false,
+        type: false,
+    });
+
 
     const teachersDropdownhelper = (items) => {
         onChange(items, "dozent", index)
@@ -50,47 +58,34 @@ export default function Exercise({
         <div className="flex gap-5" style={{marginTop: "25px", marginBottom:"25px"}}>
         {(data.addTime) ? 
                 <div className="flex gap-5">
-                    <div style={{width:"240px", backgroundColor: "#0000000F"}}>
                     <Input
                             label={`${t("duration")}`}
-                            variant="underlined"
                             color="default"
                             type="number"
                             onChange={(e) => onChange(e.target.value, "duration", index)}
                             value={data.duration}
                             isRequired
                         />
-                    </div>
-                    <div style={{width:"240px", backgroundColor: "#0000000F"}}>
                     <Input
                             label={`${t("pause")}`}
-                            variant="underlined"
                             color="default"
                             type="number"
                             onChange={(e) => onChange(e.target.value, "pause", index)}
                             value={data.pause}
                             isRequired
                         />
-                    </div>
                 </div>
-            
              : null
         }
-            <div style={{width:"240px", backgroundColor: "#0000000F"}}>
                 <Input
                         label={`${t("group")}`}
-                        variant="underlined"
                         color="default"
                         type="number"
                         onChange={(e) => onChange(e.target.value, "group", index)}
                         value={data.group}
                         isRequired
                     />
-            </div>
-            
-            <div style={{width:"240px", backgroundColor: "#0000000F"}}>
                 <Input label={`${t("approximateAttendance")}`}
-                    variant="underlined"
                     color="default"
                     type="number"
                     onChange={(e) => (
@@ -98,7 +93,6 @@ export default function Exercise({
                     )}
                     value={data.approximate_attendance}
                     />
-            </div>
         </div>
     </div> 
   )

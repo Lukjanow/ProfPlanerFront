@@ -63,7 +63,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
     //const sections = Array.from(new Set(Items.map(obj => obj["section"]).filter(value => value !== undefined)));
     return (
       <div
-      style={{backgroundColor: "#0000000F", width: width, borderBottom: "solid 2px black"}}>
+      style={{width: width}}>
         <Dropdown backdrop={backdrop}
           closeOnSelect={(selectionMode === "single") ? true : false}
           onOpenChange={toggleDropped}

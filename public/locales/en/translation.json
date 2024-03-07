@@ -68,5 +68,11 @@
   "refresh": "Refresh",
   "pause": "Pause in Minutes",
   "deleteQuestion": "Are you sure?",
-  "deleteDozentInfo": "If you delete this teacher, all asigments to the modules will be lost!"
+  "deleteDozentInfo": "If you delete this teacher, all asigments to the modules will be lost!",
+  "auditorium": "Auditorium",
+  "laboratory": "Labor",
+  "roomType": "Room Typ",
+  "roomNumber": "Roomnumber",
+  "deleteRoomInfo": "If you delete this room, all asigments to the modules will be lost!",
+  "room": "Room"
 }

@@ -1,50 +1,53 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import moment from "moment";
-import React from "react";
-import {Listbox, ListboxItem} from "@nextui-org/react";
-import {ListboxWrapper} from "./ListboxWrapper";
-export function ConflictDisplay(data) {  
+import React, { useState, useEffect } from 'react';
+import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+
+export function ConflictDisplay(data) {
     const conflict_list = data.data;
+    const list = conflict_list;
+    // const [cardStates, setCardStates] = useState([]);
+    const [conflictIgnoreList, setConflictIgnoreList] = useState([]);
 
-    console.log(conflict_list)
-    for (let i = 0; i < conflict_list.length; i++) {
-        conflict_list[i].id = i
-        console.log(conflict_list[i].id)        
-    }
+    // useEffect(() => {
+    //   const newCardStates = [...cardStates];
+    //   newCardStates.push("secondary");
+    //   setCardStates(newCardStates);
+    // }, [list.length]);
 
 
-      const pop = (key) => {
-        // Filter out the clicked item from the conflict list
-        for (let i = 0; i < conflict_list.length; i++) {
-            if(conflict_list[i].id == key){
-                conflict_list.splice(i, 1);
-                i--;
-            }
-        }
-        console.log(conflict_list)
-      };
-    
+    return (
+        <div className="gap-4 grid grid-cols-10 sm:grid-cols-5">
+            {list.map((item, index) => (
+                <Card shadow="sm" key={index} isPressable onPress={() => {
+                    // const newCardStates = [...cardStates];
+                    // // Umschalten der Farbe zwischen "white" und "secondary."
+                    // newCardStates[item.id] = cardStates[item.id] === "white" ? "secondary" : "white";
+                    // console.log("ONPRESS: ", newCardStates)
+                    // setCardStates(newCardStates);
+                    var newConflictIgnoreList = [...conflictIgnoreList];
+                    if (newConflictIgnoreList.includes(item.id)) {
+                        newConflictIgnoreList.splice(newConflictIgnoreList.indexOf(item.id), 1)
+                    } else {
+                        newConflictIgnoreList.push(item.id)
+                    }
+                    setConflictIgnoreList(newConflictIgnoreList);
+                }}
+                >
+                    <CardFooter className={`text-small justify-between grid grid-rows-2 h-full bg-${
+                    //   cardStates[item.id] === "white"
+                    //     ? "white"
+                    //     : "secondary"
+                    conflictIgnoreList.includes(item.id)
+                            ? "white"
+                            : "secondary"
+                    }`}>
 
-  //`border-1 border-s-8 w-max border-[${bordercolor}] bg-[${backgroundcolor}] rounded-e-md p-3`}{
-  return (
-    <ListboxWrapper>
-      <Listbox
-        items={conflict_list}
-        aria-label="Dynamic Actions"
-        onAction={(key) => alert(key)}
-      >
-        {(item) => (
-          <ListboxItem
-            key={item.id}
-            // startContent={<AddNoteIcon className={iconClasses} />}
-            // color={item.key === "delete" ? "danger" : "default"}
-            className="border-1 border-s-8 rounded-e-md p-3 border-yellow-500/100 bg-yellow-500/50"
-          >
-            <p className="font-bold">{item.error_message}</p>
-            <p>Ausgelöst durch "{item.mod1.title}"</p>
-          </ListboxItem>
-        )}
-      </Listbox>
-    </ListboxWrapper>
-  );
+                        <b>{item.error_message}</b>
+                        <b className="font-normal">{item.module_string}</b>
+                    </CardFooter>
+                </Card>
+            ))}
+        </div>
+    );
 }

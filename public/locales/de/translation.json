@@ -67,5 +67,11 @@
   "refresh": "Aktualisieren",
   "pause": "Pause in Minuten",
   "deleteQuestion": "Bist du sicher?",
-  "deleteDozentInfo": "Wenn du diese Lehrperson löschst, werden alle Zuweisungen zu den Modulen verloren gehen!"
+  "deleteDozentInfo": "Wenn du diese Lehrperson löschst, werden alle Zuweisungen zu den Modulen verloren gehen!",
+  "auditorium": "Hörsaal",
+  "laboratory": "Labor",
+  "roomType": "Raum Typ",
+  "roomNumber": "Raumnummer",
+  "deleteRoomInfo": "Wenn du diesen Raum löschst, werden alle Zuweisungen zu den Modulen verloren gehen!",
+  "room": "Raum"
 }
