@@ -171,7 +171,6 @@ export default function MyCalendar() {
       async function fetchData() {
         try {
           const result = await getAllModules();
-          console.log("sfdsfsdfsfsdsfs",result.data)
           setModules(result.data);
         } catch(error) {
           console.log("Error: ", error);
@@ -185,11 +184,10 @@ export default function MyCalendar() {
         //   <TimeTable moduleItemList={moduleItemDataList}/>
         // </div>
         <>
-        {console.log(".................................",modules)}
         { modules.length !== 0 ?
             <div className="flex">
-                <TimeTable moduleItemList={initModules(modules)}/>
-            </div> : <TimeTable moduleItemList={[]}/>
+                <TimeTable moduleItemListPara={initModules(modules)}/>
+            </div> : <TimeTable moduleItemListPara={[]}/>
         }
         </>
     );

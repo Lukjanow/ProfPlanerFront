@@ -15,9 +15,7 @@ import 'moment/dist/locale/de';
 import { useTranslation } from "react-i18next";
 import {checkModuleWarnings, deleteConflictsWithCurrentModule} from "../conflicts/conflicts";
 
-export function TimeTable({moduleItemListPara}) {
-  console.log("----------------------___",moduleItemListPara)
-  
+export function TimeTable({moduleItemListPara}) {  
   const { i18n } = useTranslation();
 
   moment.locale(i18n.language === "en" ? "en" : "de")
@@ -36,44 +34,41 @@ export function TimeTable({moduleItemListPara}) {
 
 
     function filterForEvents() {
-      if(moduleItemList.length === 0){
+      if(moduleItemList === undefined){
         return []
       }
       return moduleItemList.filter(e => e.isPlaced === true && e.visible === true)
     }
 
     function filterForOutside() {
-      if(moduleItemList.length === 0){
+      if(moduleItemList === undefined){
         return []
       }
       return moduleItemList.filter(e => e.isPlaced === false && e.visible === true)
     }
 
     function filterForConflict() {
-      if(moduleItemList.length === 0){
-        return []
-      }
       return moduleItemList.filter(e => e.isPlaced === true)
     }
 
     function moduleSetPlaced(event){
       const newList = []
-      for(const module in moduleItemList){
-        if(module._id === event._id){
-          module.isPlaced = true
+      for (let i = 0; i < moduleItemList.length; i++) {
+        if(moduleItemList[i]._id === event._id){
+          moduleItemList[i] = event
         }
-        newList.push(module)
+        newList.push(moduleItemList[i])
       }
       setmoduleItemList(newList)
     }
 
     function moduleSetOutside(event){
       const newList = []
-      for(const module in moduleItemList){
-        if(module._id === event._id){
-          module.isPlaced = false
+      for (let i = 0; i < moduleItemList.length; i++) {
+        if(moduleItemList[i]._id === event._id){
+          moduleItemList[i] = event
         }
-        newList.push(module)
+        newList.push(moduleItemList[i])
       }
       setmoduleItemList(newList)
     }
@@ -88,6 +83,7 @@ export function TimeTable({moduleItemListPara}) {
                   start,
                   end: moment(start).add(draggedEvent.duration, 'minutes'),
                   _id: draggedEvent._id,
+                  isPlaced: true
               };
               moduleSetPlaced(newEvent)
               setEvents(filterForEvents())
