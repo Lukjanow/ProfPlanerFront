@@ -133,6 +133,7 @@ export default function MyCalendar() {
             bordercolor: module_list[i].color !== null && module_list[i].color !== undefined ? changeColor(module_list[i].color, -40) : "#bcbcbc",
             duration: module_list[i].duration,
             visible: true,
+            isPlaced: false
           })
         }
         
@@ -170,6 +171,7 @@ export default function MyCalendar() {
       async function fetchData() {
         try {
           const result = await getAllModules();
+          console.log("sfdsfsdfsfsdsfs",result.data)
           setModules(result.data);
         } catch(error) {
           console.log("Error: ", error);
@@ -183,6 +185,7 @@ export default function MyCalendar() {
         //   <TimeTable moduleItemList={moduleItemDataList}/>
         // </div>
         <>
+        {console.log(".................................",modules)}
         { modules.length !== 0 ?
             <div className="flex">
                 <TimeTable moduleItemList={initModules(modules)}/>

@@ -2,6 +2,7 @@ import {ModuleBasicModel, ModuleModel} from "../models/moduleModel.js";
 import api from "./api.js";
 
 async function getAllModules() {
+    console.log("-++-+-+-+-+-+-+-+-+-")
     return api
         .get(`/moduledata`)
         .then(resObj => {

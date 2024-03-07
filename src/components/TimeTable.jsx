@@ -15,7 +15,8 @@ import 'moment/dist/locale/de';
 import { useTranslation } from "react-i18next";
 import {checkModuleWarnings, deleteConflictsWithCurrentModule} from "../conflicts/conflicts";
 
-export function TimeTable({moduleItemList}) {
+export function TimeTable({moduleItemListPara}) {
+  console.log("----------------------___",moduleItemListPara)
   
   const { i18n } = useTranslation();
 
@@ -28,10 +29,54 @@ export function TimeTable({moduleItemList}) {
   const [modalEvent, setModalEvent] = useState('');
 
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
-    const [events, setEvents] = useState([]);
+    const [moduleItemList, setmoduleItemList] = useState(moduleItemListPara);
+    const [events, setEvents] = useState(filterForEvents());
     const [conflict_list, setConflicts] = useState([]);
-    const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
     const [draggedEvent, setDraggedEvent] = useState(null);
+
+
+    function filterForEvents() {
+      if(moduleItemList.length === 0){
+        return []
+      }
+      return moduleItemList.filter(e => e.isPlaced === true && e.visible === true)
+    }
+
+    function filterForOutside() {
+      if(moduleItemList.length === 0){
+        return []
+      }
+      return moduleItemList.filter(e => e.isPlaced === false && e.visible === true)
+    }
+
+    function filterForConflict() {
+      if(moduleItemList.length === 0){
+        return []
+      }
+      return moduleItemList.filter(e => e.isPlaced === true)
+    }
+
+    function moduleSetPlaced(event){
+      const newList = []
+      for(const module in moduleItemList){
+        if(module._id === event._id){
+          module.isPlaced = true
+        }
+        newList.push(module)
+      }
+      setmoduleItemList(newList)
+    }
+
+    function moduleSetOutside(event){
+      const newList = []
+      for(const module in moduleItemList){
+        if(module._id === event._id){
+          module.isPlaced = false
+        }
+        newList.push(module)
+      }
+      setmoduleItemList(newList)
+    }
 
     // Callback für das Ablegen von außerhalb des Kalenders gezogenen Ereignissen
     const onDropFromOutside = useCallback(
@@ -44,12 +89,10 @@ export function TimeTable({moduleItemList}) {
                   end: moment(start).add(draggedEvent.duration, 'minutes'),
                   _id: draggedEvent._id,
               };
-              setEvents(prevEvents => prevEvents.filter(event => event._id !== draggedEvent._id))
-              setEvents(prevEvents => [...prevEvents, newEvent]);
-              setOutsideEvents(prevEvents => prevEvents.filter(event => event._id !== draggedEvent._id))
+              moduleSetPlaced(newEvent)
+              setEvents(filterForEvents())
               setDraggedEvent(null)
-              events.push(newEvent)
-              setConflicts(checkModuleWarnings(events, conflict_list, newEvent))
+              setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, newEvent))
               // console.log("conflict_list")
               // console.log(conflict_list)
           }
@@ -79,7 +122,7 @@ export function TimeTable({moduleItemList}) {
             }
             module.start = start
             module.end = end
-            setConflicts(checkModuleWarnings(events, conflict_list, module))
+            setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
             console.log("conflict_list")
             console.log(conflict_list)
         },
@@ -134,9 +177,8 @@ export function TimeTable({moduleItemList}) {
   }
 
   const handleClickRemoveEvent = () => {
-    const updatedEvents = events.filter(ev => ev._id !== modalEvent._id);
-    setEvents(updatedEvents);
-    setOutsideEvents(prevEvents => [...prevEvents, modalEvent])
+    moduleSetOutside(modalEvent)
+    setEvents(filterForEvents())
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, modalEvent))
   };
 
@@ -165,16 +207,12 @@ export function TimeTable({moduleItemList}) {
     if(moveEvent == null){
       return
     } 
-    setOutsideEvents(prevEvents => [...prevEvents, moveEvent]); 
-    setEvents(prevEvents => prevEvents.filter(e => e._id !== moveEvent._id))
+    moduleSetOutside(moveEvent)
+    setEvents(filterForEvents())
+    setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
     var div = document.getElementById("removeBorder")
     div.classList.remove("bg-red-600")
     div.classList.add("bg-white")
-    setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
-    console.log("conflict_list")
-    console.log(conflict_list)
-    
-
   };
 
   const handleDragStart = (event) => {
@@ -197,7 +235,7 @@ export function TimeTable({moduleItemList}) {
       <div className="flex">
         <div>
           <PageTitle text="Lehrplanung"/>
-          <TimeTableFilter module_list={[...events, ...outsideEvents]}></TimeTableFilter>
+          <TimeTableFilter module_list={moduleItemList}></TimeTableFilter>
           <div>
             <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4 bg-white" onMouseUp={handleMouseUp}>
               <DnDCalendar
@@ -231,7 +269,7 @@ export function TimeTable({moduleItemList}) {
           </div>
         </div>
         <div>
-          <ModuleBar moduleItemList={outsideEvents.map(event => (
+          <ModuleBar moduleItemList={filterForOutside().map(event => (
               <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent}/>
             ))} />
         </div>
