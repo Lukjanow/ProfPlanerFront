@@ -66,7 +66,7 @@ export function TimeTable({moduleItemListPara}) {
       const newList = []
       for (let i = 0; i < moduleItemList.length; i++) {
         if(moduleItemList[i]._id === event._id){
-          moduleItemList[i] = event
+          moduleItemList[i].isPlaced = false
         }
         newList.push(moduleItemList[i])
       }
