@@ -1,7 +1,7 @@
 export class CalendarModel {
-    constructor(name, entries) {
+    constructor(name, calendarEntryIdList) {
         this.name = name;
-        this.entries = entries;
+        this.entries = calendarEntryIdList;
     }
 
     setJsonObj(jsonObj) {

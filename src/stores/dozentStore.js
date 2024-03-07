@@ -10,6 +10,9 @@ export const useDozentStore = create(
     (set, get) => ({
         dozentList: [],
         initDozentList: async () => {
+           await get().refreshDozentList();
+        },
+        refreshDozentList: async () => {
             const oldDozentList = get().dozentList;
             const {data} = await getAllDozents();
             const updatedDozentList = data.map(newDozent => {
@@ -24,14 +27,17 @@ export const useDozentStore = create(
         },
         addDozent: async (dozentModel) => {
             const {data} = await addDozent(dozentModel);
+            await get().refreshDozentList();
             return data;
         },
-        updateDozent: async (id, {name, email, title, intern}) => {
-            const {data} = await updateDozent(id, {name, email, title, intern});
+        updateDozent: async (id, {prename, lastname, email, title, salutation}) => {
+            const {data} = await updateDozent(id, {prename, lastname, email, title, salutation});
+            await get().refreshDozentList();
             return data;
         },
         deleteDozent: async (id) => {
             const {data} = await deleteDozent(id);
+            await get().refreshDozentList();
             return data;
         },
     }),
