@@ -138,6 +138,7 @@ export function TimeTable({moduleItemList}) {
     const updatedEvents = events.filter(ev => ev._id !== modalEvent._id);
     setEvents(updatedEvents);
     setOutsideEvents(prevEvents => [...prevEvents, modalEvent])
+    setConflicts(deleteConflictsWithCurrentModule(conflict_list, modalEvent))
   };
   const customEvent = ({ event }) => {
     return (
