@@ -26,7 +26,7 @@ export default function RoomDetailPage() {
 
   const [roomType, setRoomType] = useState([roomTypesOptions[0]]);
   const [roomNumber, setRoomNumber] = useState("");
-  const [capacity, setCapacity] = useState("");
+  const [capacity, setCapacity] = useState();
 
   const [errors, setErrors] = useState({
     roomNumber: false,
@@ -62,7 +62,7 @@ export default function RoomDetailPage() {
       if (roomId) {
         const newRoom = new RoomModel(
           roomNumber,
-          capacity,
+          parseInt(capacity),
           roomTypesOptions[0]
         );
         updateRoom(roomId, newRoom)
@@ -76,7 +76,13 @@ export default function RoomDetailPage() {
         return;
       }
 
-      const newRoom = new RoomModel(roomNumber, capacity, roomTypesOptions[0]);
+      const newRoom = new RoomModel(
+        roomNumber,
+        parseInt(capacity),
+        roomTypesOptions[0]
+      );
+      console.log("=====> NewRoom: ", newRoom);
+      console.log("=====> NewRoom2: ", new RoomModel("N101", 3, "Labor"));
       addRoom(newRoom)
         .then((response) => {
           console.log("Room saved: ", response);
@@ -117,7 +123,7 @@ export default function RoomDetailPage() {
 
   return (
     <PageContainer
-      title={`${t("newRoom")}`}
+      title={roomId ? `${t("room")} : ${roomNumber}` : `${t("newRoom")}`}
       onClickPrimary={(e) => handleSubmit(e)}
       primaryButtonTitle={t("save")}
       showDeleteButton={roomId ? true : false}

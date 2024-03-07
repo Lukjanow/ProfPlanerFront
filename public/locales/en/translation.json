@@ -48,5 +48,6 @@
   "roomNumber": "Roomnumber",
   "deleteQuestion": "Are you sure?",
   "deleteDozentInfo": "If you delete this teacher, all asigments to the modules will be lost!",
-  "deleteRoomInfo": "If you delete this room, all asigments to the modules will be lost!"
+  "deleteRoomInfo": "If you delete this room, all asigments to the modules will be lost!",
+  "room": "Room"
 }

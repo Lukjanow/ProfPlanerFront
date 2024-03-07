@@ -1,8 +1,8 @@
 export class RoomModel {
-  constructor(roomNumber, capacity, roomTypes) {
+  constructor(roomNumber, capacity, roomType) {
     this.roomNumber = roomNumber;
     this.capacity = capacity;
-    this.roomTypes = roomTypes;
+    this.roomType = roomType;
   }
 
   setJsonObj(jsonObj) {

@@ -67,6 +67,11 @@ const router = createBrowserRouter([
         element: <RoomDetailPage />,
         errorElement: <ErrorPage />,
       },
+      {
+        path: "room-details/:roomId",
+        element: <RoomDetailPage />,
+        errorElement: <ErrorPage />,
+      },
     ],
   },
 ]);
