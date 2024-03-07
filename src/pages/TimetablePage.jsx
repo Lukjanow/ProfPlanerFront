@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/css/react-big-calendar.css";
@@ -10,28 +10,31 @@ import {TimeTableFilter} from "../components/TimeTableFilter";
 import { ModuleItem } from "../components/ModuleItem";
 import { TimeTable } from "../components/TimeTable";
 import { PageTitle } from "../components/PageTitle";
+import { getAllModules } from "../services/moduleService"
 
 moment.locale("de");
 const localizer = momentLocalizer(moment);
 
 export default function MyCalendar() {
+  const [modules, setModules] = useState([]);
+
     const moduleItemDataList = [
       {
-        id: 1,
-        title: "Einführung in die Informatik",
+        _id: "65d70a20bd82b03aeac92a56",
+        name: "Einführung in die Informatik",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
         studySemester: ["AI-B 1"],
         dozent: ["Herbert Thielen"],
-        room: ["A200"],
+        room: ["B200"],
         backgroundcolor: "#D6F5E2",
         bordercolor: "#46D27F",
         duration: 195,
       },
       {
-        id: 2,
-        title: "Rechnernetze und Netzwerksicherheit",
+        _id: "65d70acbbd82b03aeac92a5c",
+        name: "Rechnernetze und Netzwerksicherheit",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
@@ -43,8 +46,8 @@ export default function MyCalendar() {
         duration: 195,
       },
       {
-        id: 3,
-        title: "Betriebssysteme",
+        _id: "65d71e619004f2a19971f8bd",
+        name: "Betriebssysteme",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
@@ -56,8 +59,8 @@ export default function MyCalendar() {
         duration: 195,
       },
       {
-        id: 4,
-        title: "Softwarequalität",
+        _id: "65d738b5a421a928cd955b63",
+        name: "Softwarequalität",
         type: "Modul",
         start: moment("2024-01-01T12:00").toDate(),
         end: moment("2024-01-01T15:00").toDate(),
@@ -70,7 +73,7 @@ export default function MyCalendar() {
       },
       {
       id: 5,
-      title: "Datenbanken",
+      name: "Datenbanken",
       type: "Modul",
       start: moment("2024-01-01T12:00").toDate(),
       end: moment("2024-01-01T15:00").toDate(),
@@ -83,7 +86,7 @@ export default function MyCalendar() {
     },
     {
       id: 6,
-      title: "Fullstack Webanwendungen",
+      name: "Fullstack Webanwendungen",
       type: "Modul",
       start: moment("2024-01-02T14:00").toDate(),
       end: moment("2024-01-02T18:00").toDate(),
@@ -96,7 +99,7 @@ export default function MyCalendar() {
     },
     {
       id: 7,
-      title: "Katze Streicheln",
+      name: "Katze Streicheln",
       type: "Abwesenheit",
       start: moment("2024-01-01T12:00").toDate(),
       end: moment("2024-01-01T15:00").toDate(),
@@ -109,12 +112,81 @@ export default function MyCalendar() {
     },
     ];
 
-    return (
-        <>
-            <div className="flex">
-                <TimeTable moduleItemList={moduleItemDataList}/>
-            </div>
+    function initModules(module_list){
+      var list = []
+
+      for (let i = 0; i < module_list.length; i++) {
+        // try{
+          list.push({
+            _id: module_list[i]._id,
+            name: module_list[i].name,
+            type: "Type",
+            start: moment("2024-01-01T12:00").toDate(),
+            end: moment("2024-01-01T15:00").toDate(),
+            study_semester_string: module_list[i].study_semester[0] != null? String(module_list[i].study_semester[0].name) : "Kein Semester",
+            study_semester: module_list[i].study_semester,
+            dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname) : "Kein Dozent",
+            dozent: module_list[i].dozent,
+            room_string: module_list[i].room[0] !== null && module_list[i].room[0] !== undefined ? String(module_list[i].room[0].roomNumber) : "kein Raum",
+            room: module_list[i].room,
+            backgroundcolor: module_list[i].color !== null && module_list[i].color !== undefined ? module_list[i].color : "#eeeeee",
+            bordercolor: module_list[i].color !== null && module_list[i].color !== undefined ? changeColor(module_list[i].color, -40) : "#bcbcbc",
+            duration: module_list[i].duration
+          })
+        }
         
+        return list
+    }
+
+    function changeColor(col, amt) {
+      var usePound = false;
+    
+      if (col[0] == "#") {
+          col = col.slice(1);
+          usePound = true;
+      }
+  
+      var num = parseInt(col,16);
+      var r = (num >> 16) + amt;
+  
+      if (r > 255) r = 255;
+      else if  (r < 0) r = 0;
+  
+      var b = ((num >> 8) & 0x00FF) + amt;
+  
+      if (b > 255) b = 255;
+      else if  (b < 0) b = 0;
+  
+      var g = (num & 0x0000FF) + amt;
+  
+      if (g > 255) g = 255;
+      else if (g < 0) g = 0;
+  
+      return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
+  }
+
+    useEffect(() => {
+      async function fetchData() {
+        try {
+          const result = await getAllModules();
+          setModules(result.data);
+        } catch(error) {
+          console.log("Error: ", error);
+        }
+      }
+      fetchData()
+    }, []);
+
+    return (
+        // <div className="flex">
+        //   <TimeTable moduleItemList={moduleItemDataList}/>
+        // </div>
+        <>
+        { modules.length !== 0 ?
+            <div className="flex">
+                <TimeTable moduleItemList={initModules(modules)}/>
+            </div> : <TimeTable moduleItemList={[]}/>
+        }
         </>
     );
 }

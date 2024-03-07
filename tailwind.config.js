@@ -28,6 +28,11 @@ export default {
               DEFAULT: "#3A405A",
               foreground: "#FFFFFF",
             },
+            secondary: {
+              900: "#FFB641",
+              DEFAULT: "#FFB641",
+              foreground: "#FFB641",
+            }
           },
         },
         dark: {
@@ -39,6 +44,11 @@ export default {
               DEFAULT: "#654321",
               foreground: "#123456",
             },
+            secondary: {
+              900: "#FFB641",
+              DEFAULT: "#FFB641",
+              foreground: "#FFB641",
+            }
           },
         },
       },

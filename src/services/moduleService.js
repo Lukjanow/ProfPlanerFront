@@ -6,7 +6,8 @@ async function getAllModules() {
         .get(`/moduledata`)
         .then(resObj => {
             return {
-                data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
+                data: resObj.data,
+                // data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
                 status: resObj.status
             }
         });
