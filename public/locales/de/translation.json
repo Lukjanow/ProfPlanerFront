@@ -45,5 +45,8 @@
   "auditorium": "Hörsaal",
   "laboratory": "Labor",
   "roomType": "Raum Typ",
-  "roomNumber": "Raumnummer"
+  "roomNumber": "Raumnummer",
+  "deleteQuestion": "Bist du sicher?",
+  "deleteDozentInfo": "Wenn du diese Lehrperson löschst, werden alle Zuweisungen zu den Modulen verloren gehen!"
 }
+

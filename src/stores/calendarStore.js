@@ -1,20 +1,22 @@
 import {create} from "zustand";
 import {
     addCalendar, addCalendarEntryForCalendar,
-    deleteCalendar, deleteCalendarEntryForCalendar,
+    deleteCalendar, deleteCalendarEntry,
     getAllCalendars,
-    getCalendarById,
-    getCalendarEntriesForDozent,
-    getCalendarEntriesForRoom,
-    getCalendarEntriesForStudySemester,
-    getCalendarEntryForCalendar,
-    updateCalendar, updateCalendarEntryForCalendar
+    getCalendarById, getCalendarEntriesForCalendar,
+    getCalendarEntriesForDozentAndCalendar,
+    getCalendarEntriesForRoomAndCalendar,
+    getCalendarEntriesForStudySemesterAndCalendar, getCalendarEntry,
+    updateCalendar, updateCalendarEntry
 } from "../services/calendarService.js";
 
 export const useCalendarStore = create(
     (set, get) => ({
         calendarList: [],
         initCalendarList: async () => {
+           await get().refreshCalendarList();
+        },
+        refreshCalendarList: async () => {
             const oldCalendarList = get().calendarList;
             const {data} = await getAllCalendars();
             const updatedCalendarList = data.map(newCalendar => {
@@ -29,42 +31,52 @@ export const useCalendarStore = create(
         },
         addCalendar: async (calendarModel) => {
             const {data} = await addCalendar(calendarModel);
+            await get().refreshCalendarList();
             return data;
         },
         updateCalendar: async (id, {name, entryIdList}) => {
             const {data} = await updateCalendar(id, {name, entryIdList});
+            await get().refreshCalendarList();
             return data;
         },
         deleteCalendar: async (id) => {
             const {data} = await deleteCalendar(id);
+            await get().refreshCalendarList();
             return data;
         },
-        getCalendarEntryForCalendar: async (calendarId, calendarEntryId) => {
-            const {data} = await getCalendarEntryForCalendar(calendarId, calendarEntryId);
+        getCalendarEntry: async (id) => {
+            const {data} = await getCalendarEntry(id);
             return data;
         },
-        getCalendarEntriesForStudySemester: async (calendarId, studySemesterId) => {
-            const {data} = await getCalendarEntriesForStudySemester(calendarId, studySemesterId);
+        getCalendarEntriesForCalendar: async (calendarId) => {
+            const {data} = await getCalendarEntriesForCalendar(calendarId);
             return data;
         },
-        getCalendarEntriesForDozent: async (calendarId, dozentId) => {
-            const {data} = await getCalendarEntriesForDozent(calendarId, dozentId);
+        getCalendarEntriesForStudySemesterAndCalendar: async (calendarId, studySemesterId) => {
+            const {data} = await getCalendarEntriesForStudySemesterAndCalendar(calendarId, studySemesterId);
             return data;
         },
-        getCalendarEntriesForRoom: async (calendarId, roomId) => {
-            const {data} = await getCalendarEntriesForRoom(calendarId, roomId);
+        getCalendarEntriesForDozentAndCalendar: async (calendarId, dozentId) => {
+            const {data} = await getCalendarEntriesForDozentAndCalendar(calendarId, dozentId);
             return data;
         },
-        addCalendarEntryForCalendar: async (calendarEntryModel) => {
-            const {data} = await addCalendarEntryForCalendar(calendarEntryModel);
+        getCalendarEntriesForRoomAndCalendar: async (calendarId, roomId) => {
+            const {data} = await getCalendarEntriesForRoomAndCalendar(calendarId, roomId);
             return data;
         },
-        updateCalendarEntryForCalendar: async (calendarId, calendarEntryId, {name, entryIdList}) => {
-            const {data} = await updateCalendarEntryForCalendar(calendarId, calendarEntryId, {name, entryIdList});
+        addCalendarEntryForCalendar: async (calendarId, calendarEntryModel) => {
+            const {data} = await addCalendarEntryForCalendar(calendarId, calendarEntryModel);
+            await get().refreshCalendarList();
             return data;
         },
-        deleteCalendarEntryForCalendar: async (calendarId, calendarEntryId) => {
-            const {data} = await deleteCalendarEntryForCalendar(calendarId, calendarEntryId);
+        updateCalendarEntry: async (id, {moduleId, timeStampModel, comment}) => {
+            const {data} = await updateCalendarEntry(id, {moduleId, timeStampModel, comment});
+            await get().refreshCalendarList();
+            return data;
+        },
+        deleteCalendarEntry: async (id) => {
+            const {data} = await deleteCalendarEntry(id);
+            await get().refreshCalendarList();
             return data;
         }
     }),

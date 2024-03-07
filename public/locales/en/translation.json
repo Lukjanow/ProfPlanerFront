@@ -46,5 +46,7 @@
   "auditorium": "Auditorium",
   "laboratory": "Labor",
   "roomType": "Room Typ",
-  "roomNumber": "Roomnumber"
+  "roomNumber": "Roomnumber",
+  "deleteQuestion": "Are you sure?",
+  "deleteDozentInfo": "If you delete this teacher, all asigments to the modules will be lost!"
 }

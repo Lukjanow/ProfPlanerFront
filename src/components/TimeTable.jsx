@@ -2,6 +2,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import { useCallback, useState } from "react";
 import { ModuleItem } from "./ModuleItem";
 import { ModuleBar } from "./ModuleBar";
+import { ConflictDisplay } from "./ConflictDisplay";
 import { PageTitle } from "../components/PageTitle";
 import {TimeTableFilter} from "../components/TimeTableFilter";
 import "../styles/components/timeTableEvent.scss";
@@ -12,6 +13,7 @@ import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment/dist/moment';
 import 'moment/dist/locale/de';
 import { useTranslation } from "react-i18next";
+import {checkModuleWarnings, deleteConflictsWithCurrentModule} from "../conflicts/conflicts";
 
 export function TimeTable({moduleItemList}) {
   const { i18n } = useTranslation();
@@ -24,9 +26,9 @@ export function TimeTable({moduleItemList}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [modalEvent, setModalEvent] = useState('');
 
-
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
     const [events, setEvents] = useState([]);
+    const [conflict_list, setConflicts] = useState([]);
     const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
     const [draggedEvent, setDraggedEvent] = useState(null);
 
@@ -47,7 +49,12 @@ export function TimeTable({moduleItemList}) {
               setEvents(prevEvents => [...prevEvents, newEvent]);
               setOutsideEvents(prevEvents => prevEvents.filter(event => event.id !== draggedEvent.id))
               setDraggedEvent(null)
+              events.push(newEvent)
+              setConflicts(checkModuleWarnings(events, conflict_list, newEvent))
+              console.log("conflict_list")
+              console.log(conflict_list)
           }
+
       },
       [draggedEvent]
   );
@@ -63,6 +70,19 @@ export function TimeTable({moduleItemList}) {
             var div = document.getElementById("removeBorder")
             div.classList.remove("bg-red-600")
             div.classList.add("bg-white")
+            
+            let module = null;
+            for (let i = 0; i < events.length; i++) {
+                if (events[i].id === appointmentId) {
+                    module = events[i];
+                    break;
+                }
+            }
+            module.start = start
+            module.end = end
+            setConflicts(checkModuleWarnings(events, conflict_list, module))
+            console.log("conflict_list")
+            console.log(conflict_list)
         },
     );
 
@@ -149,6 +169,9 @@ export function TimeTable({moduleItemList}) {
     var div = document.getElementById("removeBorder")
     div.classList.remove("bg-red-600")
     div.classList.add("bg-white")
+    setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
+    console.log("conflict_list")
+    console.log(conflict_list)
   };
 
   const handleDragStart = (event) => {
@@ -165,7 +188,7 @@ export function TimeTable({moduleItemList}) {
         <div>
           <PageTitle text="Lehrplanung"/>
           <TimeTableFilter></TimeTableFilter>
-          <div className="h-[35vw]">
+          <div>
             <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4 bg-white">
               <DnDCalendar
                   className="w-[78vw] select-none"
@@ -194,6 +217,7 @@ export function TimeTable({moduleItemList}) {
                   onDragStart={(event) => handleDragStart(event)}
               />
               </div>
+              <ConflictDisplay data={conflict_list}/>
           </div>
         </div>
         <div>
