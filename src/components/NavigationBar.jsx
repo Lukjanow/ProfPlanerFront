@@ -10,7 +10,7 @@ import NavigationBarItem from "./NavigationBarItem.jsx";
 import { useTranslation } from "react-i18next";
 
 export function NavigationBar() {
-  const { t } = useTranslation()
+  const { t } = useTranslation();
   const navigationBarItems = [
     {
       path: "timetable",
@@ -38,8 +38,8 @@ export function NavigationBar() {
     <Navbar className={"fixed min-h-full w-20 py-20 items-start px-0 z-40"}>
       <NavbarContent className={"flex flex-col gap-1 px-0"}>
         {navigationBarItems.map((navigationBarItem, index) => (
-          <NavbarItem className={"w-20 px-0"} key={index}>
-            <Button color="" className={"w-8 p-9"}>
+          <NavbarItem className={"w-20 h-20 px-0"} key={index}>
+            <Button color="" className={"p-0 h-20"}>
               {navigationBarItem.path === "conflicts" ? (
                 <Badge content="8" color="danger" size="md">
                   <NavigationBarItem item={navigationBarItem} />

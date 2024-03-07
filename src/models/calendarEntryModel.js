@@ -1,6 +1,6 @@
 export class CalendarEntryModel {
-    constructor(module, timeStampModel, comment) {
-        this.module = module;
+    constructor(moduleId, timeStampModel, comment) {
+        this.module = moduleId;
         this.time_stamp = timeStampModel;
         this.comment = comment;
     }

@@ -1,8 +1,10 @@
 import { Select, SelectItem } from "@nextui-org/react"
 
 
-export default function SelectBox({ title, name, items, isMuliple = false, isRequired = false, onChange }) {
-    const selectMode = isMuliple === true ? "multiple" : "single";
+export default function SelectBox({ title, name, items, isMultiple = false, isRequired = false, onChange, selectedKeys, className, disallowEmptySelection = true }) {
+    const selectMode = isMultiple === true ? "multiple" : "single";
+
+
     return (
         <Select
             label={title}
@@ -10,11 +12,14 @@ export default function SelectBox({ title, name, items, isMuliple = false, isReq
             isMultiline
             isRequired={isRequired}
             name={name}
+            disallowEmptySelection={disallowEmptySelection}
             onChange={onChange}
+            selectedKeys={selectedKeys}
+            className={className}
         >
             {
-                items.map((item, index) => (
-                    <SelectItem key={item}>
+                items.map(item => (
+                    <SelectItem value={item} key={item}>
                         {item}
                     </SelectItem>
                 ))

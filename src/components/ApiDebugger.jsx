@@ -5,8 +5,6 @@ import {Button, Card, CardBody, CardHeader, CircularProgress, Code, Divider, Spa
 import {useDozentStore} from "../stores/dozentStore.js";
 import {useRoomStore} from "../stores/roomStore.js";
 import {RoomModel} from "../models/roomModel.js";
-// import {useCalendarStore} from "../stores/calendarStore.js";
-// import {getCalendarById} from "../services/calendarService.js";
 
 export default function ApiDebugger() {
 
@@ -38,42 +36,15 @@ export default function ApiDebugger() {
         return useRoomStore.getState().addRoom(new RoomModel("N144", 5, 2));
     });
 
-    // const {
-    //     data: res,
-    //     isLoading: resIsLoading,
-    //     error: resError,
-    //     executor: resExecutor
-    // } = useDataFetcher(async () => {
-    //     return useCalendarStore.getState().getCalendarById("65d61765c15324dcfc497c4f");
-    //     // return useModuleStore.getState().addModule(new ModuleModel(
-    //     //     "112",
-    //     //     "TEST",
-    //     //     "EINF",
-    //     //     ["65d706915c208e7fd4abebab"],
-    //     //     "65d854c3dfc97c0356792f8e",
-    //     //     ["65d71bdb8c4eb66943f53f14"],
-    //     //     90,
-    //     //     100,
-    //     //     1,
-    //     //     [1],
-    //     //     3,
-    //     //     false,
-    //     //     "#ff0000",
-    //     //     "Das ist eine Notiz",
-    //     //     2
-    //     // ));
-    // });
-
     useEffect(() => {
         dozentExecutor();
         moduleListExecutor();
-        // resExecutor();
     }, []);
-
-    // console.log(res);
 
     return (
         <>
+
+
 
 
 
@@ -110,7 +81,22 @@ export default function ApiDebugger() {
             {/*CREATE ROOM BUTTON*/}
 
             <Button onClick={roomExecutor}>Create room</Button>
-            {room && <p>Room: {room._id}</p>}
+            {room &&
+                <Card>
+                    <CardHeader className="flex gap-3">
+                        <div className="flex flex-col">
+                            <p className="text-md">{room.name}</p>
+                            <p className="text-small text-default-500">_id: {room._id}</p>
+                        </div>
+                    </CardHeader>
+                    <CardBody>
+                        <p>_id: {room._id}</p>
+                        <p>name: {room.name}</p>
+                        <p>capacity: {room.capacity}</p>
+                        <p>equipment: {room.equipment ? room.equipment : "null"}</p>
+                    </CardBody>
+                </Card>
+            }
 
 
 
@@ -142,19 +128,20 @@ export default function ApiDebugger() {
             {/*DOZENT*/}
 
             {dozent &&
-                <Card key={dozent._id}>
+                <Card>
                     <CardHeader className="flex gap-3">
                         <div className="flex flex-col">
-                            <p className="text-md">{dozent.name}</p>
+                            <p className="text-md">{dozent.prename} {dozent.lastname}</p>
                             <p className="text-small text-default-500">_id: {dozent._id}</p>
                         </div>
                     </CardHeader>
                     <CardBody>
                         <p>_id: {dozent._id}</p>
-                        <p>name: {dozent.name}</p>
-                        <p>e_mail: {dozent.e_mail}</p>
+                        <p>prename: {dozent.prename}</p>
+                        <p>lastname: {dozent.lastname}</p>
+                        <p>email: {dozent.email}</p>
                         <p>title: {dozent.title}</p>
-                        <p>intern: {dozent.intern ? "true" : "false"}</p>
+                        <p>salutation: {dozent.salutation}</p>
                     </CardBody>
                 </Card>
             }
@@ -190,21 +177,29 @@ export default function ApiDebugger() {
             {/*MODULE-LIST*/}
 
             {moduleList && moduleList.map(module => (
-                <Card key={module._id + module.type}>
+                <Card key={module._id}>
                     <CardHeader className="flex gap-3">
                         <div className="flex flex-col">
                             <p className="text-md">{module.name}</p>
                             <p className="text-small text-default-500">_id: {module._id}</p>
-                            <p className="text-small text-default-500">key: {module._id + module.type}</p>
                         </div>
                     </CardHeader>
                     <CardBody>
                         <p>_id: {module._id}</p>
                         <p>name: {module.name}</p>
                         <p>code: {module.code}</p>
-                        <p>dozent: {module.dozent[0].name} | {module.dozent[0].e_mail}</p>
-                        {module && module.room && <p>room: {module.room.name}</p>}
-                        {module && module.study_semester && <p>study_semester: {module.study_semester[0].name}</p>}
+                        {dozent && <p> dozent: {module.dozent && module.dozent.map(dozent => (
+                            <span key={dozent.id}>{dozent.prename} {dozent.lastname} | {dozent.email}, </span>
+                        ))}
+                        </p>}
+                        {module && <p> room: {module.room && module.room.map(room => (
+                                <span key={room.id}>{room.name}, </span>
+                        ))}</p>
+                        }
+                        {module && <p> study_semester: {module.study_semester && module.study_semester.map(studySemester => (
+                            <span key={studySemester.id}>{studySemester.name}, </span>
+                        ))}
+                        </p>}
                         <p>duration: {module.duration}</p>
                         <p>approximate_attendance: {module.approximate_attendance}</p>
                         <p>need: {module.need === null ? "null" : module.need}</p>
