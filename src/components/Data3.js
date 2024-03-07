@@ -7,7 +7,7 @@ export const animals = [
   {label: "Tiger", value: "tiger", description: "The largest cat species"},
   {label: "Giraffe", value: "giraffe", description: "The tallest land animal"},
   {
-    label: "Dolphin",
+    label: "Herbert Thielen",
     value: "dolphin",
     description: "A widely distributed and diverse group of aquatic mammals",
   },

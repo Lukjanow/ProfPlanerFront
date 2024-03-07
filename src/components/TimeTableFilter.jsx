@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tabs, Tab, Card, CardBody} from "@nextui-org/react";
 import {DropDown2} from "./DropDown2";
 
-export function TimeTableFilter() {
+export function TimeTableFilter({module_list}) {
   return (
     <div className="flex w-full flex-col">
       <Tabs aria-label="Options"
@@ -14,7 +14,7 @@ export function TimeTableFilter() {
           radius="sm">
             <CardBody
             className="bg-[#EEEEEE]">
-            <DropDown2></DropDown2>
+            <DropDown2 module_list={module_list} />
             </CardBody>
           </Card>  
         </Tab>

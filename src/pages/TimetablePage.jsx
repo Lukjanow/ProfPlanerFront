@@ -131,7 +131,8 @@ export default function MyCalendar() {
             room: module_list[i].room,
             backgroundcolor: module_list[i].color !== null && module_list[i].color !== undefined ? module_list[i].color : "#eeeeee",
             bordercolor: module_list[i].color !== null && module_list[i].color !== undefined ? changeColor(module_list[i].color, -40) : "#bcbcbc",
-            duration: module_list[i].duration
+            duration: module_list[i].duration,
+            visible: true,
           })
         }
         

@@ -142,7 +142,7 @@ export function TimeTable({moduleItemList}) {
   };
   const customEvent = ({ event }) => {
     return (
-          <div id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
+          <div disabled={!event.visible} id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
             <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
             <p className="font-semibold">{event.name}</p>
             {setTime(event.start, event.duration)}
@@ -189,13 +189,13 @@ export function TimeTable({moduleItemList}) {
     div.classList.remove("bg-red-600")
     div.classList.add("bg-white")
   }
-  
+
   return (
     <>
       <div className="flex">
         <div>
           <PageTitle text="Lehrplanung"/>
-          <TimeTableFilter></TimeTableFilter>
+          <TimeTableFilter module_list={[...events, ...outsideEvents]}></TimeTableFilter>
           <div>
             <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4 bg-white" onMouseUp={handleMouseUp}>
               <DnDCalendar

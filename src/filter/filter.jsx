@@ -1,4 +1,4 @@
-function filterDozent(dropdownInput){
+function filterDozent(dropdownInput, module_list){
     for (const module of module_list) {
         var visible = false
         for(const dozent of module.dozent){
