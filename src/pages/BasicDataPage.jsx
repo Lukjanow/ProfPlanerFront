@@ -72,6 +72,7 @@ export default function BasicDataPage() {
 
         console.log("----------> ResultsModule: ", resultModule);
         console.log("----------> ResultsRooms: ", resultRooms);
+        console.log("----------> ResultsTeachers: ", resultTeacher);
       } catch (error) {
         console.error("Error fetching modules:", error);
       }
@@ -117,7 +118,7 @@ export default function BasicDataPage() {
       console.log("-----------> TEACHER!!!!", selectedData);
       break;
     default:
-      selectedData = moduleList; // Standardauswahl, wenn keine Übereinstimmung gefunden wurde
+      selectedData = modules; // Standardauswahl, wenn keine Übereinstimmung gefunden wurde
       path = "/basicdata";
       console.log("-----------> DEFAULT!!!!", selectedData);
   }
