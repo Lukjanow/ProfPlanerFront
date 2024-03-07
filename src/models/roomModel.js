@@ -9,7 +9,7 @@ export class RoomModel {
     this._id = jsonObj._id;
     this.roomNumber = jsonObj.roomNumber;
     this.capacity = jsonObj.capacity;
-    this.roomTypes = jsonObj.roomTypes;
+    this.roomType = jsonObj.roomType;
     return this;
   }
 }

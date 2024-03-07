@@ -10,37 +10,37 @@ import { RoomModel } from "../models/roomModel.js";
 export default function RoomDetailPage() {
   const { t } = useTranslation();
 
-  // Definiere verfügbare Raumtypen
-  const roomTypes = ["Classroom", "Auditorium", "Laboratory"];
+  const roomTypes = [t("classroom"), t("auditorium"), t("laboratory")];
 
-  // Initialisiere Formulardaten und Fehlerzustand
   const [formData, setFormData] = useState(new RoomModel());
   const [errors, setErrors] = useState({});
 
-  // Funktion zum Handhaben von Eingabeänderungen im Formular
   const handleChange = useCallback((e) => {
     const { name, value, checked, validity } = e.target;
     const newValue = e.target.type === "checkbox" ? checked : value;
-    const isError = !validity.valid;
-    // Setze Fehlerzustand und aktualisiere Formulardaten
+    const isError = !validity.valid || (e.target.required && !newValue);
     setErrors((prevErrors) => ({ ...prevErrors, [name]: isError }));
     setFormData((prevFormData) => ({ ...prevFormData, [name]: newValue }));
   }, []);
 
-  // Funktion zum Einreichen des Formulars
   const handleSubmit = useCallback(
-    (e) => {
+    async (e) => {
       e.preventDefault();
 
-      // Validiere das Formular
       const validationErrors = validateForm(formData);
 
       if (Object.keys(validationErrors).length === 0) {
-        // Das Formular ist gültig, übermittle die Daten
-        console.log("Data:", formData);
-        addRoom(formData); // Hier fügst du die Daten zu deinem Service hinzu
+        try {
+          const res = await addRoom(formData);
+          console.log(
+            res.status === 200
+              ? "Raum erfolgreich angelegt!"
+              : "Fehler beim Erstellen des Raums!"
+          );
+        } catch (error) {
+          console.log("Fehler: ", error);
+        }
       } else {
-        // Zeige Validierungsfehler an
         setErrors(validationErrors);
         console.log("Errors:", validationErrors);
       }
@@ -48,16 +48,11 @@ export default function RoomDetailPage() {
     [formData]
   );
 
-  // Funktion zur Validierung des Formulars
   const validateForm = (formData) => {
     let errors = {};
 
-    if (!formData.roomNumber.trim()) {
-      errors.roomNumber = true;
-    }
-
-    if (!formData.description.trim()) {
-      errors.description = true;
+    if (!formData.roomName.trim()) {
+      errors.roomName = true;
     }
 
     if (!formData.roomType) {
@@ -73,36 +68,24 @@ export default function RoomDetailPage() {
 
   return (
     <PageContainer
-      title={`${t("new")} ${t("room")}`}
+      title={`${t("newRoom")}`}
       onClickPrimary={handleSubmit}
       primaryButtonTitle={t("save")}
     >
       <form>
-        <SectionContainer title={t("roomDetails")}>
-          {/* Eingabefeld für Raumnummer */}
+        <SectionContainer title={t("general")}>
           <Input
             name="roomNumber"
+            title={`${t("roomNumber")}`}
             isRequired
-            isInvalid={errors.roomNumber}
+            isInvalid={errors.roomName}
             errorMessage={
-              errors.roomNumber && `${t("roomNumber")} ${t("isRequired")}`
+              errors.roomName && `${t("roomNumber")} ${t("isRequired")}`
             }
             type="text"
             label={t("roomNumber")}
             onChange={handleChange}
           />
-          {/* Eingabefeld für Raum Beschreibung */}
-          <Input
-            name="description"
-            isInvalid={errors.description}
-            errorMessage={
-              errors.description && `${t("description")} ${t("isRequired")}`
-            }
-            type="text"
-            label={t("description")}
-            onChange={handleChange}
-          />
-          {/* Selectbox für Raumtyp */}
           <SelectBox
             name="roomType"
             title={t("roomType")}
@@ -116,7 +99,6 @@ export default function RoomDetailPage() {
             defaultSelectedKeys={[]}
             onChange={handleChange}
           />
-          {/* Eingabefeld für Raumkapazität */}
           <Input
             name="capacity"
             isRequired

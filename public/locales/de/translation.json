@@ -41,12 +41,11 @@
   "noContentAvailable": "Keine Inhalte verfügbar!",
   "noContentInstruction": "Sie können versuchen, neue Daten mit der Schaltfläche oben hinzuzufügen. Wenn Daten vorhanden sind, aber nicht angezeigt werden, versuchen Sie, die Seite neu zu laden.",
   "refresh": "Aktualisieren",
-  "classroom": "Klassenzimmer",
   "auditorium": "Hörsaal",
   "laboratory": "Labor",
   "roomType": "Raum Typ",
   "roomNumber": "Raumnummer",
   "deleteQuestion": "Bist du sicher?",
-  "deleteDozentInfo": "Wenn du diese Lehrperson löschst, werden alle Zuweisungen zu den Modulen verloren gehen!"
+  "deleteDozentInfo": "Wenn du diese Lehrperson löschst, werden alle Zuweisungen zu den Modulen verloren gehen!",
+  "deleteRoomInfo": "Wenn du diesen Raum löschst, werden alle Zuweisungen zu den Modulen verloren gehen!"
 }
-
