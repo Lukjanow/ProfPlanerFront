@@ -119,6 +119,10 @@ export default function RoomDetailPage() {
       errors.roomNumber = true;
     }
 
+    if (!/^\d+$/.test(capacity)) {
+      errors.capacity = true;
+    }
+
     setErrors(errors);
     return errors;
   };
@@ -177,7 +181,7 @@ export default function RoomDetailPage() {
               isRequired
               isInvalid={errors.capacity}
               errorMessage={
-                errors.capacity ? `${t("capacity")} ${t("isRequired")}` : ""
+                errors.capacity ? `${t("capacity")} ${t("isInvalid")}` : ""
               }
               type="text"
               label={t("capacity")}
