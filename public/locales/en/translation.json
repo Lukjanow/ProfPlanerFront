@@ -48,7 +48,7 @@
   "moduleName": "Name",
   "moduleNr": "Module Number",
   "assistent": "Assistent",
-  "duration": "Duration",
+  "duration": "Duration in Minutes",
   "wRoom": "Preferred Room",
   "approximateAttendance": "Approximate Attendance",
   "groupNumber": "Number of Groups",
@@ -65,5 +65,6 @@
   "isInvalid": " is invalid.",
   "noContentAvailable": "No Content Available!",
   "noContentInstruction": "You can attempt to add new data using the button above. If data exists but isn't displayed, try refreshing the page.",
-  "refresh": "Refresh"
+  "refresh": "Refresh",
+  "pause": "Pause in Minutes"
 }

@@ -1,101 +1,14 @@
 import React, { useEffect } from 'react'
-import { Input } from "@nextui-org/react";
+import { Input, Switch } from "@nextui-org/react";
 import { OutlinedButton } from './OutlinedButton';
 import { useTranslation } from "react-i18next";
 import { DropDown } from './DropDown';
 
 export default function Exercise({
-    data, onChange, onDelete, index
+    data, onChange, onDelete, index, assistents, room, teachers, equipment
 }) {
     const { t } = useTranslation();
 
-    const assistents = [{
-        key: "1s",
-        label: "Assistent1"
-        },
-        {
-            key: "2s",
-            label: "Assistent2"
-        },
-        {
-            key: "3s",
-            label: "Assistent3"
-        },
-        {
-            key: "4s",
-            label: "Assistent4"
-        },
-        {
-            key: "5s",
-            label: "Assistent5"
-        },
-        {
-            key: "6s",
-            label: "Assistent6"
-        },
-        {
-            key: "7s",
-            label: "Assistent7"
-        }
-    ]
-
-    const room = [
-        {
-            key: "B200",
-            label: "B200"
-        },
-        {
-            key: "D138",
-            label: "D138"
-        }
-    ]
-
-    const teachers = [
-        {
-            key: "Thielen",
-            label: "Herbert Thielen"
-        },
-        {
-            key: "Heinemann",
-            label: "Elisabeth Heinemann"
-        },
-        {
-            key: "Schwarzer",
-            label: "Volker Schwarzer"
-        },
-        {
-            key: "Kessler",
-            label: "Dagmar Kessler"
-        },
-        {
-            key: "Kohler",
-            label: "Jens Kohler"
-        },
-        {
-            key: "Werle-Rutter",
-            label: "Micheal Werle-Rutter"
-        },
-        {
-            key: "König",
-            label: "Werner König"
-        },
-        {
-            key: "Frank",
-            label: "Thorsten Frank"
-        },
-        {
-            key: "Gloger",
-            label: "Oliver Gloger"
-        },
-        {
-            key: "Kurpjuweit",
-            label: "Stephan Kurpjuweit"
-        },
-        {
-            key: "Wiebel",
-            label: "Alexander Wiebel"
-        }
-    ]
 
     const assistentsDropdownhelper = (items) => {
         onChange(items, "assistents", index)
@@ -109,8 +22,15 @@ export default function Exercise({
         onChange(items, "room", index)
     }
 
+    const needDropdownhelper = (items) => {
+        onChange(items, "need", index)
+    }
+
+
   return (
     <div style={{borderBottom: "solid 2px black", padding: "0 1rem"}}>
+        <Switch value={data.addTime} onValueChange={() => onChange(!data.addTime, "addTime", index)}>Add Time to Group</Switch>
+        <p className="text-small text-default-500">If selected, the Duration plus Pause given here will be added to the Module Group Duration. Otherwise no extra Time will be added.</p>
         <div className="flex gap-5 justify-between items-center" style={{alignText: "center", width: "50%"}}>
             {(data.type == 2) ? `${t("exercise")}` : `${t("training")}`}
             <div style={{right: "0", position: "relative"}}>
@@ -123,7 +43,8 @@ export default function Exercise({
                         Item: "Lehrende"}}
                         onChange={teachersDropdownhelper}
                         value={data.dozent}
-                        width="500px">
+                        width="500px"
+                        >
                     </DropDown>
             <DropDown Items={assistents} description={`${t("assistent")}`} selectionMode='multiple'
                                     add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
@@ -135,21 +56,40 @@ export default function Exercise({
                                 add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
                                 Item: "Raum"}}
                                 onChange={roomDropdownhelper}
-                                values={data.room}>
+                                values={data.room}
+                                >
             </DropDown>
         </div>
         <div className="flex gap-5" style={{marginTop: "25px", marginBottom:"25px"}}>
-            <div style={{width:"250px", backgroundColor: "#0000000F"}}>
-                <Input
-                        label={`${t("duration")}`}
-                        variant="underlined"
-                        color="default"
-                        type="number"
-                        onChange={(e) => onChange(e.target.value, "duration", index)}
-                        value={data.duration}
-                    />
-            </div>
-            <div style={{width:"250px", backgroundColor: "#0000000F"}}>
+        {(data.addTime) ? 
+                <div className="flex gap-5">
+                    <div style={{width:"240px", backgroundColor: "#0000000F"}}>
+                    <Input
+                            label={`${t("duration")}`}
+                            variant="underlined"
+                            color="default"
+                            type="number"
+                            onChange={(e) => onChange(e.target.value, "duration", index)}
+                            value={data.duration}
+                            isRequired
+                        />
+                    </div>
+                    <div style={{width:"240px", backgroundColor: "#0000000F"}}>
+                    <Input
+                            label={`${t("pause")}`}
+                            variant="underlined"
+                            color="default"
+                            type="number"
+                            onChange={(e) => onChange(e.target.value, "pause", index)}
+                            value={data.pause}
+                            isRequired
+                        />
+                    </div>
+                </div>
+            
+             : null
+        }
+            <div style={{width:"240px", backgroundColor: "#0000000F"}}>
                 <Input
                         label={`${t("group")}`}
                         variant="underlined"
@@ -157,18 +97,27 @@ export default function Exercise({
                         type="number"
                         onChange={(e) => onChange(e.target.value, "group", index)}
                         value={data.group}
+                        isRequired
                     />
             </div>
-            <div style={{width:"250px", backgroundColor: "#0000000F"}}>
-                <Input label={`${t("approximateAttendance")}`}
-                    variant="underlined"
-                    color="default"
-                    type="number"
-                    onChange={(e) => (
-                        onChange(e.target.value, "approximate_attendance", index)
-                    )}
-                    value={data.approximate_attendance}/>
-            </div>
+            {(!data.addTime) ?
+                <div style={{width:"240px", backgroundColor: "#0000000F"}}>
+                    <Input label={`${t("approximateAttendance")}`}
+                        variant="underlined"
+                        color="default"
+                        type="number"
+                        onChange={(e) => (
+                            onChange(e.target.value, "approximate_attendance", index)
+                        )}
+                        value={data.approximate_attendance}
+                        isRequired/>
+                </div> : null
+            }
+{/*             <DropDown Items={equipment} description={`${t("equipment")}`} selectionMode="multiple"
+                        onChange={needDropdownhelper}
+                        values={data.need}
+                        width="250px">
+            </DropDown> */}
         </div>
     </div> 
   )

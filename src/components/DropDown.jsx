@@ -11,7 +11,7 @@ TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever 
 
 
 export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="",
-            add={}, width="250px", onChange = {/*pass*/}, values = []}) {
+            add={}, width="250px", onChange = {/*pass*/}, values = [], required = false}) {
     const { t } = useTranslation();
 
     const [selectedKeys, setSelectedKeys] = React.useState(new Set(Object.values(values).filter(obj => Object.prototype.hasOwnProperty.call(obj, "key"))
@@ -78,6 +78,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
               }
               style={{width: width, textAlign: "left"}}
               value={value}
+              isRequired={required}
             >
             </Input>
           </DropdownTrigger>
@@ -91,7 +92,9 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                   variant={variant}
                   style={{width: width,
                           overflow: "scroll",
-                          scrollbarWidth: "none",
+                          scrollbarColor: "grey",
+                          scrollbarWidth: "thin",
+                          overflowX: "hidden",
                           maxHeight: "385px"}}>
             {(add.href && add.Item) ? 
               <DropdownItem
