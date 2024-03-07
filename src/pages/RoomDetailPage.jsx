@@ -40,6 +40,9 @@ export default function RoomDetailPage() {
           setRoomNumber(response.data.roomNumber);
           setCapacity(response.data.capacity);
           setRoomType([response.data.roomType]);
+          console.log("-------------------------------------> RoomType: ", [
+            response.data.roomType,
+          ]);
         })
         .catch((error) => {
           console.error("Error fetching room:", error);
