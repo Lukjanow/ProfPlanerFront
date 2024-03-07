@@ -1,6 +1,7 @@
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Tabs, Tab, Card, CardBody} from "@nextui-org/react";
+import {DropDown2} from "./DropDown2";
 
 export function TimeTableFilter() {
   return (
@@ -13,7 +14,7 @@ export function TimeTableFilter() {
           radius="sm">
             <CardBody
             className="bg-[#EEEEEE]">
-            Hier ist der Filter für Studiengänge!
+            <DropDown2></DropDown2>
             </CardBody>
           </Card>  
         </Tab>
