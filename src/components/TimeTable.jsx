@@ -1,5 +1,5 @@
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { ModuleItem } from "./ModuleItem";
 import { ModuleBar } from "./ModuleBar";
 import { ConflictDisplay } from "./ConflictDisplay";
@@ -253,6 +253,17 @@ export function TimeTable({moduleItemListPara}) {
     console.log("FILTER")
     setEvents(filterForEvents())
   }
+
+  function initConflicts(){
+    const module_list = filterForConflict()
+    for(const module of module_list){
+      setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
+    }
+  }
+
+  useEffect(() => {
+    initConflicts()
+  });
 
   return (
     <>
