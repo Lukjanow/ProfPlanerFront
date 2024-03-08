@@ -12,6 +12,7 @@ import { ModuleInfo } from './ModuleInfo';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment/dist/moment';
 import 'moment/dist/locale/de';
+import {Tooltip} from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import {checkModuleWarnings, deleteConflictsWithCurrentModule} from "../conflicts/conflicts";
 
@@ -140,22 +141,40 @@ export function TimeTable({moduleItemList}) {
     setOutsideEvents(prevEvents => [...prevEvents, modalEvent])
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, modalEvent))
   };
+
+  const eventContent = (event) => {
+    return (
+      <div className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
+        <p className="font-semibold">{event.name}</p>
+        {setTime(event.start, event.duration)}
+        <div className="flex">
+          <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-graduation-cap" /></span><span>{event.study_semester_string}</span>
+        </div>
+        <div className="flex">
+          <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-user" /></span><span>{event.dozent_string}</span>
+        </div>
+        <div className="flex">
+          <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-location-dot" /></span><span>{event.room_string}</span>
+        </div>
+      </div>
+    )
+  }
+
   const customEvent = ({ event }) => {
     return (
-          <div id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
+      <Tooltip
+          key={event._id}
+          placement={"right"}
+          content={eventContent(event)}
+          closeDelay = {0}
+          color="foreground"
+          isDisabled={moveEvent !== null ? true : false}
+        >
+          <div id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)}>
             <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
-            <p className="font-semibold">{event.name}</p>
-            {setTime(event.start, event.duration)}
-            <div className="flex">
-              <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-graduation-cap" /></span><span>{event.study_semester_string}</span>
-            </div>
-            <div className="flex">
-              <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-user" /></span><span>{event.dozent_string}</span>
-            </div>
-            <div className="flex">
-              <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-location-dot" /></span><span>{event.room_string}</span>
-            </div>
+            {eventContent(event)}
         </div>
+      </Tooltip>
     )
   }
 
