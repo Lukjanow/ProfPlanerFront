@@ -39,6 +39,7 @@ export function LangSwitcher() {
             <Badge
                 content={lang}
                 size={"sm"}
+                showOutline={false}
             >
                 <Tooltip content={t("languageSwitch")}>
                     <Button
