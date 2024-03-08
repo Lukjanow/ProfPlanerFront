@@ -10,6 +10,7 @@ import EditModulesPage from "../pages/EditModulesPage.jsx";
 import ApiDebugPage from "../pages/ApiDebugPage.jsx";
 import RoomDetailPage from "../pages/RoomDetailPage.jsx";
 import DozentDetailPage from "../pages/DozentDetailPage.jsx";
+import Testpage from "../pages/Testpage.jsx";
 
 const router = createBrowserRouter([
   {
@@ -75,6 +76,11 @@ const router = createBrowserRouter([
       {
         path: "room-details/:roomId",
         element: <RoomDetailPage />,
+        errorElement: <ErrorPage />,
+      },
+      {
+        path: "test",
+        element: <Testpage />,
         errorElement: <ErrorPage />,
       },
     ],
