@@ -9,6 +9,7 @@ import {
   TableCell,
   Tooltip,
   Input,
+  Link,
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -197,12 +198,21 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
               <TableCell>
                 <div className="relative flex items-center gap-2">
                   <Tooltip content="Edit">
+                    {/*
+                    <Link to={`${path}/${item._id}`}>
+                      <FontAwesomeIcon icon={"pen"} />
+                    </Link>
+                    */}
+
                     <span
                       className="text-lg text-default-400 cursor-pointer active:opacity-50"
                       onClick={() => {
-                        navigate(`${path}/${item._id}`);
+                        const navigatePath = `/basicdata${path}/${item._id}`;
+                        console.log("-----> Path: ", path);
+                        navigate(navigatePath);
                       }}
                     >
+                      {" "}
                       <FontAwesomeIcon icon={"pen"} />
                     </span>
                   </Tooltip>
