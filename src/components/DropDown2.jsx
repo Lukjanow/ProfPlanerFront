@@ -5,7 +5,7 @@ import {filterDozent, filterRoom, filterStudySemester} from "../filter/filter"
 
 
 // uses Dummy data from Data3.js, pls change!!!
-export function DropDown2({module_list, category}) {
+export function DropDown2({module_list, category, filterAction, dropDownData, cLabel, cPlaceholder}) {
   
   const updateModules = (id) => {
     switch (category) {
@@ -22,18 +22,20 @@ export function DropDown2({module_list, category}) {
         console.log("incorrect category")
         break;
     }
+    //trigger set events in timetable
+    filterAction()
   }
 
   return (
     <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
       <Autocomplete
-        label="Favorite Animal"
-        placeholder="Search an animal"
+        label={cLabel}
+        placeholder={cPlaceholder}
         className="max-w-xs"
-        defaultItems={animals}
+        defaultItems={dropDownData}
         onSelectionChange={updateModules}
       >
-        {(item) => <AutocompleteItem key={item.label}>{item.label}</AutocompleteItem>}
+        {(item) => <AutocompleteItem key={item.dropdown_string}>{item.dropdown_string}</AutocompleteItem>}
       </Autocomplete>
     </div>
   );

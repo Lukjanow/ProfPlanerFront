@@ -10,6 +10,15 @@ async function getAllRooms() {
   });
 }
 
+async function getAllTrueRooms() {
+  return api.get(`/room`).then((resObj) => {
+    return {
+      data: resObj.data,
+      status: resObj.status,
+    };
+  });
+}
+
 async function getRoomById(id) {
   return api.get(`/room/${id}`).then((resObj) => {
     return {
@@ -56,4 +65,4 @@ async function deleteRoom(id) {
   });
 }
 
-export { getAllRooms, getRoomById, addRoom, updateRoom, deleteRoom };
+export { getAllRooms, getAllTrueRooms, getRoomById, addRoom, updateRoom, deleteRoom };

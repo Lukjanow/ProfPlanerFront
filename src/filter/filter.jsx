@@ -1,3 +1,5 @@
+
+
 function filterDozent(dropdownInput, module_list){
     for (const module of module_list) {
         var visible = false
@@ -15,7 +17,7 @@ function filterRoom(dropdownInput, module_list){
     for (const module of module_list) {
         var visible = false
         for(const room of module.room){
-            const room_name = String(room.roomNumber)
+            const room_name = String(room.name)
             if (room_name == dropdownInput) {
                 visible = true
                 break;

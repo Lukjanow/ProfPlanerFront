@@ -26,6 +26,7 @@ export function TimeTable({moduleItemListPara}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [modalEvent, setModalEvent] = useState('');
 
+  console.log("SuperModule List:", moduleItemListPara)
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
     const [moduleItemList, setmoduleItemList] = useState(moduleItemListPara);
     const [events, setEvents] = useState(filterForEvents());
@@ -229,12 +230,16 @@ export function TimeTable({moduleItemListPara}) {
     div.classList.add("bg-white")
   }
 
+  const filterAction = () => {
+    setEvents(filterForEvents())
+  }
+
   return (
     <>
       <div className="flex">
         <div>
           <PageTitle text="Lehrplanung"/>
-          <TimeTableFilter module_list={moduleItemList}></TimeTableFilter>
+          <TimeTableFilter module_list={moduleItemList} filterAction={filterAction}></TimeTableFilter>
           <div>
             <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4 bg-white" onMouseUp={handleMouseUp}>
               <DnDCalendar
