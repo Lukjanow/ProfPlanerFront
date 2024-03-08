@@ -29,7 +29,7 @@ export default function Exercise({
     const validateForm = () => {
         let errors = {};
 
-        console.log("Validating")
+        console.log(index)
 
         if (data.dozent == []) {
             errors.dozent = true;
@@ -61,11 +61,12 @@ export default function Exercise({
     <div style={{borderBottom: "solid 2px black", padding: "0 1rem"}}>
         {/* <Switch value={data.addTime} onValueChange={() => onChange(!data.addTime, "addTime", index)}>Add Time to Group</Switch>
         <p className="text-small text-default-500">If selected, the Duration plus Pause given here will be added to the Module Group Duration. Otherwise no extra Time will be added.</p> */}
+        {(index != 0) ?
         <div className="flex gap-5 justify-between items-center" style={{alignText: "center", width: "50%"}}>
             <div style={{right: "0", position: "relative"}}>
                 <OutlinedButton text={`${t("delete")}`} onClick={() => onDelete(index)} color="danger"/>
             </div>
-        </div>
+        </div>: null}
         <div className="flex gap-5" style={{marginTop: "25px"}}>
             <Input
                 isRequired

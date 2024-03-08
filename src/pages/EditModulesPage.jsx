@@ -38,7 +38,18 @@ export default function EditModulesPage(
     const [QSP, setQSP] = React.useState("")
     const [studyCourse, setStudyCourse] = React.useState([])
 
-    const [extra, setExtra] = React.useState([])            //Elements regarding Exercise/Training
+    const [extra, setExtra] = React.useState([{
+        type: "",
+        dozent: [],
+        assistents: [],
+        room: "",
+        duration: "",
+        pause: "",
+        group: "",
+        need: [],
+        addTime: false,
+        error: false
+    }])            //Elements regarding Exercise/Training
 
     const [room, setRooms] = useState([])     //rooms to display
     const [teachers, setTeachers] = useState([])     //teachers to display
