@@ -231,6 +231,7 @@ export function TimeTable({moduleItemListPara}) {
   }
 
   const filterAction = () => {
+    console.log("FILTER")
     setEvents(filterForEvents())
   }
 

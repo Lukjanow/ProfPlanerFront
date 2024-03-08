@@ -15,7 +15,7 @@ export function TimeTableFilter({module_list, filterAction}) {
   const [studySemesterData, setStudySemesterData] = useState([]);
   // const [calendarEntries, setcalendarEntries] = useState([]);
 
-  const filterOff = (module_list) => {
+  function filterOff(module_list) {
       for(const module of module_list){
           module.visible = true
       }
@@ -75,7 +75,7 @@ export function TimeTableFilter({module_list, filterAction}) {
             <CardBody
             className="bg-[#EEEEEE]">
             <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={studySemesterData} category="study_semester" cLabel="Fachsemester" cPlaceholder="Suche nach Fachsemester"/>
-            <FilledButton text="Reset" onClick={filterOff(module_list)}/>
+            {/* <FilledButton text="Reset"/> */}
             </CardBody>
           </Card>  
         </Tab>
