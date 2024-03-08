@@ -78,5 +78,6 @@
   "actions": "Aktionen",
   "searchByRoom": "Suche nach Raumnummer",
   "searchByDozent": "Suche nach dem Nachnamen des Dozeten",
-  "searchByModule": "Suche nach dem Modulnamen"
+  "searchByModule": "Suche nach dem Modulnamen",
+  "type": "Art der Veranstaltung"
 }

@@ -88,7 +88,7 @@ export default function Exercise({
                 }
             />
             <DropDown Items={teachers} description={`${t("lecturer")}`} selectionMode="multiple"
-                        add={{href: "/dozent-details",
+                        add={{href: "/basicdata/dozent-details",
                         Item: "Lehrende"}}
                         onChange={teachersDropdownhelper}
                         value={data.dozent}
@@ -97,7 +97,7 @@ export default function Exercise({
                         >
                     </DropDown>
             <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
-                                add={{href: "/room-details",
+                                add={{href: "/basicdata/room-details",
                                 Item: "Raum"}}
                                 onChange={roomDropdownhelper}
                                 values={data.room}

@@ -77,12 +77,12 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: "modules-details",
+        path: "module-details",
         element: <EditModulesPage />,
         errorElement: <ErrorPage />,
       },
       {
-        path: "modules-details/:moduleId",
+        path: "module-details/:moduleId",
         element: <EditModulesPage />,
         errorElement: <ErrorPage />,
       },
