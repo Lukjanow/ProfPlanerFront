@@ -213,7 +213,6 @@ export function TimeTable({moduleItemListPara}) {
           isDisabled={moveEvent !== null ? true : false}
         >
           <div id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)}>
-            <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
             {eventContent(event)}
         </div>
       </Tooltip>
@@ -272,6 +271,7 @@ export function TimeTable({moduleItemListPara}) {
           <PageTitle text="Lehrplanung"/>
           <TimeTableFilter module_list={moduleItemList} filterAction={filterAction}></TimeTableFilter>
           <div>
+            <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
             <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4 bg-white" onMouseUp={handleMouseUp}>
               <DnDCalendar
                   className="w-[78vw] select-none"
