@@ -89,6 +89,7 @@ export function TimeTable({moduleItemListPara}) {
               setEvents(filterForEvents())
               setDraggedEvent(null)
               setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, newEvent))
+              console.log("EVENTS: ", events)
               // console.log("conflict_list")
               // console.log(conflict_list)
           }
