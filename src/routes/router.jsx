@@ -1,4 +1,4 @@
-import { createBrowserRouter } from "react-router-dom";
+import { Outlet, createBrowserRouter } from "react-router-dom";
 import Root from "./root.jsx";
 import ErrorPage from "../pages/ErrorPage.jsx";
 import TimetablePage from "../pages/TimetablePage.jsx";
@@ -12,6 +12,8 @@ import RoomDetailPage from "../pages/RoomDetailPage.jsx";
 import DozentDetailPage from "../pages/DozentDetailPage.jsx";
 import Testpage from "../pages/Testpage.jsx";
 
+
+// TODO: make for example /dozent-details, /room-details a child from /basicdata
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,14 +26,40 @@ const router = createBrowserRouter([
         errorElement: <ErrorPage />,
       },
       {
-        path: "basicdata",
-        element: <BasicDataPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
         path: "conflicts",
         element: <ConflictsPage />,
         errorElement: <ErrorPage />,
+      },
+      {
+        path: "basicdata",
+        element: <Outlet />,
+        errorElement: <ErrorPage />,
+        children: [
+          {
+            index: true,
+            element: <BasicDataPage />
+          },
+          {
+            path: "dozent-details",
+            element: <DozentDetailPage />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "dozent-details/:dozentId",
+            element: <DozentDetailPage />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "room-details",
+            element: <RoomDetailPage />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "room-details/:roomId",
+            element: <RoomDetailPage />,
+            errorElement: <ErrorPage />,
+          },
+        ]
       },
       {
         path: "settings",
@@ -56,26 +84,6 @@ const router = createBrowserRouter([
       {
         path: "modules-details/:moduleId",
         element: <EditModulesPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "dozent-details",
-        element: <DozentDetailPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "dozent-details/:dozentId",
-        element: <DozentDetailPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "room-details",
-        element: <RoomDetailPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "room-details/:roomId",
-        element: <RoomDetailPage />,
         errorElement: <ErrorPage />,
       },
       {

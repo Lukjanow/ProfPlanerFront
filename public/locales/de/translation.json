@@ -73,6 +73,10 @@
   "roomType": "Raum Typ",
   "roomNumber": "Raumnummer",
   "deleteRoomInfo": "Wenn du diesen Raum löschst, werden alle Zuweisungen zu den Modulen verloren gehen!",
+  "deleteModuleInfo": "Wenn du dieses Modul löscht, werden alle Zuweisungen verloren gehen!",
   "room": "Raum",
-  "type": "Art der Veranstaltung"
+  "actions": "Aktionen",
+  "searchByRoom": "Suche nach Raumnummer",
+  "searchByDozent": "Suche nach dem Nachnamen des Dozeten",
+  "searchByModule": "Suche nach dem Modulnamen"
 }

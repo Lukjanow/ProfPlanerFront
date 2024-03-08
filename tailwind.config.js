@@ -32,7 +32,8 @@ export default {
               900: "#FFB641",
               DEFAULT: "#FFB641",
               foreground: "#FFB641",
-            }
+            },
+            activeButton: "#D3D3D3"
           },
         },
         dark: {
@@ -48,7 +49,8 @@ export default {
               900: "#FFB641",
               DEFAULT: "#FFB641",
               foreground: "#FFB641",
-            }
+            },
+            activeButton: "#3D3D3D"
           },
         },
       },

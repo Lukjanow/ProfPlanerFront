@@ -13,7 +13,7 @@ export default function DeleteModal(props) {
 
     return (
         <>
-            <Modal backdrop="blur" isOpen={isOpen} onClose={onClose} hideCloseButton={true}>
+            <Modal isDismissable={false} backdrop="blur" isOpen={isOpen} onClose={onClose} hideCloseButton={true}>
                 <ModalContent>
                     {(onClose) => (
                         <>
