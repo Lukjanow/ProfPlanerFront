@@ -68,7 +68,7 @@ export default function BasicDataPage() {
       showDeleteButton={false}
       showCancelButton={false}
       primaryButtonTitle={itemKeyToText[selectedItem]}
-      onClickPrimary={() => navigate(path)}
+      onClickPrimary={() => navigate(`/basicdata${path}`)}
       row={true}
     >
       <BasicDataMenu
