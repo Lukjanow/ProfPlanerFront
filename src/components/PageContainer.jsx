@@ -61,7 +61,7 @@ export default function PageContainer({
         {children}
       </div>
       <div className="fixed bottom-5 right-5">
-        <Button isIconOnly color="primary" className="rounded">
+        <Button isIconOnly color="primary" className="rounded" size="lg">
           <FontAwesomeIcon icon={"message"} />
         </Button>
       </div>
