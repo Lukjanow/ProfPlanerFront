@@ -167,6 +167,11 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
             return;
         }
     })
+    if (filteredItems.length == 0) {
+      setFilteredItems([])
+      setIsFiltered(true)
+      setLength(0)
+    }
   }
 
   //handle Key pressed in input
