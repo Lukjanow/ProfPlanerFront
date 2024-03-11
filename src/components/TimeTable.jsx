@@ -15,7 +15,7 @@ import 'moment/dist/locale/de';
 import {Tooltip} from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import {checkModuleWarnings, deleteConflictsWithCurrentModule} from "../conflicts/conflicts";
-import { updateCalendarEntry } from "../services/calendarService";
+import { updateCalendarEntry, addCalendarEntryForCalendar, deleteCalendarEntry } from "../services/calendarService";
 
 export function TimeTable({moduleItemListPara}) {  
   const { i18n } = useTranslation();
@@ -48,11 +48,17 @@ export function TimeTable({moduleItemListPara}) {
       updateCalendarEntry(module.calendar_entry_id, {moduleId:module._id, timeStampModel: getTimeStamp(module.start), comment: null})
     }
 
-    // function addModuleCalendarEntry(module) {
-    //   console.log("HUHU:", module)
-    //   updateCalendarEntry(module.calendar_entry_id, {moduleId:module._id, timeStampModel: getTimeStamp(module.start), comment: null})
-    // }
+    async function addModuleCalendarEntry(module) {
+      console.log("HUHU:", module)
+      const data = await addCalendarEntryForCalendar("65d61765c15324dcfc497c4f", {module:module._id, time_stamp: getTimeStamp(module.start), comment: null})
+      console.log("DATENDATENDATEN:", data.data._id)
+      module.calendar_entry_id = data.data._id
+    }
 
+    function deleteModuleCalendarEntry(module) {
+      console.log("DELELELETE:", module)
+      deleteCalendarEntry(module.calendar_entry_id)
+    }
 
 
 
@@ -110,7 +116,7 @@ export function TimeTable({moduleItemListPara}) {
                   isPlaced: true
               };
               updateModule(newEvent)
-              //TODO: CalendarEntry hinzufügen
+              addModuleCalendarEntry(newEvent)
               setEvents(filterForEvents())
               setDraggedEvent(null)
               setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, newEvent))
@@ -204,7 +210,7 @@ export function TimeTable({moduleItemListPara}) {
   const handleClickRemoveEvent = () => {
     moduleSetOutside(modalEvent)
     setEvents(filterForEvents())
-    //TODO: CalendarEntry löschen
+    deleteModuleCalendarEntry(modalEvent)
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, modalEvent))
   };
 
@@ -252,7 +258,7 @@ export function TimeTable({moduleItemListPara}) {
     } 
     moduleSetOutside(moveEvent)
     setEvents(filterForEvents())
-    //TODO: CalendarEntry löschen
+    deleteModuleCalendarEntry(moveEvent)
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
     var div = document.getElementById("removeBorder")
     div.classList.remove("bg-red-600")
