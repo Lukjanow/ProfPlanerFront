@@ -49,14 +49,11 @@ export function TimeTable({moduleItemListPara}) {
     }
 
     async function addModuleCalendarEntry(module) {
-      console.log("HUHU:", module)
       const data = await addCalendarEntryForCalendar("65d61765c15324dcfc497c4f", {module:module._id, time_stamp: getTimeStamp(module.start), comment: null})
-      console.log("DATENDATENDATEN:", data.data._id)
       module.calendar_entry_id = data.data._id
     }
 
     function deleteModuleCalendarEntry(module) {
-      console.log("DELELELETE:", module)
       deleteCalendarEntry(module.calendar_entry_id)
     }
 
