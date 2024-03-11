@@ -4,7 +4,8 @@ import api from "./api.js";
 async function getAllRooms() {
   return api.get(`/room`).then((resObj) => {
     return {
-      data: resObj.data.map((item) => new RoomModel().setJsonObj(item)),
+      data: resObj.data,
+      // data: resObj.data.map((item) => new RoomModel().setJsonObj(item)),
       status: resObj.status,
     };
   });

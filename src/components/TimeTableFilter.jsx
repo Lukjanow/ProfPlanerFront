@@ -41,7 +41,7 @@ export function TimeTableFilter({module_list, filterAction}) {
         console.log("Rooms",room_result)
         var room_list = []
         for (const [key, value] of Object.entries(room_result.data)) {
-          const room_string = String(value.name)
+          const room_string = String(value.roomNumber)
           value["dropdown_string"] = room_string
           room_list.push(value)
         }
