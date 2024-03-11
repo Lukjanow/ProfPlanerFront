@@ -63,8 +63,8 @@ export default function PageContainer({
       <div className={`flex gap-5 ${row ? "flex-row" : "flex-col"}`}>
         {children}
       </div>
-      {showNotes && <NotesContainer />}
       <div className="fixed bottom-5 right-5">
+        {showNotes && <NotesContainer />}
         <Button
           isIconOnly
           color="primary"
