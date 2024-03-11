@@ -9,11 +9,7 @@ export function ExportCalendarButton() {
 
         const calendar = document.querySelector('.rbc-calendar');
         const calendarCopy = calendar.cloneNode(true);
-
-        const calendarElements = calendarCopy.querySelectorAll(".rbc-day-slot.rbc-time-column, .rbc-time-gutter.rbc-time-column");
-        calendarElements.forEach(element => {
-            element.style.height = "2000px";
-        });
+        calendarCopy.style.height = "2000px";
 
         const contentElements = calendarCopy.querySelectorAll(".rbc-time-content");
         contentElements.forEach(element => {
