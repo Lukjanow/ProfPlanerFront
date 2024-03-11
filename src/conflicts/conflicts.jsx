@@ -155,7 +155,6 @@ function checkModuleWarnings(module_list, conflict_list, module){
         updateDictionary(room_dict, currentModule, module, 'room');
         updateDictionary(study_semester_dict, currentModule, module, 'study_semester');
     }
-    console.log("DOZENT_DICT: ", dozent_dict)
 
 
     //DELETE ALL CONFLICTS WITH THE CURRENT MODULE
@@ -245,9 +244,9 @@ function checkModuleWarnings(module_list, conflict_list, module){
     }
 
     //4 KONFLIKTE IN DER KONSOLE AUSGEBEN
-    for (let i = 0; i < conflict_list.length; i++) {
-        conflict_list[i].printError()
-    }
+    // for (let i = 0; i < conflict_list.length; i++) {
+    //     conflict_list[i].printError()
+    // }
     return conflict_list
 }
 
