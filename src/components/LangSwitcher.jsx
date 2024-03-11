@@ -40,6 +40,7 @@ export function LangSwitcher() {
                 content={lang}
                 size={"sm"}
                 showOutline={false}
+                color={"primary"}
             >
                 <Tooltip content={t("languageSwitch")}>
                     <Button
