@@ -1,4 +1,4 @@
-export class RoomModel {
+export class NoteModel {
     constructor(text) {
       this.text = text;
     }

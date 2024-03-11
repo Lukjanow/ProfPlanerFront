@@ -1,22 +1,19 @@
 import React, { useState, useEffect } from "react";
 import { Input } from "@nextui-org/react";
+import { getAllNotes, addNote } from "../services/noteService";
 
 const NotesContainer = () => {
   const [todos, setTodos] = useState([]); // Zustand für die To-Do-Liste
   const [newTodo, setNewTodo] = useState(""); // Zustand für das neue To-Do
 
-  // Funktion zum Abrufen von To-Dos (in diesem Beispiel werden Fake-Daten verwendet)
-  const fetchTodos = () => {
-    // Hier können Sie die Logik zum Abrufen von To-Dos implementieren
-    // Zum Beispiel: fetchTodosFromServer() oder ähnliches
-    // Für dieses Beispiel verwenden wir statische Fake-Daten
-    const fakeTodos = [
-      "To-Do 1",
-      "To-Do 2",
-      "To-Do 3",
-
-    ];
-    setTodos(fakeTodos);
+  // Funktion zum Abrufen von To-Dos
+  const fetchTodos = async () => {
+    try {
+      const response = await getAllNotes(); // Alle Notizen vom Backend abrufen
+      setTodos(response.data); // Notizen im Zustand speichern
+    } catch (error) {
+      console.error("Error fetching todos:", error);
+    }
   };
 
   // Effekt, um die To-Dos beim Laden der Komponente abzurufen
@@ -25,10 +22,15 @@ const NotesContainer = () => {
   }, []);
 
   // Funktion zum Hinzufügen eines neuen To-Dos
-  const addTodo = () => {
+  const addTodo = async () => {
     if (newTodo.trim() !== "") {
-      setTodos([...todos, newTodo]);
-      setNewTodo(""); // Das Eingabefeld zurücksetzen
+      try {
+        const response = await addNote({ text: newTodo }); // Neue Notiz zum Backend hinzufügen
+        setNewTodo(""); // Das Eingabefeld zurücksetzen
+        fetchTodos(); // Aktualisierte Notizen abrufen
+      } catch (error) {
+        console.error("Error adding todo:", error);
+      }
     }
   };
 
@@ -36,7 +38,6 @@ const NotesContainer = () => {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       addTodo();
-      console.log("You Pressed Enter, hier is your ToDoList: ", todos);
     }
   };
 
@@ -45,8 +46,8 @@ const NotesContainer = () => {
       <div className="bg-danger h-[40px]"></div>
 
       <div className="bg-warning flex-1 overflow-scroll">
-        {todos.map((todo, index) => (
-          <li key={index}>{todo}</li>
+        {todos.map((todo) => (
+          <li key={todo._id}>{todo.text}</li>
         ))}
       </div>
 

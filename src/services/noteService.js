@@ -3,6 +3,7 @@ import api from "./api.js";
 
 async function getAllNotes() {
   return api.get("/notes").then((resObj) => {
+    console.log("Response from getAllNotes:", resObj.data);
     return {
       data: resObj.data.map((item) => new NoteModel().setJsonObj(item)),
       status: resObj.status,
