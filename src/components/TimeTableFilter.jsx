@@ -48,6 +48,7 @@ export function TimeTableFilter({module_list, filterAction}) {
 
         //studySemester
         const studySemester_result = await getAllStudySemesters();
+        console.log("RESULT",studySemester_result.data)
         var studySemester_list = []
         for (const [key, value] of Object.entries(studySemester_result.data)) {
           const studySemester_string = String(value.name)
@@ -55,6 +56,21 @@ export function TimeTableFilter({module_list, filterAction}) {
           studySemester_list.push(value)
         }
         setStudySemesterData(studySemester_list);
+
+
+        // function getEveryStudySemesterString(studySemesters, seperator=" ") {
+        //   var string_list = []
+        //   for (const studySemester of studySemesters) {
+        //     for (const semester of studySemester.semesterNumbers) {
+        //       string_list.push(String(studySemester.studyCourse.name) + seperator + "Semester " + String(semester))
+        //     }
+        //     for (const content of studySemester.content) {
+        //       string_list.push(String(studySemester.studyCourse.name) + seperator + String(content))
+        //     }
+        //     return string_list
+        //   }
+        // }
+
       } catch(error) {
         console.log("Error: ", error);
       }

@@ -6,7 +6,8 @@ async function getAllStudySemesters() {
         .get(`/studysemester`)
         .then(resObj => {
             return {
-                data: resObj.data.map(item => new StudySemesterModel().setJsonObj(item)),
+                data: resObj.data,
+                // data: resObj.data.map(item => new StudySemesterModel().setJsonObj(item)),
                 status: resObj.status
             }
         });
