@@ -59,6 +59,16 @@ const router = createBrowserRouter([
             element: <RoomDetailPage />,
             errorElement: <ErrorPage />,
           },
+          {
+            path: "module-details",
+            element: <EditModulesPage />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "module-details/:moduleId",
+            element: <EditModulesPage />,
+            errorElement: <ErrorPage />,
+          },
         ]
       },
       {
@@ -74,16 +84,6 @@ const router = createBrowserRouter([
       {
         path: "component",
         element: <ComponentPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "module-details",
-        element: <EditModulesPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "module-details/:moduleId",
-        element: <EditModulesPage />,
         errorElement: <ErrorPage />,
       },
       {
