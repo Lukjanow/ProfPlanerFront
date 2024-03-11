@@ -48,6 +48,7 @@ export function TimeTableFilter({module_list, filterAction}) {
 
         //studySemester
         const studySemester_result = await getAllStudySemesters();
+        console.log("RESULT",studySemester_result.data)
         var studySemester_list = []
         for (const [key, value] of Object.entries(studySemester_result.data)) {
           const studySemester_string = String(value.name)
