@@ -4,7 +4,7 @@ import { Tabs, Tab, Card, CardBody} from "@nextui-org/react";
 import {DropDown2} from "./DropDown2";
 import { useState, useEffect } from "react";
 import { getAllDozents } from "../services/dozentService";
-import { getAllTrueRooms } from "../services/roomService";
+import { getAllRooms } from "../services/roomService";
 import { getAllStudySemesters } from "../services/studySemesterService";
 import { FilledButton } from "./FilledButton";
 
@@ -37,7 +37,7 @@ export function TimeTableFilter({module_list, filterAction}) {
         setDozentData(dozent_list);
 
         //room
-        const room_result = await getAllTrueRooms();
+        const room_result = await getAllRooms();
         var room_list = []
         for (const [key, value] of Object.entries(room_result.data)) {
           const room_string = String(value.roomNumber)
