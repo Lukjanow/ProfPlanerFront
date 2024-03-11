@@ -36,6 +36,9 @@ export default {
               800: "#14247B",
               900: "#0C1866",
             },
+            secondary: {
+              DEFAULT: "#E34234",
+            },
             success: {
               DEFAULT: "#17D15B",
               foreground: "#FFFFFF",
