@@ -230,12 +230,30 @@ export function TimeTable({moduleItemListPara}) {
     )
   }
 
+  const hoverEventContent = (event) => {
+    return (
+      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
+        <p className="font-semibold">{event.name}</p>
+        {setTime(event.start, event.duration)}
+        <div className="flex">
+          <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-graduation-cap" /></span><span>{event.hover_study_semester_string}</span>
+        </div>
+        <div className="flex">
+          <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-user" /></span><span>{event.hover_dozent_string}</span>
+        </div>
+        <div className="flex">
+          <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-location-dot" /></span><span>{event.hover_room_string}</span>
+        </div>
+      </div>
+    )
+  }
+
   const customEvent = ({ event }) => {
     return (
       <Tooltip
           key={event._id}
           placement={"right"}
-          content={eventContent(event)}
+          content={hoverEventContent(event)}
           closeDelay = {0}
           color="foreground"
           isDisabled={moveEvent !== null ? true : false}
