@@ -62,7 +62,7 @@ function getConflictName(module, id, category=""){
         case "room":
             for (const room of module.room) {
                 if(room._id == id){
-                    return String(room.name)
+                    return String(room.roomNumber)
                 }
             }
             break;
@@ -80,7 +80,7 @@ function getConflictName(module, id, category=""){
             }
             for (const room of module.room) {
                 if(room._id == id){
-                    return String(room.name)
+                    return String(room.roomNumber)
                 }
             }
             for (const study_semester of module.study_semester) {

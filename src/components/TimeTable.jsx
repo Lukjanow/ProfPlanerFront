@@ -1,5 +1,5 @@
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { ModuleItem } from "./ModuleItem";
 import { ModuleBar } from "./ModuleBar";
 import { ConflictDisplay } from "./ConflictDisplay";
@@ -16,8 +16,7 @@ import {Tooltip} from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import {checkModuleWarnings, deleteConflictsWithCurrentModule} from "../conflicts/conflicts";
 
-export function TimeTable({moduleItemList}) {
-  
+export function TimeTable({moduleItemListPara}) {  
   const { i18n } = useTranslation();
 
   moment.locale(i18n.language === "en" ? "en" : "de")
@@ -28,11 +27,53 @@ export function TimeTable({moduleItemList}) {
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
   const [modalEvent, setModalEvent] = useState('');
 
+  console.log("SuperModule List:", moduleItemListPara)
     // State für Termine und außerhalb des Kalenders gezogene Ereignisse
-    const [events, setEvents] = useState([]);
+    const [moduleItemList, setmoduleItemList] = useState(moduleItemListPara);
+    const [events, setEvents] = useState(filterForEvents());
     const [conflict_list, setConflicts] = useState([]);
-    const [outsideEvents, setOutsideEvents] = useState(moduleItemList);
     const [draggedEvent, setDraggedEvent] = useState(null);
+
+
+    function filterForEvents() {
+      if(moduleItemList === undefined){
+        return []
+      }
+      return moduleItemList.filter(e => e.isPlaced === true && e.visible === true)
+    }
+
+    function filterForOutside() {
+      if(moduleItemList === undefined){
+        return []
+      }
+      return moduleItemList.filter(e => e.isPlaced === false && e.visible === true)
+    }
+
+    function filterForConflict() {
+      return moduleItemList.filter(e => e.isPlaced === true)
+    }
+
+    function updateModule(event){
+      const newList = []
+      for (let i = 0; i < moduleItemList.length; i++) {
+        if(moduleItemList[i]._id === event._id){
+          moduleItemList[i] = event
+        }
+        newList.push(moduleItemList[i])
+      }
+      setmoduleItemList(newList)
+    }
+
+    function moduleSetOutside(event){
+      const newList = []
+      for (let i = 0; i < moduleItemList.length; i++) {
+        if(moduleItemList[i]._id === event._id){
+          moduleItemList[i].isPlaced = false
+        }
+        newList.push(moduleItemList[i])
+      }
+      setmoduleItemList(newList)
+    }
 
     // Callback für das Ablegen von außerhalb des Kalenders gezogenen Ereignissen
     const onDropFromOutside = useCallback(
@@ -44,14 +85,13 @@ export function TimeTable({moduleItemList}) {
                   start,
                   end: moment(start).add(draggedEvent.duration, 'minutes'),
                   _id: draggedEvent._id,
-                  hideTime: false
+                  isPlaced: true
               };
-              setEvents(prevEvents => prevEvents.filter(event => event._id !== draggedEvent._id))
-              setEvents(prevEvents => [...prevEvents, newEvent]);
-              setOutsideEvents(prevEvents => prevEvents.filter(event => event._id !== draggedEvent._id))
+              updateModule(newEvent)
+              setEvents(filterForEvents())
               setDraggedEvent(null)
-              events.push(newEvent)
-              setConflicts(checkModuleWarnings(events, conflict_list, newEvent))
+              setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, newEvent))
+              console.log("EVENTS: ", events)
               // console.log("conflict_list")
               // console.log(conflict_list)
           }
@@ -81,7 +121,9 @@ export function TimeTable({moduleItemList}) {
             }
             module.start = start
             module.end = end
-            setConflicts(checkModuleWarnings(events, conflict_list, module))
+        
+            updateModule(module)
+            setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
             console.log("conflict_list")
             console.log(conflict_list)
         },
@@ -90,11 +132,11 @@ export function TimeTable({moduleItemList}) {
     const eventStyleGetter = (event) => {
       let newStyle = {};
 
-      newStyle["backgroundColor"] = event.backgroundcolor;
+      newStyle["backgroundColor"] = event.backgroundcolor
       newStyle["borderColor"] = event.bordercolor
       newStyle["color"] = "#000000"
       newStyle["borderInlineStartWidth"] = "8px"
-
+      newStyle["visibility"] = event.visible ? "visible" : "hidden"
 
       return {
         style: newStyle
@@ -136,15 +178,15 @@ export function TimeTable({moduleItemList}) {
   }
 
   const handleClickRemoveEvent = () => {
-    const updatedEvents = events.filter(ev => ev._id !== modalEvent._id);
-    setEvents(updatedEvents);
-    setOutsideEvents(prevEvents => [...prevEvents, modalEvent])
+    moduleSetOutside(modalEvent)
+    setEvents(filterForEvents())
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, modalEvent))
   };
 
+
   const eventContent = (event) => {
     return (
-      <div className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
+      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
         <p className="font-semibold">{event.name}</p>
         {setTime(event.start, event.duration)}
         <div className="flex">
@@ -171,7 +213,6 @@ export function TimeTable({moduleItemList}) {
           isDisabled={moveEvent !== null ? true : false}
         >
           <div id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)}>
-            <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
             {eventContent(event)}
         </div>
       </Tooltip>
@@ -184,14 +225,12 @@ export function TimeTable({moduleItemList}) {
     if(moveEvent == null){
       return
     } 
-    setOutsideEvents(prevEvents => [...prevEvents, moveEvent]); 
-    setEvents(prevEvents => prevEvents.filter(e => e._id !== moveEvent._id))
+    moduleSetOutside(moveEvent)
+    setEvents(filterForEvents())
+    setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
     var div = document.getElementById("removeBorder")
     div.classList.remove("bg-red-600")
     div.classList.add("bg-white")
-    setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
-    console.log("conflict_list")
-    console.log(conflict_list)
   };
 
   const handleDragStart = (event) => {
@@ -208,14 +247,30 @@ export function TimeTable({moduleItemList}) {
     div.classList.remove("bg-red-600")
     div.classList.add("bg-white")
   }
-  
+
+  const filterAction = () => {
+    console.log("FILTER")
+    setEvents(filterForEvents())
+  }
+
+  function initConflicts(){
+    const module_list = filterForConflict()
+    for(const module of module_list){
+      setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
+    }
+  }
+
+  useEffect(() => {
+    initConflicts()
+  });
+
   return (
     <>
       <div className="flex">
         <div>
-          <PageTitle text="Lehrplanung"/>
-          <TimeTableFilter></TimeTableFilter>
+          <TimeTableFilter module_list={moduleItemList} filterAction={filterAction}></TimeTableFilter>
           <div>
+            <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
             <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4 bg-white" onMouseUp={handleMouseUp}>
               <DnDCalendar
                   className="w-[78vw] select-none"
@@ -248,7 +303,7 @@ export function TimeTable({moduleItemList}) {
           </div>
         </div>
         <div>
-          <ModuleBar moduleItemList={outsideEvents.map(event => (
+          <ModuleBar moduleItemList={filterForOutside().map(event => (
               <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent}/>
             ))} />
         </div>
