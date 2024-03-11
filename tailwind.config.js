@@ -24,33 +24,27 @@ export default {
             background: "#F6F6F6",
             foreground: "#444444",
             primary: {
-              900: "#3A405A",
-              DEFAULT: "#3A405A",
+              DEFAULT: "#4162D5",
               foreground: "#FFFFFF",
-            },
-            secondary: {
-              900: "#FFB641",
-              DEFAULT: "#FFB641",
-              foreground: "#FFB641",
             },
             activeButton: "#D3D3D3"
           },
         },
         dark: {
           colors: {
-            background: "#1A1A1A",
-            foreground: "#DADADA",
+            background: "#2A2A2A",
+            foreground: "#EAEAEA",
             primary: {
-              900: "#543210",
-              DEFAULT: "#654321",
-              foreground: "#123456",
+              DEFAULT: "#4162D5",
+              foreground: "#FFFFFF",
             },
-            secondary: {
-              900: "#FFB641",
-              DEFAULT: "#FFB641",
-              foreground: "#FFB641",
-            },
-            activeButton: "#3D3D3D"
+            activeButton: "#3F3F3F",
+            content1: "#373737",
+            default: {
+              100: "#454545",
+              200: "#505050",
+              50: "#FF0000"
+            }
           },
         },
       },

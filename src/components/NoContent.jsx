@@ -12,7 +12,7 @@ const NoContent = () => {
 
   return (
     <>
-      <Card>
+      <Card radius={"sm"}>
         <CardBody className="p-10">
           <FontAwesomeIcon className={"text-7xl"} icon={"circle-xmark"} />
           <div className="flex flex-col items-center justify-center p-5">
