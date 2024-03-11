@@ -4,6 +4,7 @@ import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import moment from 'moment';
+import { useTranslation } from "react-i18next";
 import {ModuleBar} from "../components/ModuleBar"
 import "moment/locale/de";
 import {TimeTableFilter} from "../components/TimeTableFilter";
@@ -12,15 +13,16 @@ import { TimeTable } from "../components/TimeTable";
 import { PageTitle } from "../components/PageTitle";
 import { getAllModules } from "../services/moduleService";
 import { getCalendarEntriesForCalendar } from "../services/calendarService";
-
-moment.locale("de");
-const localizer = momentLocalizer(moment);
+import PageContainer from "../components/PageContainer";
 
 export default function MyCalendar() {
+  moment.locale("de");
+const localizer = momentLocalizer(moment);
+const { t } = useTranslation();
   const [modules, setModules] = useState([]);
   const [calendarEntries, setcalendarEntries] = useState([]);
 
-    const moduleItemDataList = [
+    /* const moduleItemDataList = [
       {
         _id: "65d70a20bd82b03aeac92a56",
         name: "Einführung in die Informatik",
@@ -112,7 +114,7 @@ export default function MyCalendar() {
       bordercolor: "#106875",
       duration: 300,
     },
-    ];
+    ]; */
 
     function getEventStart(time_stamp) {
       var start = moment("2024-01-01T12:00").toDate()
@@ -243,15 +245,21 @@ export default function MyCalendar() {
     }, []);
 
     return (
-        // <div className="flex">
+      <PageContainer
+      title={t("Lehrplanung")}
+      showCancelButton = {false}
+      showPrimaryButton = {false}
+      showDeleteButton = {false}
+    >
+        {// <div className="flex">
         //   <TimeTable moduleItemList={moduleItemDataList}/>
         // </div>
-        <>
+        }
         { modules.length !== 0 && calendarEntries.length !== 0 ?
             <div className="flex">
                 <TimeTable moduleItemListPara={initModules(modules, calendarEntries)}/>
             </div> : <TimeTable moduleItemListPara={[]}/>
         }
-        </>
+        </PageContainer>
     );
 }

@@ -268,7 +268,6 @@ export function TimeTable({moduleItemListPara}) {
     <>
       <div className="flex">
         <div>
-          <PageTitle text="Lehrplanung"/>
           <TimeTableFilter module_list={moduleItemList} filterAction={filterAction}></TimeTableFilter>
           <div>
             <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent}/>
