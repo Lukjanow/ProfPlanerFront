@@ -70,11 +70,15 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   }, [path, t]);
 
   useEffect(() => {
-    if (searchTerm == ""){
+    if (isFiltered == true){
+      setLength(filteredItems.length)
+    }
+    if (searchTerm == "" && isFiltered == true){
       setIsFiltered(false)
       setLength(tableData.length)
+      setFilteredItems([])
     }
-  }, [searchTerm, tableData])
+  }, [searchTerm, tableData, filteredItems, isFiltered])
   
 
   const generateColumns = () => {
@@ -144,34 +148,25 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
           case "/room":
             if (item.roomNumber.toLowerCase().includes(searchTerm.toLowerCase())){
               setFilteredItems(old => [...old, item])
-              setIsFiltered(true)
-              setLength(filteredItems.length)
             }
             break;
           case "/dozent":
             if ((item.prename.toLowerCase() + " " + item.lastname.toLowerCase()).includes(searchTerm.toLowerCase())){
               setFilteredItems(old => [...old, item])
-              setIsFiltered(true)
-              setLength(filteredItems.length)
             }
             break;
           case "/module":
             if (item.name.toLowerCase().includes(searchTerm.toLowerCase())){
               setFilteredItems(old => [...old, item])
-              setIsFiltered(true)
-              setLength(filteredItems.length)
+              
             }
             break;
           default:
             console.error("Unknown element type:", element);
             return;
         }
+        setIsFiltered(true)
     })
-    if (filteredItems.length == 0) {
-      setFilteredItems([])
-      setIsFiltered(true)
-      setLength(0)
-    }
   }
 
   //handle Key pressed in input
