@@ -176,8 +176,8 @@ const { t } = useTranslation();
         for (const content of studySemester.content) {
           string_list.push(String(studySemester.studyCourse.name) + seperator + String(content))
         }
-        return string_list
       }
+      return string_list
     }
 
     function listToString(list) {
