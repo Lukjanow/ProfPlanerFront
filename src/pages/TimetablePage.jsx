@@ -161,6 +161,7 @@ const { t } = useTranslation();
           const eventEnd = getEventEnd(eventStart,moduleCalendarEntry.module.duration)
           list.push({
             _id: module_list[i]._id,
+            calendar_entry_id: moduleCalendarEntry._id,
             name: module_list[i].name,
             type: "Type",
             start: eventStart,
@@ -181,6 +182,7 @@ const { t } = useTranslation();
           //Module selbst erstellen und isPlaced=false
           list.push({
             _id: module_list[i]._id,
+            calendar_entry_id: "",
             name: module_list[i].name,
             type: "Type",
             start: moment("2024-01-01T12:00").toDate(),

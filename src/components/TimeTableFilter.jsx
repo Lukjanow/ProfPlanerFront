@@ -38,7 +38,6 @@ export function TimeTableFilter({module_list, filterAction}) {
 
         //room
         const room_result = await getAllTrueRooms();
-        console.log("Rooms",room_result)
         var room_list = []
         for (const [key, value] of Object.entries(room_result.data)) {
           const room_string = String(value.roomNumber)
@@ -49,7 +48,6 @@ export function TimeTableFilter({module_list, filterAction}) {
 
         //studySemester
         const studySemester_result = await getAllStudySemesters();
-        console.log("studySemesters",studySemester_result)
         var studySemester_list = []
         for (const [key, value] of Object.entries(studySemester_result.data)) {
           const studySemester_string = String(value.name)
