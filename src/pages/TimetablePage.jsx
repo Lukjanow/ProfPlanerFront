@@ -14,6 +14,7 @@ import { PageTitle } from "../components/PageTitle";
 import { getAllModules } from "../services/moduleService";
 import { getCalendarEntriesForCalendar } from "../services/calendarService";
 import PageContainer from "../components/PageContainer";
+import {ExportCalendarButton} from "../components/ExportCalendarButton.jsx";
 
 export default function MyCalendar() {
   moment.locale("de");
@@ -251,6 +252,7 @@ const { t } = useTranslation();
       showPrimaryButton = {false}
       showDeleteButton = {false}
     >
+        <ExportCalendarButton />
         {// <div className="flex">
         //   <TimeTable moduleItemList={moduleItemDataList}/>
         // </div>
