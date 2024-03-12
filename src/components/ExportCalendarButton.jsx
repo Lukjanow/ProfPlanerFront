@@ -1,38 +1,68 @@
 import {Button} from "@nextui-org/react";
 import jsPDF from "jspdf";
 import domtoimage from "dom-to-image";
+import {useState} from "react";
 
 export function ExportCalendarButton() {
+    const [isLoading, setIsLoading] = useState(false);
 
-    function handleExport(fileName) {
-        const calendar = document.querySelector('.rbc-calendar');
-        const calendarCopy = calendar.cloneNode(true);
-        const calendarHeight = calendar.offsetHeight;
-        const calendarWidth = calendar.offsetWidth;
-        calendarCopy.style.height = `${calendarHeight}px`;
+    let timetable = null;
+    let timetableClone = null;
 
-        const hiddenElements = calendarCopy.querySelectorAll(".hidden");
+    function hideDetailSemester() {
+        const detailSemesters = timetableClone.querySelectorAll(".detail-semester");
+        detailSemesters.forEach(element => {
+            element.remove();
+        });
+    }
+
+    function hideDetailDozents() {
+        const detailDozents = timetableClone.querySelectorAll(".detail-dozent");
+        detailDozents.forEach(element => {
+            element.remove();
+        });
+    }
+
+    function hideDetailRooms() {
+        const detailRooms = timetableClone.querySelectorAll(".detail-room");
+        detailRooms.forEach(element => {
+            element.remove();
+        });
+    }
+
+    function showHiddenElements() {
+        const hiddenElements = timetableClone.querySelectorAll(".hidden");
         hiddenElements.forEach(element => {
             element.classList.remove("hidden");
         });
+    }
 
-        const content = calendarCopy.querySelector(".rbc-time-content");
+    function handleExport(fileName) {
+        setIsLoading(true);
+        timetable = document.querySelector('.rbc-calendar');
+        timetableClone = timetable.cloneNode(true);
+        const timetableHeight = timetable.offsetHeight;
+        const timetableWidth = 1340;
+        timetableClone.style.height = `${timetableHeight}px`;
+        timetableClone.style.width = `${timetableWidth}px`;
+
+        showHiddenElements();
+
+
+
+
+        const content = timetableClone.querySelector(".rbc-time-content");
         content.style.overflow = "inherit";
 
-        const parentElement = calendar.parentElement;
-        parentElement.appendChild(calendarCopy);
+        const parentElement = timetable.parentElement;
+        parentElement.appendChild(timetableClone);
 
-        domtoimage.toJpeg(calendarCopy)
+        domtoimage.toJpeg(timetableClone)
             .then(dataUrl => {
                 const pdf = new jsPDF('p', 'mm');
                 const pageWidth = pdf.internal.pageSize.width;
                 const pageHeight = pdf.internal.pageSize.height;
-
-                const img = new Image();
-                img.src = dataUrl;
-                const imgWidth = calendarWidth;
-                const imgHeight = calendarHeight;
-                const aspectRatio = imgWidth / imgHeight;
+                const aspectRatio = timetableWidth / timetableHeight;
 
                 let scaledWidth, scaledHeight;
                 if (aspectRatio > 1) {
@@ -45,17 +75,19 @@ export function ExportCalendarButton() {
 
                 pdf.addImage(dataUrl, 'JPEG', 0, 0, scaledWidth, scaledHeight);
                 pdf.save(`${fileName}.pdf`);
-                parentElement.removeChild(calendarCopy);
+
+                parentElement.removeChild(timetableClone);
+                setIsLoading(false);
 
             })
             .catch(function (error) {
-                console.error('Error exporting calendar:', error);
+                console.error('Error exporting timetable:', error);
             });
     }
 
     return (
         <>
-            <Button onClick={() => handleExport("calendar")}>Export as PDF</Button>
+            <Button isLoading={isLoading} onClick={() => handleExport("timetable")}>Export as PDF</Button>
         </>
     );
 }
