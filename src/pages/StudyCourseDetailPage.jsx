@@ -183,7 +183,6 @@ export default function StudyCourseDetailPage() {
               <Input
                 name={"qualificationFocus"}
                 ref={qualificationFocusInputRef}
-                isRequired
                 isInvalid={errors.qualificationFocus}
                 errorMessage={
                   errors.qualificationFocus ? `${t("qualificationFocus")} ${t("isInvalid")}` : ""
