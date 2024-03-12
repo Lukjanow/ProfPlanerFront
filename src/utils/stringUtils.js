@@ -9,3 +9,7 @@ export function printArrAsStringByKey(array, key) {
 export function printArrAsStringByKeys(array, keys) {
     return array.map(item => keys.map(key => item[key]).join(" ")).join(", ");
 }
+
+export function printValidFileName(string) {
+    return String(string).toLowerCase().replaceAll(" ", "-");
+}

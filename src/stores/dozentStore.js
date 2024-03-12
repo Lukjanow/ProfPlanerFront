@@ -6,6 +6,7 @@ import {
     updateDozent
 } from "../services/dozentService.js";
 
+// TODO: unused, should be removed!
 export const useDozentStore = create(
     (set, get) => ({
         dozentList: [],

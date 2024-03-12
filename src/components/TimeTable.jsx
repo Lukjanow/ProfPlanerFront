@@ -234,7 +234,7 @@ export function TimeTable({moduleItemListPara}) {
 
   const hoverEventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-3 h-full space-y-1">
+      <div hidden={!event.visible} className="w-[13vw] rounded-e-md w-full p-3 h-full space-y-1">
         <p className="font-semibold">{event.name}</p>
         {setTime(event.start, event.duration)}
         <div className="flex">

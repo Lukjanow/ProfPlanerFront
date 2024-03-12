@@ -56,5 +56,6 @@
   "searchByModule": "Suche nach dem Modulnamen",
   "yourNotes": "Deine Notizen",
   "neverForget": "Damit du nichts vergisst.",
-  "newToDos": "Neue ToDos"
+  "newToDos": "Neue ToDos",
+  "exportAsPDF": "Als PDF exportieren"
 }

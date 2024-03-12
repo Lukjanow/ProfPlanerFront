@@ -11,6 +11,7 @@ import {
     updateModule
 } from "../services/moduleService.js";
 
+// TODO: unused, should be removed!
 export const useModuleStore = create(
     (set, get) => ({
         moduleList: [],

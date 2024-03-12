@@ -1,13 +1,27 @@
-import {Button} from "@nextui-org/react";
 import jsPDF from "jspdf";
 import domtoimage from "dom-to-image";
 import {useState} from "react";
+import {useTimeTableFilterStore} from "../stores/timeTableFilterStore.js";
+import {printValidFileName} from "../utils/stringUtils.js";
+import {useTranslation} from "react-i18next";
+import {FilledButton} from "./FilledButton.jsx";
 
 export function ExportCalendarButton() {
+    const {t} = useTranslation();
     const [isLoading, setIsLoading] = useState(false);
+    const filteredValue = useTimeTableFilterStore(state => state.filteredValue);
+    const filteredType = useTimeTableFilterStore(state => state.filteredType);
+    const currentCalendar = useTimeTableFilterStore(state => state.currentCalendar);
 
     let timetable = null;
     let timetableClone = null;
+
+    function getFileName() {
+        const timetableName = currentCalendar ? currentCalendar.name : "";
+        return filteredValue
+            ? `timetable-${printValidFileName(timetableName)}-${printValidFileName(filteredValue)}`
+            : `timetable-${printValidFileName(timetableName)}`;
+    }
 
     function hideDetailSemester() {
         const detailSemesters = timetableClone.querySelectorAll(".detail-semester");
@@ -37,7 +51,9 @@ export function ExportCalendarButton() {
         });
     }
 
-    function handleExport(fileName) {
+    function handleExport() {
+        const fileName = getFileName();
+
         setIsLoading(true);
         timetable = document.querySelector('.rbc-calendar');
         timetableClone = timetable.cloneNode(true);
@@ -48,8 +64,19 @@ export function ExportCalendarButton() {
 
         showHiddenElements();
 
-
-
+        switch (filteredType) {
+            case "dozent":
+                hideDetailDozents();
+                break;
+            case "room":
+                hideDetailRooms();
+                break;
+            case "study_semester":
+                hideDetailSemester();
+                break;
+            default:
+                break;
+        }
 
         const content = timetableClone.querySelector(".rbc-time-content");
         content.style.overflow = "inherit";
@@ -87,7 +114,7 @@ export function ExportCalendarButton() {
 
     return (
         <>
-            <Button isLoading={isLoading} onClick={() => handleExport("timetable")}>Export as PDF</Button>
+            <FilledButton text={t("exportAsPDF")} icon="fas fa-file-pdf" showIcon isLoading={isLoading} onClick={() => handleExport()} />
         </>
     );
 }
