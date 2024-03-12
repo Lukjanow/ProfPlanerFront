@@ -112,7 +112,6 @@ export default function EditModulesPage(
         setStudyCourseDrop(studyCourses)
         setQSP(qsps)
         setSemester(semesters)
-        console.log([studyCourses[0].key], ["2"])
         setModuleStudyCourse([studyCourses[0].key])
     }
 

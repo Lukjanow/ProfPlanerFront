@@ -14,11 +14,9 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
             add={}, width="250px", onChange = {/*pass*/}, values = [], required = false}) {
     const { t } = useTranslation();
 
-    const [selectedKeys, setSelectedKeys] = React.useState(new Set(Object.values(values).filter(obj => Object.prototype.hasOwnProperty.call(obj, "key"))
-                                                                                                    .map(obj => obj["key"])));
     const selectedValue = React.useMemo(
-       () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-      [selectedKeys],
+       () => Array.from(values).join(", ").replaceAll("_", " "),
+      [values],
     )
 
     const [value, setValue] = React.useState(t("nothingSelected"))
@@ -49,15 +47,13 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
 
     //Update Labels of Input to show selected Items correctly
     useEffect(() => {
-      if ( prevKeys !== selectedKeys ){
-        setValue((selectedValue) ? GetLabels(selectedKeys, Items) : t("nothingSelected"))
-        onChange({
-          keys: selectedKeys
-        })
-        setPrevKeys(selectedKeys)
+      if (values.length > 0 && prevKeys != values || values.size > 0 && prevKeys != values ){
+        console.log("triggered")
+        setValue((selectedValue) ? GetLabels(values, Items) : t("nothingSelected"))
+        setPrevKeys(values)
       }
     },
-          [setValue, value, Items, selectedValue, selectedKeys, onChange, description, t, setPrevKeys, prevKeys]
+          [values]
         )
 
     //const sections = Array.from(new Set(Items.map(obj => obj["section"]).filter(value => value !== undefined)));
@@ -85,9 +81,9 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
           <DropdownMenu aria-label="Static Actions"
                   disallowEmptySelection={required}
                   selectionMode={selectionMode}
-                  selectedKeys={selectedKeys}
+                  selectedKeys={values}
                   onSelectionChange={
-                    setSelectedKeys
+                    onChange
                   }
                   disabledKeys={disabledKeys}
                   variant={variant}
