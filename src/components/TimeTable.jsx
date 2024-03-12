@@ -214,7 +214,7 @@ export function TimeTable({moduleItemListPara}) {
 
   const eventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
+      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-3 h-full space-y-1">
         <p className="font-semibold">{event.name}</p>
         {setTime(event.start, event.duration)}
         <div className="flex flex-col space-y-1 hidden">
@@ -234,7 +234,7 @@ export function TimeTable({moduleItemListPara}) {
 
   const hoverEventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-3 h-full w-full space-y-1">
+      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-3 h-full space-y-1">
         <p className="font-semibold">{event.name}</p>
         {setTime(event.start, event.duration)}
         <div className="flex">
@@ -260,7 +260,7 @@ export function TimeTable({moduleItemListPara}) {
           color="foreground"
           isDisabled={moveEvent !== null ? true : false}
         >
-          <div id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)}>
+          <div className="h-full" id={event._id} data-user={event} onContextMenu={(click) => handleRightClick(event, click)}>
             {eventContent(event)}
         </div>
       </Tooltip>
