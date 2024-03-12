@@ -1,17 +1,22 @@
-import React, { useState, useEffect } from "react";
-import { Input } from "@nextui-org/react";
+import React, { useState, useEffect, useRef } from "react";
+import { Button, Divider, Input } from "@nextui-org/react";
 import { getAllNotes, addNote, deleteNote } from "../services/noteService";
 import NoteItem from "./NoteItem";
+import { FilledButton } from "./FilledButton";
+import { useTranslation } from "react-i18next";
 
 const NotesContainer = () => {
   const [todos, setTodos] = useState([]); // Zustand für die To-Do-Liste
   const [newTodo, setNewTodo] = useState(""); // Zustand für das neue To-Do
+  const scrollContainerRef = useRef(null); // Ref für den Scroll-Container
+  const { t } = useTranslation();
 
   // Funktion zum Abrufen von To-Dos
   const fetchTodos = async () => {
     try {
       const response = await getAllNotes(); // Alle Notizen vom Backend abrufen
       setTodos(response.data); // Notizen im Zustand speichern
+      scrollToBottom(); // Ans Ende des Scroll-Containers scrollen
     } catch (error) {
       console.error("Error fetching todos:", error);
     }
@@ -45,8 +50,14 @@ const NotesContainer = () => {
     }
   };
 
+  // Funktion zum Scrollen ans Ende des Containers
+  const scrollToBottom = () => {
+    const container = scrollContainerRef.current;
+    container.scrollTop = container.scrollHeight - container.clientHeight;
+  };
+
   // Event-Handler für das Drücken der Eingabetaste im Textfeld
-  const handleKeyPress = (e) => {
+  const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       addTodo();
     }
@@ -59,7 +70,11 @@ const NotesContainer = () => {
         <p className="font-normal">Damit du nichts vergisst.</p>
       </div>
 
-      <div className="flex-1 overflow-scroll">
+      <div
+        className="flex-1 overflow-scroll"
+        ref={scrollContainerRef}
+        style={{ maxHeight: "calc(100vh - 250px)", overflowY: "auto" }}
+      >
         {todos.map((todo) => (
           <NoteItem
             key={todo._id}
@@ -68,23 +83,28 @@ const NotesContainer = () => {
           />
         ))}
       </div>
-
-      <div className="bg-success h-[80px]">
+      <Divider />
+      <div className="h-[80px]">
         <div className="flex mt-4">
           <Input
             type="email"
             label="Neue ToDo"
+            radius="none"
             variant="bordered"
             className="max-w-xs text-white"
             value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
+            onChange={(e) => {
+              setNewTodo(e.target.value);
+            }}
+            onKeyDown={handleKeyDown}
+            endContent={
+              <FilledButton
+                text={"Add"}
+                color="primary"
+                onClick={() => addTodo()}
+              />
+            }
           />
-          <button
-            onClick={addTodo}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-          >
-            Add
-          </button>
         </div>
       </div>
     </div>
