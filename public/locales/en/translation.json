@@ -54,5 +54,8 @@
   "actions": "Actions",
   "searchByRoom": "Search by room number",
   "searchByDozent": "Search by dozent lastname",
-  "searchByModule": "Search by module name"
+  "searchByModule": "Search by module name",
+  "yourNotes": "Your Notes",
+  "neverForget": "So that you don't forget anything.",
+  "newToDos": "New ToDo's"
 }

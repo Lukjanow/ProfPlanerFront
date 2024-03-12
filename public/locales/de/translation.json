@@ -53,5 +53,8 @@
   "actions": "Aktionen",
   "searchByRoom": "Suche nach Raumnummer",
   "searchByDozent": "Suche nach dem Nachnamen des Dozenten",
-  "searchByModule": "Suche nach dem Modulnamen"
+  "searchByModule": "Suche nach dem Modulnamen",
+  "yourNotes": "Deine Notizen",
+  "neverForget": "Damit du nichts vergisst.",
+  "newToDos": "Neue ToDos"
 }

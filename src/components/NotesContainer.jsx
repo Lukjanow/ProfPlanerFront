@@ -66,8 +66,8 @@ const NotesContainer = () => {
   return (
     <div className="flex flex-col fixed top-[65px] bottom-[85px] right-0 w-auto bg-slate-600 overflow-y-auto p-4">
       <div className="flex flex-col flex-2 text-white">
-        <h1 className="font-bold md:text-3xl text-1xl">Deine Notizen</h1>
-        <p className="font-normal">Damit du nichts vergisst.</p>
+        <h1 className="font-bold md:text-3xl text-1xl">{t("yourNotes")}</h1>
+        <p className="font-normal">{t("neverForget")}</p>
       </div>
 
       <div
@@ -88,7 +88,7 @@ const NotesContainer = () => {
         <div className="flex mt-4">
           <Input
             type="email"
-            label="Neue ToDo"
+            label={t("newToDos")}
             radius="none"
             variant="bordered"
             className="max-w-xs text-white"
@@ -99,7 +99,7 @@ const NotesContainer = () => {
             onKeyDown={handleKeyDown}
             endContent={
               <FilledButton
-                text={"Add"}
+                text={t("Add")}
                 color="primary"
                 onClick={() => addTodo()}
               />
