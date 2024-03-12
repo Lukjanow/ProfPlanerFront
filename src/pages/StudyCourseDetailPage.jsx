@@ -107,11 +107,11 @@ export default function StudyCourseDetailPage() {
     let errors = {};
 
     if (!name.trim()) {
-      errors.roomNumber = true;
+      errors.name = true;
     }
 
     if (!(subjectSemesterCount > 0)) {
-      errors.roomNumber = true;
+      errors.subjectSemesterCount = true;
     }
 
     setErrors(errors);
@@ -193,7 +193,11 @@ export default function StudyCourseDetailPage() {
                   <FilledButton
                     text={t("add")}
                     color="primary"
-                    onClick={() => {
+                    size={"sm"}
+                    isDisabled={qualificationFocus ? false : true}
+                    onClick={(e) => {
+                      e.preventDefault();
+
                       if (qualificationFocus.trim()) {
                         setQualificationFocusList((prevItems) => [...prevItems, qualificationFocus])
                         setQualificationFocus("")
@@ -202,8 +206,6 @@ export default function StudyCourseDetailPage() {
                         setTimeout(() => {
                           qualificationFocusInputRef.current.focus();
                         }, 0);
-                      } else {
-                        setErrors({ ...errors, qualificationFocus: true });
                       }
                     }}
                   />
@@ -211,11 +213,6 @@ export default function StudyCourseDetailPage() {
                 value={qualificationFocus}
                 onValueChange={(value) => {
                   setQualificationFocus(value);
-                  if (!value.trim()) {
-                    setErrors({ ...errors, qualificationFocus: true });
-                  } else {
-                    setErrors({ ...errors, qualificationFocus: false });
-                  }
                 }}
               />
               <div
