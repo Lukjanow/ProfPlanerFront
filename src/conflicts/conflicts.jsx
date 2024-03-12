@@ -140,6 +140,11 @@ function checkModuleWarnings(module_list, conflict_list, module){
         room_dict[module.room[i]._id] = []
     }
 
+    // var study_semester_dict = {}
+    // for (let i = 0; i < module.study_semester.length; i++) {
+    //     study_semester_dict[module.study_semester[i]._id] = []
+    // }
+
     var study_semester_dict = {}
     for (let i = 0; i < module.study_semester.length; i++) {
         for (let j = 0; j < module.study_semester[i].semesterNumbers.length; j++) {
@@ -152,17 +157,23 @@ function checkModuleWarnings(module_list, conflict_list, module){
         }
     }
 
+    // console.log("FILLED DOZENT DICT", dozent_dict)
+    console.log("EMPTY STUDYSEMESTER DICT", study_semester_dict)
+
     //FILL THE DICTIONARIES WITH ALL MODULES WITH THE SAME VALUE
     //for each module in module list
     for (const currentModule of module_list) {
+        // console.log(currentModule.study_semester)
         updateDictionary(dozent_dict, currentModule, module, 'dozent');
         updateDictionary(room_dict, currentModule, module, 'room');
-        updateDictionary(study_semester_dict, currentModule, module, 'study_semester');
+        // updateDictionary(study_semester_dict, currentModule, module, 'study_semester');
         if (currentModule !== module) {
             for (const studySemester of currentModule.study_semester) {
+                console.log("NEXT SEMESTER", currentModule)
                 for (let j = 0; j < studySemester.semesterNumbers.length; j++) {
                     const semester_name = String(studySemester.studyCourse.name) + " " + "Semester " + String(studySemester.semesterNumbers[j])
-                    for (const [key, value] of Object.entries(room_dict)) {
+                    console.log(semester_name)
+                    for (const [key, value] of Object.entries(study_semester_dict)) {
                         if (semester_name == key) {
                             value.push(currentModule)
                         }
@@ -170,7 +181,7 @@ function checkModuleWarnings(module_list, conflict_list, module){
                 }
                 for (let j = 0; j < studySemester.content.length; j++) {
                     const semester_name = String(studySemester.studyCourse.name) + " " + String(studySemester.content[j])
-                    for (const [key, value] of Object.entries(room_dict)) {
+                    for (const [key, value] of Object.entries(study_semester_dict)) {
                         if (semester_name == key) {
                             value.push(currentModule)
                         }
@@ -179,6 +190,8 @@ function checkModuleWarnings(module_list, conflict_list, module){
             }
         }
     }
+    // console.log("FILLED DOZENT DICT", dozent_dict)
+    console.log("FILLED STUDYSEMESTER DICT", study_semester_dict)
 
 
     //DELETE ALL CONFLICTS WITH THE CURRENT MODULE
@@ -212,23 +225,40 @@ function checkModuleWarnings(module_list, conflict_list, module){
     for (const [key, value] of Object.entries(study_semester_dict)) {
         const prevValue = getNewSemester(getConflictName(module, key, "study_semester"), false)
         const nextValue = getNewSemester(getConflictName(module, key, "study_semester"), true)
+        console.log("PREV",prevValue)
         var prevList = []
         var nextList = []
         for (let i = 0; i < module_list.length; i++) {
             //for each studySemester in module
             for (let j = 0; j < module_list[i].study_semester.length; j++) {
-                if (module_list[i].study_semester[j].name == prevValue) {
-                    if(module_list[i] != module) {
-                        prevList.push(module_list[i])
+                for (let k = 0; k < module_list[i].study_semester[j].semesterNumbers.length; k++) {
+                    const semester_name = String(module_list[i].study_semester[j].studyCourse.name) + " " + "Semester " + String(module_list[i].study_semester[j].semesterNumbers[k])
+                    if (semester_name == prevValue) {
+                        if(module_list[i] != module) {
+                            prevList.push(module_list[i])
+                        }
+                    } else if (semester_name == nextValue) {
+                        if(module_list[i] != module) {
+                            nextList.push(module_list[i])
+                        }
                     }
                 }
-                else if (module_list[i].study_semester[j].name == nextValue) {
-                    if(module_list[i] != module) {
-                        nextList.push(module_list[i])
+                for (let k = 0; k < module_list[i].study_semester[j].semesterNumbers.length; k++) {
+                    const semester_name = String(module_list[i].study_semester[j].studyCourse.name) + " " + String(module_list[i].study_semester[j].content[k])
+                    if (semester_name == prevValue) {
+                        if(module_list[i] != module) {
+                            prevList.push(module_list[i])
+                        }
+                    } else if (semester_name == nextValue) {
+                        if(module_list[i] != module) {
+                            nextList.push(module_list[i])
+                        }
                     }
                 }
             }
         }
+        console.log("PREV",prevList)
+        console.log("NEXT",nextList)
         for (let i = 0; i < value.length; i++) {
             if(overlap(module, value[i])) {
                 conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "study_semester"), 3))  
