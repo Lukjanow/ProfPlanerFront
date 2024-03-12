@@ -35,14 +35,14 @@ async function addStudySemester(studySemesterModel) {
 }
 
 async function updateStudySemester(id, {
-    name = null,
-    study = null,
+    studyCourse = null,
+    semesterNumbers = null,
     content = null
 }) {
     return api
         .put(`/studysemester/${id}`, {
-            ...(name !== null && {name}),
-            ...(study !== null && {study}),
+            ...(studyCourse !== null && {studyCourse}),
+            ...(semesterNumbers !== null && {semesterNumbers}),
             ...(content !== null && {content})
         })
         .then(resObj => {

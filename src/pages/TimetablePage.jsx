@@ -168,6 +168,26 @@ const { t } = useTranslation();
       return all_dozent_string
     }
 
+    function getEveryStudySemesterString(studySemesters, seperator=" ") {
+      var string_list = []
+      for (const studySemester of studySemesters) {
+        for (const semester of studySemester.semesterNumbers) {
+          string_list.push(String(studySemester.studyCourse.name) + seperator + "Semester " + String(semester))
+        }
+        for (const content of studySemester.content) {
+          string_list.push(String(studySemester.studyCourse.name) + seperator + String(content))
+        }
+      }
+      return string_list
+    }
+
+    function listToString(list) {
+      var list_string = list[0]
+      for (let i = 1; i < list.length; i++) {
+        list_string = list_string + ", " + list[i];
+      }
+      return list_string
+    }
 
     function initModules(module_list, calendarEntry_list){
       var list = []
@@ -192,8 +212,8 @@ const { t } = useTranslation();
             name: module_list[i].name,
             start: eventStart,
             end: eventEnd,
-            study_semester_string: module_list[i].study_semester[0] != null? String(module_list[i].study_semester[0].name) : "Kein Semester",
-            hover_study_semester_string: module_list[i].study_semester[0] != null? getAllStudySemesterString(module_list[i].study_semester) : "Kein Semester",
+            study_semester_string: module_list[i].study_semester[0] != null? getEveryStudySemesterString(module_list[i].study_semester)[0] : "Kein Semester",
+            hover_study_semester_string: module_list[i].study_semester[0] != null? listToString(getEveryStudySemesterString(module_list[i].study_semester)) : "Kein Semester",
             study_semester: module_list[i].study_semester,
             dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname) : "Kein Dozent",
             hover_dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? getAllDozentString(module_list[i].dozent) : "Kein Dozent",
@@ -216,8 +236,8 @@ const { t } = useTranslation();
             name: module_list[i].name,
             start: moment("2024-01-01T12:00").toDate(),
             end: moment("2024-01-01T15:00").toDate(),
-            study_semester_string: module_list[i].study_semester[0] != null? String(module_list[i].study_semester[0].name) : "Kein Semester",
-            hover_study_semester_string: module_list[i].study_semester[0] != null? getAllStudySemesterString(module_list[i].study_semester) : "Kein Semester",
+            study_semester_string: module_list[i].study_semester[0] != null? getEveryStudySemesterString(module_list[i].study_semester)[0] : "Kein Semester",
+            hover_study_semester_string: module_list[i].study_semester[0] != null? listToString(getEveryStudySemesterString(module_list[i].study_semester)) : "Kein Semester",
             study_semester: module_list[i].study_semester,
             dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname) : "Kein Dozent",
             hover_dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? getAllDozentString(module_list[i].dozent) : "Kein Dozent",

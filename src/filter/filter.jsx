@@ -1,5 +1,4 @@
 
-
 function filterDozent(dropdownInput, module_list){
     if (dropdownInput) {
         for (const module of module_list) {
@@ -40,13 +39,28 @@ function filterRoom(dropdownInput, module_list){
     }
 }
 
+function getEveryStudySemesterString(studySemesters, seperator=" ") {
+    var string_list = []
+    for (const studySemester of studySemesters) {
+      for (const semester of studySemester.semesterNumbers) {
+        string_list.push(String(studySemester.studyCourse.name) + seperator + "Semester " + String(semester))
+      }
+      for (const content of studySemester.content) {
+        string_list.push(String(studySemester.studyCourse.name) + seperator + String(content))
+      }
+    }
+    return string_list
+  }
+
 function filterStudySemester(dropdownInput, module_list){
     if(dropdownInput){
         for (const module of module_list) {
             var visible = false
-            for(const study_semester of module.study_semester){
-                const study_semester_name = String(study_semester.name)
-                if (study_semester_name == dropdownInput) {
+            console.log("MODULE:", module)
+            const semester_list = getEveryStudySemesterString(module.study_semester)
+            console.log("SEMESTER:",semester_list)
+            for(const study_semester of semester_list){
+                if (study_semester == dropdownInput) {
                     visible = true
                     break;
                 }
