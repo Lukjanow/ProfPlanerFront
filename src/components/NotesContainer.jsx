@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Input } from "@nextui-org/react";
-import { getAllNotes, addNote } from "../services/noteService";
+import { getAllNotes, addNote, deleteNote } from "../services/noteService";
+import NoteItem from "./NoteItem";
 
 const NotesContainer = () => {
   const [todos, setTodos] = useState([]); // Zustand für die To-Do-Liste
@@ -34,6 +35,16 @@ const NotesContainer = () => {
     }
   };
 
+  // Funktion zum Löschen einer Notiz
+  const deleteTodo = async (id) => {
+    try {
+      await deleteNote(id); // Notiz vom Backend löschen
+      fetchTodos(); // Aktualisierte Notizen abrufen
+    } catch (error) {
+      console.error("Error deleting todo:", error);
+    }
+  };
+
   // Event-Handler für das Drücken der Eingabetaste im Textfeld
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
@@ -42,12 +53,19 @@ const NotesContainer = () => {
   };
 
   return (
-    <div className="flex flex-col fixed top-[65px] bottom-[85px] right-0 w-auto bg-slate-700 overflow-y-auto p-4">
-      <div className="bg-danger h-[40px]"></div>
+    <div className="flex flex-col fixed top-[65px] bottom-[85px] right-0 w-auto bg-slate-600 overflow-y-auto p-4">
+      <div className="flex flex-col flex-2 text-white">
+        <h1 className="font-bold md:text-3xl text-1xl">Deine Notizen</h1>
+        <p className="font-normal">Damit du nichts vergisst.</p>
+      </div>
 
-      <div className="bg-warning flex-1 overflow-scroll">
+      <div className="flex-1 overflow-scroll">
         {todos.map((todo) => (
-          <li key={todo._id}>{todo.text}</li>
+          <NoteItem
+            key={todo._id}
+            text={todo.text}
+            onDelete={() => deleteTodo(todo._id)}
+          />
         ))}
       </div>
 
@@ -69,36 +87,6 @@ const NotesContainer = () => {
           </button>
         </div>
       </div>
-
-      {/* 
-      <div className="flex flex-col ">
-        <h2 className="text-white text-lg font-bold mb-4">To-Do List</h2>
-
-        <ul className="text-white h-full">
-          {todos.map((todo, index) => (
-            <li key={index}>{todo}</li>
-          ))}
-        </ul>
-
-        <div className="flex mt-4">
-          <Input
-            type="email"
-            label="Neue ToDo"
-            variant="bordered"
-            className="max-w-xs text-white"
-            value={newTodo}
-            onChange={(e) => setNewTodo(e.target.value)}
-            onKeyPress={handleKeyPress}
-          />
-          <button
-            onClick={addTodo}
-            className="bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded"
-          >
-            Add
-          </button>
-        </div>
-      </div>
-          */}
     </div>
   );
 };
