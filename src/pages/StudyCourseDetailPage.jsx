@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import PageContainer from "../components/PageContainer.jsx";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer.jsx";
@@ -21,12 +21,13 @@ export default function StudyCourseDetailPage() {
   const { studycourseId } = useParams();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const qualificationFocusInputRef = useRef(null)
 
 
   const [name, setName] = useState("");
   const [subjectSemesterCount, setSubjectSemesterCount] = useState("");
   const [qualificationFocus, setQualificationFocus] = useState("");
-  const [qualificationFocusList, setQualificationFocusList] = useState([]);
+  const [qualificationFocusList, setQualificationFocusList] = useState(["Visual Computing", "Network Security", "Software Engineering & Development"]);
 
   const [errors, setErrors] = useState({
     name: false,
@@ -128,6 +129,7 @@ export default function StudyCourseDetailPage() {
   //   return errors;
   // };
 
+
   return (
     <PageContainer
       title={studycourseId ? `${name}` : `${t("newStudyCourse")}`}
@@ -188,62 +190,65 @@ export default function StudyCourseDetailPage() {
                 }
               }}
             />
-            <Input
-              name={"qualificationFocus"}
-              isRequired
-              isInvalid={errors.qualificationFocus}
-              errorMessage={
-                errors.qualificationFocus ? `${t("qualificationFocus")} ${t("isInvalid")}` : ""
-              }
-              type="text"
-              label={t("qualificationFocus")}
-              endContent={
-                <FilledButton
-                  text={t("add")}
-                  color="primary"
-                  onClick={() => {
-                    if (qualificationFocus.trim()) {
-                      setQualificationFocusList((prevItems) => [...prevItems, qualificationFocus])
-                      setQualificationFocus("")
-                      setErrors({ ...errors, qualificationFocus: false });
-                    } else {
-                      setErrors({ ...errors, qualificationFocus: true });
-                    }
-                  }}
-                />
-              }
-              className={"lg:max-w-[350px]"}
-              value={qualificationFocus}
-              onValueChange={(value) => {
-                setQualificationFocus(value);
-                if (!value.trim()) {
-                  setErrors({ ...errors, qualificationFocus: true });
-                } else {
-                  setErrors({ ...errors, qualificationFocus: false });
+            <div className="flex flex-col gap-2">
+              <Input
+                name={"qualificationFocus"}
+                ref={qualificationFocusInputRef}
+                isRequired
+                isInvalid={errors.qualificationFocus}
+                errorMessage={
+                  errors.qualificationFocus ? `${t("qualificationFocus")} ${t("isInvalid")}` : ""
                 }
-              }}
-            />
-            {console.log("Alte Liste: ", qualificationFocusList)}
-            <div>
-              {
-                qualificationFocusList.map((item, index) => (
-                  <Chip
-                    size="md"
-                    key={index}
-                    className={"m-1 px-[10px] py-4"}
-                    onClose={() => {
-                      const list = qualificationFocusList.filter((searchItem) => searchItem !== item)
-                      console.log("Neue Liste: ", list);
-                      setQualificationFocusList(list)
-                    }}
+                type="text"
+                label={t("qualificationFocus")}
+                endContent={
+                  <FilledButton
+                    text={t("add")}
+                    color="primary"
                     onClick={() => {
-
+                      if (qualificationFocus.trim()) {
+                        setQualificationFocusList((prevItems) => [...prevItems, qualificationFocus])
+                        setQualificationFocus("")
+                        setErrors({ ...errors, qualificationFocus: false });
+                        // TODO: Don't use an setTimeout() for waiting to re-render  
+                        setTimeout(() => {
+                          qualificationFocusInputRef.current.focus();
+                        }, 0);
+                      } else {
+                        setErrors({ ...errors, qualificationFocus: true });
+                      }
                     }}
-                  >
-                    {item}
-                  </Chip>
-                ))
-              }
+                  />
+                }
+                value={qualificationFocus}
+                onValueChange={(value) => {
+                  setQualificationFocus(value);
+                  if (!value.trim()) {
+                    setErrors({ ...errors, qualificationFocus: true });
+                  } else {
+                    setErrors({ ...errors, qualificationFocus: false });
+                  }
+                }}
+              />
+              <div
+                className={"lg:w-96"}
+              >
+                {
+                  qualificationFocusList.map((item, index) => (
+                    <Chip
+                      size="md"
+                      key={index}
+                      className={"m-1 px-[10px] py-4"}
+                      onClose={() => {
+                        const list = qualificationFocusList.filter((searchItem) => searchItem !== item)
+                        setQualificationFocusList(list)
+                      }}
+                    >
+                      {item}
+                    </Chip>
+                  ))
+                }
+              </div>
             </div>
           </div>
         </SectionContainer>
