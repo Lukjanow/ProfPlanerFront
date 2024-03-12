@@ -2,19 +2,19 @@ import React, { useEffect, useState, useRef } from "react";
 import PageContainer from "../components/PageContainer.jsx";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer.jsx";
-import { Input, Textarea, Chip, Button } from "@nextui-org/react";
-import SelectBox from "../components/SelectBox.jsx";
+import { Input, Chip } from "@nextui-org/react";
 import {
-  addRoom,
-  updateRoom,
-  deleteRoom,
-  getRoomById,
-} from "../services/roomService.js";
-import { RoomModel } from "../models/roomModel.js";
+  addStudyCourse,
+  updateStudyCourse,
+  deleteStudyCourse,
+  getStudyCourseById,
+} from "../services/studyCourseService.js";
+import { StudyCourseModel } from "../models/studyCourseModel.js";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
 import { FilledButton } from "../components/FilledButton.jsx";
+
 
 export default function StudyCourseDetailPage() {
   const { t } = useTranslation();
@@ -27,7 +27,7 @@ export default function StudyCourseDetailPage() {
   const [name, setName] = useState("");
   const [subjectSemesterCount, setSubjectSemesterCount] = useState("");
   const [qualificationFocus, setQualificationFocus] = useState("");
-  const [qualificationFocusList, setQualificationFocusList] = useState(["Visual Computing", "Network Security", "Software Engineering & Development"]);
+  const [qualificationFocusList, setQualificationFocusList] = useState([]);
 
   const [errors, setErrors] = useState({
     name: false,
@@ -35,105 +35,94 @@ export default function StudyCourseDetailPage() {
     qualificationFocus: false,
   });
 
-  // useEffect(() => {
-  //   if (studycourseId) {
-  //     getRoomById(studycourseId)
-  //       .then((response) => {
-  //         setRoomNumber(response.data.name);
-  //         setCapacity(response.data.subjectSemesterCount);
-  //         setRoomType([response.data.qualificationFocus]);
-  //         console.log("-------------------------------------> RoomType: ", [
-  //           response.data.name,
-  //         ]);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error fetching room:", error);
-  //       });
-  //   }
-  // }, [studycourseId]);
+  useEffect(() => {
+    if (studycourseId) {
+      getStudyCourseById(studycourseId)
+        .then((response) => {
+          setName(response.data.name);
+          setSubjectSemesterCount([response.data.semesterCount]);
+          setQualificationFocusList(response.data.content);
+          console.log("StudyCourse fetched: ", response.data);
+        })
+        .catch((error) => {
+          console.error("Error fetching studyCourse:", error);
+        });
+    }
+  }, [studycourseId]);
 
-  // const handleSelectionChange = (e) => {
-  //   if (e.target.name === "roomType") {
-  //     setRoomType([e.target.value]);
-  //   }
-  // };
+  const handleSubmit = (e) => {
+    e.preventDefault();
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
+    const validationErrors = validateForm();
 
-  //   const validationErrors = validateForm();
+    if (Object.keys(validationErrors).length === 0) {
+      if (studycourseId) {
+        const newStudyCourse = new StudyCourseModel(
+          name,
+          parseInt(subjectSemesterCount),
+          qualificationFocusList
+        );
 
-  //   if (Object.keys(validationErrors).length === 0) {
-  //     if (studycourseId) {
-  //       const newRoom = new RoomModel(
-  //         roomNumber,
-  //         parseInt(capacity),
-  //         roomTypesOptions[0]
-  //       );
-  //       updateRoom(studycourseId, newRoom)
-  //         .then((response) => {
-  //           console.log("Room updated: ", response);
-  //         })
-  //         .catch((error) => {
-  //           console.error("Error updating room:", error);
-  //         });
+        updateStudyCourse(studycourseId, newStudyCourse)
+          .then((response) => {
+            console.log("StudyCourse updated: ", response);
+          })
+          .catch((error) => {
+            console.error("Error updating studyCourse:", error);
+          });
 
-  //       return;
-  //     }
+        return;
+      }
 
-  //     const newRoom = new RoomModel(
-  //       roomNumber,
-  //       parseInt(capacity),
-  //       roomTypesOptions[0]
-  //     );
+      const newStudyCourse = new StudyCourseModel(
+        name,
+        parseInt(subjectSemesterCount),
+        qualificationFocusList
+      );
 
-  //     addRoom(newRoom)
-  //       .then((response) => {
-  //         console.log("Room saved: ", response);
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error saving room:", error);
-  //       });
-  //   } else {
-  //     console.error("Error: ", errors);
-  //   }
-  // };
+      addStudyCourse(newStudyCourse)
+        .then((response) => {
+          console.log("StudyCourse saved: ", response);
+        })
+        .catch((error) => {
+          console.error("Error saving studyCourse:", error);
+        });
+    } else {
+      console.error("Error: ", errors);
+    }
+  };
 
-  // const handleDelete = () => {
-  //   deleteRoom(studycourseId)
-  //     .then((response) => {
-  //       console.log("Room deleted: ", response);
-  //     })
-  //     .catch((error) => {
-  //       console.error("Error deleting room:", error);
-  //     });
-  //   navigate("/basicdata");
-  // };
+  const handleDelete = () => {
+    deleteStudyCourse(studycourseId)
+      .then((response) => {
+        console.log("StudyCourse deleted: ", response);
+      })
+      .catch((error) => {
+        console.error("Error deleting studyCourse:", error);
+      });
+    navigate("/basicdata");
+  };
 
-  // const validateForm = () => {
-  //   let errors = {};
+  const validateForm = () => {
+    let errors = {};
 
-  //   if (!capacity) {
-  //     errors.capacity = true;
-  //   }
+    if (!name.trim()) {
+      errors.roomNumber = true;
+    }
 
-  //   if (!roomNumber.trim()) {
-  //     errors.roomNumber = true;
-  //   }
+    if (!(subjectSemesterCount > 0)) {
+      errors.roomNumber = true;
+    }
 
-  //   if (!/^\d+$/.test(capacity)) {
-  //     errors.capacity = true;
-  //   }
-
-  //   setErrors(errors);
-  //   return errors;
-  // };
+    setErrors(errors);
+    return errors;
+  };
 
 
   return (
     <PageContainer
       title={studycourseId ? `${name}` : `${t("newStudyCourse")}`}
-      //onClickPrimary={(e) => handleSubmit(e)}
+      onClickPrimary={(e) => handleSubmit(e)}
       primaryButtonTitle={t("save")}
       showDeleteButton={studycourseId ? true : false}
       onClickDelete={() => setShowModal(true)}
@@ -143,9 +132,9 @@ export default function StudyCourseDetailPage() {
         onClickCancel={() => {
           setShowModal(false);
         }}
-        //onClickDelete={handleDelete}
+        onClickDelete={handleDelete}
         headlineText={t("deleteQuestion")}
-        bodyText={t("deleteRoomInfo")}
+        bodyText={t("deleteStudyCourseInfo")}
       />
       <form>
         <SectionContainer title={t("general")}>
