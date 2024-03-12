@@ -31,6 +31,9 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   const [deleteItemId, setDeleteItemId] = useState(null); // State to store the ID of the item to be deleted
   const [searchPlaceholder, setSearchPlaceholder] = useState("Search");
   const [deleteMessage, setDeleteMessage] = useState("");
+  const [filteredItems, setFilteredItems] = useState(tableData)
+  const [isFiltered, setIsFiltered] = useState(false)
+  const [searchTerm, setSearchTerm] = useState("")
   let columnKeys = [];
 
   // Funktion zum Aktualisieren der Länge der Daten
@@ -48,20 +51,35 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       case "/room":
         setSearchPlaceholder(t("searchByRoom"));
         setDeleteMessage(t("deleteRoomInfo"));
+        setSearchTerm("");
         break;
       case "/dozent":
         setSearchPlaceholder(t("searchByDozent"));
         setDeleteMessage(t("deleteDozentInfo"));
+        setSearchTerm("");
         break;
       case "/module":
         setSearchPlaceholder(t("searchByModule"));
         setDeleteMessage(t("deleteModuleInfo"));
+        setSearchTerm("");
         break;
       default:
         console.error("Unknown element type:", element);
         return;
     }
   }, [path, t]);
+
+  useEffect(() => {
+    if (isFiltered == true){
+      setLength(filteredItems.length)
+    }
+    if (searchTerm == "" && isFiltered == true){
+      setIsFiltered(false)
+      setLength(tableData.length)
+      setFilteredItems([])
+    }
+  }, [searchTerm, tableData, filteredItems, isFiltered])
+  
 
   const generateColumns = () => {
     if (!tableData || !tableData[0]) return [];
@@ -77,6 +95,8 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       };
     });
   };
+
+
 
   const handleDelete = async (id) => {
     let deleteFunction;
@@ -118,6 +138,44 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
     }
   };
 
+
+  const searchFunction = (searchTerm) => {
+    const pathParts = path.split("-");
+    const element = pathParts[0];
+    setFilteredItems([])
+    tableData.forEach((item) => {
+        switch (element) {
+          case "/room":
+            if (item.roomNumber.toLowerCase().includes(searchTerm.toLowerCase())){
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          case "/dozent":
+            if ((item.prename.toLowerCase() + " " + item.lastname.toLowerCase()).includes(searchTerm.toLowerCase())){
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          case "/module":
+            if (item.name.toLowerCase().includes(searchTerm.toLowerCase())){
+              setFilteredItems(old => [...old, item])
+              
+            }
+            break;
+          default:
+            console.error("Unknown element type:", element);
+            return;
+        }
+        setIsFiltered(true)
+    })
+  }
+
+  //handle Key pressed in input
+  const handleKeyDown = (e) => {
+    if (e.key == 'Enter') {
+      searchFunction(searchTerm)
+    } 
+  }
+
   const myColumns = generateColumns();
 
   const topContent = (
@@ -130,11 +188,14 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         startContent={
           <FontAwesomeIcon
             icon={"magnifying-glass"}
-            onClick={() => console.log("Test")}
+            onClick={() => searchFunction(searchTerm)}
           />
         }
+        onKeyDown={handleKeyDown}
         radius="sm"
         variant={"underlined"}
+        value={searchTerm}
+        onValueChange={setSearchTerm}
       />
     </div>
   );
@@ -191,7 +252,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
             </TableColumn>
           )}
         </TableHeader>
-        <TableBody items={tableData}>
+        <TableBody items={(isFiltered) ? filteredItems : tableData}>
           {(item) => (
             <TableRow key={item._id} id={item._id}>
               {columnKeys.map((key) => determineRendering(key, item[key]))}

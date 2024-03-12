@@ -10,8 +10,8 @@ import Exercise from "../components/Exercise";
 import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
 import { getAllStudySemesters } from "../services/studySemesterService"
-import { ModuleModel } from "../models/moduleModel";
-import { addModule, deleteModule, getModuleById,updateModule } from "../services/moduleService";
+import { ModuleDetailsModel } from "../models/moduleModel";
+import { addDetailsModule, deleteModule, getDetailsModulesByModuleId, updateDetailsModule } from "../services/moduleService";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
@@ -41,12 +41,10 @@ export default function EditModulesPage(
     const [extra, setExtra] = React.useState([{
         type: "",
         dozent: [],
-        assistents: [],
         room: "",
         duration: "0",
         pause: "0",
         group: "1",
-        need: [],
         addTime: false,
         error: false
     }])            //Elements regarding Exercise/Training
@@ -125,7 +123,7 @@ export default function EditModulesPage(
           }
           fetchData();
           if (moduleId) {
-            getModuleById(moduleId)
+            getDetailsModulesByModuleId(moduleId)
                 .then(response => {
                     console.log("Dozent fetched: ", response.data)
                     setModuleID(response.data.module_id)
@@ -200,8 +198,8 @@ export default function EditModulesPage(
 
         if (Object.keys(validationErrors).length === 0) {
             if (moduleId) {
-                const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse, extra)
-                updateModule(moduleId, newModule)
+                const newModule = new ModuleDetailsModel(ModuleID, ModuleName, ModuleCode, extra, null, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse)
+                updateDetailsModule(moduleId, newModule)
                     .then(response => {
                         console.log("Module updated: ", response);
                     })
@@ -212,8 +210,8 @@ export default function EditModulesPage(
                 return
             }
 
-            const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse, extra)
-            addModule(newModule)
+            const newModule = new ModuleDetailsModel(ModuleID, ModuleName, ModuleCode, extra, null, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse)
+            addDetailsModule(newModule)
                 .then(response => {
                     console.log("Module saved: ", response);
                 })
@@ -409,152 +407,116 @@ export default function EditModulesPage(
                                                 }} />
                 </div>
             </SectionContainer>
-
-{/*             <SectionContainer title={t("lecture")}>
-                <div className="flex gap-5" style={{marginTop: "25px"}}>
-                    <DropDown Items={teachers} description={`${t("lecturer")}`} selectionMode="multiple"
-                        add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                        Item: "Lehrende"}}
-                        onChange={setModuleDozent}
-                        value={ModuleDozent}
-                        width="500px"
-                        required={true}>
-                    </DropDown>
-                    <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
-                        add={{href: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-                        Item: "Raum"}}
-                        onChange={setModuleRoom}
-                        values={ModuleRoom}
-                        required={true}>
-                    </DropDown>
-                </div>
-                <div className="flex gap-5" style={{marginTop: "25px"}}>
-                        <Input
-                            label={`${t("duration")}`}
-                            
-                            color="default"
-                            type="number"
-                            onChange={(e) => setModuleDuration(e.target.value)}
-                            value={ModuleDuration}
-                            isRequired
-                        />
-                </div>
-            </SectionContainer> */}
             
             <SectionContainer title={"Veranstaltungen"}>
-            <div className="flex gap-5 justify-between items-center" style={{alignText: "center", width: "50%"}}>
-            <div style={{right: "0", position: "relative"}}>
-                <OutlinedButton text={`${t("delete")}`} onClick={() => onDelete(index)} color="danger"/>
-            </div>
-        </div>: null}
-        <div className="flex gap-5" style={{marginTop: "25px"}}>
-            <Input
-                isRequired
-                isInvalid={errors.type}
-                errorMessage={errors.type ? `${t("type")} ${t("isRequired")}` : ""}
-                type="text"
-                label={t("type")}
-                className={"lg:max-w-[500px]"}
-                value={data.type}
-                onValueChange={
-                    (value) => {
-                        onChange(value, "type", index)
-                        if (!value.trim()) {
-                            setErrors({ ...errors, type: true })
-                        } else {
-                            setErrors({ ...errors, type: false })
+                {/* <div className="flex gap-5" style={{marginTop: "25px"}}>
+                    <Input
+                        isRequired
+                        isInvalid={errors.type}
+                        errorMessage={errors.type ? `${t("type")} ${t("isRequired")}` : ""}
+                        type="text"
+                        label={t("type")}
+                        className={"lg:max-w-[500px]"}
+                        value={data.type}
+                        onValueChange={
+                            (value) => {
+                                onChange(value, "type", index)
+                                if (!value.trim()) {
+                                    setErrors({ ...errors, type: true })
+                                } else {
+                                    setErrors({ ...errors, type: false })
+                                }
+                                validateForm()
+                            }
                         }
-                        validateForm()
-                    }
-                }
-            />
-            <DropDown Items={teachers} description={`${t("lecturer")}`} selectionMode="multiple"
-                        add={{href: "/basicdata/dozent-details",
-                        Item: "Lehrende"}}
-                        onChange={teachersDropdownhelper}
-                        value={data.dozent}
-                        width="500px"
-                        required={true}
-                        >
-                    </DropDown>
-            <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
-                                add={{href: "/basicdata/room-details",
-                                Item: "Raum"}}
-                                onChange={roomDropdownhelper}
-                                values={data.room}
-                                >
-            </DropDown>
-        </div>
-        <div className="flex gap-5" style={{marginTop: "25px", marginBottom:"25px"}}>
-                <Input
-                        isRequired
-                        isInvalid={errors.duration}
-                        errorMessage={errors.duration ? `${t("duration")} ${t("isRequired")}` : ""}
-                        className={"lg:max-w-[250px]"}
-                        label={`${t("duration")}`}
-                        color="default"
-                        type="number"
-                        onValueChange={(value) => {onChange(value, "duration", index)
-                                            if (!value.trim()) {
-                                                setErrors({ ...errors, duration: true })
-                                            } else {
-                                                setErrors({ ...errors, duration: false })
-                                            }
-                                            validateForm()
-                                                }}
-                        value={data.duration}
-                        onKeyPress={(event) => {
-                            if (!/[0-9]/.test(event.key)) {
-                              event.preventDefault();
-                            }}}
                     />
-                <Input
-                        className={"lg:max-w-[250px]"}
-                        label={`${t("pause")}`}
-                        color="default"
-                        type="number"
-                        value={data.pause}
-                        isRequired
-                        isInvalid={errors.pause}
-                        errorMessage={errors.pause ? `${t("duration")} ${t("isRequired")}` : ""}
-                        onValueChange={(value) => {onChange(value, "pause", index)
-                                            if (!value.trim()) {
-                                                setErrors({ ...errors, pause: true })
-                                            } else {
-                                                setErrors({ ...errors, pause: false })
-                                            }
-                                            validateForm()
-                                                }}
-                        onKeyPress={(event) => {
-                            if (!/[0-9]/.test(event.key)) {
-                                event.preventDefault();
-                            }}}
+                    <DropDown Items={teachers} description={`${t("lecturer")}`} selectionMode="multiple"
+                                add={{href: "/basicdata/dozent-details",
+                                Item: "Lehrende"}}
+                                onChange={teachersDropdownhelper}
+                                value={data.dozent}
+                                width="500px"
+                                required={true}
+                                >
+                            </DropDown>
+                    <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
+                                        add={{href: "/basicdata/room-details",
+                                        Item: "Raum"}}
+                                        onChange={roomDropdownhelper}
+                                        values={data.room}
+                                        >
+                    </DropDown>
+                </div>
+                <div className="flex gap-5" style={{marginTop: "25px", marginBottom:"25px"}}>
+                        <Input
+                                isRequired
+                                isInvalid={errors.duration}
+                                errorMessage={errors.duration ? `${t("duration")} ${t("isRequired")}` : ""}
+                                className={"lg:max-w-[250px]"}
+                                label={`${t("duration")}`}
+                                color="default"
+                                type="number"
+                                onValueChange={(value) => {onChange(value, "duration", index)
+                                                    if (!value.trim()) {
+                                                        setErrors({ ...errors, duration: true })
+                                                    } else {
+                                                        setErrors({ ...errors, duration: false })
+                                                    }
+                                                    validateForm()
+                                                        }}
+                                value={data.duration}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                    event.preventDefault();
+                                    }}}
+                            />
+                        <Input
+                                className={"lg:max-w-[250px]"}
+                                label={`${t("pause")}`}
+                                color="default"
+                                type="number"
+                                value={data.pause}
+                                isRequired
+                                isInvalid={errors.pause}
+                                errorMessage={errors.pause ? `${t("duration")} ${t("isRequired")}` : ""}
+                                onValueChange={(value) => {onChange(value, "pause", index)
+                                                    if (!value.trim()) {
+                                                        setErrors({ ...errors, pause: true })
+                                                    } else {
+                                                        setErrors({ ...errors, pause: false })
+                                                    }
+                                                    validateForm()
+                                                        }}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault();
+                                    }}}
+                                />
+                    <Input
+                            className={"lg:max-w-[250px]"}
+                            label={`${t("group")}`}
+                            color="default"
+                            type="number"
+                            onChange={(e) => onChange(e.target.value, "group", index)}
+                            value={data.group}
+                            isRequired
+                            isInvalid={errors.group}
+                            errorMessage={errors.group ? `${t("group")} ${t("isRequired")}` : ""}
+                            onValueChange={(value) => {onChange(value, "group", index)
+                                                    if (!value.trim()) {
+                                                        setErrors({ ...errors, group: true })
+                                                    } else {
+                                                        setErrors({ ...errors, group: false })
+                                                    }
+                                                    validateForm()
+                                                        }}
+                            onKeyPress={(event) => {
+                                if (!/[0-9]/.test(event.key)) {
+                                    event.preventDefault();
+                                }}}
+                            
                         />
-            <Input
-                    className={"lg:max-w-[250px]"}
-                    label={`${t("group")}`}
-                    color="default"
-                    type="number"
-                    onChange={(e) => onChange(e.target.value, "group", index)}
-                    value={data.group}
-                    isRequired
-                    isInvalid={errors.group}
-                    errorMessage={errors.group ? `${t("group")} ${t("isRequired")}` : ""}
-                    onValueChange={(value) => {onChange(value, "group", index)
-                                            if (!value.trim()) {
-                                                setErrors({ ...errors, group: true })
-                                            } else {
-                                                setErrors({ ...errors, group: false })
-                                            }
-                                            validateForm()
-                                                }}
-                    onKeyPress={(event) => {
-                        if (!/[0-9]/.test(event.key)) {
-                            event.preventDefault();
-                        }}}
-                    
-                />
-        </div>
+                </div> */}
             </SectionContainer>
 
             <SectionContainer title={`${t("note")}`}>

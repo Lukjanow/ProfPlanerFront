@@ -38,7 +38,7 @@
   "equipment": "Austattung",
   "semester": "Fachsemester",
   "offeredIn": "Wird Angeboten im",
-  "isOffered": "Wird dieses Semester angeboten",
+  "isOffered": "Wird dieses Semester Angeboten",
   "mandatory": "Pflicht",
   "compulsoryElectivemodule": "Wahlpflichtmodul",
   "focusOfQualification": "Qualifikationsschwerpunkt",
@@ -77,7 +77,7 @@
   "room": "Raum",
   "actions": "Aktionen",
   "searchByRoom": "Suche nach Raumnummer",
-  "searchByDozent": "Suche nach dem Nachnamen des Dozeten",
+  "searchByDozent": "Suche nach dem Nachnamen des Dozenten",
   "searchByModule": "Suche nach dem Modulnamen",
   "type": "Art der Veranstaltung"
 }
