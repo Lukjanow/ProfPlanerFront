@@ -114,7 +114,13 @@ export function ExportCalendarButton() {
 
     return (
         <>
-            <FilledButton text={t("exportAsPDF")} icon="fas fa-file-pdf" showIcon isLoading={isLoading} onClick={() => handleExport()} />
+            <FilledButton
+                text={t("exportAsPDF")}
+                icon="fas fa-file-pdf"
+                showIcon
+                isLoading={isLoading}
+                onClick={handleExport}
+            />
         </>
     );
 }
