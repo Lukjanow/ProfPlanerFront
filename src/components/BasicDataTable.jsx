@@ -13,6 +13,7 @@ import {
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  printArrAsString,
   printArrAsStringByKey,
   printArrAsStringByKeys,
 } from "../utils/stringUtils.js";
@@ -21,6 +22,7 @@ import DeleteModal from "../components/DeleteModal.jsx";
 import { deleteDozent } from "../services/dozentService.js";
 import { deleteModule } from "../services/moduleService.js";
 import { deleteRoom } from "../services/roomService.js";
+import { deleteStudyCourse } from "../services/studyCourseService.js";
 
 export default function BasicDataTable({ tableData, path, fetchData }) {
   const { t } = useTranslation();
@@ -56,6 +58,11 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       case "/module":
         setSearchPlaceholder(t("searchByModule"));
         setDeleteMessage(t("deleteModuleInfo"));
+        break;
+      case "/studycourse":
+        // TODO:
+        setSearchPlaceholder(t("searchByStudyCourse"));
+        setDeleteMessage(t("deleteStudyCourseInfo"));
         break;
       default:
         console.error("Unknown element type:", element);
@@ -99,6 +106,10 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       case "/module":
         deleteFunction = deleteModule;
         elementType = "module";
+        break;
+      case "/studycourse":
+        deleteFunction = deleteStudyCourse;
+        elementType = "studycourse"
         break;
       default:
         console.error("Unknown element type:", element);
@@ -156,6 +167,11 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       } else if (key === "room") {
         return (
           <TableCell>{printArrAsStringByKey(value, "roomNumber")}</TableCell>
+        );
+      } else if (key === "content") {
+        console.log("Sers");
+        return (
+          <TableCell>{printArrAsString(value, "content")}</TableCell>
         );
       }
 
