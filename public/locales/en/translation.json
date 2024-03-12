@@ -33,6 +33,7 @@
   "newRoom": "New Room",
   "newLecturer": "New Teacher",
   "newBuilding": "New Building",
+  "newStudyCourse": "New Studycourse",
   "description": "Description",
   "studycourse": "Studycourse",
   "capacity": "Capacity",
@@ -54,5 +55,9 @@
   "actions": "Actions",
   "searchByRoom": "Search by room number",
   "searchByDozent": "Search by dozent lastname",
-  "searchByModule": "Search by module name"
+  "searchByModule": "Search by module name",
+  "name": "Name",
+  "semesterCount": "Subject semester count",
+  "qualificationFocus": "Qualification focus",
+  "add": "Add"
 }

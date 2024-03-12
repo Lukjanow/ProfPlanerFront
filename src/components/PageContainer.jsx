@@ -26,7 +26,7 @@ export default function PageContainer({ title, showDeleteButton = true, onClickD
                         showCancelButton ?
                             <OutlinedButton
                                 text={t("cancel")}
-                                color={"primary"}
+                                color={"default"}
                                 onClick={() => navigate("/basicdata")}
                             /> :
                             <></>

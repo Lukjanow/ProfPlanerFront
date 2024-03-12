@@ -10,6 +10,7 @@ import ApiDebugPage from "../pages/ApiDebugPage.jsx";
 import DropDownTestPage from "../pages/DropDownTestPage.jsx";
 import RoomDetailPage from "../pages/RoomDetailPage.jsx";
 import DozentDetailPage from "../pages/DozentDetailPage.jsx";
+import StudyCourseDetailPage from "../pages/StudyCourseDetailPage.jsx";
 
 
 // TODO: make for example /dozent-details, /room-details a child from /basicdata
@@ -56,6 +57,16 @@ const router = createBrowserRouter([
           {
             path: "room-details/:roomId",
             element: <RoomDetailPage />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "studycourse-details",
+            element: <StudyCourseDetailPage />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "studycourse-details/:studycourseId",
+            element: <StudyCourseDetailPage />,
             errorElement: <ErrorPage />,
           },
         ]
