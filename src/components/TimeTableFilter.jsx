@@ -4,8 +4,8 @@ import { Tabs, Tab, Card, CardBody} from "@nextui-org/react";
 import {DropDown2} from "./DropDown2";
 import { useState, useEffect } from "react";
 import { getAllDozents } from "../services/dozentService";
-import { getAllTrueRooms } from "../services/roomService";
-import { getAllStudySemesters } from "../services/studySemesterService";
+import { getAllRooms } from "../services/roomService";
+import { getAllStudyCourses } from "../services/studyCourseService";
 import { FilledButton } from "./FilledButton";
 
 
@@ -37,7 +37,7 @@ export function TimeTableFilter({module_list, filterAction}) {
         setDozentData(dozent_list);
 
         //room
-        const room_result = await getAllTrueRooms();
+        const room_result = await getAllRooms();
         var room_list = []
         for (const [key, value] of Object.entries(room_result.data)) {
           const room_string = String(value.roomNumber)
@@ -47,13 +47,27 @@ export function TimeTableFilter({module_list, filterAction}) {
         setRoomData(room_list);
 
         //studySemester
-        const studySemester_result = await getAllStudySemesters();
+        const studyCourse_result = await getAllStudyCourses();
+        console.log("RESULT",studyCourse_result.data)
         var studySemester_list = []
-        for (const [key, value] of Object.entries(studySemester_result.data)) {
-          const studySemester_string = String(value.name)
-          value["dropdown_string"] = studySemester_string
-          studySemester_list.push(value)
+        for (const value of studyCourse_result.data) {
+          for (let i = 0; i < value.semesterCount; i++) {
+            const studySemester_string = String(value.name) + " " + "Semester " + String(i + 1)
+            var help_dict = {}
+            help_dict["dropdown_string"] = studySemester_string
+            studySemester_list.push(help_dict)
+          }
+          for (let i = 0; i < value.content.length; i++) {
+            const studySemester_string = String(value.name) + " " + String(value.content[i])
+            var help_dict = {}
+            help_dict["dropdown_string"] = studySemester_string
+            studySemester_list.push(help_dict)
+          }
+          // const studySemester_string = String(value.name)
+          // value["dropdown_string"] = studySemester_string
+          // studySemester_list.push(value)
         }
+        console.log(studySemester_list)
         setStudySemesterData(studySemester_list);
       } catch(error) {
         console.log("Error: ", error);
