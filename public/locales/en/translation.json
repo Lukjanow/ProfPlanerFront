@@ -61,5 +61,8 @@
   "name": "Name",
   "semesterCount": "Subject semester count",
   "qualificationFocus": "Qualification focus",
-  "add": "Add"
+  "add": "Add",
+  "yourNotes": "Your Notes",
+  "neverForget": "So that you don't forget anything.",
+  "newToDos": "New ToDo's"
 }

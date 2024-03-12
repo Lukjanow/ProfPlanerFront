@@ -60,5 +60,8 @@
   "name": "Bezeichnung",
   "semesterCount": "Fachsemesteranzahl",
   "qualificationFocus": "Qualifikationsschwerpunkte",
-  "add": "Hinzufügen"
+  "add": "Hinzufügen",
+  "yourNotes": "Deine Notizen",
+  "neverForget": "Damit du nichts vergisst.",
+  "newToDos": "Neue ToDos"
 }
