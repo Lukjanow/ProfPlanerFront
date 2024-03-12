@@ -1,4 +1,4 @@
-import {RadioGroup, Radio, Input, Checkbox, Textarea} from "@nextui-org/react";
+import { Input, Checkbox, modal, CheckboxGroup } from "@nextui-org/react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { DropDown } from "../components/DropDown";
@@ -6,18 +6,17 @@ import { SectionContainer } from "../components/SectionContainer";
 import React, { useEffect, useState } from "react";
 import { ModuleItem } from "../components/ModuleItem";
 import { OutlinedButton } from "../components/OutlinedButton";
-import Exercise from "../components/Exercise";
 import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
 import { getAllStudySemesters } from "../services/studySemesterService"
-import { ModuleDetailsModel } from "../models/moduleModel";
-import { addDetailsModule, deleteModule, getDetailsModulesByModuleId, updateDetailsModule } from "../services/moduleService";
+import { ModuleModel } from "../models/moduleModel";
+import { deleteModule, getModulesByModuleId, addModule, updateModule } from "../services/moduleService";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
+import { getAllStudyCourses } from "../services/studyCourseService.js";
 
 //Deal with Dozent, Room, duration, type
-//TODO: Allow to send data
 
 export default function EditModulesPage(
 ) {
@@ -29,42 +28,25 @@ export default function EditModulesPage(
     const [ModuleID, setModuleID] = React.useState("")
     const [ModuleName, setModuleName] = React.useState("")
     const [ModuleCode, setModuleCode] = React.useState("")
+    const [ModuleDozent, setModuleDozent] = React.useState("")
+    const [ModuleRoom, setModuleRoom] = React.useState([])
     const [ModuleStudySemester, setModuleStudySemester] = useState([])
+    const [ModuleDuration, setModuleDuration] = React.useState("0")
+    const [ModuleAttendance, setModuleAttendance] = React.useState("0")
+    const [ModuleType, setModuleType] = React.useState()
     const [ModuleFrequency, setModuleFrequency] = React.useState("")
     const [ModuleSelected, setModuleSelected] = React.useState(true)
+    const [moduleStudyCourse, setModuleStudyCourse] = React.useState(new Set([]))
+    const [moduleQSP, setModuleQSP] = React.useState([])
     const [color, setColor] = React.useState("")
-    const [ModuleNote, setModuleNote] = React.useState("")
 
-    const [QSP, setQSP] = React.useState("")
-    const [studyCourse, setStudyCourse] = React.useState([])
-
-    const [extra, setExtra] = React.useState([{
-        type: "",
-        dozent: [],
-        room: "",
-        duration: "0",
-        pause: "0",
-        group: "1",
-        addTime: false,
-        error: false
-    }])            //Elements regarding Exercise/Training
-
+    const [studyCourse, setStudyCourse] = React.useState([])  //all info
+    const [studyCourseDrop, setStudyCourseDrop] = React.useState([])  //Study course to display
     const [room, setRooms] = useState([])     //rooms to display
     const [teachers, setTeachers] = useState([])     //teachers to display
-    const [semester, setSemester] = useState([])     //Studysemester to display
-    const [QSPsa, setQSPsa] = useState([{
-        key: "SED",
-        label: "Software Engineering and Development"
-    },
-    {
-        key: "VISCO",
-        label: "Visual Computing"
-    },
-    {
-        key: "Netsec",
-        label: "Networks and Security"
-    }])           //QSP to display
-
+    const [semester, setSemester] = useState([])     //all Studysemester
+    const [QSP, setQSP] = React.useState([])        //QSP to display
+    const [prevCourse, setPrevCourse] = React.useState([]) //prevent loop
 
     const [errors, setErrors] = useState({
         module_id: false,
@@ -93,47 +75,104 @@ export default function EditModulesPage(
             dozents.push(dict)
         });
         setTeachers(dozents)
+        setModuleDozent(dozents[0].key)
     }
 
-    function setStudySemesterHelper(data){
-        let StudySemester = []
-        data.forEach((semester) => {
+    function setStudyCourseHelper(courses){
+        let studyCourses = []
+        courses.forEach((studyCourse) => {
             let dict = {}
-            dict["key"] = semester["_id"]
-            dict["label"] = semester["name"]
-            if (semester["content"] < 3){
-                StudySemester.push(dict)
-            } 
+            dict["key"] = studyCourse["_id"]
+            dict["label"] = studyCourse["name"]
+            studyCourses.push(dict)
         });
-        setSemester(StudySemester)
+        let qsps = []
+        let semesters = []
+        let course = courses.filter(obj => {
+            return obj._id === studyCourses[0].key
+        })
+        course = course[0]
+        try {
+            course["content"].forEach((qsp) => {
+                let dict = {}
+                dict["label"] = qsp
+                dict["key"] = qsp
+                qsps.push(dict)
+            })
+            for (let i = 1; i <= course["semesterCount"]; i++) {
+                let dict = {}
+                dict["label"] = "Semester " + i
+                dict["key"] = String(i)
+                semesters.push(dict)
+            } 
+        } catch (error) {
+            console.log(error, " occured while setting qsp and semesters")
+        }        
+        setStudyCourse(courses)
+        setStudyCourseDrop(studyCourses)
+        setQSP(qsps)
+        setSemester(semesters)
+        console.log([studyCourses[0].key], ["2"])
+        setModuleStudyCourse([studyCourses[0].key])
     }
+
+    useEffect(() => {
+         if (moduleStudyCourse.size > 0 && prevCourse != moduleStudyCourse){
+            setPrevCourse(moduleStudyCourse)
+            let qsps = []
+            let semesters = []
+            let course = studyCourse.filter(obj => {
+                return obj._id === moduleStudyCourse.values().next().value
+            })
+            course = course[0]
+            try {
+                course["content"].forEach((qsp) => {
+                    let dict = {}
+                    dict["label"] = qsp
+                    dict["key"] = qsp
+                    qsps.push(dict)
+                })
+                for (let i = 1; i <= course["semesterCount"]; i++) {
+                    let dict = {}
+                    dict["label"] = "Semester " + i
+                    dict["key"] = String(i)
+                    semesters.push(dict)
+                }   
+            } catch (error) {
+                console.log(error, " occured while setting qsp and semesters")
+            }
+            setQSP(qsps)
+            setSemester(semesters)
+            setModuleStudySemester([])
+            setModuleQSP([])
+        }
+      }, [setQSP, moduleStudyCourse, studyCourse, setSemester, semester, prevCourse])
+    
 
      useEffect(() => {
         async function fetchData() {
             try {
               const resultRooms = await getAllRooms();
               const resultTeacher = await getAllDozents();
-              const resultStudySemester = await getAllStudySemesters();
+              const resultStudyCourse = await getAllStudyCourses();
               setRoomsHelper(resultRooms.data);
               setTeachersHelper(resultTeacher.data);
-              setStudySemesterHelper(resultStudySemester.data);
+              setStudyCourseHelper(resultStudyCourse.data);
             } catch (error) {
               console.error("Error fetching modules:", error);
             }
           }
           fetchData();
           if (moduleId) {
-            getDetailsModulesByModuleId(moduleId)
+            getModulesByModuleId(moduleId)
                 .then(response => {
-                    console.log("Dozent fetched: ", response.data)
+                    console.log("Module fetched: ", response.data)
                     setModuleID(response.data.module_id)
                     setModuleName(response.data.name)
                     setModuleCode(response.data.code)
                     setModuleStudySemester([response.data.study_semester])
                     setModuleFrequency(response.data.frequency)
                     setModuleSelected(response.data.selected)
-                    setModuleNote(response.data.note)
-                    setExtra([response.data.events])
                     setQSP([response.data.qsp])
                 })
                 .catch(error => {
@@ -141,38 +180,7 @@ export default function EditModulesPage(
                 });
         }
         }, [moduleId]) 
-
-    const DeleteExercise = (index) => {
-        const list = [...extra]
-        list.splice(index, 1)
-        setExtra(list)
-
-    }
     
-    const setExtraHelper = (value, attribute ,index) => {
-        const list = [...extra]
-        list[index][attribute] = value
-        setExtra(list)
-    }
-    
-
-    const studyCourses = [{
-        key: "bScAI",
-        label: "B. Sc. Angewandte Informatik"
-        },
-        {
-            key: "bScAId",
-            label: "B. Sc. Angewandte Informatik (dual)"
-        },
-        {
-            key: "bScWI",
-            label: "B. Sc. Wirtschaftsinformatik"
-        },
-        {
-            key: "bScWId",
-            label: "B. Sc. Wirtschaftsinformatik (dual)"
-        }
-    ]
     
     
     const WinSom = [
@@ -194,12 +202,14 @@ export default function EditModulesPage(
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        const validationErrors = validateForm();
+        console.log(moduleStudyCourse)
+
+        /* const validationErrors = validateForm();
 
         if (Object.keys(validationErrors).length === 0) {
             if (moduleId) {
-                const newModule = new ModuleDetailsModel(ModuleID, ModuleName, ModuleCode, extra, null, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse)
-                updateDetailsModule(moduleId, newModule)
+                const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, extra, null, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse)
+                updateModule(moduleId, newModule)
                     .then(response => {
                         console.log("Module updated: ", response);
                     })
@@ -210,8 +220,8 @@ export default function EditModulesPage(
                 return
             }
 
-            const newModule = new ModuleDetailsModel(ModuleID, ModuleName, ModuleCode, extra, null, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse)
-            addDetailsModule(newModule)
+            const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, extra, null, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse)
+            addModule(newModule)
                 .then(response => {
                     console.log("Module saved: ", response);
                 })
@@ -220,7 +230,7 @@ export default function EditModulesPage(
                 })
         } else {
             console.error("Error: ", errors);
-        }
+        } */
     }
 
     const handleDelete = () => {
@@ -249,26 +259,13 @@ export default function EditModulesPage(
             errors.frequency = true;
         } 
 
-        if (data.dozent == []) {
+        if (!ModuleDozent.keys[0]) {
             errors.dozent = true;
         }
 
-        if (!/[0-9]/.test(data.duration) || data.duration == "0") {
+        if (!/[0-9]/.test(ModuleDuration) || ModuleDuration == "0") {
             errors.duration = true;
         }
-
-        if (!/[0-9]/.test(data.pause)) {
-            errors.pause = true;
-        }
-
-        if (!data.type.trim()) {
-            errors.type = true;
-        }
-
-        if (!/[0-9]/.test(data.group)) {
-            errors.group = true;
-        }
-    
 
         setErrors(errors);
         return errors;
@@ -296,10 +293,11 @@ export default function EditModulesPage(
         <form>
             <SectionContainer title={`${t("general")}`}>
                 <div className="flex lg:flex-row flex-col gap-5">
-                    <DropDown Items={studyCourses} description={`${t("studycourse")}`} selectionMode="multiple"
-                        onChange={setStudyCourse}
-                        values={studyCourse}
-                        width="500px">
+                    <DropDown Items={studyCourseDrop} description={`${t("studycourse")}`}
+                        onChange={setModuleStudyCourse}
+                        values={moduleStudyCourse}
+                        width="500px"
+                        required={true}>
                     </DropDown>
                     <DropDown Items={semester} description={`${t("semester")}`} selectionMode="multiple"
                      onChange={setModuleStudySemester}
@@ -318,22 +316,25 @@ export default function EditModulesPage(
                         >{`${t("isOffered")}`}
                     </Checkbox>
                 </div>
-{/*                 <RadioGroup    //TODO: Check to solution to allow selecting multiple
-                    orientation="horizontal"
+                <CheckboxGroup
+                    label="Modulart auswählen"
+                    color="primary"
                     value={ModuleType}
-                    onValueChange={setModuleType}
-                    isRequired
-                    >
-                    <Radio value="Pflicht">{`${t("mandatory")}`}</Radio>
-                    <Radio value="Wahlpflicht">{`${t("compulsoryElectivemodule")}`}</Radio>
-                    <Radio value="QSP">{`${t("focusOfQualification")}`}</Radio>
-                    <Radio value="Sonstiges">{`${t("other")}`}</Radio>
-                </RadioGroup> */}
-                <DropDown Items={QSPsa} description={`${t("focusOfQualification")}`} selectionMode="multiple"
-                    onChange={setQSP}
-                    values={QSP}
-                    width="500px">
-                </DropDown>
+                    onValueChange={setModuleType}>
+                    <div className="flex lg:flex-row flex-col gap-5">
+                        <Checkbox value="Pflicht">Pflicht</Checkbox>
+                        <Checkbox value="Qualifikationsschwerpunkt">Qualifikationsschwerpunkt/Wahlpflichtmodul</Checkbox>
+                        <Checkbox value="Andere">Anderes</Checkbox>
+                    </div>
+                </CheckboxGroup>
+                {(ModuleType?.includes("Qualifikationsschwerpunkt")) ? 
+                 <DropDown
+                Items={QSP} description={`${t("focusOfQualification")}`}
+                onChange={setModuleQSP} values={moduleQSP} selectionMode="multiple"
+                required={true}
+                /> 
+                : null
+                }
                 <div className="flex lg:flex-row flex-col gap-5">
                         <Input
                             label={`${t("moduleName")}`}
@@ -401,40 +402,21 @@ export default function EditModulesPage(
                         </div>
                     </div>
                     <ModuleItem moduleItemData={{
-                                                title: ModuleName,
-                                                studySemester: ModuleStudySemester?.label,
-                                                backgroundcolor: color
+                                                name: ModuleName,
+                                                study_semester_string: ModuleStudySemester?.label,
+                                                backgroundcolor: color,
+                                                visible: true
                                                 }} />
                 </div>
             </SectionContainer>
             
-            <SectionContainer title={"Veranstaltungen"}>
-                {/* <div className="flex gap-5" style={{marginTop: "25px"}}>
-                    <Input
-                        isRequired
-                        isInvalid={errors.type}
-                        errorMessage={errors.type ? `${t("type")} ${t("isRequired")}` : ""}
-                        type="text"
-                        label={t("type")}
-                        className={"lg:max-w-[500px]"}
-                        value={data.type}
-                        onValueChange={
-                            (value) => {
-                                onChange(value, "type", index)
-                                if (!value.trim()) {
-                                    setErrors({ ...errors, type: true })
-                                } else {
-                                    setErrors({ ...errors, type: false })
-                                }
-                                validateForm()
-                            }
-                        }
-                    />
+            <SectionContainer title={"Veranstaltung"}>
+                 <div className="flex gap-5" style={{marginTop: "25px"}}>
                     <DropDown Items={teachers} description={`${t("lecturer")}`} selectionMode="multiple"
                                 add={{href: "/basicdata/dozent-details",
                                 Item: "Lehrende"}}
-                                onChange={teachersDropdownhelper}
-                                value={data.dozent}
+                                onChange={setModuleDozent}
+                                value={ModuleDozent}
                                 width="500px"
                                 required={true}
                                 >
@@ -442,12 +424,10 @@ export default function EditModulesPage(
                     <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
                                         add={{href: "/basicdata/room-details",
                                         Item: "Raum"}}
-                                        onChange={roomDropdownhelper}
-                                        values={data.room}
+                                        onChange={setModuleRoom}
+                                        values={ModuleRoom}
                                         >
                     </DropDown>
-                </div>
-                <div className="flex gap-5" style={{marginTop: "25px", marginBottom:"25px"}}>
                         <Input
                                 isRequired
                                 isInvalid={errors.duration}
@@ -456,7 +436,7 @@ export default function EditModulesPage(
                                 label={`${t("duration")}`}
                                 color="default"
                                 type="number"
-                                onValueChange={(value) => {onChange(value, "duration", index)
+                                onValueChange={(value) => {setModuleDuration(value)
                                                     if (!value.trim()) {
                                                         setErrors({ ...errors, duration: true })
                                                     } else {
@@ -464,69 +444,35 @@ export default function EditModulesPage(
                                                     }
                                                     validateForm()
                                                         }}
-                                value={data.duration}
+                                value={ModuleDuration}
                                 onKeyPress={(event) => {
                                     if (!/[0-9]/.test(event.key)) {
                                     event.preventDefault();
                                     }}}
                             />
-                        <Input
+                            <Input
+                                isRequired
+                                isInvalid={errors.duration}
+                                errorMessage={errors.duration ? `${t("approximateAttendance")} ${t("isRequired")}` : ""}
                                 className={"lg:max-w-[250px]"}
-                                label={`${t("pause")}`}
+                                label={`${t("approximateAttendance")}`}
                                 color="default"
                                 type="number"
-                                value={data.pause}
-                                isRequired
-                                isInvalid={errors.pause}
-                                errorMessage={errors.pause ? `${t("duration")} ${t("isRequired")}` : ""}
-                                onValueChange={(value) => {onChange(value, "pause", index)
+                                onValueChange={(value) => {setModuleAttendance(value)
                                                     if (!value.trim()) {
-                                                        setErrors({ ...errors, pause: true })
+                                                        setErrors({ ...errors, duration: true })
                                                     } else {
-                                                        setErrors({ ...errors, pause: false })
+                                                        setErrors({ ...errors, duration: false })
                                                     }
                                                     validateForm()
                                                         }}
+                                value={ModuleAttendance}
                                 onKeyPress={(event) => {
                                     if (!/[0-9]/.test(event.key)) {
-                                        event.preventDefault();
-                                    }}}
-                                />
-                    <Input
-                            className={"lg:max-w-[250px]"}
-                            label={`${t("group")}`}
-                            color="default"
-                            type="number"
-                            onChange={(e) => onChange(e.target.value, "group", index)}
-                            value={data.group}
-                            isRequired
-                            isInvalid={errors.group}
-                            errorMessage={errors.group ? `${t("group")} ${t("isRequired")}` : ""}
-                            onValueChange={(value) => {onChange(value, "group", index)
-                                                    if (!value.trim()) {
-                                                        setErrors({ ...errors, group: true })
-                                                    } else {
-                                                        setErrors({ ...errors, group: false })
-                                                    }
-                                                    validateForm()
-                                                        }}
-                            onKeyPress={(event) => {
-                                if (!/[0-9]/.test(event.key)) {
                                     event.preventDefault();
-                                }}}
-                            
-                        />
-                </div> */}
-            </SectionContainer>
-
-            <SectionContainer title={`${t("note")}`}>
-                <Textarea
-                    minRows={3}
-                    label={`${t("note")}`}
-                    placeholder={`${t("writeNotes")}`}
-                    onChange={(e) => setModuleNote(e.target.value)}
-                    value={ModuleNote}
-                />
+                                    }}}
+                            />
+                </div>
             </SectionContainer>
             </form>
         </PageContainer>
