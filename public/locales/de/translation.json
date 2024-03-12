@@ -56,6 +56,7 @@
   "searchByRoom": "Suche nach Raumnummer",
   "searchByDozent": "Suche nach dem Nachnamen des Dozeten",
   "searchByModule": "Suche nach dem Modulnamen",
+  "searchByStudyCourse": "Suche nach dem Studiengangsnamen",
   "name": "Bezeichnung",
   "semesterCount": "Fachsemesteranzahl",
   "qualificationFocus": "Qualifikationsschwerpunkte",

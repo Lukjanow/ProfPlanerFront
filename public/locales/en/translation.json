@@ -57,6 +57,7 @@
   "searchByRoom": "Search by room number",
   "searchByDozent": "Search by dozent lastname",
   "searchByModule": "Search by module name",
+  "searchByStudyCourse": "Search by studycourse name",
   "name": "Name",
   "semesterCount": "Subject semester count",
   "qualificationFocus": "Qualification focus",
