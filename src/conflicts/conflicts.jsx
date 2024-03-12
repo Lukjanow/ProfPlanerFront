@@ -3,9 +3,6 @@ import Conflict from "./Conflict";
 //function to prove if two modules are overlaping
 //returns boolean value (true = do overlap, false = do not overlap)
 function overlap(mod1, mod2, optional_break=0){
-    // console.log(mod1.start.getHours())
-    // console.log(mod1.start.getMinutes())
-    // console.log(mod1.start.getDay())
     if(mod1.start.getDay() == mod2.start.getDay()) {
         const start1 = mod1.start.getHours() * 60 + mod1.start.getMinutes()
         const start2 = mod2.start.getHours() * 60 + mod2.start.getMinutes()
@@ -145,7 +142,14 @@ function checkModuleWarnings(module_list, conflict_list, module){
 
     var study_semester_dict = {}
     for (let i = 0; i < module.study_semester.length; i++) {
-        study_semester_dict[module.study_semester[i]._id] = []
+        for (let j = 0; j < module.study_semester[i].semesterNumbers.length; j++) {
+            const semester_name = String(module.study_semester[i].studyCourse.name) + " " + "Semester " + String(module.study_semester[i].semesterNumbers[j])
+            study_semester_dict[semester_name] = []
+        }
+        for (let j = 0; j < module.study_semester[i].content.length; j++) {
+            const semester_name = String(module.study_semester[i].studyCourse.name) + " " + String(module.study_semester[i].content[j])
+            study_semester_dict[semester_name] = []
+        }
     }
 
     //FILL THE DICTIONARIES WITH ALL MODULES WITH THE SAME VALUE
@@ -154,6 +158,26 @@ function checkModuleWarnings(module_list, conflict_list, module){
         updateDictionary(dozent_dict, currentModule, module, 'dozent');
         updateDictionary(room_dict, currentModule, module, 'room');
         updateDictionary(study_semester_dict, currentModule, module, 'study_semester');
+        if (currentModule !== module) {
+            for (const studySemester of currentModule.study_semester) {
+                for (let j = 0; j < studySemester.semesterNumbers.length; j++) {
+                    const semester_name = String(studySemester.studyCourse.name) + " " + "Semester " + String(studySemester.semesterNumbers[j])
+                    for (const [key, value] of Object.entries(room_dict)) {
+                        if (semester_name == key) {
+                            value.push(currentModule)
+                        }
+                    }
+                }
+                for (let j = 0; j < studySemester.content.length; j++) {
+                    const semester_name = String(studySemester.studyCourse.name) + " " + String(studySemester.content[j])
+                    for (const [key, value] of Object.entries(room_dict)) {
+                        if (semester_name == key) {
+                            value.push(currentModule)
+                        }
+                    }
+                }
+            }
+        }
     }
 
 
