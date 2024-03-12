@@ -1,9 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Divider, Input } from "@nextui-org/react";
+import { Button, Divider, Input, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import { getAllNotes, addNote, deleteNote } from "../services/noteService";
 import NoteItem from "./NoteItem";
-import { FilledButton } from "./FilledButton";
 import { useTranslation } from "react-i18next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+
 
 const NotesContainer = () => {
   const [todos, setTodos] = useState([]); // Zustand für die To-Do-Liste
@@ -64,16 +65,17 @@ const NotesContainer = () => {
   };
 
   return (
-    <div className="flex flex-col fixed top-[65px] bottom-[85px] right-0 w-auto bg-slate-600 overflow-y-auto p-4">
-      <div className="flex flex-col flex-2 text-white">
+    //<div className="flex flex-col fixed top-[65px] bottom-[85px] right-0 w-auto bg-slate-600 overflow-y-auto p-4">
+    <>
+      <div className="flex flex-col flex-2">
         <h1 className="font-bold md:text-3xl text-1xl">{t("yourNotes")}</h1>
         <p className="font-normal">{t("neverForget")}</p>
       </div>
-
+      <Divider />
       <div
-        className="flex-1 overflow-scroll"
+        className="w-full flex-1 overflow-x-visible overflow-y-scroll"
         ref={scrollContainerRef}
-        style={{ maxHeight: "calc(100vh - 250px)", overflowY: "auto" }}
+        style={{ maxHeight: "calc(100vh - 250px)" }}
       >
         {todos.map((todo) => (
           <NoteItem
@@ -87,27 +89,32 @@ const NotesContainer = () => {
       <div className="h-[80px]">
         <div className="flex mt-4">
           <Input
-            type="email"
-            label={t("newToDos")}
-            radius="none"
-            variant="bordered"
-            className="max-w-xs text-white"
+            type="text"
+            radius="sm"
+            size={"sm"}
             value={newTodo}
+            className={"px-1.5"}
             onChange={(e) => {
               setNewTodo(e.target.value);
             }}
             onKeyDown={handleKeyDown}
             endContent={
-              <FilledButton
+              <Button
+                isIconOnly
+                size={"sm"}
+                radius={"sm"}
                 text={t("Add")}
-                color="primary"
+                color={"none"}
                 onClick={() => addTodo()}
-              />
+              >
+                <FontAwesomeIcon className={"text-lg"} icon={"paper-plane"} />
+              </Button>
             }
           />
         </div>
       </div>
-    </div>
+    </>
+    //</div>
   );
 };
 

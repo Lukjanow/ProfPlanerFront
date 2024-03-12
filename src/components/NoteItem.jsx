@@ -1,20 +1,10 @@
 import React from "react";
-import {
-  Card,
-  CardHeader,
-  CardBody,
-  CardFooter,
-  Divider,
-  Link,
-  Image,
-  Button,
-} from "@nextui-org/react";
-import { FilledButton } from "../components/FilledButton";
+import { Card, CardBody, Button } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NoteItem = ({ text, onDelete }) => {
   return (
-    <Card className="max-w-[400px] mt-5">
+    <Card shadow={"sm"} className="max-w-[400px] mt-3 mr-2">
       <CardBody className="flex flex-row items-start justify-between align-top">
         <p className="mr-2">{text}</p>
         <Button
