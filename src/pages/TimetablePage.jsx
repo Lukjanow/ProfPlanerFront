@@ -20,8 +20,8 @@ export default function MyCalendar() {
   moment.locale("de");
 const localizer = momentLocalizer(moment);
 const { t } = useTranslation();
-  const [modules, setModules] = useState([]);
-  const [calendarEntries, setcalendarEntries] = useState([]);
+  const [modules, setModules] = useState(null);
+  const [calendarEntries, setcalendarEntries] = useState(null);
 
     /* const moduleItemDataList = [
       {
@@ -288,6 +288,7 @@ const { t } = useTranslation();
           const module_result = await getAllModules();
           setModules(module_result.data);
           const calendarEntry_result = await getCalendarEntriesForCalendar("65d61765c15324dcfc497c4f");
+          console.log("Entrys")
           setcalendarEntries(calendarEntry_result.data);
           console.log("CalendarEntry: ", calendarEntry_result)
         } catch(error) {
@@ -308,7 +309,7 @@ const { t } = useTranslation();
         //   <TimeTable moduleItemList={moduleItemDataList}/>
         // </div>
         }
-        { modules.length !== 0 && calendarEntries.length !== 0 ?
+        { calendarEntries !== null && modules !== null ?
             <div className="flex">
                 <TimeTable moduleItemListPara={initModules(modules, calendarEntries)}/>
             </div> : <TimeTable moduleItemListPara={[]}/>
