@@ -160,7 +160,6 @@ export default function EditModulesPage(
               setRoomsHelper(resultRooms.data);
               setTeachersHelper(resultTeacher.data);
               setStudyCourseHelper(resultStudyCourse.data);
-              console.log("Data fetched")
             } catch (error) {
               console.error("Error fetching modules:", error);
             }
@@ -169,11 +168,9 @@ export default function EditModulesPage(
           if (moduleId) {
             getModuleByIdwithoutData(moduleId)
                 .then(response => {
-                    console.log("Module fetched: ", response.data)
                     setModuleID(response.data.module_id)
                     setModuleName(response.data.name)
                     setModuleCode(response.data.code)
-                    console.log("check", response.data.dozent, response.data.room)
                     setModuleDozent(response.data.dozent)
                     setModuleRoom(response.data.room)
                     setModuleStudyCourse([response.data.study_semester[0].studyCourse])

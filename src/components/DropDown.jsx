@@ -47,7 +47,6 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
 
     //Update Labels of Input to show selected Items correctly
     useEffect(() => {
-      console.log(description, values)
       if (values.length > 0 && prevKeys != values || values.size > 0 && prevKeys != values ){
         setValue((selectedValue) ? GetLabels(values, Items) : t("nothingSelected"))
         setPrevKeys(values)
