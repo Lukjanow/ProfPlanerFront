@@ -1,4 +1,4 @@
-import {ModuleBasicModel, ModuleModel } from "../models/moduleModel.js";
+import {ModuleBasicModel, ModuleModel} from "../models/moduleModel.js";
 import api from "./api.js";
 
 async function getAllModules() {
@@ -115,17 +115,6 @@ async function addModule(moduleModel) {
         });
 }
 
-async function addXLSXModule(moduleXLSX) {
-    return api
-        .post(`/moduleXLSX`, moduleXLSX)
-        .then(resObj => {
-            return {
-                data: resObj.data,
-                status: resObj.status
-            }
-        });
-}
-
 async function updateModule(id, {
     moduleId = null,
     name = null,
@@ -192,6 +181,5 @@ export {
     addModule,
     updateModule,
     deleteModule,
-    addXLSXModule,
     getModuleByIdwithoutData
 }

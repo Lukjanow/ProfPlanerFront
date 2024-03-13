@@ -6,6 +6,7 @@ import {
     updateStudySemester
 } from "../services/studySemesterService.js";
 
+// TODO: unused, should be removed!
 export const useStudySemesterStore = create(
     (set, get) => ({
         studySemesterList: [],

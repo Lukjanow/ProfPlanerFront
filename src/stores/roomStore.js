@@ -1,6 +1,7 @@
 import {create} from "zustand";
 import {addRoom, deleteRoom, getAllRooms, getRoomById, updateRoom} from "../services/roomService.js";
 
+// TODO: unused, should be removed!
 export const useRoomStore = create(
     (set, get) => ({
         roomList: [],

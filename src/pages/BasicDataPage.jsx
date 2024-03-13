@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { getAllBasicDataModules } from "../services/moduleService";
 import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
-import { getAllStudyCourses } from "../services/studyCourseService"
+import { getAllStudyCourses } from "../services/studyCourseService";
 
 export default function BasicDataPage() {
   const { t } = useTranslation();
@@ -22,23 +22,35 @@ export default function BasicDataPage() {
 
   async function fetchData() {
     try {
-      const [resultModule, resultRooms, resultTeacher, resultStudyCourses] = await Promise.all([
+      const promises = [
         getAllBasicDataModules(),
         getAllRooms(),
         getAllDozents(),
         getAllStudyCourses(),
-      ]);
+      ];
+
+      const [resultModule, resultRooms, resultTeacher, resultStudyCourses] =
+        await Promise.all(
+          promises.map((promise) =>
+            promise.catch((error) => {
+              console.error("Error fetching data:", error);
+              return { data: [] }; // Return empty data if there's an error
+            })
+          )
+        );
+
       setModules(resultModule.data);
       setDataLength(resultModule.data.length);
       setRooms(resultRooms.data);
       setTeachers(resultTeacher.data);
-      setStudyCourses(resultStudyCourses.data)
+      setStudyCourses(resultStudyCourses.data);
+
       console.log("----------> ResultsModule: ", resultModule);
       console.log("----------> ResultsRooms: ", resultRooms);
       console.log("----------> ResultsTeachers: ", resultTeacher);
       console.log("----------> ResultsStudyCourses: ", resultStudyCourses);
     } catch (error) {
-      console.error("Error fetching modules:", error);
+      console.error("Error fetching data:", error);
     }
   }
 

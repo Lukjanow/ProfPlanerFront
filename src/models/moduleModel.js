@@ -42,4 +42,8 @@ export class ModuleBasicModel {
     this.studySemester = jsonObj.study_semester;
     this.duration = jsonObj.duration;
   }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 5fc4d5fe847f78048a92b8f91415f5d295388b09

@@ -7,6 +7,7 @@ import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
 import { getAllStudyCourses } from "../services/studyCourseService";
 import { FilledButton } from "./FilledButton";
+import {ExportCalendarButton} from "./ExportCalendarButton.jsx";
 
 
 export function TimeTableFilter({module_list, filterAction}) {
@@ -85,9 +86,10 @@ export function TimeTableFilter({module_list, filterAction}) {
 
           radius="sm">
             <CardBody
-            className="bg-[#EEEEEE]">
-            <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={studySemesterData} category="study_semester" cLabel="Fachsemester" cPlaceholder="Suche nach Fachsemester"/>
-            {/* <FilledButton text="Reset"/> */}
+            className="bg-[#EEEEEE] flex flex-row justify-between items-center">
+              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={studySemesterData} category="study_semester" cLabel="Fachsemester" cPlaceholder="Suche nach Fachsemester"/>
+              {/* <FilledButton text="Reset"/> */}
+              <ExportCalendarButton />
             </CardBody>
           </Card>  
         </Tab>
@@ -95,9 +97,10 @@ export function TimeTableFilter({module_list, filterAction}) {
           <Card
           radius="sm">
             <CardBody
-            className="bg-[#EEEEEE]">
-            <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={dozentData} category="dozent" cLabel="Lehrperson" cPlaceholder="Suche nach Lehrperson"/>
-            {/* <FilledButton text="Reset" onClick={filterOff}/> */}
+            className="bg-[#EEEEEE] flex flex-row justify-between items-center">
+              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={dozentData} category="dozent" cLabel="Lehrperson" cPlaceholder="Suche nach Lehrperson"/>
+              {/* <FilledButton text="Reset" onClick={filterOff}/> */}
+              <ExportCalendarButton />
             </CardBody>
           </Card>  
         </Tab>
@@ -105,9 +108,10 @@ export function TimeTableFilter({module_list, filterAction}) {
           <Card
           radius="sm">
             <CardBody
-            className="bg-[#EEEEEE]">
-            <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={roomData} category="room" cLabel="Raum" cPlaceholder="Suche nach Raum"/>
-            {/* <FilledButton text="Reset" onClick={filterOff}/> */}
+              className="bg-[#EEEEEE] flex flex-row justify-between items-center">
+              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={roomData} category="room" cLabel="Raum" cPlaceholder="Suche nach Raum"/>
+              {/* <FilledButton text="Reset" onClick={filterOff}/> */}
+              <ExportCalendarButton />
             </CardBody>
           </Card>  
         </Tab>

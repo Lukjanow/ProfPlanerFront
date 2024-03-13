@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, DropdownSection, Input } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/components/DropDown.scss";
-import { useTranslation } from "react-i18next";
 
 
 {/*
@@ -58,7 +57,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
     //const sections = Array.from(new Set(Items.map(obj => obj["section"]).filter(value => value !== undefined)));
     return (
       <div
-      style={{width: width}}>
+      style={{backgroundColor: "#0000000F", width: width, borderBottom: "solid 2px black"}}>
         <Dropdown backdrop={backdrop}
           closeOnSelect={(selectionMode === "single") ? true : false}
           onOpenChange={toggleDropped}
@@ -71,7 +70,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                 <div className="arrow-up"></div>
                 : <div className="arrow-down"></div>
               }
-              style={{width: width, textAlign: "left"}}
+              style={{width: width}}
               value={value}
               isRequired={required}
               isInvalid={error}
@@ -80,7 +79,6 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
             </Input>
           </DropdownTrigger>
           <DropdownMenu aria-label="Static Actions"
-                  disallowEmptySelection={required}
                   selectionMode={selectionMode}
                   selectedKeys={values}
                   onSelectionChange={
@@ -89,10 +87,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                   disabledKeys={disabledKeys}
                   variant={variant}
                   style={{width: width,
-                          overflow: "scroll",
-                          scrollbarColor: "grey",
-                          scrollbarWidth: "thin",
-                          overflowX: "hidden",
+                          scrollbarWidth: "none",
                           maxHeight: "385px"}}>
             {(add.href && add.Item) ? 
               <DropdownItem
@@ -108,6 +103,30 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                 </DropdownItem>
               </DropdownSection>
             */}  
+            {
+              /*Items.some(e => e.section) ? (
+                sections.map((section) => {
+                  {console.log(section)}
+                  <DropdownSection
+                  title={"section"}
+                  showDivider={true}
+                  >
+                  { {
+                    Items.map((data) => (
+                      <DropdownItem key={data.key}
+                        color={data?.color}
+                        description={data?.description}
+                        className={data?.className}
+                        shortcut={data?.shortcut}
+                        startContent={data?.startContent}
+                        href={data?.href}
+                        title={data.label} />
+                  }
+                  </DropdownSection>
+                  }
+                ))
+                :*/
+            }
 
             {
                   Items.map((data) => (

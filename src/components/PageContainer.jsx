@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { OutlinedButton } from "./OutlinedButton";
 import { FilledButton } from "./FilledButton";
 import { useNavigate } from "react-router-dom";
-import { Button } from "@nextui-org/react";
+import { Button, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NotesContainer from "./NotesContainer";
 
@@ -64,24 +64,30 @@ export default function PageContainer({
         {children}
       </div>
       <div className="fixed bottom-5 right-5">
-        {showNotes && <NotesContainer />}
-        <Button
-          isIconOnly
-          color="primary"
-          className="rounded"
-          size="lg"
-          onClick={() => {
-            setShowNotes(!showNotes);
-            console.log("ShowNotes: ", showNotes);
-          }}
+        <Popover
+          shouldBlockScroll={true}
+          placement={"bottom-end"}
+          offset={20}
+          showArrow
+          onOpenChange={(isOpen) => setShowNotes(isOpen)}
         >
-          {showNotes ? (
-            <FontAwesomeIcon icon={"xmark"} />
-          ) : (
-            <FontAwesomeIcon icon={"message"} />
-          )}
-        </Button>
+          <PopoverTrigger>
+            <Button
+              isIconOnly
+              size={"lg"}
+            >
+              {showNotes ? (
+                <FontAwesomeIcon icon={"xmark"} />
+              ) : (
+                <FontAwesomeIcon icon={"message"} />
+              )}
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <NotesContainer />
+          </PopoverContent>
+        </Popover>
       </div>
-    </div>
+    </div >
   );
 }

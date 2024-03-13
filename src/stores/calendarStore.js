@@ -10,6 +10,7 @@ import {
     updateCalendar, updateCalendarEntry
 } from "../services/calendarService.js";
 
+// TODO: unused, should be removed!
 export const useCalendarStore = create(
     (set, get) => ({
         calendarList: [],

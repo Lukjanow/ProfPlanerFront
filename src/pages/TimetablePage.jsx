@@ -12,16 +12,19 @@ import { ModuleItem } from "../components/ModuleItem";
 import { TimeTable } from "../components/TimeTable";
 import { PageTitle } from "../components/PageTitle";
 import { getAllModules } from "../services/moduleService";
-import { getCalendarEntriesForCalendar } from "../services/calendarService";
+import {getCalendarById, getCalendarEntriesForCalendar} from "../services/calendarService";
 import PageContainer from "../components/PageContainer";
 import { getAllStudySemesters } from "../services/studySemesterService";
+import {useTimeTableFilterStore} from "../stores/timeTableFilterStore.js";
+
 
 export default function MyCalendar() {
   moment.locale("de");
-const localizer = momentLocalizer(moment);
-const { t } = useTranslation();
+  const localizer = momentLocalizer(moment);
+  const { t } = useTranslation();
   const [modules, setModules] = useState(null);
   const [calendarEntries, setcalendarEntries] = useState(null);
+  const setCurrentCalendar = useTimeTableFilterStore(state => state.setCurrentCalendar);
 
     /* const moduleItemDataList = [
       {
@@ -287,7 +290,12 @@ const { t } = useTranslation();
         try {
           const module_result = await getAllModules();
           setModules(module_result.data);
-          const calendarEntry_result = await getCalendarEntriesForCalendar("65d61765c15324dcfc497c4f");
+          const calendarId = "65d61765c15324dcfc497c4f";
+
+          const calendarRes = await getCalendarById(calendarId);
+          setCurrentCalendar(calendarRes.data);
+
+          const calendarEntry_result = await getCalendarEntriesForCalendar(calendarId);
           console.log("Entrys")
           setcalendarEntries(calendarEntry_result.data);
           console.log("CalendarEntry: ", calendarEntry_result)

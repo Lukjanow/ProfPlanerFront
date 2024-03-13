@@ -1,6 +1,6 @@
 import {create} from "zustand";
 import {
-    addModule, addXLSXModule,
+    addModule,
     deleteModule,
     getAllModules,
     getAllBasicDataModules,
@@ -11,6 +11,7 @@ import {
     updateModule
 } from "../services/moduleService.js";
 
+// TODO: unused, should be removed!
 export const useModuleStore = create(
     (set, get) => ({
         moduleList: [],
@@ -56,11 +57,6 @@ export const useModuleStore = create(
         },
         addModule: async (moduleModel) => {
             const {data} = await addModule(moduleModel);
-            await get().refreshModuleList();
-            return data;
-        },
-        addXLSX: async (moduleXLSX) => {
-            const {data} = await addXLSXModule(moduleXLSX);
             await get().refreshModuleList();
             return data;
         },
