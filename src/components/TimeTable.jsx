@@ -329,8 +329,8 @@ export function TimeTable({moduleItemListPara}) {
                   events={events}
                   startAccessor="start"
                   endAccessor="end"
-                  min={moment("2024-01-01T08:00").toDate()}
-                  max={moment("2024-01-01T22:00").toDate()}
+                  min={moment("2024-01-01T08:30").toDate()}
+                  max={moment("2024-01-01T20:00").toDate()}
                   views={["work_week"]}
                   defaultView="work_week"
                   defaultDate={moment("2024-01-01T00:00").toDate()}
