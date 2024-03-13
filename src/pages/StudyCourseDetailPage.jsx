@@ -126,6 +126,7 @@ export default function StudyCourseDetailPage() {
       primaryButtonTitle={t("save")}
       showDeleteButton={studycourseId ? true : false}
       onClickDelete={() => setShowModal(true)}
+      snackbar={{ type: "success", message: "Speichern erfolgreich" }}
     >
       <DeleteModal
         value={showModal}

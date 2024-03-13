@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NotesContainer from "./NotesContainer";
+import SnackBar from "./SnackBar";
 
 export default function PageContainer({
   title,
@@ -18,78 +19,82 @@ export default function PageContainer({
   showCancelButton = true,
   children,
   row,
+  snackbar
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
   const [showNotes, setShowNotes] = useState(false);
 
   return (
-    <div className={"lg:m-10 m-5 flex flex-col gap-10"}>
-      <div className={"flex flex-row gap-2 justify-between items-center"}>
-        <h2 className={"font-bold md:text-5xl text-3xl"}>
-          {title !== undefined ? title : t("defaultPageTitle")}
-        </h2>
-        <div className={"flex flex-row gap-3"}>
-          {showDeleteButton ? (
-            <OutlinedButton
-              text={t("delete")}
-              color={"danger"}
-              onClick={onClickDelete}
-            />
-          ) : (
-            <></>
-          )}
-          {showCancelButton ? (
-            <OutlinedButton
-              text={t("cancel")}
-              color={"primary"}
-              onClick={() => navigate("/basicdata")}
-            />
-          ) : (
-            <></>
-          )}
-          {showPrimaryButton ? (
-            <FilledButton
-              text={primaryButtonTitle}
-              showIcon={true}
-              icon={"plus"}
-              onClick={onClickPrimary}
-            />
-          ) : (
-            <></>
-          )}
+    <>
+      <SnackBar message={snackbar.message} type={snackbar.type} />
+      <div className={"lg:m-10 m-5 flex flex-col gap-10"}>
+        <div className={"flex flex-row gap-2 justify-between items-center"}>
+          <h2 className={"font-bold md:text-5xl text-3xl"}>
+            {title !== undefined ? title : t("defaultPageTitle")}
+          </h2>
+          <div className={"flex flex-row gap-3"}>
+            {showDeleteButton ? (
+              <OutlinedButton
+                text={t("delete")}
+                color={"danger"}
+                onClick={onClickDelete}
+              />
+            ) : (
+              <></>
+            )}
+            {showCancelButton ? (
+              <OutlinedButton
+                text={t("cancel")}
+                color={"primary"}
+                onClick={() => navigate("/basicdata")}
+              />
+            ) : (
+              <></>
+            )}
+            {showPrimaryButton ? (
+              <FilledButton
+                text={primaryButtonTitle}
+                showIcon={true}
+                icon={"plus"}
+                onClick={onClickPrimary}
+              />
+            ) : (
+              <></>
+            )}
+          </div>
         </div>
-      </div>
-      <div className={`flex gap-5 ${row ? "flex-row" : "flex-col"}`}>
-        {children}
-      </div>
-      <div className="fixed bottom-2 right-2">
-        <Popover
-          shouldBlockScroll={true}
-          placement={"bottom-end"}
-          offset={15}
-          radius={"sm"}
-          showArrow
-          onOpenChange={(isOpen) => setShowNotes(isOpen)}
-        >
-          <PopoverTrigger>
-            <Button
-              isIconOnly
-              size={"lg"}
-              radius={"sm"}
-            >
-              {showNotes ? (
-                <FontAwesomeIcon icon={"xmark"} />
-              ) : (
-                <FontAwesomeIcon icon={"message"} />
-              )}
-            </Button>
-          </PopoverTrigger>
-          <PopoverContent>
-            <NotesContainer />
-          </PopoverContent>
-        </Popover>
-      </div>
-    </div >
+        <div className={`flex gap-5 ${row ? "flex-row" : "flex-col"}`}>
+          {children}
+        </div>
+        <div className="fixed bottom-2 right-2">
+          <Popover
+            shouldBlockScroll={true}
+            placement={"bottom-end"}
+            offset={15}
+            radius={"sm"}
+            showArrow
+            onOpenChange={(isOpen) => setShowNotes(isOpen)}
+          >
+            <PopoverTrigger>
+              <Button
+                isIconOnly
+                size={"lg"}
+                radius={"sm"}
+              >
+                {showNotes ? (
+                  <FontAwesomeIcon icon={"xmark"} />
+                ) : (
+                  <FontAwesomeIcon icon={"message"} />
+                )}
+              </Button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <NotesContainer />
+            </PopoverContent>
+          </Popover>
+        </div>
+      </div >
+    </>
   );
 }

@@ -68,5 +68,7 @@
   "newToDos": "Neues ToDo",
   "exportAsPDF": "Exportieren (PDF)",
   "importAsXLSX": "Importieren (XLSX)",
-  "exportAsXLSX": "Exportieren (XLSX)"
+  "exportAsXLSX": "Exportieren (XLSX)",
+  "Message": "Message",
+  "action": "Action"
 }

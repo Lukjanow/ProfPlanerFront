@@ -68,5 +68,7 @@
   "neverForget": "So that you don't forget anything.",
   "exportAsPDF": "Export (PDF)",
   "importAsXLSX": "Import (XLSX)",
-  "exportAsXLSX": "Export (XLSX)"
+  "exportAsXLSX": "Export (XLSX)",
+  "Message": "Nachricht",
+  "action": "Aktion"
 }
