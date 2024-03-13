@@ -4,9 +4,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const NoteItem = ({ text, onDelete }) => {
   return (
-    <Card shadow={"sm"} className="max-w-[400px] mt-3 mr-2">
-      <CardBody className="flex flex-row items-start justify-between align-top">
-        <p className="mr-2">{text}</p>
+    <Card shadow={"sm"} className="m-1 mt-3">
+      <CardBody className="flex flex-row gap-5 items-start justify-between align-top">
+        <p>{text}</p>
         <Button
           isIconOnly
           color="primary"

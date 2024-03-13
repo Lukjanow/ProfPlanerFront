@@ -37,7 +37,7 @@ export default function BasicDataMenu({ onItemClick, selectedItem }) {
     <Listbox
       variant="flat"
       aria-label="Listbox menu with descriptions"
-      className="min-w-[200px] max-w-[200px] px-1 py-2 rounded-small bg-content1 shadow-small max-h-fit"
+      className="w-[200px] px-1 py-2 rounded-small bg-content1 shadow-small h-fit"
     >
       {items.map((item) => (
         <ListboxItem

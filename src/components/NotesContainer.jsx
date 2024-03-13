@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Divider, Input, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
+import { Button, Divider, Input, Popover, PopoverTrigger, PopoverContent, ScrollShadow } from "@nextui-org/react";
 import { getAllNotes, addNote, deleteNote } from "../services/noteService";
 import NoteItem from "./NoteItem";
 import { useTranslation } from "react-i18next";
@@ -66,16 +66,15 @@ const NotesContainer = () => {
 
   return (
     //<div className="flex flex-col fixed top-[65px] bottom-[85px] right-0 w-auto bg-slate-600 overflow-y-auto p-4">
-    <>
+    <div className={"p-3 flex flex-col gap-5 w-[350px] min-h-"}>
       <div className="flex flex-col flex-2">
         <h1 className="font-bold md:text-3xl text-1xl">{t("yourNotes")}</h1>
         <p className="font-normal">{t("neverForget")}</p>
       </div>
-      <Divider />
-      <div
+      <ScrollShadow
         className="w-full flex-1 overflow-x-visible overflow-y-scroll"
         ref={scrollContainerRef}
-        style={{ maxHeight: "calc(100vh - 250px)" }}
+        style={{ maxHeight: "calc(100vh - 350px)", minHeight: "calc(100vh - 350px)" }}
       >
         {todos.map((todo) => (
           <NoteItem
@@ -84,36 +83,33 @@ const NotesContainer = () => {
             onDelete={() => deleteTodo(todo._id)}
           />
         ))}
+      </ScrollShadow>
+      {/* <Divider /> */}
+      <div>
+        <Input
+          type="text"
+          radius="sm"
+          size={"sm"}
+          value={newTodo}
+          onChange={(e) => {
+            setNewTodo(e.target.value);
+          }}
+          onKeyDown={handleKeyDown}
+          endContent={
+            <Button
+              isIconOnly
+              size={"sm"}
+              radius={"sm"}
+              text={t("Add")}
+              color={"none"}
+              onClick={() => addTodo()}
+            >
+              <FontAwesomeIcon className={"text-lg"} icon={"paper-plane"} />
+            </Button>
+          }
+        />
       </div>
-      <Divider />
-      <div className="h-[80px]">
-        <div className="flex mt-4">
-          <Input
-            type="text"
-            radius="sm"
-            size={"sm"}
-            value={newTodo}
-            className={"px-1.5"}
-            onChange={(e) => {
-              setNewTodo(e.target.value);
-            }}
-            onKeyDown={handleKeyDown}
-            endContent={
-              <Button
-                isIconOnly
-                size={"sm"}
-                radius={"sm"}
-                text={t("Add")}
-                color={"none"}
-                onClick={() => addTodo()}
-              >
-                <FontAwesomeIcon className={"text-lg"} icon={"paper-plane"} />
-              </Button>
-            }
-          />
-        </div>
-      </div>
-    </>
+    </div>
     //</div>
   );
 };
