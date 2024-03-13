@@ -1,11 +1,34 @@
-export function printArrAsString(array) {
-    return array.join(", ");
+export function printMapAsString(stringMap) {
+    return stringMap.join(", ");
 }
 
-export function printArrAsStringByKey(array, key) {
-    return printArrAsString(array.map(array => array[key]));
+export function printMapAsStringByKey(stringMap, key) {
+    return printMapAsString(stringMap.map(item => item[key]));
 }
 
-export function printArrAsStringByKeys(array, keys) {
-    return array.map(item => keys.map(key => item[key]).join(" ")).join(", ");
+export function printMapAsStringByKeys(stringMap, keys) {
+    return stringMap.map(item => keys.map(key => item[key]).join(" ")).join(", ");
+}
+
+export function printMapAsStringByNestedKeys(stringMap, nestedKeys) {
+    let value = stringMap;
+    for (const key of nestedKeys) {
+        value = value[key];
+        if (!value) {
+            return "-";
+        }
+    }
+    return String(value);
+}
+
+export function printArrWithSpecificAction(array, doActionInEachArrItem) {
+    let mapResult = [];
+    array.forEach(item => {
+        mapResult.push(doActionInEachArrItem(item));
+    });
+    return printMapAsString(mapResult);
+}
+
+export function printValidFileName(string) {
+    return String(string).toLowerCase().replaceAll(" ", "-");
 }

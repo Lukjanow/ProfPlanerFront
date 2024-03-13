@@ -218,13 +218,13 @@ export function TimeTable({moduleItemListPara}) {
         <p className="font-semibold">{event.name}</p>
         {setTime(event.start, event.duration)}
         <div className="flex flex-col space-y-1 hidden">
-          <div className="flex">
+          <div className="flex detail-semester">
             <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-graduation-cap" /></span><span>{event.study_semester_string}</span>
           </div>
-          <div className="flex">
+          <div className="flex detail-dozent">
             <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-user" /></span><span>{event.dozent_string}</span>
           </div>
-          <div className="flex">
+          <div className="flex detail-room">
             <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-location-dot" /></span><span>{event.room_string}</span>
           </div>
         </div>
@@ -234,7 +234,7 @@ export function TimeTable({moduleItemListPara}) {
 
   const hoverEventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-3 h-full space-y-1">
+      <div hidden={!event.visible} className="w-[13vw] rounded-e-md w-full p-3 h-full space-y-1">
         <p className="font-semibold">{event.name}</p>
         {setTime(event.start, event.duration)}
         <div className="flex">
