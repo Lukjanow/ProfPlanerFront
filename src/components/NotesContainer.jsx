@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Button, Divider, Input, Popover, PopoverTrigger, PopoverContent, ScrollShadow } from "@nextui-org/react";
+import { Button, Input, ScrollShadow } from "@nextui-org/react";
 import { getAllNotes, addNote, deleteNote } from "../services/noteService";
 import NoteItem from "./NoteItem";
 import { useTranslation } from "react-i18next";
