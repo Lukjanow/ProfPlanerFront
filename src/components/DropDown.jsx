@@ -11,7 +11,7 @@ TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever 
 
 
 export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="",
-            add={}, width="250px", onChange = {/*pass*/}, values = [], required = false}) {
+            add={}, width="250px", onChange = {/*pass*/}, values = [], required = false, error = false}) {
     const { t } = useTranslation();
 
     const selectedValue = React.useMemo(
@@ -47,8 +47,8 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
 
     //Update Labels of Input to show selected Items correctly
     useEffect(() => {
+      console.log(description, values)
       if (values.length > 0 && prevKeys != values || values.size > 0 && prevKeys != values ){
-        console.log("triggered")
         setValue((selectedValue) ? GetLabels(values, Items) : t("nothingSelected"))
         setPrevKeys(values)
       }
@@ -75,6 +75,8 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
               style={{width: width, textAlign: "left"}}
               value={value}
               isRequired={required}
+              isInvalid={error}
+              errorMessage={error ? `${t({description})} ${t("isRequired")}` : ""}
             >
             </Input>
           </DropdownTrigger>

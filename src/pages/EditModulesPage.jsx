@@ -10,7 +10,7 @@ import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
 import { getAllStudySemesters } from "../services/studySemesterService"
 import { ModuleModel } from "../models/moduleModel";
-import { deleteModule, getModulesByModuleId, addModule, updateModule } from "../services/moduleService";
+import { deleteModule, getModuleByIdwithoutData, addModule, updateModule } from "../services/moduleService";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
@@ -28,13 +28,13 @@ export default function EditModulesPage(
     const [ModuleID, setModuleID] = React.useState("")
     const [ModuleName, setModuleName] = React.useState("")
     const [ModuleCode, setModuleCode] = React.useState("")
-    const [ModuleDozent, setModuleDozent] = React.useState("")
+    const [ModuleDozent, setModuleDozent] = React.useState([])
     const [ModuleRoom, setModuleRoom] = React.useState([])
     const [ModuleStudySemester, setModuleStudySemester] = useState([])
     const [ModuleDuration, setModuleDuration] = React.useState("0")
     const [ModuleAttendance, setModuleAttendance] = React.useState("0")
-    const [ModuleType, setModuleType] = React.useState()
-    const [ModuleFrequency, setModuleFrequency] = React.useState("")
+    const [ModuleType, setModuleType] = React.useState([])
+    const [ModuleFrequency, setModuleFrequency] = React.useState(["3"])
     const [ModuleSelected, setModuleSelected] = React.useState(true)
     const [moduleStudyCourse, setModuleStudyCourse] = React.useState(new Set([]))
     const [moduleQSP, setModuleQSP] = React.useState([])
@@ -52,7 +52,11 @@ export default function EditModulesPage(
         module_id: false,
         name: false,
         frequency: false,
-        extra: false,
+        study_course: false,
+        study_semester: false,
+        study_qsp: false,
+        dozent: false,
+        duration: false,
     });
     
     function setRoomsHelper(data){
@@ -75,7 +79,6 @@ export default function EditModulesPage(
             dozents.push(dict)
         });
         setTeachers(dozents)
-        setModuleDozent(dozents[0].key)
     }
 
     function setStudyCourseHelper(courses){
@@ -157,27 +160,39 @@ export default function EditModulesPage(
               setRoomsHelper(resultRooms.data);
               setTeachersHelper(resultTeacher.data);
               setStudyCourseHelper(resultStudyCourse.data);
+              console.log("Data fetched")
             } catch (error) {
               console.error("Error fetching modules:", error);
             }
           }
-          fetchData();
+          fetchData().then(() => {
           if (moduleId) {
-            getModulesByModuleId(moduleId)
+            getModuleByIdwithoutData(moduleId)
                 .then(response => {
                     console.log("Module fetched: ", response.data)
                     setModuleID(response.data.module_id)
                     setModuleName(response.data.name)
                     setModuleCode(response.data.code)
-                    setModuleStudySemester([response.data.study_semester])
+                    console.log("check", response.data.dozent, response.data.room)
+                    setModuleDozent(response.data.dozent)
+                    setModuleRoom(response.data.room)
+                    setModuleStudyCourse([response.data.study_semester[0].studyCourse])
+                    setModuleStudySemester(response.data.study_semester[0].semesterNumbers)
+                    setModuleQSP(response.data.study_semester[0].content)
+                    if(response.data.study_semester[0].content.length > 0){
+                        setModuleType(["Qualifikationsschwerpunkt"])
+                    }
+                    setModuleDuration(String(response.data.duration))
+                    setModuleAttendance(String(response.data.approximate_attendance))
                     setModuleFrequency(response.data.frequency)
                     setModuleSelected(response.data.selected)
-                    setQSP([response.data.qsp])
+                    setColor(response.data.color)
                 })
                 .catch(error => {
                     console.error("Error fetching Module:", error);
                 });
-        }
+            }
+        })
         }, [moduleId]) 
     
     
@@ -201,11 +216,10 @@ export default function EditModulesPage(
     const handleSubmit = (e) => {
         e.preventDefault()
 
-        console.log(moduleStudyCourse)
-
-        /* const validationErrors = validateForm();
-
-        if (Object.keys(validationErrors).length === 0) {
+        const validationErrors = validateForm();
+        
+        
+        /* if (Object.keys(validationErrors).length === 0) {
             if (moduleId) {
                 const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, extra, null, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse)
                 updateModule(moduleId, newModule)
@@ -254,13 +268,25 @@ export default function EditModulesPage(
             errors.name = true;
         }
 
-        if (!ModuleFrequency.keys[0]) {
+        if (ModuleFrequency.length == 0 || ModuleFrequency.size == 0) {
             errors.frequency = true;
         } 
 
-        if (!ModuleDozent.keys[0]) {
-            errors.dozent = true;
+        if (moduleStudyCourse.length == 0 || moduleStudyCourse.size == 0){
+            errors.study_course = true;
         }
+
+        if (ModuleStudySemester.length == 0|| ModuleStudySemester.size == 0){
+            errors.study_semester = true;
+        }
+
+        if (ModuleType.includes("Qualifikationsschwerpunkt") && (moduleQSP.length == 0 || moduleQSP.size == 0)){
+            errors.study_qsp = true;
+        }
+
+        if (ModuleDozent.length == 0 || ModuleDozent.size == 0) {
+            errors.dozent = true;
+        } 
 
         if (!/[0-9]/.test(ModuleDuration) || ModuleDuration == "0") {
             errors.duration = true;
@@ -295,16 +321,19 @@ export default function EditModulesPage(
                     <DropDown Items={studyCourseDrop} description={`${t("studycourse")}`}
                         onChange={setModuleStudyCourse}
                         values={moduleStudyCourse}
+                        error={errors.study_course}
                         width="500px"
                         required={true}>
                     </DropDown>
                     <DropDown Items={semester} description={`${t("semester")}`} selectionMode="multiple"
                      onChange={setModuleStudySemester}
                      values={ModuleStudySemester}
+                     error={errors.study_semester}
                      required={true}>
                     </DropDown>
                     <DropDown Items={WinSom} description={`${t("offeredIn")}`}
                      onChange={setModuleFrequency} values={ModuleFrequency}
+                     error={errors.frequency}
                      required={true}>
                     </DropDown>
                     <Checkbox
@@ -330,6 +359,7 @@ export default function EditModulesPage(
                  <DropDown
                 Items={QSP} description={`${t("focusOfQualification")}`}
                 onChange={setModuleQSP} values={moduleQSP} selectionMode="multiple"
+                error={errors.study_qsp}
                 required={true}
                 /> 
                 : null
@@ -360,14 +390,14 @@ export default function EditModulesPage(
                             className={"lg:max-w-[250px]"}
                             color="default"
                             type="text"
-                            isInvalid={errors.module_Id}
-                            errorMessage={errors.module_Id ? `${t("moduleNr")} ${t("isRequired")}` : ""}
+                            isInvalid={errors.module_id}
+                            errorMessage={errors.module_id ? `${t("moduleNr")} ${t("isRequired")}` : ""}
                             onValueChange={(value) =>  {
                                 setModuleID(value)
                                 if (!value.trim()) {
-                                    setErrors({ ...errors, module_Id: true })
+                                    setErrors({ ...errors, module_id: true })
                                 } else {
-                                    setErrors({ ...errors, module_Id: false })
+                                    setErrors({ ...errors, module_id: false })
                                 }}}
                             value={ModuleID}
                             isRequired
@@ -411,16 +441,19 @@ export default function EditModulesPage(
             
             <SectionContainer title={"Veranstaltung"}>
                  <div className="flex gap-5" style={{marginTop: "25px"}}>
-                    <DropDown Items={teachers} description={`${t("lecturer")}`} selectionMode="multiple"
+                    <DropDown Items={teachers}
+                                description={`${t("lecturer")}`} selectionMode="multiple"
                                 add={{href: "/basicdata/dozent-details",
                                 Item: "Lehrende"}}
                                 onChange={setModuleDozent}
-                                value={ModuleDozent}
+                                values={ModuleDozent}
                                 width="500px"
+                                error={errors.dozent}
                                 required={true}
                                 >
                             </DropDown>
-                    <DropDown Items={room} description={`${t("wRoom")}`} selectionMode="multiple"
+                    <DropDown Items={room} description={`${t("wRoom")}`}
+                                        selectionMode="multiple"
                                         add={{href: "/basicdata/room-details",
                                         Item: "Raum"}}
                                         onChange={setModuleRoom}
@@ -450,21 +483,11 @@ export default function EditModulesPage(
                                     }}}
                             />
                             <Input
-                                isRequired
-                                isInvalid={errors.duration}
-                                errorMessage={errors.duration ? `${t("approximateAttendance")} ${t("isRequired")}` : ""}
                                 className={"lg:max-w-[250px]"}
                                 label={`${t("approximateAttendance")}`}
                                 color="default"
                                 type="number"
-                                onValueChange={(value) => {setModuleAttendance(value)
-                                                    if (!value.trim()) {
-                                                        setErrors({ ...errors, duration: true })
-                                                    } else {
-                                                        setErrors({ ...errors, duration: false })
-                                                    }
-                                                    validateForm()
-                                                        }}
+                                onValueChange={(value) => {setModuleAttendance(value)}}
                                 value={ModuleAttendance}
                                 onKeyPress={(event) => {
                                     if (!/[0-9]/.test(event.key)) {

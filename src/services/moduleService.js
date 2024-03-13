@@ -49,6 +49,17 @@ async function getModuleById(id) {
         });
 }
 
+async function getModuleByIdwithoutData(id) {
+    return api
+        .get(`/module/${id}`)
+        .then(resObj => {
+            return {
+                data: new ModuleModel().setJsonObj(resObj.data),
+                status: resObj.status
+            }
+        });
+}
+
 async function getSelectedModules() {
     return api
         .get(`/modulesdata/select`)
@@ -181,5 +192,6 @@ export {
     addModule,
     updateModule,
     deleteModule,
-    addXLSXModule
+    addXLSXModule,
+    getModuleByIdwithoutData
 }
