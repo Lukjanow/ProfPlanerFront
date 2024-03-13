@@ -129,7 +129,7 @@ export default function RoomDetailPage() {
 
   return (
     <PageContainer
-      title={roomId ? `${t("room")}: ${roomNumber}` : `${t("newRoom")}`}
+      title={roomId ? `${roomNumber}` : `${t("newRoom")}`}
       onClickPrimary={(e) => handleSubmit(e)}
       primaryButtonTitle={t("save")}
       showDeleteButton={roomId ? true : false}

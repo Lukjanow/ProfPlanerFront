@@ -14,13 +14,14 @@ import { PageTitle } from "../components/PageTitle";
 import { getAllModules } from "../services/moduleService";
 import { getCalendarEntriesForCalendar } from "../services/calendarService";
 import PageContainer from "../components/PageContainer";
+import { getAllStudySemesters } from "../services/studySemesterService";
 
 export default function MyCalendar() {
   moment.locale("de");
 const localizer = momentLocalizer(moment);
 const { t } = useTranslation();
-  const [modules, setModules] = useState([]);
-  const [calendarEntries, setcalendarEntries] = useState([]);
+  const [modules, setModules] = useState(null);
+  const [calendarEntries, setcalendarEntries] = useState(null);
 
     /* const moduleItemDataList = [
       {
@@ -142,6 +143,51 @@ const { t } = useTranslation();
       return end
     }
 
+    function getAllStudySemesterString(study_semester) {
+      var all_study_semester_string = String(study_semester[0].name)
+      for (let i = 1; i < study_semester.length; i++) {
+        all_study_semester_string = all_study_semester_string + ", " + String(study_semester[i].name)
+      }
+      return all_study_semester_string
+    }
+
+    function getAllRoomString(room) {
+      var all_room_string = String(room[0].roomNumber)
+      for (let i = 1; i < room.length; i++) {
+        all_room_string = all_room_string + ", " + String(room[i].roomNumber)
+      }
+      return all_room_string
+    }
+
+    function getAllDozentString(dozent) {
+      var all_dozent_string = String(dozent[0].prename) + " " + String(dozent[0].lastname)
+      for (let i = 1; i < dozent.length; i++) {
+        all_dozent_string = all_dozent_string + ", " + String(dozent[i].prename) + " " + String(dozent[i].lastname)
+      }
+      return all_dozent_string
+    }
+
+    function getEveryStudySemesterString(studySemesters, seperator=" ") {
+      var string_list = []
+      for (const studySemester of studySemesters) {
+        for (const semester of studySemester.semesterNumbers) {
+          string_list.push(String(studySemester.studyCourse.name) + seperator + "Semester " + String(semester))
+        }
+        for (const content of studySemester.content) {
+          string_list.push(String(studySemester.studyCourse.name) + seperator + String(content))
+        }
+      }
+      return string_list
+    }
+
+    function listToString(list) {
+      var list_string = list[0]
+      for (let i = 1; i < list.length; i++) {
+        list_string = list_string + ", " + list[i];
+      }
+      return list_string
+    }
+
     function initModules(module_list, calendarEntry_list){
       var list = []
 
@@ -163,14 +209,16 @@ const { t } = useTranslation();
             _id: module_list[i]._id,
             calendar_entry_id: moduleCalendarEntry._id,
             name: module_list[i].name,
-            type: "Type",
             start: eventStart,
             end: eventEnd,
-            study_semester_string: module_list[i].study_semester[0] != null? String(module_list[i].study_semester[0].name) : "Kein Semester",
+            study_semester_string: module_list[i].study_semester[0] != null? getEveryStudySemesterString(module_list[i].study_semester)[0] : "Kein Semester",
+            hover_study_semester_string: module_list[i].study_semester[0] != null? listToString(getEveryStudySemesterString(module_list[i].study_semester)) : "Kein Semester",
             study_semester: module_list[i].study_semester,
             dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname) : "Kein Dozent",
+            hover_dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? getAllDozentString(module_list[i].dozent) : "Kein Dozent",
             dozent: module_list[i].dozent,
             room_string: module_list[i].room[0] !== null && module_list[i].room[0] !== undefined ? String(module_list[i].room[0].roomNumber) : "kein Raum",
+            hover_room_string: module_list[i].room[0] !== null && module_list[i].room[0] !== undefined ? getAllRoomString(module_list[i].room) : "kein Raum",
             room: module_list[i].room,
             backgroundcolor: module_list[i].color !== null && module_list[i].color !== undefined ? module_list[i].color : "#eeeeee",
             bordercolor: module_list[i].color !== null && module_list[i].color !== undefined ? changeColor(module_list[i].color, -40) : "#bcbcbc",
@@ -180,18 +228,21 @@ const { t } = useTranslation();
           })
         } else{
           //Module selbst erstellen und isPlaced=false
+          // const all_study_semester_string = getAllStudySemesterString(module_list[i].study_semester)
           list.push({
             _id: module_list[i]._id,
             calendar_entry_id: "",
             name: module_list[i].name,
-            type: "Type",
             start: moment("2024-01-01T12:00").toDate(),
             end: moment("2024-01-01T15:00").toDate(),
-            study_semester_string: module_list[i].study_semester[0] != null? String(module_list[i].study_semester[0].name) : "Kein Semester",
+            study_semester_string: module_list[i].study_semester[0] != null? getEveryStudySemesterString(module_list[i].study_semester)[0] : "Kein Semester",
+            hover_study_semester_string: module_list[i].study_semester[0] != null? listToString(getEveryStudySemesterString(module_list[i].study_semester)) : "Kein Semester",
             study_semester: module_list[i].study_semester,
             dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname) : "Kein Dozent",
+            hover_dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? getAllDozentString(module_list[i].dozent) : "Kein Dozent",
             dozent: module_list[i].dozent,
             room_string: module_list[i].room[0] !== null && module_list[i].room[0] !== undefined ? String(module_list[i].room[0].roomNumber) : "kein Raum",
+            hover_room_string: module_list[i].room[0] !== null && module_list[i].room[0] !== undefined ? getAllRoomString(module_list[i].room) : "kein Raum",
             room: module_list[i].room,
             backgroundcolor: module_list[i].color !== null && module_list[i].color !== undefined ? module_list[i].color : "#eeeeee",
             bordercolor: module_list[i].color !== null && module_list[i].color !== undefined ? changeColor(module_list[i].color, -40) : "#bcbcbc",
@@ -237,6 +288,7 @@ const { t } = useTranslation();
           const module_result = await getAllModules();
           setModules(module_result.data);
           const calendarEntry_result = await getCalendarEntriesForCalendar("65d61765c15324dcfc497c4f");
+          console.log("Entrys")
           setcalendarEntries(calendarEntry_result.data);
           console.log("CalendarEntry: ", calendarEntry_result)
         } catch(error) {
@@ -257,7 +309,7 @@ const { t } = useTranslation();
         //   <TimeTable moduleItemList={moduleItemDataList}/>
         // </div>
         }
-        { modules.length !== 0 && calendarEntries.length !== 0 ?
+        { calendarEntries !== null && modules !== null ?
             <div className="flex">
                 <TimeTable moduleItemListPara={initModules(modules, calendarEntries)}/>
             </div> : <TimeTable moduleItemListPara={[]}/>

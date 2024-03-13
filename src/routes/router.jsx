@@ -6,11 +6,10 @@ import ComponentPage from "../pages/ComponentPage.jsx";
 import BasicDataPage from "../pages/BasicDataPage.jsx";
 import SettingsPage from "../pages/SettingsPage.jsx";
 import ConflictsPage from "../pages/ConflictsPage.jsx";
-import EditModulesPage from "../pages/EditModulesPage.jsx";
 import ApiDebugPage from "../pages/ApiDebugPage.jsx";
 import RoomDetailPage from "../pages/RoomDetailPage.jsx";
 import DozentDetailPage from "../pages/DozentDetailPage.jsx";
-import Testpage from "../pages/Testpage.jsx";
+import StudyCourseDetailPage from "../pages/StudyCourseDetailPage.jsx";
 
 
 // TODO: make for example /dozent-details, /room-details a child from /basicdata
@@ -57,6 +56,16 @@ const router = createBrowserRouter([
           {
             path: "room-details/:roomId",
             element: <RoomDetailPage />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "studycourse-details",
+            element: <StudyCourseDetailPage />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "studycourse-details/:studycourseId",
+            element: <StudyCourseDetailPage />,
             errorElement: <ErrorPage />,
           },
         ]

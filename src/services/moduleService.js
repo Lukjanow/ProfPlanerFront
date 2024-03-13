@@ -1,4 +1,4 @@
-import {ModuleBasicModel, ModuleModel, ModuleDetailsModel} from "../models/moduleModel.js";
+import {ModuleBasicModel, ModuleModel} from "../models/moduleModel.js";
 import api from "./api.js";
 
 async function getAllModules() {
@@ -104,17 +104,6 @@ async function addModule(moduleModel) {
         });
 }
 
-async function addXLSXModule(moduleXLSX) {
-    return api
-        .post(`/moduleXLSX`, moduleXLSX)
-        .then(resObj => {
-            return {
-                data: resObj.data,
-                status: resObj.status
-            }
-        });
-}
-
 async function updateModule(id, {
     moduleId = null,
     name = null,
@@ -158,70 +147,6 @@ async function updateModule(id, {
         });
 }
 
-async function getDetailsModulesByModuleId(moduleId) {
-    return api
-        .get(`/moduledetails/module/${moduleId}`)
-        .then(resObj => {
-            return {
-                data: resObj.data.map(item => new ModuleDetailsModel().setJsonObj(item)),
-                status: resObj.status
-            }
-        });
-}
-
-async function addDetailsModule(moduleDetails) {
-    return api
-        .post(`/moduledetails`, moduleDetails)
-        .then(resObj => {
-            return {
-                data: resObj.data,
-                status: resObj.status
-            }
-        });
-}
-
-async function updateDetailsModule(id, {
-    moduleId = null,
-    name = null,
-    code = null,
-    dozentIdList = null,
-    roomIdList = null,
-    studySemesterIdList = null,
-    duration = null,
-    approximateAttendance = null,
-    need = null,
-    typeList = null,
-    frequency = null,
-    selected = null,
-    color = null,
-    note = null,
-    groups = null
-}) {
-    return api
-        .put(`/moduledetails/${id}`, {
-            ...(moduleId !== null && {moduleId}),
-            ...(name !== null && {name}),
-            ...(code !== null && {code}),
-            ...(dozentIdList !== null && {dozent: dozentIdList}),
-            ...(roomIdList !== null && {room: roomIdList}),
-            ...(studySemesterIdList !== null && {study_semester: studySemesterIdList}),
-            ...(selected !== null && {selected}),
-            ...(duration !== null && {duration}),
-            ...(approximateAttendance !== null && {approximate_attendance: approximateAttendance}),
-            ...(need !== null && {need}),
-            ...(typeList !== null && {type: typeList}),
-            ...(frequency !== null && {frequency}),
-            ...(color !== null && {color}),
-            ...(note !== null && {note}),
-            ...(groups !== null && {groups})
-        })
-        .then(resObj => {
-            return {
-                data: resObj.data,
-                status: resObj.status
-            }
-        });
-}
 
 async function deleteModule(id) {
     return api
@@ -246,8 +171,4 @@ export {
     addModule,
     updateModule,
     deleteModule,
-    addXLSXModule,
-    addDetailsModule,
-    updateDetailsModule,
-    getDetailsModulesByModuleId
 }
