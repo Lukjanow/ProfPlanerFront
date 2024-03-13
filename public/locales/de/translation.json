@@ -66,7 +66,6 @@
   "yourNotes": "Deine Notizen",
   "neverForget": "Damit du nichts vergisst.",
   "newToDos": "Neue ToDos",
-  "exportAsPDF": "Als PDF exportieren",
   "semester": "Fachsemester",
   "offeredIn": "Wird Angeboten im",
   "isOffered": "Wird dieses Semester Angeboten",
@@ -90,5 +89,8 @@
   "addExercises": "Füge eine Übung oder ein Praktikum hinzu",
   "addExercise": "Übung hinzufügen",
   "addTraining": "Praktikum hinzufügen",
-  "group": "In Gruppe"
+  "group": "In Gruppe",
+  "exportAsPDF": "Exportieren (PDF)",
+  "importAsXLSX": "Importieren (XLSX)",
+  "exportAsXLSX": "Exportieren (XLSX)"
 }

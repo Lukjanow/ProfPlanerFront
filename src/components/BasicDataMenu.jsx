@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Listbox, ListboxItem } from "@nextui-org/react";
+import {Button, Divider, Listbox, ListboxItem, ListboxSection} from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
+import {getExportData} from "../services/importExportService.js";
 
-export default function BasicDataMenu({ onItemClick, selectedItem }) {
+export default function BasicDataMenu({ onItemClick }) {
   const { t } = useTranslation();
+  const [selectedItem, setSelectedItem] = useState(
+    localStorage.getItem("selectedItem") || "module"
+  ); // Initialisieren des ausgewählten Elements mit dem Wert aus dem localStorage oder "module", falls kein Wert vorhanden ist
+
+  useEffect(() => {
+    localStorage.setItem("selectedItem", selectedItem); // Speichern des ausgewählten Elements im localStorage
+  }, [selectedItem]);
 
   const items = [
     {
@@ -26,10 +34,30 @@ export default function BasicDataMenu({ onItemClick, selectedItem }) {
       key: "studycourse",
       description: t("studycourse"),
       icon: "user",
-    },
+    }
   ];
 
+  const actionItems = [
+    {
+      key: "importBasicDataAsXLSX",
+      description: t("importAsXLSX"),
+      icon: "file-upload",
+      doAction: () => {
+        console.log("importBasicDataAsXLSX clicked!");
+      }
+    },
+    {
+      key: "exportBasicDataAsXLSX",
+      description: t("exportAsXLSX"),
+      icon: "file-download",
+      doAction: async () => {
+        await getExportData();
+      }
+    }
+  ]
+
   const handleItemClick = (itemKey) => {
+    setSelectedItem(itemKey); // Setzen des ausgewählten Elements
     onItemClick(itemKey); // Aufruf der übergebenen Funktion
   };
 
@@ -39,19 +67,38 @@ export default function BasicDataMenu({ onItemClick, selectedItem }) {
       aria-label="Listbox menu with descriptions"
       className="w-[200px] px-1 py-2 rounded-small bg-content1 shadow-small h-fit"
     >
-      {items.map((item) => (
-        <ListboxItem
-          key={item.key}
-          selectionMode={"single"}
-          // startContent={
-          //   <FontAwesomeIcon className={"text-md w-[25px]"} icon={item.icon} />
-          // }
-          className={`${selectedItem === item.key ? "bg-primary-100" : ""} p-3`}
-          onClick={() => handleItemClick(item.key)}
-        >
-          {item.description}
-        </ListboxItem>
-      ))}
+      <ListboxSection showDivider>
+        {items.map((item) => (
+            <ListboxItem
+                key={item.key}
+                selectionMode={"single"}
+                // startContent={
+                //   <FontAwesomeIcon className={"text-md w-[25px]"} icon={item.icon} />
+                // }
+                className={`${selectedItem === item.key ? "bg-primary-100" : ""} p-3`}
+                onClick={() => handleItemClick(item.key)}
+            >
+              {item.description}
+            </ListboxItem>
+        ))}
+      </ListboxSection>
+
+      <ListboxSection>
+        {actionItems.map((item) => (
+            <ListboxItem
+                key={item.key}
+                selectionMode={"single"}
+                // startContent={
+                //   <FontAwesomeIcon className={"text-md w-[25px]"} icon={item.icon} />
+                // }
+                className={`p-3`}
+                onClick={item.doAction}
+            >
+              {item.description}
+            </ListboxItem>
+        ))}
+      </ListboxSection>
+
     </Listbox>
   );
 }
