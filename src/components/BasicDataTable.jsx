@@ -78,16 +78,16 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   }, [path, t]);
 
   useEffect(() => {
-    if (isFiltered == true){
+    if (isFiltered == true) {
       setLength(filteredItems.length)
     }
-    if (searchTerm == "" && isFiltered == true){
+    if (searchTerm == "" && isFiltered == true) {
       setIsFiltered(false)
       setLength(tableData.length)
       setFilteredItems([])
     }
   }, [searchTerm, tableData, filteredItems, isFiltered])
-  
+
 
   const generateColumns = () => {
     if (!tableData || !tableData[0]) return [];
@@ -156,28 +156,28 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
     const element = pathParts[0];
     setFilteredItems([])
     tableData.forEach((item) => {
-        switch (element) {
-          case "/room":
-            if (item.roomNumber.toLowerCase().includes(searchTerm.toLowerCase())){
-              setFilteredItems(old => [...old, item])
-            }
-            break;
-          case "/dozent":
-            if ((item.prename.toLowerCase() + " " + item.lastname.toLowerCase()).includes(searchTerm.toLowerCase())){
-              setFilteredItems(old => [...old, item])
-            }
-            break;
-          case "/module":
-            if (item.name.toLowerCase().includes(searchTerm.toLowerCase())){
-              setFilteredItems(old => [...old, item])
-              
-            }
-            break;
-          default:
-            console.error("Unknown element type:", element);
-            return;
-        }
-        setIsFiltered(true)
+      switch (element) {
+        case "/room":
+          if (item.roomNumber.toLowerCase().includes(searchTerm.toLowerCase())) {
+            setFilteredItems(old => [...old, item])
+          }
+          break;
+        case "/dozent":
+          if ((item.prename.toLowerCase() + " " + item.lastname.toLowerCase()).includes(searchTerm.toLowerCase())) {
+            setFilteredItems(old => [...old, item])
+          }
+          break;
+        case "/module":
+          if (item.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+            setFilteredItems(old => [...old, item])
+
+          }
+          break;
+        default:
+          console.error("Unknown element type:", element);
+          return;
+      }
+      setIsFiltered(true)
     })
   }
 
@@ -185,7 +185,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   const handleKeyDown = (e) => {
     if (e.key == 'Enter') {
       searchFunction(searchTerm)
-    } 
+    }
   }
 
   const myColumns = generateColumns();
@@ -235,7 +235,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         return <TableCell>
           {
             printArrWithSpecificAction(value, (item) =>
-                printMapAsStringByNestedKeys(item, ["studyCourse", "name"])
+              printMapAsStringByNestedKeys(item, ["studyCourse", "name"])
             )
           }
         </TableCell>;
@@ -287,7 +287,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
             <TableRow key={item._id} id={item._id}>
               {columnKeys.map((key) => determineRendering(key, item[key]))}
               <TableCell>
-                <div className="relative flex items-center gap-2">
+                <div className="relative flex items-center gap-7">
                   <Tooltip content="Edit">
                     <span
                       className="text-lg text-default-400 cursor-pointer active:opacity-50"
