@@ -1,3 +1,5 @@
+
+
 export class ModuleModel {
     constructor(moduleId, name, code, dozentIdList, roomIdList, studySemesterIdList, duration, approximateAttendance, need, typeList,
                 frequency, selected, color, note, groups) {

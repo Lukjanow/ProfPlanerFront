@@ -69,15 +69,12 @@ export default function PageContainer({
           placement={"bottom-end"}
           offset={20}
           showArrow
-          onClose={() => setShowNotes(false)}
+          onOpenChange={(isOpen) => setShowNotes(isOpen)}
         >
           <PopoverTrigger>
             <Button
               isIconOnly
               size={"lg"}
-              onClick={() => {
-                setShowNotes(!showNotes);
-              }}
             >
               {showNotes ? (
                 <FontAwesomeIcon icon={"xmark"} />
@@ -90,23 +87,6 @@ export default function PageContainer({
             <NotesContainer />
           </PopoverContent>
         </Popover>
-
-        {/* <Button
-          isIconOnly
-          color="primary"
-          className="rounded"
-          size="lg"
-          onClick={() => {
-            setShowNotes(!showNotes);
-            console.log("ShowNotes: ", showNotes);
-          }}
-        >
-          {showNotes ? (
-            <FontAwesomeIcon icon={"xmark"} />
-          ) : (
-            <FontAwesomeIcon icon={"message"} />
-          )}
-        </Button> */}
       </div>
     </div >
   );

@@ -103,6 +103,8 @@ export default function BasicDataPage() {
       ) : (
         <NoContent />
       )}
+      
+      {/* <XLSXImport onClick={handleXLSX}/> */}
     </PageContainer>
   );
 }

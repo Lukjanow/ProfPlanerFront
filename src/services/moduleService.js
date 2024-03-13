@@ -147,6 +147,7 @@ async function updateModule(id, {
         });
 }
 
+
 async function deleteModule(id) {
     return api
         .delete(`/module/${id}`)
@@ -169,5 +170,5 @@ export {
     getAllModulesByStudySemesterId,
     addModule,
     updateModule,
-    deleteModule
+    deleteModule,
 }

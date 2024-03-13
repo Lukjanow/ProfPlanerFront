@@ -1,11 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {Button, Divider, Listbox, ListboxItem, ListboxSection} from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import {getExportData} from "../services/importExportService.js";
 
-export default function BasicDataMenu({ onItemClick, selectedItem }) {
+export default function BasicDataMenu({ onItemClick }) {
   const { t } = useTranslation();
+  const [selectedItem, setSelectedItem] = useState(
+    localStorage.getItem("selectedItem") || "module"
+  ); // Initialisieren des ausgewählten Elements mit dem Wert aus dem localStorage oder "module", falls kein Wert vorhanden ist
+
+  useEffect(() => {
+    localStorage.setItem("selectedItem", selectedItem); // Speichern des ausgewählten Elements im localStorage
+  }, [selectedItem]);
 
   const items = [
     {
@@ -50,6 +57,7 @@ export default function BasicDataMenu({ onItemClick, selectedItem }) {
   ]
 
   const handleItemClick = (itemKey) => {
+    setSelectedItem(itemKey); // Setzen des ausgewählten Elements
     onItemClick(itemKey); // Aufruf der übergebenen Funktion
   };
 
