@@ -172,7 +172,7 @@ export default function EditModulesPage(
                     setModuleDozent(response.data.dozent)
                     setModuleRoom(response.data.room)
                     setModuleStudyCourse([response.data.study_semester[0].studyCourse])
-                    setModuleStudySemester(response.data.study_semester[0].semesterNumbers)
+                    setModuleStudySemester(response.data.study_semester[0].semesterNumbers.map(String))
                     setModuleQSP(response.data.study_semester[0].content)
                     if(response.data.study_semester[0].content.length > 0){
                         setModuleType(["Qualifikationsschwerpunkt"])
@@ -216,11 +216,11 @@ export default function EditModulesPage(
         
         if (Object.keys(validationErrors).length === 0) {
             if (moduleId) {
-                let studySemester = {
+                let studySemester = [{
                     "studyCourse": moduleStudyCourse[0],
-                    "semesterNumbers": Array.from(ModuleStudySemester),
+                    "semesterNumbers": Array.from(ModuleStudySemester).map(Number),
                     "content": Array.from(moduleQSP)
-                }
+                }]
                 console.log(studySemester, moduleQSP)
                 const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt((ModuleFrequency instanceof Set) ? ModuleFrequency.values().next().value : ModuleFrequency[0]), ModuleSelected, color)
                 console.log("new Module:", newModule)
@@ -234,11 +234,11 @@ export default function EditModulesPage(
 
                 return
             }
-            let studySemester = {
-                "studyCourse": moduleStudyCourse,
-                "semesterNumbers": Array.from(ModuleStudySemester),
+            let studySemester = [{
+                "studyCourse": moduleStudyCourse[0],
+                "semesterNumbers": Array.from(ModuleStudySemester).map(Number),
                 "content": Array.from(moduleQSP)
-            }
+            }]
             const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt(ModuleFrequency.values().next().value), ModuleSelected, color)
             addModule(newModule)
                 .then(response => {

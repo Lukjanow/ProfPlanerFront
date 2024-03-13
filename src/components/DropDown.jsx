@@ -10,7 +10,7 @@ TODO: Add functions for search
 TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever works) https://nextui.org/docs/components/dropdown#with-sections*/}
 
 
-export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="",
+export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="flat", backdrop="Transparent", description="",
             add={}, width="250px", onChange = {/*pass*/}, values = [], required = false, error = false}) {
     const { t } = useTranslation();
 
@@ -58,7 +58,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
     //const sections = Array.from(new Set(Items.map(obj => obj["section"]).filter(value => value !== undefined)));
     return (
       <div
-      style={{backgroundColor: "#0000000F", width: width, borderBottom: "solid 2px black"}}>
+      style={{width: width}}>
         <Dropdown backdrop={backdrop}
           closeOnSelect={(selectionMode === "single") ? true : false}
           onOpenChange={toggleDropped}
