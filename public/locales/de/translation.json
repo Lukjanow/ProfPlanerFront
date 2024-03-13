@@ -32,6 +32,7 @@
   "newRoom": "Neuer Raum",
   "newLecturer": "Neue Lehrperson",
   "newBuilding": "Neues Gebäude",
+  "newStudyCourse": "Neuer Studiengang",
   "description": "Beschreibung",
   "studycourse": "Studiengang",
   "capacity": "Kapazität",
@@ -74,10 +75,19 @@
   "roomNumber": "Raumnummer",
   "deleteRoomInfo": "Wenn du diesen Raum löschst, werden alle Zuweisungen zu den Modulen verloren gehen!",
   "deleteModuleInfo": "Wenn du dieses Modul löscht, werden alle Zuweisungen verloren gehen!",
+  "deleteStudyCourseInfo": "Wenn du diesen Studiengang löscht, werden alle Zuweisungen verloren gehen!",
   "room": "Raum",
   "actions": "Aktionen",
   "searchByRoom": "Suche nach Raumnummer",
   "searchByDozent": "Suche nach dem Nachnamen des Dozenten",
   "searchByModule": "Suche nach dem Modulnamen",
-  "type": "Art der Veranstaltung"
+  "type": "Art der Veranstaltung",
+  "searchByStudyCourse": "Suche nach dem Studiengangsnamen",
+  "name": "Bezeichnung",
+  "semesterCount": "Fachsemesteranzahl",
+  "qualificationFocus": "Qualifikationsschwerpunkte",
+  "add": "Hinzufügen",
+  "yourNotes": "Deine Notizen",
+  "neverForget": "Damit du nichts vergisst.",
+  "newToDos": "Neue ToDos"
 }

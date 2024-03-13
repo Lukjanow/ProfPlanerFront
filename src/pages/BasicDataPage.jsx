@@ -8,30 +8,35 @@ import { useNavigate } from "react-router-dom";
 import { getAllBasicDataModules } from "../services/moduleService";
 import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
+import { getAllStudyCourses } from "../services/studyCourseService"
 
 export default function BasicDataPage() {
   const { t } = useTranslation();
   const [modules, setModules] = useState([]);
   const [rooms, setRooms] = useState([]);
   const [teachers, setTeachers] = useState([]);
+  const [studyCourses, setStudyCourses] = useState([]);
   const [dataLength, setDataLength] = useState(0);
   const navigate = useNavigate();
   const [selectedItem, setSelectedItem] = useState("module");
 
   async function fetchData() {
     try {
-      const [resultModule, resultRooms, resultTeacher] = await Promise.all([
+      const [resultModule, resultRooms, resultTeacher, resultStudyCourses] = await Promise.all([
         getAllBasicDataModules(),
         getAllRooms(),
         getAllDozents(),
+        getAllStudyCourses(),
       ]);
       setModules(resultModule.data);
       setDataLength(resultModule.data.length);
       setRooms(resultRooms.data);
       setTeachers(resultTeacher.data);
+      setStudyCourses(resultStudyCourses.data)
       console.log("----------> ResultsModule: ", resultModule);
       console.log("----------> ResultsRooms: ", resultRooms);
       console.log("----------> ResultsTeachers: ", resultTeacher);
+      console.log("----------> ResultsStudyCourses: ", resultStudyCourses);
     } catch (error) {
       console.error("Error fetching modules:", error);
     }
@@ -50,12 +55,14 @@ export default function BasicDataPage() {
     room: t("newRoom"),
     teacher: t("newLecturer"),
     building: t("newBuilding"),
+    studycourse: t("newStudyCourse"),
   };
 
   const dataMapping = {
     module: { data: modules, path: "/module-details" },
     room: { data: rooms, path: "/room-details" },
     teacher: { data: teachers, path: "/dozent-details" },
+    studycourse: { data: studyCourses, path: "/studycourse-details" },
     default: { data: modules, path: "/basicdata" },
   };
 
