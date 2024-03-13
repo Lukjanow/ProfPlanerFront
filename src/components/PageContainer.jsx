@@ -63,11 +63,12 @@ export default function PageContainer({
       <div className={`flex gap-5 ${row ? "flex-row" : "flex-col"}`}>
         {children}
       </div>
-      <div className="fixed bottom-5 right-5">
+      <div className="fixed bottom-2 right-2">
         <Popover
           shouldBlockScroll={true}
           placement={"bottom-end"}
-          offset={20}
+          offset={15}
+          radius={"sm"}
           showArrow
           onOpenChange={(isOpen) => setShowNotes(isOpen)}
         >
@@ -75,6 +76,7 @@ export default function PageContainer({
             <Button
               isIconOnly
               size={"lg"}
+              radius={"sm"}
             >
               {showNotes ? (
                 <FontAwesomeIcon icon={"xmark"} />
