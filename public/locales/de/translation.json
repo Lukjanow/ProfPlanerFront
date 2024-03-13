@@ -66,5 +66,7 @@
   "yourNotes": "Deine Notizen",
   "neverForget": "Damit du nichts vergisst.",
   "newToDos": "Neue ToDos",
-  "exportAsPDF": "Als PDF exportieren"
+  "exportAsPDF": "Exportieren (PDF)",
+  "importAsXLSX": "Importieren (XLSX)",
+  "exportAsXLSX": "Exportieren (XLSX)"
 }
