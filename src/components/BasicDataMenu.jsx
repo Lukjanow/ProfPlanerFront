@@ -1,10 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Listbox, ListboxItem } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 
-export default function BasicDataMenu({ onItemClick, selectedItem }) {
+export default function BasicDataMenu({ onItemClick }) {
   const { t } = useTranslation();
+  const [selectedItem, setSelectedItem] = useState(
+    localStorage.getItem("selectedItem") || "module"
+  ); // Initialisieren des ausgewählten Elements mit dem Wert aus dem localStorage oder "module", falls kein Wert vorhanden ist
+
+  useEffect(() => {
+    localStorage.setItem("selectedItem", selectedItem); // Speichern des ausgewählten Elements im localStorage
+  }, [selectedItem]);
 
   const items = [
     {
@@ -30,6 +37,7 @@ export default function BasicDataMenu({ onItemClick, selectedItem }) {
   ];
 
   const handleItemClick = (itemKey) => {
+    setSelectedItem(itemKey); // Setzen des ausgewählten Elements
     onItemClick(itemKey); // Aufruf der übergebenen Funktion
   };
 
@@ -43,9 +51,6 @@ export default function BasicDataMenu({ onItemClick, selectedItem }) {
         <ListboxItem
           key={item.key}
           selectionMode={"single"}
-          // startContent={
-          //   <FontAwesomeIcon className={"text-md w-[25px]"} icon={item.icon} />
-          // }
           className={`${selectedItem === item.key ? "bg-primary-100" : ""} p-3`}
           onClick={() => handleItemClick(item.key)}
         >
