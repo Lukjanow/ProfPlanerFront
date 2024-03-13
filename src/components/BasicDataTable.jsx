@@ -13,9 +13,10 @@ import {
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
-  printArrAsString,
-  printArrAsStringByKey,
-  printArrAsStringByKeys,
+  printArrWithSpecificAction,
+  printMapAsString,
+  printMapAsStringByKey,
+  printMapAsStringByKeys, printMapAsStringByNestedKeys,
 } from "../utils/stringUtils.js";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
@@ -156,22 +157,35 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         return <TableCell>-</TableCell>;
       }
 
+      console.log("key:", key);
+
+      console.log("value:", value);
+
+      // if (value[0] && value[0].studyCourse) {
+      //   console.log("studyCourse name:",
+
       if (key === "dozent") {
         return (
           <TableCell>
-            {printArrAsStringByKeys(value, ["prename", "lastname"])}
+            {printMapAsStringByKeys(value, ["prename", "lastname"])}
           </TableCell>
         );
       } else if (key === "studySemester") {
-        return <TableCell>{printArrAsStringByKey(value, "name")}</TableCell>;
+        return <TableCell>
+          {
+            printArrWithSpecificAction(value, (item) =>
+                printMapAsStringByNestedKeys(item, ["studyCourse", "name"])
+            )
+          }
+        </TableCell>;
       } else if (key === "room") {
         return (
-          <TableCell>{printArrAsStringByKey(value, "roomNumber")}</TableCell>
+          <TableCell>{printMapAsStringByKey(value, "roomNumber")}</TableCell>
         );
       } else if (key === "content") {
         console.log("Sers");
         return (
-          <TableCell>{printArrAsString(value, "content")}</TableCell>
+          <TableCell>{printMapAsString(value, "content")}</TableCell>
         );
       }
 
