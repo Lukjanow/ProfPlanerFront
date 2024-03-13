@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, DropdownSection, Input } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import "../styles/components/DropDown.scss"
+import "../styles/components/DropDown.scss";
 
 
 {/*
@@ -23,13 +23,13 @@ function GetLabels(selectedKeys, Items) {
 }
 
 export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="underlined", backdrop="Transparent", description="", add={}, width="300px"}) {
-    const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
-    const selectedValue = React.useMemo(
-       () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
-      [selectedKeys],
-    )
+  const [selectedKeys, setSelectedKeys] = React.useState(new Set([]));
+  const selectedValue = React.useMemo(
+    () => Array.from(selectedKeys).join(", ").replaceAll("_", " "),
+   [selectedKeys],
+ )
 
-    const [value, setValue] = React.useState("Nothing Selected")
+    const [value, setValue] = React.useState("nothingSelected")
     const [dropped, setDropped] = React.useState(false)
 
     //deal with arrow in Input in DropdownTrigger
@@ -37,11 +37,28 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
       setDropped(!dropped)
     }
 
+      //Allow Input to Display the Label of Item rather than the Key
+    function GetLabels(selectedKeys, Items) {
+      let Labels = ""
+      let arr = Array.from(selectedKeys)
+      arr.forEach((element, index, array) => {
+        Items.forEach((item) =>{
+          if (item.key === element){
+            Labels += item.label
+            if (index !== array.length - 1) { Labels += ", " }  //Deal with seperation
+          }
+        })
+      }
+      )
+      return Labels
+    }
+
+
     //Update Labels of Input to show selected Items correctly
     useEffect(() => {
-       setValue((selectedValue) ? GetLabels(selectedKeys, Items) : "Nothing Selected")
-       console.log("Called useEffect")},
-          [setValue, value, Items, selectedValue, selectedKeys]
+      setValue((selectedValue) ? GetLabels(selectedKeys, Items) : "Nothing Selected")
+      console.log("Called useEffect")},
+         [setValue, value, Items, selectedValue, selectedKeys]
         )
 
     //const sections = Array.from(new Set(Items.map(obj => obj["section"]).filter(value => value !== undefined)));
@@ -74,7 +91,6 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                   disabledKeys={disabledKeys}
                   variant={variant}
                   style={{width: width,
-                          overflow: "scroll",
                           scrollbarWidth: "none",
                           maxHeight: "385px"}}>
             {(add.href && add.Item) ? 
@@ -91,7 +107,6 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                 </DropdownItem>
               </DropdownSection>
             */}  
-
             {
               /*Items.some(e => e.section) ? (
                 sections.map((section) => {
@@ -115,6 +130,9 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                   }
                 ))
                 :*/
+            }
+
+            {
                   Items.map((data) => (
                   <DropdownItem key={data.key}
                     color={data?.color}

@@ -7,7 +7,6 @@ import BasicDataPage from "../pages/BasicDataPage.jsx";
 import SettingsPage from "../pages/SettingsPage.jsx";
 import ConflictsPage from "../pages/ConflictsPage.jsx";
 import ApiDebugPage from "../pages/ApiDebugPage.jsx";
-import DropDownTestPage from "../pages/DropDownTestPage.jsx";
 import RoomDetailPage from "../pages/RoomDetailPage.jsx";
 import DozentDetailPage from "../pages/DozentDetailPage.jsx";
 import StudyCourseDetailPage from "../pages/StudyCourseDetailPage.jsx";
@@ -85,12 +84,7 @@ const router = createBrowserRouter([
         path: "component",
         element: <ComponentPage />,
         errorElement: <ErrorPage />,
-      },
-      {
-        path: "DropDownTestPage",
-        element: <DropDownTestPage />,
-        errorElement: <ErrorPage />,
-      },
+      }
     ],
   },
 ]);
