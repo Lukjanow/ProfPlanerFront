@@ -115,41 +115,9 @@ async function addModule(moduleModel) {
         });
 }
 
-async function updateModule(id, {
-    moduleId = null,
-    name = null,
-    code = null,
-    dozentIdList = null,
-    roomIdList = null,
-    studySemesterIdList = null,
-    duration = null,
-    approximateAttendance = null,
-    need = null,
-    typeList = null,
-    frequency = null,
-    selected = null,
-    color = null,
-    note = null,
-    groups = null
-}) {
+async function updateModule(id, moduleModel) {
     return api
-        .put(`/module/${id}`, {
-            ...(moduleId !== null && {moduleId}),
-            ...(name !== null && {name}),
-            ...(code !== null && {code}),
-            ...(dozentIdList !== null && {dozent: dozentIdList}),
-            ...(roomIdList !== null && {room: roomIdList}),
-            ...(studySemesterIdList !== null && {study_semester: studySemesterIdList}),
-            ...(selected !== null && {selected}),
-            ...(duration !== null && {duration}),
-            ...(approximateAttendance !== null && {approximate_attendance: approximateAttendance}),
-            ...(need !== null && {need}),
-            ...(typeList !== null && {type: typeList}),
-            ...(frequency !== null && {frequency}),
-            ...(color !== null && {color}),
-            ...(note !== null && {note}),
-            ...(groups !== null && {groups})
-        })
+        .put(`/module/${id}`, moduleModel)
         .then(resObj => {
             return {
                 data: resObj.data,

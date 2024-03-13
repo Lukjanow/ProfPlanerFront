@@ -9,10 +9,8 @@ import ConflictsPage from "../pages/ConflictsPage.jsx";
 import ApiDebugPage from "../pages/ApiDebugPage.jsx";
 import RoomDetailPage from "../pages/RoomDetailPage.jsx";
 import DozentDetailPage from "../pages/DozentDetailPage.jsx";
-<<<<<<< HEAD
+import EditModulesPage from "../pages/EditModulesPage.jsx";
 import Testpage from "../pages/Testpage.jsx";
-=======
->>>>>>> 5fc4d5fe847f78048a92b8f91415f5d295388b09
 import StudyCourseDetailPage from "../pages/StudyCourseDetailPage.jsx";
 
 

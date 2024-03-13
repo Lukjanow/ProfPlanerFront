@@ -2,6 +2,7 @@ import React, { useEffect } from "react";
 import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, DropdownSection, Input } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import "../styles/components/DropDown.scss";
+import { useTranslation } from "react-i18next";
 
 
 {/*
@@ -70,7 +71,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                 <div className="arrow-up"></div>
                 : <div className="arrow-down"></div>
               }
-              style={{width: width}}
+              style={{width: width, textAlign: "left"}}
               value={value}
               isRequired={required}
               isInvalid={error}
@@ -87,7 +88,10 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                   disabledKeys={disabledKeys}
                   variant={variant}
                   style={{width: width,
-                          scrollbarWidth: "none",
+                          overflow: "scroll",
+                          scrollbarWidth: "thin",
+                          scrollbarColor: "lightgrey",
+                          overflowX: "hidden",
                           maxHeight: "385px"}}>
             {(add.href && add.Item) ? 
               <DropdownItem
@@ -103,30 +107,6 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
                 </DropdownItem>
               </DropdownSection>
             */}  
-            {
-              /*Items.some(e => e.section) ? (
-                sections.map((section) => {
-                  {console.log(section)}
-                  <DropdownSection
-                  title={"section"}
-                  showDivider={true}
-                  >
-                  { {
-                    Items.map((data) => (
-                      <DropdownItem key={data.key}
-                        color={data?.color}
-                        description={data?.description}
-                        className={data?.className}
-                        shortcut={data?.shortcut}
-                        startContent={data?.startContent}
-                        href={data?.href}
-                        title={data.label} />
-                  }
-                  </DropdownSection>
-                  }
-                ))
-                :*/
-            }
 
             {
                   Items.map((data) => (

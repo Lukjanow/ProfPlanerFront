@@ -5,10 +5,8 @@ import { DropDown } from "../components/DropDown";
 import { SectionContainer } from "../components/SectionContainer";
 import React, { useEffect, useState } from "react";
 import { ModuleItem } from "../components/ModuleItem";
-import { OutlinedButton } from "../components/OutlinedButton";
 import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
-import { getAllStudySemesters } from "../services/studySemesterService"
 import { ModuleModel } from "../models/moduleModel";
 import { deleteModule, getModuleByIdwithoutData, addModule, updateModule } from "../services/moduleService";
 import { useParams } from "react-router-dom";
@@ -181,7 +179,7 @@ export default function EditModulesPage(
                     }
                     setModuleDuration(String(response.data.duration))
                     setModuleAttendance(String(response.data.approximate_attendance))
-                    setModuleFrequency(response.data.frequency)
+                    setModuleFrequency([String(response.data.frequency)])
                     setModuleSelected(response.data.selected)
                     setColor(response.data.color)
                 })
@@ -216,9 +214,16 @@ export default function EditModulesPage(
         const validationErrors = validateForm();
         
         
-        /* if (Object.keys(validationErrors).length === 0) {
+        if (Object.keys(validationErrors).length === 0) {
             if (moduleId) {
-                const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, extra, null, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse)
+                let studySemester = {
+                    "studyCourse": moduleStudyCourse[0],
+                    "semesterNumbers": Array.from(ModuleStudySemester),
+                    "content": Array.from(moduleQSP)
+                }
+                console.log(studySemester, moduleQSP)
+                const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt((ModuleFrequency instanceof Set) ? ModuleFrequency.values().next().value : ModuleFrequency[0]), ModuleSelected, color)
+                console.log("new Module:", newModule)
                 updateModule(moduleId, newModule)
                     .then(response => {
                         console.log("Module updated: ", response);
@@ -229,8 +234,12 @@ export default function EditModulesPage(
 
                 return
             }
-
-            const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, extra, null, ModuleFrequency, ModuleSelected, color, ModuleNote, QSP, studyCourse)
+            let studySemester = {
+                "studyCourse": moduleStudyCourse,
+                "semesterNumbers": Array.from(ModuleStudySemester),
+                "content": Array.from(moduleQSP)
+            }
+            const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt(ModuleFrequency.values().next().value), ModuleSelected, color)
             addModule(newModule)
                 .then(response => {
                     console.log("Module saved: ", response);
@@ -240,7 +249,7 @@ export default function EditModulesPage(
                 })
         } else {
             console.error("Error: ", errors);
-        } */
+        }
     }
 
     const handleDelete = () => {

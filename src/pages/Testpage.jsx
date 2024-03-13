@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { addXLSXModule } from "../services/moduleService";
-import XLSXImport from "../components/xlsxImport";
 import { useTranslation } from "react-i18next";
 import "../styles/components/DropDown.scss";
 import {  Dropdown,  DropdownTrigger,  DropdownMenu,  DropdownItem, DropdownSection, Input } from "@nextui-org/react";
