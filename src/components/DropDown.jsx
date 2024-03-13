@@ -29,7 +29,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
    [selectedKeys],
  )
 
-    const [value, setValue] = React.useState(t("nothingSelected"))
+    const [value, setValue] = React.useState("nothingSelected")
     const [dropped, setDropped] = React.useState(false)
 
     //deal with arrow in Input in DropdownTrigger
