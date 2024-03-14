@@ -93,5 +93,7 @@
   "group": "In group",
   "exportAsPDF": "Export (PDF)",
   "importAsXLSX": "Import (XLSX)",
-  "exportAsXLSX": "Export (XLSX)"
+  "exportAsXLSX": "Export (XLSX)",
+  "Message": "Nachricht",
+  "action": "Aktion"
 }

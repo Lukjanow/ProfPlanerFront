@@ -42,7 +42,6 @@ export default function EditModulesPage(
     const [studyContent, setStudyContent] = React.useState([]) //Contains qsp and semester count to study course
     const [room, setRooms] = useState([])     //rooms to display
     const [teachers, setTeachers] = useState([])     //teachers to display
-    const [prevCourse, setPrevCourse] = React.useState([]) //prevent loop
 
     const dealwithStudySemester = useRef([])
 
@@ -111,7 +110,7 @@ export default function EditModulesPage(
         setStudyCourseDrop(studyCourses)
     }
 
-    //is executed before studycontent is set
+
     useEffect(() => {
         let e
         if(dealwithStudySemester[0]){
