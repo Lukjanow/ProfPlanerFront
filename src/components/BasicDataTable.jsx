@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Table,
@@ -22,6 +22,7 @@ import { deleteDozent } from "../services/dozentService.js";
 import { deleteModule } from "../services/moduleService.js";
 import { deleteRoom } from "../services/roomService.js";
 import { deleteStudyCourse } from "../services/studyCourseService.js";
+import { Context } from "../routes/root.jsx";
 
 
 export default function BasicDataTable({ tableData, path, fetchData }) {
@@ -36,6 +37,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   const [filteredItems, setFilteredItems] = useState(tableData)
   const [isFiltered, setIsFiltered] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
+  const [setSnackbarData] = useContext(Context)
   let columnKeys = [];
 
   // Funktion zum Aktualisieren der Länge der Daten
@@ -136,17 +138,19 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         return;
     }
 
-    try {
-      // Rufe die entsprechende Löschfunktion auf
-      await deleteFunction(id);
-      console.log(`${elementType} deleted successfully`);
-      setShowModal(false);
 
-      // Nach dem Löschen erneut Daten abrufen und die Tabelle aktualisieren
-      fetchData();
-    } catch (error) {
-      console.error(`Error deleting ${elementType}:`, error);
-    }
+    deleteFunction(id)
+      .then(response => {
+        console.log(`${elementType} deleted: `, response);
+        setSnackbarData({ type: "success", message: `${elementType} deleted.`, visible: true })
+        navigate("/basicdata")
+        setShowModal(false);
+        fetchData()
+      })
+      .catch(error => {
+        console.error(`Error deleting ${elementType}: `, error);
+        setSnackbarData({ type: "error", message: `Error deleting ${elementType}.`, visible: true })
+      })
   };
 
 
