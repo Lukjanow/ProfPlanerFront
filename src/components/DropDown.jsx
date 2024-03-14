@@ -7,7 +7,8 @@ import { useTranslation } from "react-i18next";
 
 {/*
 TODO: Add functions for search
-TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever works) https://nextui.org/docs/components/dropdown#with-sections*/}
+TODO: Fix Sections to work with a Multiplier (map(), foreach(), (...), Whatever works) https://nextui.org/docs/components/dropdown#with-sections*/
+}
 
 
 export function DropDown({Items, selectionMode = "single", disabledKeys = [], variant="flat", backdrop="Transparent", description="",
@@ -47,7 +48,7 @@ export function DropDown({Items, selectionMode = "single", disabledKeys = [], va
 
     //Update Labels of Input to show selected Items correctly
     useEffect(() => {
-      if (values.length > 0 && prevKeys != values || values.size > 0 && prevKeys != values ){
+      if (prevKeys != values || prevKeys != values ){
         setValue((selectedValue) ? GetLabels(values, Items) : t("nothingSelected"))
         setPrevKeys(values)
       }

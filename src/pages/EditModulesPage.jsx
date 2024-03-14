@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
 import { getAllStudyCourses } from "../services/studyCourseService.js";
 
-//TODO: Checkbox acting weird, QSP doesn't change
+//TODO: Checkbox acting weird, QSP doesn't change when editing
 
 export default function EditModulesPage(
 ) {
@@ -106,7 +106,6 @@ export default function EditModulesPage(
             }
             courses.push(dict)
         }
-        console.log("Dealt with Studiengang", courses)
         setStudyContent(courses),
         setStudyCourse(course),
         setStudyCourseDrop(studyCourses)
@@ -145,6 +144,11 @@ export default function EditModulesPage(
     const setstudyHelp = (value, index, attribute) => {
         const list = [...ModuleStudySemester]
         list[index][attribute] = value
+        if (attribute == "studyCourse"){
+            list[index]["semesterNumbers"] = []
+            list[index]["content"] = []
+            list[index]["type"] = ""
+        }
         let object
         try {
             object = studyContent.find(item => item.studyCourse == list[index].studyCourse[0])   
