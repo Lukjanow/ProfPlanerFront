@@ -7,9 +7,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Tooltip,
   Input,
-  Link,
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -24,6 +22,7 @@ import { deleteDozent } from "../services/dozentService.js";
 import { deleteModule } from "../services/moduleService.js";
 import { deleteRoom } from "../services/roomService.js";
 import { deleteStudyCourse } from "../services/studyCourseService.js";
+
 
 export default function BasicDataTable({ tableData, path, fetchData }) {
   const { t } = useTranslation();
@@ -288,31 +287,27 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
               {columnKeys.map((key) => determineRendering(key, item[key]))}
               <TableCell>
                 <div className="relative flex items-center gap-7">
-                  <Tooltip content="Edit">
-                    <span
-                      className="text-lg text-default-400 cursor-pointer active:opacity-50"
-                      onClick={() => {
-                        const navigatePath = `/basicdata${path}/${item._id}`;
-                        console.log("-----> Path: ", path);
-                        navigate(navigatePath);
-                      }}
-                    >
-                      {" "}
-                      <FontAwesomeIcon icon={"pen"} />
-                    </span>
-                  </Tooltip>
-                  <Tooltip color="danger" content="Delete">
-                    <span
-                      className="text-lg text-danger cursor-pointer active:opacity-50"
-                      onClick={() => {
-                        console.log("-----> Clicked on Delete!");
-                        setDeleteItemId(item._id); // Setzen Sie die ID des zu löschenden Elements
-                        setShowModal(true);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={"trash"} />
-                    </span>
-                  </Tooltip>
+                  <span
+                    className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                    onClick={() => {
+                      const navigatePath = `/basicdata${path}/${item._id}`;
+                      console.log("-----> Path: ", path);
+                      navigate(navigatePath);
+                    }}
+                  >
+                    {" "}
+                    <FontAwesomeIcon icon={"pen"} />
+                  </span>
+                  <span
+                    className="text-lg text-danger cursor-pointer active:opacity-50"
+                    onClick={() => {
+                      console.log("-----> Clicked on Delete!");
+                      setDeleteItemId(item._id); // Setzen Sie die ID des zu löschenden Elements
+                      setShowModal(true);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={"trash"} />
+                  </span>
                 </div>
               </TableCell>
             </TableRow>

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import PageContainer from "../components/PageContainer.jsx";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer.jsx";
@@ -14,9 +14,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
 import { FilledButton } from "../components/FilledButton.jsx";
-import SnackBar from "../components/SnackBar.jsx";
-import TimedComponent from "../components/TimedComponent.jsx";
-
+import { Context } from "../routes/root.jsx";
 
 export default function StudyCourseDetailPage() {
   const { t } = useTranslation();
@@ -24,7 +22,7 @@ export default function StudyCourseDetailPage() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const qualificationFocusInputRef = useRef(null)
-  const [showSnackbar, setShowSnackbar] = useState(false);
+  const [setSnackbarData] = useContext(Context)
 
 
   const [name, setName] = useState("");
@@ -93,7 +91,10 @@ export default function StudyCourseDetailPage() {
     } else {
       console.error("Error: ", errors);
     }
-    setShowSnackbar(true);
+    setSnackbarData({ type: "warning", message: "Suuuubbaa Klaaasse!", visible: true })
+    //setShowSnackbar(true);
+    //setSnackbarMessage("Suuuubbbbbaaaa Klaaaasssee!")
+    navigate("/basicdata")
   };
 
   const handleDelete = () => {
@@ -141,11 +142,6 @@ export default function StudyCourseDetailPage() {
         headlineText={t("deleteQuestion")}
         bodyText={t("deleteStudyCourseInfo")}
       />
-      {showSnackbar && (
-        <TimedComponent duration={4000} onClose={() => setShowSnackbar(false)}>
-          <SnackBar type="success" message={"Das ist eine TEst Nachricht"} />
-        </TimedComponent>
-      )}
       <form>
         <SectionContainer title={t("general")}>
           <div className="flex lg:flex-row flex-col gap-5">
