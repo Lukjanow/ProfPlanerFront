@@ -5,7 +5,7 @@ import { DropDown } from "../components/DropDown";
 import { SectionContainer } from "../components/SectionContainer";
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { ModuleItem } from "../components/ModuleItem";
-import {OutlinedButton} from "../components/OutlinedButton";
+import { OutlinedButton } from "../components/OutlinedButton";
 import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
 import { ModuleModel } from "../models/moduleModel";
@@ -55,8 +55,8 @@ export default function EditModulesPage(
         duration: false,
         extra: false
     });
-    
-    function setRoomsHelper(data){
+
+    function setRoomsHelper(data) {
         let rooms = []
         data.forEach(room => {
             let dict = {}
@@ -67,7 +67,7 @@ export default function EditModulesPage(
         setRooms(rooms)
     }
 
-    function setTeachersHelper(data){
+    function setTeachersHelper(data) {
         let dozents = []
         data.forEach((dozent) => {
             let dict = {}
@@ -78,7 +78,7 @@ export default function EditModulesPage(
         setTeachers(dozents)
     }
 
-    function setStudyCourseHelper(course){
+    function setStudyCourseHelper(course) {
         let studyCourses = []
         let courses = []
         for (const studyCourse of course) {
@@ -86,9 +86,11 @@ export default function EditModulesPage(
             dict["key"] = studyCourse["_id"]
             dict["label"] = studyCourse["name"]
             studyCourses.push(dict)
-            dict = {"studyCourse": studyCourse["_id"],
-                        "content": [],
-                        "semesterCount": []} 
+            dict = {
+                "studyCourse": studyCourse["_id"],
+                "content": [],
+                "semesterCount": []
+            }
             try {
                 studyCourse["content"].forEach((qsp) => {
                     let thing = {}
@@ -108,31 +110,31 @@ export default function EditModulesPage(
             courses.push(dict)
         }
         setStudyContent(courses),
-        setStudyCourse(course),
-        setStudyCourseDrop(studyCourses)
+            setStudyCourse(course),
+            setStudyCourseDrop(studyCourses)
     }
 
 
     useEffect(() => {
         let e
-        if(dealwithStudySemester[0]){
+        if (dealwithStudySemester[0]) {
             e = [...tempStudy],
-            e.forEach(function(e){
-                e.studyCourse = [e.studyCourse]
-                e.errors = {
-                    studyCourse: false,
-                    semesterNumbers: false,
-                    content: false
-                },
-                e.semesterNumbers = e.semesterNumbers.map(String)
-                let object = studyContent.find(item => item.studyCourse == e.studyCourse)
-                e.renderContent = object["content"]
-                e.renderSemester = object["semesterCount"]
-            })
+                e.forEach(function (e) {
+                    e.studyCourse = [e.studyCourse]
+                    e.errors = {
+                        studyCourse: false,
+                        semesterNumbers: false,
+                        content: false
+                    },
+                        e.semesterNumbers = e.semesterNumbers.map(String)
+                    let object = studyContent.find(item => item.studyCourse == e.studyCourse)
+                    e.renderContent = object["content"]
+                    e.renderSemester = object["semesterCount"]
+                })
             setModuleStudySemester(e)
             dealwithStudySemester[0] = false
         }
-    },[dealwithStudySemester, tempStudy])
+    }, [dealwithStudySemester, tempStudy])
 
     const deleteStudy = (index) => {
         const list = [...ModuleStudySemester]
@@ -145,14 +147,14 @@ export default function EditModulesPage(
     const setstudyHelp = (value, index, attribute) => {
         const list = [...ModuleStudySemester]
         list[index][attribute] = value
-        if (attribute == "studyCourse"){
+        if (attribute == "studyCourse") {
             list[index]["semesterNumbers"] = []
             list[index]["content"] = []
             list[index]["type"] = ""
         }
         let object
         try {
-            object = studyContent.find(item => item.studyCourse == list[index].studyCourse[0])   
+            object = studyContent.find(item => item.studyCourse == list[index].studyCourse[0])
         } catch (error) {
             console.log(error)
         }
@@ -161,50 +163,50 @@ export default function EditModulesPage(
         list[index]["renderSemester"] = object["semesterCount"]
         setModuleStudySemester(list)
     }
-    
 
-     useEffect(() => {
+
+    useEffect(() => {
         async function fetchData() {
             try {
-              const resultRooms = await getAllRooms();
-              const resultTeacher = await getAllDozents();
-              const resultStudyCourse = await getAllStudyCourses();
-              setRoomsHelper(resultRooms.data);
-              setTeachersHelper(resultTeacher.data);
-              setStudyCourseHelper(resultStudyCourse.data);
+                const resultRooms = await getAllRooms();
+                const resultTeacher = await getAllDozents();
+                const resultStudyCourse = await getAllStudyCourses();
+                setRoomsHelper(resultRooms.data);
+                setTeachersHelper(resultTeacher.data);
+                setStudyCourseHelper(resultStudyCourse.data);
             } catch (error) {
-              console.error("Error fetching modules:", error);
+                console.error("Error fetching modules:", error);
             }
-          }
-          fetchData().then(() => {
-          if (moduleId) {
-            getModuleByIdwithoutData(moduleId)
-                .then(response => {
-                    setModuleID(response.data.module_id)
-                    setModuleName(response.data.name)
-                    setModuleCode(response.data.code)
-                    setModuleDozent(response.data.dozent)
-                    setModuleRoom(response.data.room)
-                    setTempStudy(response.data.study_semester)
-                    dealwithStudySemester[0] = true
-                    setModuleDuration(String(response.data.duration))
-                    setModuleAttendance(String(response.data.approximate_attendance))
-                    setModuleFrequency([String(response.data.frequency)])
-                    setModuleSelected(response.data.selected)
-                    setColor(response.data.color)
-                    
-                })
-                .catch(error => {
-                    console.error("Error fetching Module:", error);
-                })
+        }
+        fetchData().then(() => {
+            if (moduleId) {
+                getModuleByIdwithoutData(moduleId)
+                    .then(response => {
+                        setModuleID(response.data.module_id)
+                        setModuleName(response.data.name)
+                        setModuleCode(response.data.code)
+                        setModuleDozent(response.data.dozent)
+                        setModuleRoom(response.data.room)
+                        setTempStudy(response.data.study_semester)
+                        dealwithStudySemester[0] = true
+                        setModuleDuration(String(response.data.duration))
+                        setModuleAttendance(String(response.data.approximate_attendance))
+                        setModuleFrequency([String(response.data.frequency)])
+                        setModuleSelected(response.data.selected)
+                        setColor(response.data.color)
+
+                    })
+                    .catch(error => {
+                        console.error("Error fetching Module:", error);
+                    })
             } else {
                 handleNewSemester()
             }
         })
-        }, [moduleId]) 
-    
-    
-    
+    }, [moduleId])
+
+
+
     const WinSom = [
         {
             key: "1",
@@ -225,16 +227,16 @@ export default function EditModulesPage(
         e.preventDefault()
 
         const validationErrors = validateForm();
-        
+
         console.log(validationErrors)
         if (!Object.values(validationErrors).includes(true)) {
             if (moduleId) {
                 let studySemester = JSON.parse(JSON.stringify(ModuleStudySemester))
-                studySemester.forEach(function(v){delete v.errors})
-                studySemester.forEach(function(v){delete v.renderContent})
-                studySemester.forEach(function(v){delete v.renderSemester})
-                studySemester.forEach(function(v){v.studyCourse = v.studyCourse[0]})
-                studySemester.forEach(function(v){v.content = Array.from(v.content)})
+                studySemester.forEach(function (v) { delete v.errors })
+                studySemester.forEach(function (v) { delete v.renderContent })
+                studySemester.forEach(function (v) { delete v.renderSemester })
+                studySemester.forEach(function (v) { v.studyCourse = v.studyCourse[0] })
+                studySemester.forEach(function (v) { v.content = Array.from(v.content) })
                 const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt((ModuleFrequency instanceof Set) ? ModuleFrequency.values().next().value : ModuleFrequency[0]), ModuleSelected, color)
                 console.log("new Module:", newModule)
                 updateModule(moduleId, newModule)
@@ -251,11 +253,11 @@ export default function EditModulesPage(
                 return
             }
             let studySemester = JSON.parse(JSON.stringify(ModuleStudySemester))
-            studySemester.forEach(function(v){delete v.errors})
-            studySemester.forEach(function(v){delete v.renderContent})
-            studySemester.forEach(function(v){delete v.renderSemester})
-            studySemester.forEach(function(v){v.studyCourse = v.studyCourse[0]})
-            studySemester.forEach(function(v){v.content = Array.from(v.content)})
+            studySemester.forEach(function (v) { delete v.errors })
+            studySemester.forEach(function (v) { delete v.renderContent })
+            studySemester.forEach(function (v) { delete v.renderSemester })
+            studySemester.forEach(function (v) { v.studyCourse = v.studyCourse[0] })
+            studySemester.forEach(function (v) { v.content = Array.from(v.content) })
             const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt(ModuleFrequency.values().next().value), ModuleSelected, color)
             addModule(newModule)
                 .then(response => {
@@ -283,18 +285,19 @@ export default function EditModulesPage(
                 console.error("Error deleting Module:", error);
                 setSnackbarData({ type: "error", message: "Error deleting Module.", visible: true })
             })
-        navigate("/basicdata")
     }
 
     const validateForm = () => {
         let errors = {};
-        ModuleStudySemester.forEach(function(v){v.errors = {
-            studyCourse: false,
-            semesterNumbers: false,
-            content: false
-        }})
+        ModuleStudySemester.forEach(function (v) {
+            v.errors = {
+                studyCourse: false,
+                semesterNumbers: false,
+                content: false
+            }
+        })
 
-         if (!ModuleID.trim()) {
+        if (!ModuleID.trim()) {
             errors.module_id = true;
         }
 
@@ -304,29 +307,29 @@ export default function EditModulesPage(
 
         if (ModuleFrequency.length == 0 || ModuleFrequency.size == 0) {
             errors.frequency = true;
-        } 
+        }
 
         ModuleStudySemester.forEach((data) => {
-            if (data.studyCourse.length == 0 || data.studyCourse.size == 0){
+            if (data.studyCourse.length == 0 || data.studyCourse.size == 0) {
                 data.errors.studyCourse = true;
             }
-    
-            if (data.semesterNumbers.length == 0|| data.semesterNumbers.size == 0){
+
+            if (data.semesterNumbers.length == 0 || data.semesterNumbers.size == 0) {
                 data.errors.semesterNumbers = true;
             }
-    
-            if (data.type.includes("Qualifikationsschwerpunkt") && (data.content.length == 0 || data.content.size == 0)){
+
+            if (data.type.includes("Qualifikationsschwerpunkt") && (data.content.length == 0 || data.content.size == 0)) {
                 data.errors.content = true;
             }
-            
-            if(Object.values(data.errors).includes(true)){
+
+            if (Object.values(data.errors).includes(true)) {
                 errors.extra = true;
             }
         })
 
         if (ModuleDozent.length == 0 || ModuleDozent.size == 0) {
             errors.dozent = true;
-        } 
+        }
 
         if (!/[0-9]/.test(ModuleDuration) || ModuleDuration == "0") {
             errors.duration = true;
@@ -335,7 +338,7 @@ export default function EditModulesPage(
         setErrors(errors);
         return errors;
     };
-    
+
     const [NewSemester, setNewSemester] = React.useState(false)
 
     const handleNewSemester = () => {
@@ -357,13 +360,13 @@ export default function EditModulesPage(
     }
 
     useEffect(() => {
-        if(NewSemester){
+        if (NewSemester) {
             let index = ModuleStudySemester.length - 1
             const list = [...ModuleStudySemester]
             list[index]["studyCourse"] = [studyContent[0].studyCourse]
             let object
             try {
-                object = studyContent.find(item => item.studyCourse == list[index].studyCourse[0])   
+                object = studyContent.find(item => item.studyCourse == list[index].studyCourse[0])
             } catch (error) {
                 console.log(error)
             }
@@ -372,29 +375,28 @@ export default function EditModulesPage(
             setModuleStudySemester(list)
             setNewSemester(false)
         }
-    },[NewSemester, studyCourse, ModuleStudySemester, studyContent])
+    }, [NewSemester, studyCourse, ModuleStudySemester, studyContent])
 
 
     return (
-        <>
-        <PageContainer title={(moduleId) ? `${ModuleID} ${ModuleName}`:`${t("newModule")}`}
-         primaryButtonTitle={`${t("save")}`} 
-         showDeleteButton={moduleId ? true : false}
-         onClickDelete={() => setShowModal(true)}
-        onClickPrimary={(e) => handleSubmit(e)}>
-
-            <DeleteModal
-                value={showModal}
-                onClickCancel={() => {
-                    setShowModal(false)
-                }}
-                onClickDelete={handleDelete}
-                headlineText={t("deleteQuestion")}
-                bodyText={"This can't be reversed and can cause Issues in the Planer"}
-            />
         <form>
-            <SectionContainer title={`${t("general")}`}>
-                <div className="flex lg:flex-row flex-col gap-5">
+            <PageContainer title={(moduleId) ? `${ModuleID} ${ModuleName}` : `${t("newModule")}`}
+                primaryButtonTitle={`${t("save")}`}
+                showDeleteButton={moduleId ? true : false}
+                onClickDelete={() => setShowModal(true)}
+                onClickPrimary={(e) => handleSubmit(e)}>
+
+                <DeleteModal
+                    value={showModal}
+                    onClickCancel={() => {
+                        setShowModal(false)
+                    }}
+                    onClickDelete={handleDelete}
+                    headlineText={t("deleteQuestion")}
+                    bodyText={"This can't be reversed and can cause Issues in the Planer"}
+                />
+                <SectionContainer title={`${t("general")}`}>
+                    <div className="flex lg:flex-row flex-col gap-5">
                         <Input
                             label={`${t("moduleName")}`}
                             isInvalid={errors.name}
@@ -422,13 +424,14 @@ export default function EditModulesPage(
                             type="text"
                             isInvalid={errors.module_id}
                             errorMessage={errors.module_id ? `${t("moduleNr")} ${t("isRequired")}` : ""}
-                            onValueChange={(value) =>  {
+                            onValueChange={(value) => {
                                 setModuleID(value)
                                 if (!value.trim()) {
                                     setErrors({ ...errors, module_id: true })
                                 } else {
                                     setErrors({ ...errors, module_id: false })
-                                }}}
+                                }
+                            }}
                             value={ModuleID}
                             isRequired
                         />
@@ -443,122 +446,126 @@ export default function EditModulesPage(
                             onChange={setModuleFrequency} values={ModuleFrequency}
                             required={true} error={errors.frequency}>
                         </DropDown>
-                </div>
-                <Checkbox
-                            defaultSelected color="primary"
-                            onChange={setModuleSelected}
-                            value={ModuleSelected}
-                            isRequired
-                        >{`${t("isOffered")}`}
-                </Checkbox>
-                <div className="flex gap-5">
-                    <p>{t("colorSelector")}</p>
-                </div>
-                <div className="flex gap-5">
-                    <div className="flex gap-5 flex-col" id="colorGrid">
-                        <div className="flex gap-5">
-                            <div style={{backgroundColor: "#FF0000", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FF0000")}></div>
-                            <div style={{backgroundColor: "#00FF00", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#00FF00")}></div>
-                            <div style={{backgroundColor: "#0000FF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#0000FF")}></div>
-                            <div style={{backgroundColor: "#FFFF00", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FFFF00")}></div>
-                            <div style={{backgroundColor: "#FF00FF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FF00FF")}></div>
-                        </div>
-                        <div className="flex gap-5">
-                            <div style={{backgroundColor: "#00FFFF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#00FFFF")}></div>
-                            <div style={{backgroundColor: "#FFA500", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FFA500")}></div>
-                            <div style={{backgroundColor: "#327207", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#327207")}></div>
-                            <div style={{backgroundColor: "#000000", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#000000")}></div>
-                            <div style={{backgroundColor: "#FFFFFF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px"}} onClick={() => setColor("#FFFFFF")}></div>
-                        </div>
                     </div>
-                    <ModuleItem moduleItemData={{
-                                                name: ModuleName,
-                                                backgroundcolor: color,
-                                                visible: true
-                                                }} />
-                </div>
-            </SectionContainer>
-            
-            <SectionContainer title={t("semester")}>
-                <div className="flex gap-5" style={{marginBottom: "10px"}}>
-                    <OutlinedButton text="Füge ein Semester hinzu" icon="plus" showIcon={true} color={"primary"}
-                                onClick={() =>{
-                                    handleNewSemester()
-                                }}></OutlinedButton>
+                    <Checkbox
+                        defaultSelected color="primary"
+                        onChange={setModuleSelected}
+                        value={ModuleSelected}
+                        isRequired
+                    >{`${t("isOffered")}`}
+                    </Checkbox>
+                    <div className="flex gap-5">
+                        <p>{t("colorSelector")}</p>
+                    </div>
+                    <div className="flex gap-5">
+                        <div className="flex gap-5 flex-col" id="colorGrid">
+                            <div className="flex gap-5">
+                                <div style={{ backgroundColor: "#90D7FF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#90D7FF")}></div>
+                                <div style={{ backgroundColor: "#C4B2BC", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#C4B2BC")}></div>
+                                <div style={{ backgroundColor: "#87C38F", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#87C38F")}></div>
+                                <div style={{ backgroundColor: "#FFCB47", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#FFCB47")}></div>
+                                <div style={{ backgroundColor: "#AEF6C7", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#AEF6C7")}></div>
+                            </div>
+                            <div className="flex gap-5">
+                                <div style={{ backgroundColor: "#FFE0B5", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#FFE0B5")}></div>
+                                <div style={{ backgroundColor: "#E3655B", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#E3655B")}></div>
+                                <div style={{ backgroundColor: "#BCE784", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#BCE784")}></div>
+                                <div style={{ backgroundColor: "#FF6700", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#FF6700")}></div>
+                                <div style={{ backgroundColor: "#8D80AD", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#8D80AD")}></div>
+                            </div>
+                        </div>
+                        <ModuleItem moduleItemData={{
+                            name: ModuleName,
+                            backgroundcolor: color,
+                            visible: true
+                        }} />
+                    </div>
+                </SectionContainer>
 
-                </div>
-                <div style={{borderBottom: "solid black 2px"}}></div>
-                {ModuleStudySemester.map((data, index) => (
-                    <div key={index} style={{borderBottom: "solid black 2px"}}>
-                     <div className="flex lg:flex-row flex-col gap-5">
-                        <DropDown Items={studyCourseDrop} description={`${t("studycourse")}`}
-                            onChange={(e) => setstudyHelp(Array.from(e), index, "studyCourse")}
-                            values={data.studyCourse}
-                            error={data.errors.studyCourse}
+                <SectionContainer title={t("semester")}>
+                    <div className="flex gap-5" style={{ marginBottom: "10px" }}>
+                        <OutlinedButton text="Füge ein Semester hinzu" icon="plus" showIcon={true} color={"primary"}
+                            onClick={() => {
+                                handleNewSemester()
+                            }}></OutlinedButton>
+
+                    </div>
+                    <div style={{ borderBottom: "solid black 2px" }}></div>
+                    {ModuleStudySemester.map((data, index) => (
+                        <div key={index} style={{ borderBottom: "solid black 2px" }}>
+                            <div className="flex lg:flex-row flex-col gap-5">
+                                <DropDown Items={studyCourseDrop} description={`${t("studycourse")}`}
+                                    onChange={(e) => setstudyHelp(Array.from(e), index, "studyCourse")}
+                                    values={data.studyCourse}
+                                    error={data.errors.studyCourse}
+                                    width="500px"
+                                    required={true}>
+                                </DropDown>
+                                <DropDown Items={data.renderSemester}
+                                    description={`${t("semester")}`} selectionMode="multiple"
+                                    onChange={(e) => setstudyHelp(Array.from(e), index, "semesterNumbers")}
+                                    values={data.semesterNumbers}
+                                    error={data.errors.semesterNumbers}
+                                    required={true}>
+                                </DropDown>
+                                {
+                                    (index > 0) ? <OutlinedButton text={`${t("delete")}`} onClick={() => deleteStudy(index)} color="danger" /> : null
+                                }
+                            </div>
+                            <div className="flex lg:flex-row flex-col gap-5" style={{ marginBottom: "10px" }}>
+                                <CheckboxGroup
+                                    label="Modulart auswählen"
+                                    color="primary"
+                                    value={data.type}
+                                    onValueChange={(e) => setstudyHelp(e, index, "type")}>
+                                    <div className="flex lg:flex-row flex-col gap-5">
+                                        <Checkbox value="Pflicht">Pflicht</Checkbox>
+                                        <Checkbox value="Qualifikationsschwerpunkt">Qualifikationsschwerpunkt/Wahlpflichtmodul</Checkbox>
+                                        <Checkbox value="Andere">Anderes</Checkbox>
+                                    </div>
+                                </CheckboxGroup>
+                            </div>
+                            {(data.type.includes("Qualifikationsschwerpunkt")) ?
+                                <DropDown
+                                    Items={data.renderContent}
+                                    description={`${t("focusOfQualification")}`}
+                                    onChange={(e) => setstudyHelp(e, index, "content")} values={data.content} selectionMode="multiple"
+                                    error={data.errors.content}
+                                    required={true}
+                                />
+                                : null
+                            }
+                        </div>
+                    ))}
+
+                </SectionContainer>
+
+
+                <SectionContainer title={"Veranstaltung"}>
+                    <div className="flex gap-5" style={{ marginTop: "25px" }}>
+                        <DropDown Items={teachers}
+                            description={`${t("lecturer")}`} selectionMode="multiple"
+                            add={{
+                                href: "/basicdata/dozent-details",
+                                Item: "Lehrende"
+                            }}
+                            onChange={setModuleDozent}
+                            values={ModuleDozent}
                             width="500px"
-                            required={true}>
-                        </DropDown>
-                        <DropDown Items={data.renderSemester}
-                            description={`${t("semester")}`} selectionMode="multiple"
-                            onChange={(e) => setstudyHelp(Array.from(e), index, "semesterNumbers")}
-                            values={data.semesterNumbers}
-                            error={data.errors.semesterNumbers}
-                            required={true}>
-                        </DropDown>
-                        {
-                            (index > 0) ? <OutlinedButton text={`${t("delete")}`} onClick={() => deleteStudy(index)} color="danger"/> : null
-                        }
-                    </div>
-                    <div className="flex lg:flex-row flex-col gap-5" style={{marginBottom: "10px"}}>
-                        <CheckboxGroup
-                            label="Modulart auswählen"
-                            color="primary"
-                            value={data.type}
-                            onValueChange={(e) => setstudyHelp(e, index, "type")}>
-                        <div className="flex lg:flex-row flex-col gap-5">
-                            <Checkbox value="Pflicht">Pflicht</Checkbox>
-                            <Checkbox value="Qualifikationsschwerpunkt">Qualifikationsschwerpunkt/Wahlpflichtmodul</Checkbox>
-                            <Checkbox value="Andere">Anderes</Checkbox>
-                        </div>
-                        </CheckboxGroup>
-                    </div>
-                        {(data.type.includes("Qualifikationsschwerpunkt")) ? 
-                        <DropDown
-                            Items={data.renderContent}
-                            description={`${t("focusOfQualification")}`}
-                            onChange={(e) => setstudyHelp(e, index, "content")} values={data.content} selectionMode="multiple"
-                            error={data.errors.content}
+                            error={errors.dozent}
                             required={true}
-                        /> 
-                        : null
-                        }
-                </div>
-                ))}
-                
-            </SectionContainer>
-
-
-            <SectionContainer title={"Veranstaltung"}>
-                 <div className="flex gap-5" style={{marginTop: "25px"}}>
-                    <DropDown Items={teachers}
-                                description={`${t("lecturer")}`} selectionMode="multiple"
-                                add={{href: "/basicdata/dozent-details",
-                                Item: "Lehrende"}}
-                                onChange={setModuleDozent}
-                                values={ModuleDozent}
-                                width="500px"
-                                error={errors.dozent}
-                                required={true}
-                                >
-                            </DropDown>
-                    <DropDown Items={room} description={`${t("wRoom")}`}
-                                        selectionMode="multiple"
-                                        add={{href: "/basicdata/room-details",
-                                        Item: "Raum"}}
-                                        onChange={setModuleRoom}
-                                        values={ModuleRoom}
-                                        >
-                    </DropDown>
+                        >
+                        </DropDown>
+                        <DropDown Items={room} description={`${t("wRoom")}`}
+                            selectionMode="multiple"
+                            add={{
+                                href: "/basicdata/room-details",
+                                Item: "Raum"
+                            }}
+                            onChange={setModuleRoom}
+                            values={ModuleRoom}
+                        >
+                        </DropDown>
                         <Input
                             isRequired
                             isInvalid={errors.duration}
@@ -567,36 +574,38 @@ export default function EditModulesPage(
                             label={`${t("duration")}`}
                             color="default"
                             type="number"
-                            onValueChange={(value) => {setModuleDuration(value)
-                                                if (!value.trim()) {
-                                                    setErrors({ ...errors, duration: true })
-                                                } else {
-                                                    setErrors({ ...errors, duration: false })
-                                                }
-                                                validateForm()
-                                                    }}
+                            onValueChange={(value) => {
+                                setModuleDuration(value)
+                                if (!value.trim()) {
+                                    setErrors({ ...errors, duration: true })
+                                } else {
+                                    setErrors({ ...errors, duration: false })
+                                }
+                                validateForm()
+                            }}
                             value={ModuleDuration}
                             onKeyPress={(event) => {
                                 if (!/[0-9]/.test(event.key)) {
-                                event.preventDefault();
-                                }}}
-                            />
-                            <Input
-                                className={"lg:max-w-[250px]"}
-                                label={`${t("approximateAttendance")}`}
-                                color="default"
-                                type="number"
-                                onValueChange={(value) => {setModuleAttendance(value)}}
-                                value={ModuleAttendance}
-                                onKeyPress={(event) => {
-                                    if (!/[0-9]/.test(event.key)) {
                                     event.preventDefault();
-                                    }}}
-                            />
-                </div>
-            </SectionContainer>
-            </form>
-        </PageContainer>
-        </>
+                                }
+                            }}
+                        />
+                        <Input
+                            className={"lg:max-w-[250px]"}
+                            label={`${t("approximateAttendance")}`}
+                            color="default"
+                            type="number"
+                            onValueChange={(value) => { setModuleAttendance(value) }}
+                            value={ModuleAttendance}
+                            onKeyPress={(event) => {
+                                if (!/[0-9]/.test(event.key)) {
+                                    event.preventDefault();
+                                }
+                            }}
+                        />
+                    </div>
+                </SectionContainer>
+            </PageContainer>
+        </form>
     );
 }
