@@ -2,16 +2,18 @@
 
 import React, { useState, useEffect } from "react";
 
-export default function TimedComponent({ children, duration }) {
+export default function TimedComponent({ children, duration, onClose }) {
   const [visible, setVisible] = useState(true);
 
   useEffect(() => {
+    setVisible(true);
     const timer = setTimeout(() => {
       setVisible(false);
+      onClose()
     }, duration);
 
     return () => clearTimeout(timer);
-  }, [duration]);
+  }, [duration, onClose]);
 
   return visible ? <div>{children}</div> : null;
 }

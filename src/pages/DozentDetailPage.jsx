@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import PageContainer from "../components/PageContainer.jsx";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer.jsx";
@@ -9,6 +9,7 @@ import { DozentModel } from "../models/dozentModel.js";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
+import { Context } from "../routes/root.jsx";
 
 
 export default function DozentDetailPage() {
@@ -16,6 +17,7 @@ export default function DozentDetailPage() {
     const { dozentId } = useParams();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
+    const [setSnackbarData] = useContext(Context)
 
     const titleOptions = ["keine Angabe", "Prof.", "Prof. Dr."]
     const salutationOptions = ["keine Angabe", "Frau", "Herr"]
@@ -72,9 +74,12 @@ export default function DozentDetailPage() {
                 updateDozent(dozentId, newTeacher)
                     .then(response => {
                         console.log("Dozent updated: ", response);
+                        setSnackbarData({ type: "success", message: "Dozent updated.", visible: true })
+                        navigate("/basicdata")
                     })
                     .catch(error => {
                         console.error("Error updating dozent:", error);
+                        setSnackbarData({ type: "error", message: "Error updating dozent.", visible: true })
                     })
 
                 return
@@ -84,9 +89,12 @@ export default function DozentDetailPage() {
             addDozent(newTeacher)
                 .then(response => {
                     console.log("Dozent saved: ", response);
+                    setSnackbarData({ type: "success", message: "Dozent saved.", visible: true })
+                    navigate("/basicdata")
                 })
                 .catch(error => {
                     console.error("Error saving dozent:", error);
+                    setSnackbarData({ type: "error", message: "Error saving dozent.", visible: true })
                 })
         } else {
             console.error("Error: ", errors);
@@ -98,11 +106,13 @@ export default function DozentDetailPage() {
         deleteDozent(dozentId)
             .then(response => {
                 console.log("Dozent deleted: ", response);
+                setSnackbarData({ type: "success", message: "Dozent deleted.", visible: true })
+                navigate("/basicdata")
             })
             .catch(error => {
                 console.error("Error deleting dozent:", error);
+                setSnackbarData({ type: "error", message: "Error deleting dozent.", visible: true })
             })
-        navigate("/basicdata")
     }
 
 

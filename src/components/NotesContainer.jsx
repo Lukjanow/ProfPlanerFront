@@ -95,6 +95,7 @@ const NotesContainer = () => {
             setNewTodo(e.target.value);
           }}
           onKeyDown={handleKeyDown}
+          placeholder={t("newToDos")}
           endContent={
             <Button
               isIconOnly

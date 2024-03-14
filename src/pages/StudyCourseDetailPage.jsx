@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState, useRef, useContext } from "react";
 import PageContainer from "../components/PageContainer.jsx";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer.jsx";
@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
 import { FilledButton } from "../components/FilledButton.jsx";
+import { Context } from "../routes/root.jsx";
 
 
 export default function StudyCourseDetailPage() {
@@ -22,6 +23,7 @@ export default function StudyCourseDetailPage() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const qualificationFocusInputRef = useRef(null)
+  const [setSnackbarData] = useContext(Context)
 
 
   const [name, setName] = useState("");
@@ -66,9 +68,12 @@ export default function StudyCourseDetailPage() {
         updateStudyCourse(studycourseId, newStudyCourse)
           .then((response) => {
             console.log("StudyCourse updated: ", response);
+            setSnackbarData({ type: "success", message: "StudyCourse updated.", visible: true })
+            navigate("/basicdata")
           })
           .catch((error) => {
             console.error("Error updating studyCourse:", error);
+            setSnackbarData({ type: "error", message: "Error updating studyCourse.", visible: true })
           });
 
         return;
@@ -83,9 +88,12 @@ export default function StudyCourseDetailPage() {
       addStudyCourse(newStudyCourse)
         .then((response) => {
           console.log("StudyCourse saved: ", response);
+          setSnackbarData({ type: "success", message: "StudyCourse saved.", visible: true })
+          navigate("/basicdata")
         })
         .catch((error) => {
           console.error("Error saving studyCourse:", error);
+          setSnackbarData({ type: "error", message: "Error saving studyCourse.", visible: true })
         });
     } else {
       console.error("Error: ", errors);
@@ -96,11 +104,13 @@ export default function StudyCourseDetailPage() {
     deleteStudyCourse(studycourseId)
       .then((response) => {
         console.log("StudyCourse deleted: ", response);
+        setSnackbarData({ type: "success", message: "StudyCourse deleted.", visible: true })
+        navigate("/basicdata")
       })
       .catch((error) => {
         console.error("Error deleting studyCourse:", error);
+        setSnackbarData({ type: "error", message: "Error deleting studyCourse.", visible: true })
       });
-    navigate("/basicdata");
   };
 
   const validateForm = () => {
@@ -126,6 +136,7 @@ export default function StudyCourseDetailPage() {
       primaryButtonTitle={t("save")}
       showDeleteButton={studycourseId ? true : false}
       onClickDelete={() => setShowModal(true)}
+      snackbar={{ type: "success", message: "Speichern erfolgreich" }}
     >
       <DeleteModal
         value={showModal}
