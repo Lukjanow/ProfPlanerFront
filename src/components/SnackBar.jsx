@@ -5,7 +5,6 @@ import { useTranslation } from "react-i18next";
 
 export default function SnackBar({ message = t("message"), type = "success" }) {
     const { t } = useTranslation();
-
     const typeValues = {
         success: {
             bg: "bg-success",
@@ -20,6 +19,7 @@ export default function SnackBar({ message = t("message"), type = "success" }) {
             icon: "times"
         }
     };
+
 
     return (
         <Card

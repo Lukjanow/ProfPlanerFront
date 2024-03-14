@@ -14,6 +14,8 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
 import { FilledButton } from "../components/FilledButton.jsx";
+import SnackBar from "../components/SnackBar.jsx";
+import TimedComponent from "../components/TimedComponent.jsx";
 
 
 export default function StudyCourseDetailPage() {
@@ -22,6 +24,7 @@ export default function StudyCourseDetailPage() {
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
   const qualificationFocusInputRef = useRef(null)
+  const [showSnackbar, setShowSnackbar] = useState(false);
 
 
   const [name, setName] = useState("");
@@ -90,6 +93,7 @@ export default function StudyCourseDetailPage() {
     } else {
       console.error("Error: ", errors);
     }
+    setShowSnackbar(true);
   };
 
   const handleDelete = () => {
@@ -137,6 +141,11 @@ export default function StudyCourseDetailPage() {
         headlineText={t("deleteQuestion")}
         bodyText={t("deleteStudyCourseInfo")}
       />
+      {showSnackbar && (
+        <TimedComponent duration={4000} onClose={() => setShowSnackbar(false)}>
+          <SnackBar type="success" message={"Das ist eine TEst Nachricht"} />
+        </TimedComponent>
+      )}
       <form>
         <SectionContainer title={t("general")}>
           <div className="flex lg:flex-row flex-col gap-5">

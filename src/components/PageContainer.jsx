@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { Button, Popover, PopoverTrigger, PopoverContent } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import NotesContainer from "./NotesContainer";
-import SnackBar from "./SnackBar";
+
 
 export default function PageContainer({
   title,
@@ -18,8 +18,7 @@ export default function PageContainer({
   onClickPrimary,
   showCancelButton = true,
   children,
-  row,
-  snackbar
+  row
 }) {
   const { t } = useTranslation();
   const navigate = useNavigate();
@@ -27,7 +26,6 @@ export default function PageContainer({
 
   return (
     <>
-      <SnackBar message={snackbar.message} type={snackbar.type} />
       <div className={"lg:m-10 m-5 flex flex-col gap-10"}>
         <div className={"flex flex-row gap-2 justify-between items-center"}>
           <h2 className={"font-bold md:text-5xl text-3xl"}>
