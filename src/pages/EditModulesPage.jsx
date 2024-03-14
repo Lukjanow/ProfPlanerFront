@@ -3,7 +3,7 @@ import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { DropDown } from "../components/DropDown";
 import { SectionContainer } from "../components/SectionContainer";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ModuleItem } from "../components/ModuleItem";
 import {OutlinedButton} from "../components/OutlinedButton";
 import { getAllDozents } from "../services/dozentService";
@@ -15,7 +15,7 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
 import { getAllStudyCourses } from "../services/studyCourseService.js";
 
-//TODO: Deal with Error, sometimes no Object found when adding new semester, Checkbox acting weird
+//TODO: Checkbox acting weird, QSP doesn't change
 
 export default function EditModulesPage(
 ) {
@@ -29,19 +29,8 @@ export default function EditModulesPage(
     const [ModuleCode, setModuleCode] = React.useState("")
     const [ModuleDozent, setModuleDozent] = React.useState([])
     const [ModuleRoom, setModuleRoom] = React.useState([])
-    const [ModuleStudySemester, setModuleStudySemester] = useState([{
-        studyCourse: [],
-        semesterNumbers: [],
-        content: [],
-        type: "",
-        errors: {
-            studyCourse: false,
-            semesterNumbers: false,
-            content: false
-        },
-        renderContent: [],
-        renderSemester: []
-    }])
+    const [ModuleStudySemester, setModuleStudySemester] = useState([])
+    const [tempStudy, setTempStudy] = useState([])
     const [ModuleDuration, setModuleDuration] = React.useState("0")
     const [ModuleAttendance, setModuleAttendance] = React.useState("0")
     const [ModuleFrequency, setModuleFrequency] = React.useState(["3"])
@@ -54,6 +43,8 @@ export default function EditModulesPage(
     const [room, setRooms] = useState([])     //rooms to display
     const [teachers, setTeachers] = useState([])     //teachers to display
     const [prevCourse, setPrevCourse] = React.useState([]) //prevent loop
+
+    const dealwithStudySemester = useRef([])
 
     const [errors, setErrors] = useState({
         module_id: false,
@@ -115,11 +106,33 @@ export default function EditModulesPage(
             }
             courses.push(dict)
         }
-        console.log("Helper", courses)
+        console.log("Dealt with Studiengang", courses)
         setStudyContent(courses),
         setStudyCourse(course),
         setStudyCourseDrop(studyCourses)
     }
+
+    //is executed before studycontent is set
+    useEffect(() => {
+        let e
+        if(dealwithStudySemester[0]){
+            e = [...tempStudy],
+            e.forEach(function(e){
+                e.studyCourse = [e.studyCourse]
+                e.errors = {
+                    studyCourse: false,
+                    semesterNumbers: false,
+                    content: false
+                },
+                e.semesterNumbers = e.semesterNumbers.map(String)
+                let object = studyContent.find(item => item.studyCourse == e.studyCourse)
+                e.renderContent = object["content"]
+                e.renderSemester = object["semesterCount"]
+            })
+            setModuleStudySemester(e)
+            dealwithStudySemester[0] = false
+        }
+    },[dealwithStudySemester, tempStudy])
 
     const deleteStudy = (index) => {
         const list = [...ModuleStudySemester]
@@ -130,11 +143,9 @@ export default function EditModulesPage(
 
 
     const setstudyHelp = (value, index, attribute) => {
-        console.log(index)
         const list = [...ModuleStudySemester]
         list[index][attribute] = value
         let object
-        console.log("In Helper Study", studyContent, value, attribute)
         try {
             object = studyContent.find(item => item.studyCourse == list[index].studyCourse[0])   
         } catch (error) {
@@ -145,38 +156,6 @@ export default function EditModulesPage(
         list[index]["renderSemester"] = object["semesterCount"]
         setModuleStudySemester(list)
     }
-
-    useEffect(() => {
-         if (studyCourse.length > 0 && prevCourse != studyCourse){
-            setPrevCourse(studyCourse)
-            let courses = []
-            for (const course of studyCourse){
-                let dict = {"studyCourse": course["_id"],
-                            "content": [],
-                            "semesterCount": []} 
-                try {
-                    course["content"].forEach((qsp) => {
-                        let thing = {}
-                        thing["label"] = qsp
-                        thing["key"] = qsp
-                        dict["content"].push(thing)
-                    })
-                    for (let i = 1; i <= course["semesterCount"]; i++) {
-                        let thing = {}
-                        thing["label"] = "Semester " + i
-                        thing["key"] = String(i)
-                        dict["semesterCount"].push(thing)
-                    }
-                } catch (error) {
-                    console.log(error, " occured while setting qsp and semesters")
-                }
-                courses.push(dict)
-            }
-            setStudyContent(courses)
-            console.log("UseEffect", courses)
-            setstudyHelp([], ModuleStudySemester.length - 1, "content")
-        }
-      }, [studyCourse, prevCourse])
     
 
      useEffect(() => {
@@ -188,7 +167,6 @@ export default function EditModulesPage(
               setRoomsHelper(resultRooms.data);
               setTeachersHelper(resultTeacher.data);
               setStudyCourseHelper(resultStudyCourse.data);
-              setstudyHelp([resultStudyCourse.data[0]["_id"]], 0, "studyCourse")
             } catch (error) {
               console.error("Error fetching modules:", error);
             }
@@ -202,16 +180,20 @@ export default function EditModulesPage(
                     setModuleCode(response.data.code)
                     setModuleDozent(response.data.dozent)
                     setModuleRoom(response.data.room)
-                    setModuleStudySemester(response.data.study_semester)
+                    setTempStudy(response.data.study_semester)
+                    dealwithStudySemester[0] = true
                     setModuleDuration(String(response.data.duration))
                     setModuleAttendance(String(response.data.approximate_attendance))
                     setModuleFrequency([String(response.data.frequency)])
                     setModuleSelected(response.data.selected)
                     setColor(response.data.color)
+                    
                 })
                 .catch(error => {
                     console.error("Error fetching Module:", error);
-                });
+                })
+            } else {
+                handleNewSemester()
             }
         })
         }, [moduleId]) 
@@ -239,11 +221,15 @@ export default function EditModulesPage(
 
         const validationErrors = validateForm();
         
-        
-        if (Object.keys(validationErrors).length === 0) {
+        console.log(validationErrors)
+        if (!Object.values(validationErrors).includes(true)) {
             if (moduleId) {
-                let studySemester = ModuleStudySemester
+                let studySemester = JSON.parse(JSON.stringify(ModuleStudySemester))
                 studySemester.forEach(function(v){delete v.errors})
+                studySemester.forEach(function(v){delete v.renderContent})
+                studySemester.forEach(function(v){delete v.renderSemester})
+                studySemester.forEach(function(v){v.studyCourse = v.studyCourse[0]})
+                studySemester.forEach(function(v){v.content = Array.from(v.content)})
                 const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt((ModuleFrequency instanceof Set) ? ModuleFrequency.values().next().value : ModuleFrequency[0]), ModuleSelected, color)
                 console.log("new Module:", newModule)
                 updateModule(moduleId, newModule)
@@ -256,8 +242,12 @@ export default function EditModulesPage(
 
                 return
             }
-            let studySemester = ModuleStudySemester
+            let studySemester = JSON.parse(JSON.stringify(ModuleStudySemester))
             studySemester.forEach(function(v){delete v.errors})
+            studySemester.forEach(function(v){delete v.renderContent})
+            studySemester.forEach(function(v){delete v.renderSemester})
+            studySemester.forEach(function(v){v.studyCourse = v.studyCourse[0]})
+            studySemester.forEach(function(v){v.content = Array.from(v.content)})
             const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt(ModuleFrequency.values().next().value), ModuleSelected, color)
             addModule(newModule)
                 .then(response => {
@@ -284,6 +274,11 @@ export default function EditModulesPage(
 
     const validateForm = () => {
         let errors = {};
+        ModuleStudySemester.forEach(function(v){v.errors = {
+            studyCourse: false,
+            semesterNumbers: false,
+            content: false
+        }})
 
          if (!ModuleID.trim()) {
             errors.module_id = true;
@@ -310,7 +305,7 @@ export default function EditModulesPage(
                 data.errors.content = true;
             }
             
-            if(data.errors.includes(true)){
+            if(Object.values(data.errors).includes(true)){
                 errors.extra = true;
             }
         })
@@ -331,6 +326,7 @@ export default function EditModulesPage(
 
     const handleNewSemester = () => {
         setModuleStudySemester(old => [...old, {
+            _id: old.length,
             studyCourse: [],
             semesterNumbers: [],
             content: [],
@@ -348,11 +344,21 @@ export default function EditModulesPage(
 
     useEffect(() => {
         if(NewSemester){
-            setstudyHelp([studyCourse[0]["_id"]], ModuleStudySemester.length - 1, "studyCourse")
+            let index = ModuleStudySemester.length - 1
+            const list = [...ModuleStudySemester]
+            list[index]["studyCourse"] = [studyContent[0].studyCourse]
+            let object
+            try {
+                object = studyContent.find(item => item.studyCourse == list[index].studyCourse[0])   
+            } catch (error) {
+                console.log(error)
+            }
+            list[index]["renderContent"] = object["content"]
+            list[index]["renderSemester"] = object["semesterCount"]
+            setModuleStudySemester(list)
             setNewSemester(false)
         }
-
-    })
+    },[NewSemester, studyCourse, ModuleStudySemester, studyContent])
 
 
     return (
