@@ -1,8 +1,8 @@
 
 
 export class ModuleModel {
-    constructor(moduleId, name, code, dozentIdList, roomIdList, studySemesterIdList, duration, approximateAttendance, need, typeList,
-                frequency, selected, color, note, groups) {
+    constructor(moduleId, name, code, dozentIdList, roomIdList, studySemesterIdList, duration, approximateAttendance,
+                frequency, selected, color) {
         this.module_id = moduleId;
         this.name = name;
         this.code = code;
@@ -11,13 +11,9 @@ export class ModuleModel {
         this.study_semester = studySemesterIdList;
         this.duration = duration;
         this.approximate_attendance = approximateAttendance;
-        this.need = need;
-        this.type = typeList;
         this.frequency = frequency;
         this.selected = selected;
         this.color = color;
-        this.note = note;
-        this.groups = groups;
     }
 
     setJsonObj(jsonObj) {
@@ -30,13 +26,9 @@ export class ModuleModel {
         this.study_semester = jsonObj.study_semester;
         this.duration = jsonObj.duration;
         this.approximate_attendance = jsonObj.approximate_attendance;
-        this.need = jsonObj.need;
-        this.type = jsonObj.type;
         this.frequency = jsonObj.frequency;
         this.selected = jsonObj.selected;
         this.color = jsonObj.color;
-        this.note = jsonObj.note;
-        this.groups = jsonObj.groups;
         return this;
     }
 }

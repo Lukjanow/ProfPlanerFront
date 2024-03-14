@@ -9,6 +9,8 @@ import ConflictsPage from "../pages/ConflictsPage.jsx";
 import ApiDebugPage from "../pages/ApiDebugPage.jsx";
 import RoomDetailPage from "../pages/RoomDetailPage.jsx";
 import DozentDetailPage from "../pages/DozentDetailPage.jsx";
+import EditModulesPage from "../pages/EditModulesPage.jsx";
+import Testpage from "../pages/Testpage.jsx";
 import StudyCourseDetailPage from "../pages/StudyCourseDetailPage.jsx";
 
 
@@ -59,6 +61,16 @@ const router = createBrowserRouter([
             errorElement: <ErrorPage />,
           },
           {
+            path: "module-details",
+            element: <EditModulesPage />,
+            errorElement: <ErrorPage />,
+          },
+          {
+            path: "module-details/:moduleId",
+            element: <EditModulesPage />,
+            errorElement: <ErrorPage />,
+          },
+          {
             path: "studycourse-details",
             element: <StudyCourseDetailPage />,
             errorElement: <ErrorPage />,
@@ -84,7 +96,12 @@ const router = createBrowserRouter([
         path: "component",
         element: <ComponentPage />,
         errorElement: <ErrorPage />,
-      }
+      },
+      {
+        path: "test",
+        element: <Testpage />,
+        errorElement: <ErrorPage />,
+      },
     ],
   },
 ]);
