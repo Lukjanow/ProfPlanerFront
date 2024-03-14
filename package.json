@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "vite --host",
     "build": "vite build && npx tailwindcss -i src/styles/nextui/input.scss -o src/styles/nextui/output.scss --watch",
     "build_once": "vite build && npx tailwindcss -i src/styles/nextui/input.scss -o src/styles/nextui/output.scss",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
