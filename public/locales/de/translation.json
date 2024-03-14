@@ -93,6 +93,7 @@
   "exportAsPDF": "Exportieren (PDF)",
   "importAsXLSX": "Importieren (XLSX)",
   "exportAsXLSX": "Exportieren (XLSX)",
-  "Message": "Message",
-  "action": "Action"
+  "Message": "Nachricht",
+  "action": "Aktion",
+  "generatePlan": "Automatisch generieren"
 }
