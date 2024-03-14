@@ -18,15 +18,11 @@ export default function Root() {
     const lang = useLangStore(state => state.lang);
     const setLang = useLangStore(state => state.setLang);
     const { t } = useTranslation();
-    //const [showSnackbar, setShowSnackbar] = useState(false);
-    //const [snackbarMessage, setSnackbarMessage] = useState(t("message"));
-
     const [snackbarData, setSnackbarData] = useState({
         type: "success",
         message: t("message"),
         visible: false
     })
-
 
     useEffect(() => {
         setLang(i18n, lang);
@@ -35,7 +31,7 @@ export default function Root() {
     return (
         <>
             {snackbarData.visible && (
-                <TimedComponent duration={4000} onClose={() => setSnackbarData(type, message, false)}>
+                <TimedComponent duration={4000} onClose={() => setSnackbarData(prevState => ({ ...prevState, visible: false }))}>
                     <SnackBar type={snackbarData.type} message={snackbarData.message} />
                 </TimedComponent>
             )}

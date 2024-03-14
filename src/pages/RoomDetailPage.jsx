@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import PageContainer from "../components/PageContainer.jsx";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer.jsx";
@@ -14,12 +14,15 @@ import { RoomModel } from "../models/roomModel.js";
 import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
+import { Context } from "../routes/root.jsx";
+
 
 export default function RoomDetailPage() {
   const { t } = useTranslation();
   const { roomId } = useParams();
   const navigate = useNavigate();
   const [showModal, setShowModal] = useState(false);
+  const [setSnackbarData] = useContext(Context)
 
   // const roomTypesOptions = [t("auditorium"), t("laboratory")];
   const roomTypesOptions = ["auditorium", "laboratory"];
@@ -71,9 +74,12 @@ export default function RoomDetailPage() {
         updateRoom(roomId, newRoom)
           .then((response) => {
             console.log("Room updated: ", response);
+            setSnackbarData({ type: "success", message: "Room updated.", visible: true })
+            navigate("/basicdata")
           })
           .catch((error) => {
             console.error("Error updating room:", error);
+            setSnackbarData({ type: "error", message: "Error updating Room.", visible: true })
           });
 
         return;
@@ -88,9 +94,12 @@ export default function RoomDetailPage() {
       addRoom(newRoom)
         .then((response) => {
           console.log("Room saved: ", response);
+          setSnackbarData({ type: "success", message: "Room saved.", visible: true })
+          navigate("/basicdata")
         })
         .catch((error) => {
           console.error("Error saving room:", error);
+          setSnackbarData({ type: "error", message: "Error saving Room.", visible: true })
         });
     } else {
       console.error("Error: ", errors);
@@ -101,11 +110,13 @@ export default function RoomDetailPage() {
     deleteRoom(roomId)
       .then((response) => {
         console.log("Room deleted: ", response);
+        setSnackbarData({ type: "success", message: "Room deleted.", visible: true })
+        navigate("/basicdata")
       })
       .catch((error) => {
         console.error("Error deleting room:", error);
+        setSnackbarData({ type: "error", message: "Error deleting Room.", visible: true })
       });
-    navigate("/basicdata");
   };
 
   const validateForm = () => {

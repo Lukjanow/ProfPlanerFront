@@ -16,6 +16,7 @@ import DeleteModal from "../components/DeleteModal.jsx";
 import { FilledButton } from "../components/FilledButton.jsx";
 import { Context } from "../routes/root.jsx";
 
+
 export default function StudyCourseDetailPage() {
   const { t } = useTranslation();
   const { studycourseId } = useParams();
@@ -67,9 +68,12 @@ export default function StudyCourseDetailPage() {
         updateStudyCourse(studycourseId, newStudyCourse)
           .then((response) => {
             console.log("StudyCourse updated: ", response);
+            setSnackbarData({ type: "success", message: "StudyCourse updated.", visible: true })
+            navigate("/basicdata")
           })
           .catch((error) => {
             console.error("Error updating studyCourse:", error);
+            setSnackbarData({ type: "error", message: "Error updating studyCourse.", visible: true })
           });
 
         return;
@@ -84,28 +88,29 @@ export default function StudyCourseDetailPage() {
       addStudyCourse(newStudyCourse)
         .then((response) => {
           console.log("StudyCourse saved: ", response);
+          setSnackbarData({ type: "success", message: "StudyCourse saved.", visible: true })
+          navigate("/basicdata")
         })
         .catch((error) => {
           console.error("Error saving studyCourse:", error);
+          setSnackbarData({ type: "error", message: "Error saving studyCourse.", visible: true })
         });
     } else {
       console.error("Error: ", errors);
     }
-    setSnackbarData({ type: "warning", message: "Suuuubbaa Klaaasse!", visible: true })
-    //setShowSnackbar(true);
-    //setSnackbarMessage("Suuuubbbbbaaaa Klaaaasssee!")
-    navigate("/basicdata")
   };
 
   const handleDelete = () => {
     deleteStudyCourse(studycourseId)
       .then((response) => {
         console.log("StudyCourse deleted: ", response);
+        setSnackbarData({ type: "success", message: "StudyCourse deleted.", visible: true })
+        navigate("/basicdata")
       })
       .catch((error) => {
         console.error("Error deleting studyCourse:", error);
+        setSnackbarData({ type: "error", message: "Error deleting studyCourse.", visible: true })
       });
-    navigate("/basicdata");
   };
 
   const validateForm = () => {
