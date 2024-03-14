@@ -8,9 +8,11 @@ import { getAllRooms } from "../services/roomService";
 import { getAllStudyCourses } from "../services/studyCourseService";
 import { FilledButton } from "./FilledButton";
 import {ExportCalendarButton} from "./ExportCalendarButton.jsx";
+import { useTranslation } from "react-i18next";
 
 
 export function TimeTableFilter({module_list, filterAction}) {
+  const { t } = useTranslation();
   const [dozentData, setDozentData] = useState([]);
   const [roomData, setRoomData] = useState([]);
   const [studySemesterData, setStudySemesterData] = useState([]);
@@ -81,35 +83,35 @@ export function TimeTableFilter({module_list, filterAction}) {
     <div className="flex w-full flex-col">
       <Tabs aria-label="Options"
       className="p-1" color="white" classNames={{tabList:"rounded"}}>
-        <Tab key="photos" title="Studiengang">
+        <Tab key="photos" title={t("studycourse")}>
           <Card
 
           radius="sm">
             <CardBody
             className="bg-[#EEEEEE] flex flex-row justify-between items-center">
-              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={studySemesterData} category="study_semester" cLabel="Fachsemester" cPlaceholder="Suche nach Fachsemester"/>
+              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={studySemesterData} category="study_semester" cLabel={t("studysemester")} cPlaceholder={t("search_for_studysemester")}/>
               {/* <FilledButton text="Reset"/> */}
               <ExportCalendarButton />
             </CardBody>
           </Card>  
         </Tab>
-        <Tab key="music" title="Lehrperson">
+        <Tab key="music" title={t("lecturer")}>
           <Card
           radius="sm">
             <CardBody
             className="bg-[#EEEEEE] flex flex-row justify-between items-center">
-              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={dozentData} category="dozent" cLabel="Lehrperson" cPlaceholder="Suche nach Lehrperson"/>
+              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={dozentData} category="dozent" cLabel={t("lecturer")} cPlaceholder={t("search_for_teacher")}/>
               {/* <FilledButton text="Reset" onClick={filterOff}/> */}
               <ExportCalendarButton />
             </CardBody>
           </Card>  
         </Tab>
-        <Tab key="videos" title="Raum">
+        <Tab key="videos" title={t("room")}>
           <Card
           radius="sm">
             <CardBody
               className="bg-[#EEEEEE] flex flex-row justify-between items-center">
-              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={roomData} category="room" cLabel="Raum" cPlaceholder="Suche nach Raum"/>
+              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={roomData} category="room" cLabel={t("room")} cPlaceholder={t("search_for_room")}/>
               {/* <FilledButton text="Reset" onClick={filterOff}/> */}
               <ExportCalendarButton />
             </CardBody>

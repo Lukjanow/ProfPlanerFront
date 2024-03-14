@@ -7,8 +7,10 @@ import {
 } from "@nextui-org/react";
 import { OutlinedButton } from "./OutlinedButton";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { useTranslation } from "react-i18next";
 
 export function ModuleInfo({ isOpen, onOpenChange, event, removeFunction }) {
+    const { t } = useTranslation();
   const modalStyle = {
     backgroundColor: event.backgroundcolor,
     borderColor: event.bordercolor,
@@ -45,7 +47,7 @@ export function ModuleInfo({ isOpen, onOpenChange, event, removeFunction }) {
             <ModalFooter>
               <OutlinedButton
                 color={"primary"}
-                text={"Entfernen"}
+                text={t("remove")}
                 onClick={() => {
                   onClose();
                   removeFunction();
@@ -53,7 +55,7 @@ export function ModuleInfo({ isOpen, onOpenChange, event, removeFunction }) {
               />
               <OutlinedButton
                 color={"danger"}
-                text={"Schließen"}
+                text={t("close")}
                 onClick={onClose}
               />
             </ModalFooter>

@@ -69,5 +69,12 @@
   "newToDos": "New ToDo's",
   "exportAsPDF": "Export (PDF)",
   "importAsXLSX": "Import (XLSX)",
-  "exportAsXLSX": "Export (XLSX)"
+  "exportAsXLSX": "Export (XLSX)",
+  "semester_plan": "Semester plan",
+  "studysemester": "Studysemester",
+  "search_for_studysemester": "Search for studysemester",
+  "search_for_room": "Search for room",
+  "search_for_teacher": "Search for teacher",
+  "close": "Close",
+  "remove": "Remove"
 }
