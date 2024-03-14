@@ -5,7 +5,9 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite --host --port 3000",
     "build": "vite build && npx tailwindcss -i src/styles/nextui/input.scss -o src/styles/nextui/output.scss --watch",
+    "build_once": "vite build && npx tailwindcss -i src/styles/nextui/input.scss -o src/styles/nextui/output.scss",
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },

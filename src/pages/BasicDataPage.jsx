@@ -18,7 +18,9 @@ export default function BasicDataPage() {
   const [studyCourses, setStudyCourses] = useState([]);
   const [dataLength, setDataLength] = useState(0);
   const navigate = useNavigate();
-  const [selectedItem, setSelectedItem] = useState("module");
+  const [selectedItem, setSelectedItem] = useState(
+    localStorage.getItem("selectedItem") || "module"
+  );
 
   async function fetchData() {
     try {
@@ -57,6 +59,10 @@ export default function BasicDataPage() {
   useEffect(() => {
     fetchData();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("selectedItem", selectedItem);
+  }, [selectedItem]);
 
   const handleItemClick = (itemKey) => {
     setSelectedItem(itemKey);
@@ -103,7 +109,6 @@ export default function BasicDataPage() {
       ) : (
         <NoContent />
       )}
-      
     </PageContainer>
   );
 }
