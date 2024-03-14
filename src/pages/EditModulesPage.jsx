@@ -1,9 +1,9 @@
-import { Input, Checkbox, modal, CheckboxGroup } from "@nextui-org/react";
+import { Input, Checkbox, CheckboxGroup } from "@nextui-org/react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { DropDown } from "../components/DropDown";
 import { SectionContainer } from "../components/SectionContainer";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState, useContext } from "react";
 import { ModuleItem } from "../components/ModuleItem";
 import {OutlinedButton} from "../components/OutlinedButton";
 import { getAllDozents } from "../services/dozentService";
@@ -14,6 +14,7 @@ import { useParams } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
 import { getAllStudyCourses } from "../services/studyCourseService.js";
+import { Context } from "../routes/root.jsx";
 
 //TODO: Checkbox acting weird, QSP doesn't change when editing
 
@@ -23,6 +24,7 @@ export default function EditModulesPage(
     const { moduleId } = useParams();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
+    const [setSnackbarData] = useContext(Context);
 
     const [ModuleID, setModuleID] = React.useState("")
     const [ModuleName, setModuleName] = React.useState("")
@@ -238,9 +240,12 @@ export default function EditModulesPage(
                 updateModule(moduleId, newModule)
                     .then(response => {
                         console.log("Module updated: ", response);
+                        setSnackbarData({ type: "success", message: "Module updated.", visible: true })
+                        navigate("/basicdata")
                     })
                     .catch(error => {
                         console.error("Error updating Module:", error);
+                        setSnackbarData({ type: "error", message: "Error updating Module.", visible: true })
                     })
 
                 return
@@ -255,9 +260,12 @@ export default function EditModulesPage(
             addModule(newModule)
                 .then(response => {
                     console.log("Module saved: ", response);
+                    setSnackbarData({ type: "success", message: "Module saved.", visible: true })
+                    navigate("/basicdata")
                 })
                 .catch(error => {
                     console.error("Error saving Module:", error);
+                    setSnackbarData({ type: "error", message: "Error saving Module.", visible: true })
                 })
         } else {
             console.error("Error: ", errors);
@@ -268,9 +276,12 @@ export default function EditModulesPage(
         deleteModule(moduleId)
             .then(response => {
                 console.log("Module deleted: ", response);
+                setSnackbarData({ type: "success", message: "Module deleted.", visible: true })
+                navigate("/basicdata")
             })
             .catch(error => {
                 console.error("Error deleting Module:", error);
+                setSnackbarData({ type: "error", message: "Error deleting Module.", visible: true })
             })
         navigate("/basicdata")
     }
