@@ -20,7 +20,11 @@ import { updateCalendarEntry, addCalendarEntryForCalendar, deleteCalendarEntry }
 export function TimeTable({moduleItemListPara}) {  
   const { i18n } = useTranslation();
 
-  moment.locale(i18n.language === "en" ? "en" : "de")
+  if (i18n.language === "en"){
+    moment.locale("en", {week:{dow:1}})
+  } else if(i18n.language === "de"){
+    moment.locale("de")
+  }
   
   const localizer = momentLocalizer(moment) 
 
