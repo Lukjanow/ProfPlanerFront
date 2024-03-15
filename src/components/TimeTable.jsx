@@ -170,6 +170,38 @@ export function TimeTable({moduleItemListPara}) {
       };
   };
 
+  function formatTime(startHours, startMinutes, endHours, endMinutes){
+
+    if(i18n.language === "de") {
+      return (
+        <p className="font-semibold">
+            {startHours + ":"}
+            {fixZeros(startMinutes) + " - "}
+            {endHours + ":"}
+            {fixZeros(endMinutes) + " Uhr"}
+          </p>
+      )
+    }
+    var start = startHours + ":" + fixZeros(startMinutes) + " am - "
+    var end = endHours + ":" + fixZeros(endMinutes) + " am"
+
+    if(startHours > 12){
+        startHours = startHours - 12
+        start = startHours + ":" + fixZeros(startMinutes) + " pm - "
+    }
+    if(endHours > 12){
+      endHours = endHours - 12
+      end = endHours + ":" + fixZeros(endMinutes) + " pm"
+    }
+    
+    return(
+        <p className="font-semibold">
+            {start}
+            {end}
+          </p>
+      )
+  }
+
   function setTime(start, duration){
      const startHours = start.getHours()
      const startMinutes = start.getMinutes()
@@ -185,12 +217,7 @@ export function TimeTable({moduleItemListPara}) {
      }
 
       return (
-        <p className="font-semibold">
-          {startHours + ":"}
-          {fixZeros(startMinutes) + " - "}
-          {endHours + ":"}
-          {fixZeros(endMinutes) + " Uhr"}
-        </p>
+        formatTime(startHours, startMinutes, endHours, endMinutes)
       )
     }
 
@@ -331,8 +358,8 @@ export function TimeTable({moduleItemListPara}) {
                   endAccessor="end"
                   min={moment("2024-01-01T08:00").toDate()}
                   max={moment("2024-01-01T22:00").toDate()}
-                  views={["work_week"]}
-                  defaultView="work_week"
+                  views={["week"]}
+                  defaultView="week"
                   defaultDate={moment("2024-01-01T00:00").toDate()}
                   toolbar={false}
                   eventPropGetter={eventStyleGetter}
