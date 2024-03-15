@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { useTranslation } from "react-i18next";
 import {
   Table,
@@ -7,9 +7,7 @@ import {
   TableBody,
   TableRow,
   TableCell,
-  Tooltip,
   Input,
-  Link,
 } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -24,6 +22,8 @@ import { deleteDozent } from "../services/dozentService.js";
 import { deleteModule } from "../services/moduleService.js";
 import { deleteRoom } from "../services/roomService.js";
 import { deleteStudyCourse } from "../services/studyCourseService.js";
+import { Context } from "../routes/root.jsx";
+
 
 export default function BasicDataTable({ tableData, path, fetchData }) {
   const { t } = useTranslation();
@@ -37,6 +37,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   const [filteredItems, setFilteredItems] = useState(tableData)
   const [isFiltered, setIsFiltered] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
+  const [setSnackbarData] = useContext(Context)
   let columnKeys = [];
 
   // Funktion zum Aktualisieren der Länge der Daten
@@ -78,16 +79,16 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   }, [path, t]);
 
   useEffect(() => {
-    if (isFiltered == true){
+    if (isFiltered == true) {
       setLength(filteredItems.length)
     }
-    if (searchTerm == "" && isFiltered == true){
+    if (searchTerm == "" && isFiltered == true) {
       setIsFiltered(false)
       setLength(tableData.length)
       setFilteredItems([])
     }
   }, [searchTerm, tableData, filteredItems, isFiltered])
-  
+
 
   const generateColumns = () => {
     if (!tableData || !tableData[0]) return [];
@@ -137,17 +138,19 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         return;
     }
 
-    try {
-      // Rufe die entsprechende Löschfunktion auf
-      await deleteFunction(id);
-      console.log(`${elementType} deleted successfully`);
-      setShowModal(false);
 
-      // Nach dem Löschen erneut Daten abrufen und die Tabelle aktualisieren
-      fetchData();
-    } catch (error) {
-      console.error(`Error deleting ${elementType}:`, error);
-    }
+    deleteFunction(id)
+      .then(response => {
+        console.log(`${elementType} deleted: `, response);
+        setSnackbarData({ type: "success", message: `${elementType} deleted.`, visible: true })
+        navigate("/basicdata")
+        setShowModal(false);
+        fetchData()
+      })
+      .catch(error => {
+        console.error(`Error deleting ${elementType}: `, error);
+        setSnackbarData({ type: "error", message: `Error deleting ${elementType}.`, visible: true })
+      })
   };
 
 
@@ -156,28 +159,28 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
     const element = pathParts[0];
     setFilteredItems([])
     tableData.forEach((item) => {
-        switch (element) {
-          case "/room":
-            if (item.roomNumber.toLowerCase().includes(searchTerm.toLowerCase())){
-              setFilteredItems(old => [...old, item])
-            }
-            break;
-          case "/dozent":
-            if ((item.prename.toLowerCase() + " " + item.lastname.toLowerCase()).includes(searchTerm.toLowerCase())){
-              setFilteredItems(old => [...old, item])
-            }
-            break;
-          case "/module":
-            if (item.name.toLowerCase().includes(searchTerm.toLowerCase())){
-              setFilteredItems(old => [...old, item])
-              
-            }
-            break;
-          default:
-            console.error("Unknown element type:", element);
-            return;
-        }
-        setIsFiltered(true)
+      switch (element) {
+        case "/room":
+          if (item.roomNumber.toLowerCase().includes(searchTerm.toLowerCase())) {
+            setFilteredItems(old => [...old, item])
+          }
+          break;
+        case "/dozent":
+          if ((item.prename.toLowerCase() + " " + item.lastname.toLowerCase()).includes(searchTerm.toLowerCase())) {
+            setFilteredItems(old => [...old, item])
+          }
+          break;
+        case "/module":
+          if (item.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+            setFilteredItems(old => [...old, item])
+
+          }
+          break;
+        default:
+          console.error("Unknown element type:", element);
+          return;
+      }
+      setIsFiltered(true)
     })
   }
 
@@ -185,7 +188,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   const handleKeyDown = (e) => {
     if (e.key == 'Enter') {
       searchFunction(searchTerm)
-    } 
+    }
   }
 
   const myColumns = generateColumns();
@@ -235,7 +238,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         return <TableCell>
           {
             printArrWithSpecificAction(value, (item) =>
-                printMapAsStringByNestedKeys(item, ["studyCourse", "name"])
+              printMapAsStringByNestedKeys(item, ["studyCourse", "name"])
             )
           }
         </TableCell>;
@@ -287,32 +290,28 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
             <TableRow key={item._id} id={item._id}>
               {columnKeys.map((key) => determineRendering(key, item[key]))}
               <TableCell>
-                <div className="relative flex items-center gap-2">
-                  <Tooltip content="Edit">
-                    <span
-                      className="text-lg text-default-400 cursor-pointer active:opacity-50"
-                      onClick={() => {
-                        const navigatePath = `/basicdata${path}/${item._id}`;
-                        console.log("-----> Path: ", path);
-                        navigate(navigatePath);
-                      }}
-                    >
-                      {" "}
-                      <FontAwesomeIcon icon={"pen"} />
-                    </span>
-                  </Tooltip>
-                  <Tooltip color="danger" content="Delete">
-                    <span
-                      className="text-lg text-danger cursor-pointer active:opacity-50"
-                      onClick={() => {
-                        console.log("-----> Clicked on Delete!");
-                        setDeleteItemId(item._id); // Setzen Sie die ID des zu löschenden Elements
-                        setShowModal(true);
-                      }}
-                    >
-                      <FontAwesomeIcon icon={"trash"} />
-                    </span>
-                  </Tooltip>
+                <div className="relative flex items-center gap-7">
+                  <span
+                    className="text-lg text-default-400 cursor-pointer active:opacity-50"
+                    onClick={() => {
+                      const navigatePath = `/basicdata${path}/${item._id}`;
+                      console.log("-----> Path: ", path);
+                      navigate(navigatePath);
+                    }}
+                  >
+                    {" "}
+                    <FontAwesomeIcon icon={"pen"} />
+                  </span>
+                  <span
+                    className="text-lg text-danger cursor-pointer active:opacity-50"
+                    onClick={() => {
+                      console.log("-----> Clicked on Delete!");
+                      setDeleteItemId(item._id); // Setzen Sie die ID des zu löschenden Elements
+                      setShowModal(true);
+                    }}
+                  >
+                    <FontAwesomeIcon icon={"trash"} />
+                  </span>
                 </div>
               </TableCell>
             </TableRow>

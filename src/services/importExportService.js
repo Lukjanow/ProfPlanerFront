@@ -29,6 +29,21 @@ async function getExportData() {
         });
 }
 
+async function importData(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return api
+        .post(`/import/excel/basicdata/replace/`, formData)
+        .then(resObj => {
+            return {
+                data: resObj.data,
+                status: resObj.status
+            }
+        });
+}
+
+
 export {
-    getExportData
+    getExportData,
+    importData
 }
