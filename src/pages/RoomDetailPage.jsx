@@ -139,23 +139,23 @@ export default function RoomDetailPage() {
   };
 
   return (
-    <PageContainer
-      title={roomId ? `${roomNumber}` : `${t("newRoom")}`}
-      onClickPrimary={(e) => handleSubmit(e)}
-      primaryButtonTitle={t("save")}
-      showDeleteButton={roomId ? true : false}
-      onClickDelete={() => setShowModal(true)}
-    >
-      <DeleteModal
-        value={showModal}
-        onClickCancel={() => {
-          setShowModal(false);
-        }}
-        onClickDelete={handleDelete}
-        headlineText={t("deleteQuestion")}
-        bodyText={t("deleteRoomInfo")}
-      />
-      <form>
+    <form>
+      <PageContainer
+        title={roomId ? `${roomNumber}` : `${t("newRoom")}`}
+        onClickPrimary={(e) => handleSubmit(e)}
+        primaryButtonTitle={t("save")}
+        showDeleteButton={roomId ? true : false}
+        onClickDelete={() => setShowModal(true)}
+      >
+        <DeleteModal
+          value={showModal}
+          onClickCancel={() => {
+            setShowModal(false);
+          }}
+          onClickDelete={handleDelete}
+          headlineText={t("deleteQuestion")}
+          bodyText={t("deleteRoomInfo")}
+        />
         <SectionContainer title={t("general")}>
           <div className="flex lg:flex-row flex-col gap-5">
             <SelectBox
@@ -209,7 +209,7 @@ export default function RoomDetailPage() {
             />
           </div>
         </SectionContainer>
-      </form>
-    </PageContainer>
+      </PageContainer>
+    </form>
   );
 }

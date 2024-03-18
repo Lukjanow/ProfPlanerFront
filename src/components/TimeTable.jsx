@@ -17,12 +17,16 @@ import { useTranslation } from "react-i18next";
 import {checkModuleWarnings, deleteConflictsWithCurrentModule} from "../conflicts/conflicts";
 import { updateCalendarEntry, addCalendarEntryForCalendar, deleteCalendarEntry } from "../services/calendarService";
 
-export function TimeTable({moduleItemListPara}) {  
+export function TimeTable({moduleItemListPara}) {
   const { i18n } = useTranslation();
 
-  moment.locale(i18n.language === "en" ? "en" : "de")
-  
-  const localizer = momentLocalizer(moment) 
+  if (i18n.language === "en"){
+    moment.locale("en", {week:{dow:1}})
+  } else if(i18n.language === "de"){
+    moment.locale("de")
+  }
+
+  const localizer = momentLocalizer(moment)
 
   const DnDCalendar = withDragAndDrop(Calendar);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -137,7 +141,7 @@ export function TimeTable({moduleItemListPara}) {
             var div = document.getElementById("removeBorder")
             div.classList.remove("bg-red-600")
             div.classList.add("bg-white")
-            
+
             let module = null;
             for (let i = 0; i < events.length; i++) {
                 if (events[i]._id === appointmentId) {
@@ -147,7 +151,7 @@ export function TimeTable({moduleItemListPara}) {
             }
             module.start = start
             module.end = end
-        
+
             updateModule(module)
             updateModuleCalendarEntry(module)
             setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
@@ -170,6 +174,38 @@ export function TimeTable({moduleItemListPara}) {
       };
   };
 
+  function formatTime(startHours, startMinutes, endHours, endMinutes){
+
+    if(i18n.language === "de") {
+      return (
+        <p className="font-semibold">
+            {startHours + ":"}
+            {fixZeros(startMinutes) + " - "}
+            {endHours + ":"}
+            {fixZeros(endMinutes) + " Uhr"}
+          </p>
+      )
+    }
+    var start = startHours + ":" + fixZeros(startMinutes) + " am - "
+    var end = endHours + ":" + fixZeros(endMinutes) + " am"
+
+    if(startHours > 12){
+        startHours = startHours - 12
+        start = startHours + ":" + fixZeros(startMinutes) + " pm - "
+    }
+    if(endHours > 12){
+      endHours = endHours - 12
+      end = endHours + ":" + fixZeros(endMinutes) + " pm"
+    }
+
+    return(
+        <p className="font-semibold">
+            {start}
+            {end}
+          </p>
+      )
+  }
+
   function setTime(start, duration){
      const startHours = start.getHours()
      const startMinutes = start.getMinutes()
@@ -185,12 +221,7 @@ export function TimeTable({moduleItemListPara}) {
      }
 
       return (
-        <p className="font-semibold">
-          {startHours + ":"}
-          {fixZeros(startMinutes) + " - "}
-          {endHours + ":"}
-          {fixZeros(endMinutes) + " Uhr"}
-        </p>
+        formatTime(startHours, startMinutes, endHours, endMinutes)
       )
     }
 
@@ -272,7 +303,7 @@ export function TimeTable({moduleItemListPara}) {
   const handleMouseLeave = () => {
     if(moveEvent == null){
       return
-    } 
+    }
     moduleSetOutside(moveEvent)
     setEvents(filterForEvents())
     deleteModuleCalendarEntry(moveEvent)
@@ -309,11 +340,17 @@ export function TimeTable({moduleItemListPara}) {
     }
   }
 
+  function hideSundayInTimetable() {
+      const lastHeader = document.querySelector(".rbc-calendar .rbc-time-header > .rbc-time-header-content .rbc-header:last-of-type");
+      const lastColumn = document.querySelector(".rbc-calendar .rbc-time-content > .rbc-day-slot.rbc-time-column:last-of-type");
+      lastHeader?.classList.add("hiddenImportant");
+      lastColumn?.classList.add("hiddenImportant");
+  }
+
   useEffect(() => {
-    initConflicts()
+    initConflicts();
+    hideSundayInTimetable();
   });
-
-
 
   return (
     <>
@@ -329,15 +366,15 @@ export function TimeTable({moduleItemListPara}) {
                   events={events}
                   startAccessor="start"
                   endAccessor="end"
+                  views={["week"]}
+                  defaultView="week"
                   min={moment("2024-01-01T08:30").toDate()}
                   max={moment("2024-01-01T20:00").toDate()}
-                  views={["work_week"]}
-                  defaultView="work_week"
                   defaultDate={moment("2024-01-01T00:00").toDate()}
                   toolbar={false}
                   eventPropGetter={eventStyleGetter}
                   step={15}
-                  components={{         
+                  components={{
                     event: customEvent
                   }}
                   timeslots={2}

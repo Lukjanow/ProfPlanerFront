@@ -138,24 +138,24 @@ export default function DozentDetailPage() {
 
 
     return (
-        < PageContainer
-            title={dozentId ? `${prename} ${lastname}` : `${t("new")} ${t("lecturer")}`
-            }
-            onClickPrimary={(e) => handleSubmit(e)}
-            primaryButtonTitle={t("save")}
-            showDeleteButton={dozentId ? true : false}
-            onClickDelete={() => setShowModal(true)}
-        >
-            <DeleteModal
-                value={showModal}
-                onClickCancel={() => {
-                    setShowModal(false)
-                }}
-                onClickDelete={handleDelete}
-                headlineText={t("deleteQuestion")}
-                bodyText={t("deleteDozentInfo")}
-            />
-            <form>
+        <form>
+            < PageContainer
+                title={dozentId ? `${prename} ${lastname}` : `${t("new")} ${t("lecturer")}`
+                }
+                onClickPrimary={(e) => handleSubmit(e)}
+                primaryButtonTitle={t("save")}
+                showDeleteButton={dozentId ? true : false}
+                onClickDelete={() => setShowModal(true)}
+            >
+                <DeleteModal
+                    value={showModal}
+                    onClickCancel={() => {
+                        setShowModal(false)
+                    }}
+                    onClickDelete={handleDelete}
+                    headlineText={t("deleteQuestion")}
+                    bodyText={t("deleteDozentInfo")}
+                />
                 <SectionContainer title={t("general")}>
                     <div className="flex lg:flex-row flex-col gap-5">
                         <SelectBox
@@ -238,7 +238,7 @@ export default function DozentDetailPage() {
                         }
                     />
                 </SectionContainer>
-            </form>
-        </PageContainer >
+            </PageContainer >
+        </form>
     )
 }

@@ -171,7 +171,7 @@ export default function MyCalendar() {
 
     return (
       <PageContainer
-      title={t("Lehrplanung")}
+      title={t("semester_plan")}
       showCancelButton = {false}
       showPrimaryButton = {false}
       showDeleteButton = {false}

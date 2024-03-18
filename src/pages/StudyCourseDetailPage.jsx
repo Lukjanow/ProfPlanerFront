@@ -130,24 +130,24 @@ export default function StudyCourseDetailPage() {
 
 
   return (
-    <PageContainer
-      title={studycourseId ? `${name}` : `${t("newStudyCourse")}`}
-      onClickPrimary={(e) => handleSubmit(e)}
-      primaryButtonTitle={t("save")}
-      showDeleteButton={studycourseId ? true : false}
-      onClickDelete={() => setShowModal(true)}
-      snackbar={{ type: "success", message: "Speichern erfolgreich" }}
-    >
-      <DeleteModal
-        value={showModal}
-        onClickCancel={() => {
-          setShowModal(false);
-        }}
-        onClickDelete={handleDelete}
-        headlineText={t("deleteQuestion")}
-        bodyText={t("deleteStudyCourseInfo")}
-      />
-      <form>
+    <form>
+      <PageContainer
+        title={studycourseId ? `${name}` : `${t("newStudyCourse")}`}
+        onClickPrimary={(e) => handleSubmit(e)}
+        primaryButtonTitle={t("save")}
+        showDeleteButton={studycourseId ? true : false}
+        onClickDelete={() => setShowModal(true)}
+        snackbar={{ type: "success", message: "Speichern erfolgreich" }}
+      >
+        <DeleteModal
+          value={showModal}
+          onClickCancel={() => {
+            setShowModal(false);
+          }}
+          onClickDelete={handleDelete}
+          headlineText={t("deleteQuestion")}
+          bodyText={t("deleteStudyCourseInfo")}
+        />
         <SectionContainer title={t("general")}>
           <div className="flex lg:flex-row flex-col gap-5">
             <Input
@@ -248,7 +248,7 @@ export default function StudyCourseDetailPage() {
             </div>
           </div>
         </SectionContainer>
-      </form>
-    </PageContainer >
+      </PageContainer >
+    </form>
   );
 }
