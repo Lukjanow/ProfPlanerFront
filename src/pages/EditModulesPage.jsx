@@ -210,15 +210,15 @@ export default function EditModulesPage(
     const WinSom = [
         {
             key: "1",
-            label: "Wintersemester"
+            label: t("wSem")
         },
         {
             key: "2",
-            label: "Sommersemester"
+            label: t("sSem")
         },
         {
             key: "3",
-            label: "Winter- und Sommersemester"
+            label: t("wAsSem")
         }
     ]
 
@@ -239,12 +239,12 @@ export default function EditModulesPage(
                 updateModule(moduleId, newModule)
                     .then(response => {
                         console.log("Module updated: ", response);
-                        setSnackbarData({ type: "success", message: "Module updated.", visible: true })
+                        setSnackbarData({ type: "success", message: t("ModuleSaved"), visible: true })
                         navigate("/basicdata")
                     })
                     .catch(error => {
                         console.error("Error updating Module:", error);
-                        setSnackbarData({ type: "error", message: "Error updating Module.", visible: true })
+                        setSnackbarData({ type: "error", message: t("ModuleError"), visible: true })
                     })
 
                 return
@@ -258,12 +258,12 @@ export default function EditModulesPage(
             addModule(newModule)
                 .then(response => {
                     console.log("Module saved: ", response);
-                    setSnackbarData({ type: "success", message: "Module saved.", visible: true })
+                    setSnackbarData({ type: "success", message: t("ModuleSaved"), visible: true })
                     navigate("/basicdata")
                 })
                 .catch(error => {
                     console.error("Error saving Module:", error);
-                    setSnackbarData({ type: "error", message: "Error saving Module.", visible: true })
+                    setSnackbarData({ type: "error", message: t("ModuleError"), visible: true })
                 })
         } else {
             console.error("Error: ", errors);
@@ -274,12 +274,12 @@ export default function EditModulesPage(
         deleteModule(moduleId)
             .then(response => {
                 console.log("Module deleted: ", response);
-                setSnackbarData({ type: "success", message: "Module deleted.", visible: true })
+                setSnackbarData({ type: "success", message: t("ModuleDelete"), visible: true })
                 navigate("/basicdata")
             })
             .catch(error => {
                 console.error("Error deleting Module:", error);
-                setSnackbarData({ type: "error", message: "Error deleting Module.", visible: true })
+                setSnackbarData({ type: "error", message: t("ModuleDeleteError"), visible: true })
             })
     }
 
@@ -387,7 +387,7 @@ export default function EditModulesPage(
                     }}
                     onClickDelete={handleDelete}
                     headlineText={t("deleteQuestion")}
-                    bodyText={"This can't be reversed and can cause Issues in the Planer"}
+                    bodyText={t("ModuleDelteText")}
                 />
                 <SectionContainer title={`${t("general")}`}>
                     <div className="flex lg:flex-row flex-col gap-5">
@@ -478,7 +478,7 @@ export default function EditModulesPage(
 
                 <SectionContainer title={t("semester")}>
                     <div className="flex gap-5" style={{ marginBottom: "10px" }}>
-                        <OutlinedButton text="Füge ein Semester hinzu" icon="plus" showIcon={true} color={"primary"}
+                        <OutlinedButton text={t("addSemester")} icon="plus" showIcon={true} color={"primary"}
                             onClick={() => {
                                 handleNewSemester()
                             }}></OutlinedButton>
@@ -513,9 +513,9 @@ export default function EditModulesPage(
                                     value={data.type}
                                     onValueChange={(e) => setstudyHelp(e, index, "type")}>
                                     <div className="flex lg:flex-row flex-col gap-5">
-                                        <Checkbox value="Pflicht">Pflicht</Checkbox>
-                                        <Checkbox value="Qualifikationsschwerpunkt">Qualifikationsschwerpunkt/Wahlpflichtmodul</Checkbox>
-                                        <Checkbox value="Andere">Anderes</Checkbox>
+                                        <Checkbox value="Pflicht">{t("mandatory")}</Checkbox>
+                                        <Checkbox value="Qualifikationsschwerpunkt">{t("focusOfQualification")}/{t("compulsoryElectivemodule")}</Checkbox>
+                                        <Checkbox value="Andere">{t("other")}</Checkbox>
                                     </div>
                                 </CheckboxGroup>
                             </div>
@@ -535,7 +535,7 @@ export default function EditModulesPage(
                 </SectionContainer>
 
 
-                <SectionContainer title={"Veranstaltung"}>
+                <SectionContainer title={t("event")}>
                     <div className="flex gap-5" style={{ marginTop: "25px" }}>
                         <DropDown Items={teachers}
                             description={`${t("lecturer")}`} selectionMode="multiple"
