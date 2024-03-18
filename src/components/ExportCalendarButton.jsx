@@ -55,7 +55,7 @@ export function ExportCalendarButton() {
         const fileName = getFileName();
 
         setIsLoading(true);
-        timetable = document.querySelector('.rbc-calendar');
+        timetable = document.querySelector(".rbc-calendar");
         timetableClone = timetable.cloneNode(true);
         const timetableHeight = timetable.offsetHeight;
         const timetableWidth = 1340;
@@ -79,16 +79,20 @@ export function ExportCalendarButton() {
         }
 
         const content = timetableClone.querySelector(".rbc-time-content");
-        content.style.overflow = "inherit";
+
+        if (content) {
+            content.style.overflow = "inherit";
+        }
 
         const parentElement = timetable.parentElement;
         parentElement.appendChild(timetableClone);
 
         domtoimage.toJpeg(timetableClone)
             .then(dataUrl => {
-                const pdf = new jsPDF('p', 'mm');
-                const pageWidth = pdf.internal.pageSize.width;
-                const pageHeight = pdf.internal.pageSize.height;
+                const pdf = new jsPDF("l", "mm");
+                const minSpace = 30;
+                const pageWidth = pdf.internal.pageSize.width - minSpace;
+                const pageHeight = pdf.internal.pageSize.height - minSpace;
                 const aspectRatio = timetableWidth / timetableHeight;
 
                 let scaledWidth, scaledHeight;
@@ -100,7 +104,12 @@ export function ExportCalendarButton() {
                     scaledWidth = pageHeight * aspectRatio;
                 }
 
-                pdf.addImage(dataUrl, 'JPEG', 0, 0, scaledWidth, scaledHeight);
+                if (scaledHeight > pageHeight) {
+                    scaledHeight = pageHeight;
+                    scaledWidth = pageHeight * aspectRatio;
+                }
+
+                pdf.addImage(dataUrl, "JPEG", minSpace / 2, minSpace / 2, scaledWidth, scaledHeight);
                 pdf.save(`${fileName}.pdf`);
 
                 parentElement.removeChild(timetableClone);
@@ -108,7 +117,7 @@ export function ExportCalendarButton() {
 
             })
             .catch(function (error) {
-                console.error('Error exporting timetable:', error);
+                console.error("Error exporting timetable:", error);
             });
     }
 
