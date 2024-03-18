@@ -16,6 +16,7 @@ import {getCalendarById, getCalendarEntriesForCalendar} from "../services/calend
 import PageContainer from "../components/PageContainer";
 import { getAllStudySemesters } from "../services/studySemesterService";
 import {useTimeTableFilterStore} from "../stores/timeTableFilterStore.js";
+import { parseEvent, getEventEnd, getEventStart } from "../utils/calendarEventUtils.js";
 
 
 export default function MyCalendar() {
@@ -120,77 +121,6 @@ export default function MyCalendar() {
     },
     ]; */
 
-    function getEventStart(time_stamp) {
-      var start = moment("2024-01-01T12:00").toDate()
-      start.setDate(time_stamp.week_day)
-      start.setHours(time_stamp.hour)
-      start.setMinutes(time_stamp.minute)
-      return start
-    }
-
-    function getEventEnd(start, duration) {
-      const startHours = start.getHours()
-      const startMinutes = start.getMinutes()
-      const durationHours = Math.floor(duration/60)
-      const durationMinutes = duration % 60
-      var endMinutes = startMinutes + durationMinutes
-      var endHours = startHours + durationHours
-      if(endMinutes >= 60){
-        endHours += 1
-        endMinutes -= 60
-      }
-      var end = moment("2024-01-01T12:00").toDate()
-      end.setDate(start.getDay())
-      end.setHours(endHours)
-      end.setMinutes(endMinutes)
-      return end
-    }
-
-    function getAllStudySemesterString(study_semester) {
-      var all_study_semester_string = String(study_semester[0].name)
-      for (let i = 1; i < study_semester.length; i++) {
-        all_study_semester_string = all_study_semester_string + ", " + String(study_semester[i].name)
-      }
-      return all_study_semester_string
-    }
-
-    function getAllRoomString(room) {
-      var all_room_string = String(room[0].roomNumber)
-      for (let i = 1; i < room.length; i++) {
-        all_room_string = all_room_string + ", " + String(room[i].roomNumber)
-      }
-      return all_room_string
-    }
-
-    function getAllDozentString(dozent) {
-      var all_dozent_string = String(dozent[0].prename) + " " + String(dozent[0].lastname)
-      for (let i = 1; i < dozent.length; i++) {
-        all_dozent_string = all_dozent_string + ", " + String(dozent[i].prename) + " " + String(dozent[i].lastname)
-      }
-      return all_dozent_string
-    }
-
-    function getEveryStudySemesterString(studySemesters, seperator=" ") {
-      var string_list = []
-      for (const studySemester of studySemesters) {
-        for (const semester of studySemester.semesterNumbers) {
-          string_list.push(String(studySemester.studyCourse.name) + seperator + "Semester " + String(semester))
-        }
-        for (const content of studySemester.content) {
-          string_list.push(String(studySemester.studyCourse.name) + seperator + String(content))
-        }
-      }
-      return string_list
-    }
-
-    function listToString(list) {
-      var list_string = list[0]
-      for (let i = 1; i < list.length; i++) {
-        list_string = list_string + ", " + list[i];
-      }
-      return list_string
-    }
-
     function initModules(module_list, calendarEntry_list){
       var list = []
 
@@ -208,82 +138,15 @@ export default function MyCalendar() {
           //Module mithilfe des CalendarEntrys erstellen und isPlaced=true
           const eventStart = getEventStart(moduleCalendarEntry.time_stamp)
           const eventEnd = getEventEnd(eventStart,moduleCalendarEntry.module.duration)
-          list.push({
-            _id: module_list[i]._id,
-            calendar_entry_id: moduleCalendarEntry._id,
-            name: module_list[i].name,
-            start: eventStart,
-            end: eventEnd,
-            study_semester_string: module_list[i].study_semester[0] != null? getEveryStudySemesterString(module_list[i].study_semester)[0] : "Kein Semester",
-            hover_study_semester_string: module_list[i].study_semester[0] != null? listToString(getEveryStudySemesterString(module_list[i].study_semester)) : "Kein Semester",
-            study_semester: module_list[i].study_semester,
-            dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname) : "Kein Dozent",
-            hover_dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? getAllDozentString(module_list[i].dozent) : "Kein Dozent",
-            dozent: module_list[i].dozent,
-            room_string: module_list[i].room[0] !== null && module_list[i].room[0] !== undefined ? String(module_list[i].room[0].roomNumber) : "kein Raum",
-            hover_room_string: module_list[i].room[0] !== null && module_list[i].room[0] !== undefined ? getAllRoomString(module_list[i].room) : "kein Raum",
-            room: module_list[i].room,
-            backgroundcolor: module_list[i].color !== null && module_list[i].color !== undefined ? module_list[i].color : "#eeeeee",
-            bordercolor: module_list[i].color !== null && module_list[i].color !== undefined ? changeColor(module_list[i].color, -40) : "#bcbcbc",
-            duration: module_list[i].duration,
-            visible: true,
-            isPlaced: true,
-          })
+          list.push(parseEvent(moduleCalendarEntry, module_list[i], eventStart, eventEnd))
         } else{
           //Module selbst erstellen und isPlaced=false
           // const all_study_semester_string = getAllStudySemesterString(module_list[i].study_semester)
-          list.push({
-            _id: module_list[i]._id,
-            calendar_entry_id: "",
-            name: module_list[i].name,
-            start: moment("2024-01-01T12:00").toDate(),
-            end: moment("2024-01-01T15:00").toDate(),
-            study_semester_string: module_list[i].study_semester[0] != null? getEveryStudySemesterString(module_list[i].study_semester)[0] : "Kein Semester",
-            hover_study_semester_string: module_list[i].study_semester[0] != null? listToString(getEveryStudySemesterString(module_list[i].study_semester)) : "Kein Semester",
-            study_semester: module_list[i].study_semester,
-            dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? String(module_list[i].dozent[0].prename) + " " + String(module_list[i].dozent[0].lastname) : "Kein Dozent",
-            hover_dozent_string: module_list[i].dozent[0] !== null && module_list[i].dozent[0] !== undefined ? getAllDozentString(module_list[i].dozent) : "Kein Dozent",
-            dozent: module_list[i].dozent,
-            room_string: module_list[i].room[0] !== null && module_list[i].room[0] !== undefined ? String(module_list[i].room[0].roomNumber) : "kein Raum",
-            hover_room_string: module_list[i].room[0] !== null && module_list[i].room[0] !== undefined ? getAllRoomString(module_list[i].room) : "kein Raum",
-            room: module_list[i].room,
-            backgroundcolor: module_list[i].color !== null && module_list[i].color !== undefined ? module_list[i].color : "#eeeeee",
-            bordercolor: module_list[i].color !== null && module_list[i].color !== undefined ? changeColor(module_list[i].color, -40) : "#bcbcbc",
-            duration: module_list[i].duration,
-            visible: true,
-            isPlaced: false,
-          })
+          list.push(parseEvent(null, module_list[i],moment("2024-01-01T12:00").toDate(),moment("2024-01-01T15:00").toDate()))
         }
       }
       return list
     }
-
-    function changeColor(col, amt) {
-      var usePound = false;
-    
-      if (col[0] == "#") {
-          col = col.slice(1);
-          usePound = true;
-      }
-  
-      var num = parseInt(col,16);
-      var r = (num >> 16) + amt;
-  
-      if (r > 255) r = 255;
-      else if  (r < 0) r = 0;
-  
-      var b = ((num >> 8) & 0x00FF) + amt;
-  
-      if (b > 255) b = 255;
-      else if  (b < 0) b = 0;
-  
-      var g = (num & 0x0000FF) + amt;
-  
-      if (g > 255) g = 255;
-      else if (g < 0) g = 0;
-  
-      return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
-  }
 
     useEffect(() => {
       async function fetchData() {

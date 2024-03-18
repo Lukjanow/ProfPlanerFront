@@ -3,13 +3,21 @@ import { ScrollShadow, Button, Tooltip } from "@nextui-org/react";
 import React from "react"
 import { useTranslation } from "react-i18next";
 import { runAlgo } from "../services/algorithmService";
+import { getEventStart, getEventEnd, parseEvent } from "../utils/calendarEventUtils";
 
 
 export function ModuleBar({ moduleItemList }) {
   const { t } = useTranslation();
 
   async function startAlgo(){
-    await runAlgo();
+    const result = await runAlgo();
+
+    for (let i = 0; i < result.length; i++) {
+      const start = getEventStart()
+      const end = getEventEnd()
+      const event = parseEvent()
+    }
+
   }
 
   return (
