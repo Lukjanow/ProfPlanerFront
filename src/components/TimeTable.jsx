@@ -355,50 +355,46 @@ export function TimeTable({ moduleItemListPara }) {
 
   return (
     <>
-      <div className="flex">
-        <div>
-          <TimeTableFilter module_list={moduleItemList} filterAction={filterAction}></TimeTableFilter>
-          <div>
-            <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent} />
-            <SectionContainer className={"p-0"}>
-              <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4" onMouseUp={handleMouseUp}>
-                <DnDCalendar
-                  className="w-[78vw] select-none"
-                  localizer={localizer}
-                  events={events}
-                  startAccessor="start"
-                  endAccessor="end"
-                  views={["week"]}
-                  defaultView="week"
-                  min={moment("2024-01-01T08:30").toDate()}
-                  max={moment("2024-01-01T20:00").toDate()}
-                  defaultDate={moment("2024-01-01T00:00").toDate()}
-                  toolbar={false}
-                  eventPropGetter={eventStyleGetter}
-                  step={15}
-                  components={{
-                    event: customEvent
-                  }}
-                  timeslots={2}
-                  selectable
-                  resizable={false}
-                  formats={{ dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture) }}
-                  onEventDrop={({ start, end, event }) => { onChangeEventTime(start, end, event._id) }}
-                  onDropFromOutside={onDropFromOutside}
-                  drilldownView={null}
-                  onDragStart={(event) => handleDragStart(event)}
-                />
-              </div>
-            </SectionContainer>
-            <ConflictDisplay data={conflict_list} />
+      <TimeTableFilter module_list={moduleItemList} filterAction={filterAction}></TimeTableFilter>
+      <div className={"flex gap-5"}>
+        <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent} />
+        <SectionContainer className={"p-0"}>
+          <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4" onMouseUp={handleMouseUp}>
+            <DnDCalendar
+              className="w-[78vw] select-none"
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              views={["week"]}
+              defaultView="week"
+              min={moment("2024-01-01T08:30").toDate()}
+              max={moment("2024-01-01T20:00").toDate()}
+              defaultDate={moment("2024-01-01T00:00").toDate()}
+              toolbar={false}
+              eventPropGetter={eventStyleGetter}
+              step={15}
+              components={{
+                event: customEvent
+              }}
+              timeslots={2}
+              selectable
+              resizable={false}
+              formats={{ dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture) }}
+              onEventDrop={({ start, end, event }) => { onChangeEventTime(start, end, event._id) }}
+              onDropFromOutside={onDropFromOutside}
+              drilldownView={null}
+              onDragStart={(event) => handleDragStart(event)}
+            />
           </div>
-        </div>
-        <div>
+        </SectionContainer>
+        <SectionContainer>
           <ModuleBar moduleItemList={filterForOutside().map(event => (
             <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} />
           ))} />
-        </div>
+        </SectionContainer>
       </div>
+      <ConflictDisplay data={conflict_list} />
     </>
   );
 }
