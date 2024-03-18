@@ -81,65 +81,71 @@ export function TimeTableFilter({ module_list, filterAction }) {
   }, []);
 
   return (
-    <Tabs
-      aria-label="Options"
-      className="p-1"
-      radius="sm"
-    >
-      <Tab
-        key="studycourse"
-        title={t("studycourse")}
+    <div>
+      <Tabs
+        aria-label="Options"
+        classNames={{
+          tabContent: "p-3"
+        }}
       >
-        <SectionContainer className={"p-0"}>
-          <div className="flex justify-between items-center gap-5">
-            <DropDown2
-              module_list={module_list}
-              filterAction={filterAction}
-              dropDownData={studySemesterData}
-              category="study_semester"
-              cLabel={t("studysemester")}
-              cPlaceholder={t("search_for_studysemester")}
-            />
-            <ExportCalendarButton />
-          </div>
-        </SectionContainer>
-      </Tab>
-      <Tab
-        key="lecturer"
-        title={t("lecturer")}
-      >
-        <SectionContainer className={"p-0"}>
-          <div className="flex justify-between items-center">
-            <DropDown2
-              module_list={module_list}
-              filterAction={filterAction}
-              dropDownData={dozentData}
-              category="dozent"
-              cLabel={t("lecturer")}
-              cPlaceholder={t("search_for_teacher")}
-            />
-            <ExportCalendarButton />
-          </div>
-        </SectionContainer>
-      </Tab>
-      <Tab
-        key="room"
-        title={t("room")}
-      >
-        <SectionContainer className={"p-0"}>
-          <div className="flex justify-between items-center">
-            <DropDown2
-              module_list={module_list}
-              filterAction={filterAction}
-              dropDownData={roomData}
-              category="room"
-              cLabel={t("room")}
-              cPlaceholder={t("search_for_room")}
-            />
-            <ExportCalendarButton />
-          </div>
-        </SectionContainer>
-      </Tab >
-    </Tabs >
+        <Tab
+          key="studycourse"
+          title={t("studycourse")}
+          className="pb-0 pl-0"
+        >
+          <SectionContainer className={"p-0"}>
+            <div className="flex justify-between items-center gap-5">
+              <DropDown2
+                module_list={module_list}
+                filterAction={filterAction}
+                dropDownData={studySemesterData}
+                category="study_semester"
+                cLabel={t("studysemester")}
+                cPlaceholder={t("search_for_studysemester")}
+              />
+              <ExportCalendarButton />
+            </div>
+          </SectionContainer>
+        </Tab>
+        <Tab
+          key="lecturer"
+          title={t("lecturer")}
+          className="pb-0"
+        >
+          <SectionContainer className={"p-0"}>
+            <div className="flex justify-between items-center">
+              <DropDown2
+                module_list={module_list}
+                filterAction={filterAction}
+                dropDownData={dozentData}
+                category="dozent"
+                cLabel={t("lecturer")}
+                cPlaceholder={t("search_for_teacher")}
+              />
+              <ExportCalendarButton />
+            </div>
+          </SectionContainer>
+        </Tab>
+        <Tab
+          key="room"
+          title={t("room")}
+          className="pb-0"
+        >
+          <SectionContainer className={"p-0"}>
+            <div className="flex justify-between items-center">
+              <DropDown2
+                module_list={module_list}
+                filterAction={filterAction}
+                dropDownData={roomData}
+                category="room"
+                cLabel={t("room")}
+                cPlaceholder={t("search_for_room")}
+              />
+              <ExportCalendarButton />
+            </div>
+          </SectionContainer>
+        </Tab >
+      </Tabs >
+    </div>
   );
 }
