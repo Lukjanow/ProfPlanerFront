@@ -71,6 +71,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         // TODO:
         setSearchPlaceholder(t("searchByStudyCourse"));
         setDeleteMessage(t("deleteStudyCourseInfo"));
+        setSearchTerm("");
         break;
       default:
         console.error("Unknown element type:", element);
@@ -81,6 +82,9 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   useEffect(() => {
     if (isFiltered == true) {
       setLength(filteredItems.length)
+      if(length == 0){
+        setSnackbarData({ type: "error", message: "No Items found for your Searchterm", visible: true })
+      }
     }
     if (searchTerm == "" && isFiltered == true) {
       setIsFiltered(false)
@@ -161,21 +165,129 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
     tableData.forEach((item) => {
       switch (element) {
         case "/room":
+          if (searchTerm.includes("capacity:")){
+            if (item.capacity == parseInt(searchTerm.split("capacity:")[1])) {
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
+          if (searchTerm.includes("capacity>")){
+            if (item.capacity > parseInt(searchTerm.split("capacity>")[1])) {
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
+          if (searchTerm.includes("capacity<")){
+            if (item.capacity < parseInt(searchTerm.split("capacity<")[1])) {
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
+          if (searchTerm.includes("roomType:")){
+            if (item.roomType.toLowerCase().includes(searchTerm.toLowerCase().split("roomtype:")[1].replace(/^\s+/, ''))) {
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
           if (item.roomNumber.toLowerCase().includes(searchTerm.toLowerCase())) {
             setFilteredItems(old => [...old, item])
           }
           break;
         case "/dozent":
+          if (searchTerm.includes("salutation:")){
+            if (item.salutation.toLowerCase().includes(searchTerm.toLowerCase().split("salutation:")[1].replace(/^\s+/, ''))) {
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
+          if (searchTerm.includes("email:")){
+            if (item.email.toLowerCase().includes(searchTerm.toLowerCase().split("email:")[1].replace(/^\s+/, ''))) {
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
+          if (searchTerm.includes("title:")){
+            if (item.title.toLowerCase().includes(searchTerm.toLowerCase().split("title:")[1].replace(/^\s+/, ''))) {
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
           if ((item.prename.toLowerCase() + " " + item.lastname.toLowerCase()).includes(searchTerm.toLowerCase())) {
             setFilteredItems(old => [...old, item])
           }
           break;
         case "/module":
+          if (searchTerm.includes("dozent:")){
+            if (item.dozent.some(obj => `${obj.prename} ${obj.lastname}`.toLowerCase().includes(searchTerm.toLowerCase().split("dozent:")[1].replace(/^\s+/, '')))){
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
+          if (searchTerm.includes("room:")){
+            if (item.room.some(obj => `${obj.roomNumber}`.toLowerCase().includes(searchTerm.toLowerCase().split("room:")[1].replace(/^\s+/, '')))){
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
+          if (searchTerm.includes("studyCourse:")){
+            if (item.studySemester.some(obj => obj.studyCourse.name.toLowerCase().includes(searchTerm.toLowerCase().split("studycourse:")[1].replace(/^\s+/, '')))){
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
+          if (searchTerm.includes("duration:")){
+            if (item.duration == parseInt(searchTerm.split("duration:")[1])) {
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
+          if (searchTerm.includes("duration>")){
+            if (item.duration > parseInt(searchTerm.split("duration>")[1])) {
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
+          if (searchTerm.includes("duration<")){
+            if (item.duration < parseInt(searchTerm.split("duration<")[1])) {
+              setFilteredItems(old => [...old, item])
+            }
+            break;
+          }
           if (item.name.toLowerCase().includes(searchTerm.toLowerCase())) {
             setFilteredItems(old => [...old, item])
 
           }
           break;
+        case "/studycourse":
+            if (searchTerm.includes("semesterCount:")){
+              if (item.semesterCount == parseInt(searchTerm.split("semesterCount:")[1])) {
+                setFilteredItems(old => [...old, item])
+              }
+              break;
+            }
+            if (searchTerm.includes("semesterCount>")){
+              if (item.semesterCount > parseInt(searchTerm.split("semesterCount>")[1])) {
+                setFilteredItems(old => [...old, item])
+              }
+              break;
+            }
+            if (searchTerm.includes("semesterCount<")){
+              if (item.semesterCount < parseInt(searchTerm.split("semesterCount<")[1])) {
+                setFilteredItems(old => [...old, item])
+              }
+              break;
+            }
+            if (searchTerm.includes("content:")){
+              if (item.content.some(str => str.toLowerCase().includes(searchTerm.toLowerCase().split("content:")[1].replace(/^\s+/, '')))) {
+                setFilteredItems(old => [...old, item])
+              }
+              break;
+            }
+            if (item.name.toLowerCase().includes(searchTerm.toLowerCase())) {
+              setFilteredItems(old => [...old, item])
+  
+            }
+            break;
         default:
           console.error("Unknown element type:", element);
           return;
@@ -220,10 +332,10 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       if (value.length === 0) {
         return <TableCell>-</TableCell>;
       }
-
+/* 
       console.log("key:", key);
 
-      console.log("value:", value);
+      console.log("value:", value); */
 
       // if (value[0] && value[0].studyCourse) {
       //   console.log("studyCourse name:",

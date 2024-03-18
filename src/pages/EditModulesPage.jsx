@@ -16,7 +16,6 @@ import DeleteModal from "../components/DeleteModal.jsx";
 import { getAllStudyCourses } from "../services/studyCourseService.js";
 import { Context } from "../routes/root.jsx";
 
-//TODO: Checkbox acting weird, QSP doesn't change when editing
 
 export default function EditModulesPage(
 ) {
@@ -44,6 +43,8 @@ export default function EditModulesPage(
     const [studyContent, setStudyContent] = React.useState([]) //Contains qsp and semester count to study course
     const [room, setRooms] = useState([])     //rooms to display
     const [teachers, setTeachers] = useState([])     //teachers to display
+    
+    const [NewSemester, setNewSemester] = React.useState(false)
 
     const dealwithStudySemester = useRef([])
 
@@ -126,7 +127,7 @@ export default function EditModulesPage(
                         semesterNumbers: false,
                         content: false
                     },
-                        e.semesterNumbers = e.semesterNumbers.map(String)
+                    e.semesterNumbers = e.semesterNumbers.map(String)
                     let object = studyContent.find(item => item.studyCourse == e.studyCourse)
                     e.renderContent = object["content"]
                     e.renderSemester = object["semesterCount"]
@@ -158,7 +159,6 @@ export default function EditModulesPage(
         } catch (error) {
             console.log(error)
         }
-        console.log("Found:", object)
         list[index]["renderContent"] = object["content"]
         list[index]["renderSemester"] = object["semesterCount"]
         setModuleStudySemester(list)
@@ -227,8 +227,6 @@ export default function EditModulesPage(
         e.preventDefault()
 
         const validationErrors = validateForm();
-
-        console.log(validationErrors)
         if (!Object.values(validationErrors).includes(true)) {
             if (moduleId) {
                 let studySemester = JSON.parse(JSON.stringify(ModuleStudySemester))
@@ -236,7 +234,6 @@ export default function EditModulesPage(
                 studySemester.forEach(function (v) { delete v.renderContent })
                 studySemester.forEach(function (v) { delete v.renderSemester })
                 studySemester.forEach(function (v) { v.studyCourse = v.studyCourse[0] })
-                studySemester.forEach(function (v) { v.content = Array.from(v.content) })
                 const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt((ModuleFrequency instanceof Set) ? ModuleFrequency.values().next().value : ModuleFrequency[0]), ModuleSelected, color)
                 console.log("new Module:", newModule)
                 updateModule(moduleId, newModule)
@@ -257,7 +254,6 @@ export default function EditModulesPage(
             studySemester.forEach(function (v) { delete v.renderContent })
             studySemester.forEach(function (v) { delete v.renderSemester })
             studySemester.forEach(function (v) { v.studyCourse = v.studyCourse[0] })
-            studySemester.forEach(function (v) { v.content = Array.from(v.content) })
             const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt(ModuleFrequency.values().next().value), ModuleSelected, color)
             addModule(newModule)
                 .then(response => {
@@ -339,15 +335,13 @@ export default function EditModulesPage(
         return errors;
     };
 
-    const [NewSemester, setNewSemester] = React.useState(false)
-
     const handleNewSemester = () => {
         setModuleStudySemester(old => [...old, {
             _id: old.length,
             studyCourse: [],
             semesterNumbers: [],
             content: [],
-            type: "",
+            type: [""],
             errors: {
                 studyCourse: false,
                 semesterNumbers: false,
@@ -529,7 +523,7 @@ export default function EditModulesPage(
                                 <DropDown
                                     Items={data.renderContent}
                                     description={`${t("focusOfQualification")}`}
-                                    onChange={(e) => setstudyHelp(e, index, "content")} values={data.content} selectionMode="multiple"
+                                    onChange={(e) => {setstudyHelp(Array.from(e), index, "content")}} values={data.content} selectionMode="multiple"
                                     error={data.errors.content}
                                     required={true}
                                 />
