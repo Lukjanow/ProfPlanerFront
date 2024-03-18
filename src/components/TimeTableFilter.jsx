@@ -91,7 +91,7 @@ export function TimeTableFilter({ module_list, filterAction }) {
         title={t("studycourse")}
       >
         <SectionContainer className={"p-0"}>
-          <div className="flex justify-between items-center">
+          <div className="flex justify-between items-center gap-5">
             <DropDown2
               module_list={module_list}
               filterAction={filterAction}
