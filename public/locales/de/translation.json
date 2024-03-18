@@ -93,6 +93,13 @@
   "exportAsPDF": "Exportieren (PDF)",
   "importAsXLSX": "Importieren (XLSX)",
   "exportAsXLSX": "Exportieren (XLSX)",
+  "semester_plan": "Lehrplanung",
+  "studysemester": "Fachsemester",
+  "search_for_studysemester": "Suche nach Fachsemester",
+  "search_for_room": "Suche nach Raum",
+  "search_for_teacher": "Suche nach Lehrperson",
+  "close": "Schließen",
+  "remove": "Entfernen",
   "Message": "Nachricht",
   "action": "Aktion",
   "generatePlan": "Automatisch generieren"
