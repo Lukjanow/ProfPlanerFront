@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import {checkModuleWarnings, deleteConflictsWithCurrentModule} from "../conflicts/conflicts";
 import { updateCalendarEntry, addCalendarEntryForCalendar, deleteCalendarEntry } from "../services/calendarService";
 
-export function TimeTable({moduleItemListPara}) {  
+export function TimeTable({moduleItemListPara}) {
   const { i18n } = useTranslation();
 
   if (i18n.language === "en"){
@@ -25,8 +25,8 @@ export function TimeTable({moduleItemListPara}) {
   } else if(i18n.language === "de"){
     moment.locale("de")
   }
-  
-  const localizer = momentLocalizer(moment) 
+
+  const localizer = momentLocalizer(moment)
 
   const DnDCalendar = withDragAndDrop(Calendar);
   const {isOpen, onOpen, onOpenChange} = useDisclosure();
@@ -141,7 +141,7 @@ export function TimeTable({moduleItemListPara}) {
             var div = document.getElementById("removeBorder")
             div.classList.remove("bg-red-600")
             div.classList.add("bg-white")
-            
+
             let module = null;
             for (let i = 0; i < events.length; i++) {
                 if (events[i]._id === appointmentId) {
@@ -151,7 +151,7 @@ export function TimeTable({moduleItemListPara}) {
             }
             module.start = start
             module.end = end
-        
+
             updateModule(module)
             updateModuleCalendarEntry(module)
             setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
@@ -197,7 +197,7 @@ export function TimeTable({moduleItemListPara}) {
       endHours = endHours - 12
       end = endHours + ":" + fixZeros(endMinutes) + " pm"
     }
-    
+
     return(
         <p className="font-semibold">
             {start}
@@ -303,7 +303,7 @@ export function TimeTable({moduleItemListPara}) {
   const handleMouseLeave = () => {
     if(moveEvent == null){
       return
-    } 
+    }
     moduleSetOutside(moveEvent)
     setEvents(filterForEvents())
     deleteModuleCalendarEntry(moveEvent)
@@ -340,11 +340,17 @@ export function TimeTable({moduleItemListPara}) {
     }
   }
 
+  function hideSundayInTimetable() {
+      const lastHeader = document.querySelector(".rbc-calendar .rbc-time-header > .rbc-time-header-content .rbc-header:last-of-type");
+      const lastColumn = document.querySelector(".rbc-calendar .rbc-time-content > .rbc-day-slot.rbc-time-column:last-of-type");
+      lastHeader?.classList.add("hiddenImportant");
+      lastColumn?.classList.add("hiddenImportant");
+  }
+
   useEffect(() => {
-    initConflicts()
+    initConflicts();
+    hideSundayInTimetable();
   });
-
-
 
   return (
     <>
@@ -368,7 +374,7 @@ export function TimeTable({moduleItemListPara}) {
                   toolbar={false}
                   eventPropGetter={eventStyleGetter}
                   step={15}
-                  components={{         
+                  components={{
                     event: customEvent
                   }}
                   timeslots={2}
