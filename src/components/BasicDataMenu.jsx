@@ -76,7 +76,7 @@ export default function BasicDataMenu({ onItemClick }) {
       <>
         {showImportSnackBar && (
             <TimedComponent duration={4000} onClose={() => setShowImportSnackBar(false)}>
-              <SnackBar message="File uploaded!" />
+              <SnackBar message={t("uploadedXLSXFile")} />
             </TimedComponent>
         )}
 

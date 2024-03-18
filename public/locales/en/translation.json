@@ -103,5 +103,6 @@
   "remove": "Remove",
   "Message": "Message",
   "action": "Action",
-  "generatePlan": "Generate automatically"
+  "generatePlan": "Generate automatically",
+  "uploadedXLSXFile": "XLSX-File was successfully uploaded!"
 }
