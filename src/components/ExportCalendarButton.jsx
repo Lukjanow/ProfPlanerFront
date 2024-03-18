@@ -79,9 +79,17 @@ export function ExportCalendarButton() {
         }
 
         const content = timetableClone.querySelector(".rbc-time-content");
+        const eventsContainer = timetableClone.querySelectorAll(".rbc-events-container .rbc-event");
 
         if (content) {
             content.style.overflow = "inherit";
+        }
+
+        // show details outside the event container
+        if (eventsContainer) {
+            eventsContainer.forEach(eventContainer => {
+                eventContainer.style.overflow = "unset";
+            });
         }
 
         const parentElement = timetable.parentElement;
