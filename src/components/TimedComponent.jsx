@@ -15,5 +15,5 @@ export default function TimedComponent({ children, duration, onClose }) {
     return () => clearTimeout(timer);
   }, [duration, onClose]);
 
-  return visible ? <div>{children}</div> : null;
+  return visible ? <>{children}</> : null;
 }
