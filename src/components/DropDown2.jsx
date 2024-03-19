@@ -39,7 +39,7 @@ export function DropDown2({ module_list, category, filterAction, dropDownData, c
       placeholder={cPlaceholder}
       defaultItems={dropDownData}
       size={"sm"}
-      className={"md:w-[450px]"}
+      className={"md:w-[450px] select-none"}
       onSelectionChange={updateModules}
     >
       {(item) => <AutocompleteItem key={item.dropdown_string}>{item.dropdown_string}</AutocompleteItem>}

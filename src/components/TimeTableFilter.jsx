@@ -81,9 +81,10 @@ export function TimeTableFilter({ module_list, filterAction }) {
   }, []);
 
   return (
-    <div>
+    <div className={"select-none"}>
       <Tabs
         aria-label="Options"
+        className={"select-none"}
         classNames={{
           tabContent: "p-3"
         }}

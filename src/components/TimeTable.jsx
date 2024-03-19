@@ -1,9 +1,8 @@
 import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
-import { useCallback, useState, useEffect } from "react";
+import { useCallback, useState, useEffect, useContext } from "react";
 import { ModuleItem } from "./ModuleItem";
 import { ModuleBar } from "./ModuleBar";
 import { ConflictDisplay } from "./ConflictDisplay";
-import { PageTitle } from "../components/PageTitle";
 import { TimeTableFilter } from "../components/TimeTableFilter";
 import "../styles/components/timeTableEvent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -17,9 +16,12 @@ import { useTranslation } from "react-i18next";
 import { checkModuleWarnings, deleteConflictsWithCurrentModule } from "../conflicts/conflicts";
 import { updateCalendarEntry, addCalendarEntryForCalendar, deleteCalendarEntry } from "../services/calendarService";
 import { SectionContainer } from "./SectionContainer";
+import { Context } from "../routes/root.jsx";
+import { commonColors, semanticColors } from "@nextui-org/theme";
+
 
 export function TimeTable({ moduleItemListPara }) {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if (i18n.language === "en") {
     moment.locale("en", { week: { dow: 1 } })
@@ -32,6 +34,7 @@ export function TimeTable({ moduleItemListPara }) {
   const DnDCalendar = withDragAndDrop(Calendar);
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [modalEvent, setModalEvent] = useState('');
+  const [setSnackbarData] = useContext(Context)
 
   // State für Termine und außerhalb des Kalenders gezogene Ereignisse
   const [moduleItemList, setmoduleItemList] = useState(moduleItemListPara);
@@ -139,9 +142,6 @@ export function TimeTable({ moduleItemListPara }) {
           event._id === appointmentId ? { ...event, start, end } : event
         )
       );
-      var div = document.getElementById("removeBorder")
-      div.classList.remove("bg-red-600")
-      div.classList.add("bg-white")
 
       let module = null;
       for (let i = 0; i < events.length; i++) {
@@ -166,7 +166,8 @@ export function TimeTable({ moduleItemListPara }) {
 
     newStyle["backgroundColor"] = event.backgroundcolor
     newStyle["borderColor"] = event.bordercolor
-    newStyle["color"] = "#000000"
+    newStyle["color"] = "var(--nextui-primary)"
+    newStyle["color"] = "#444444"
     newStyle["borderInlineStartWidth"] = "8px"
     newStyle["visibility"] = event.visible ? "visible" : "hidden"
 
@@ -179,7 +180,7 @@ export function TimeTable({ moduleItemListPara }) {
 
     if (i18n.language === "de") {
       return (
-        <p className="font-semibold">
+        <p className="font-bold">
           {startHours + ":"}
           {fixZeros(startMinutes) + " - "}
           {endHours + ":"}
@@ -200,7 +201,7 @@ export function TimeTable({ moduleItemListPara }) {
     }
 
     return (
-      <p className="font-semibold">
+      <p className="font-bold">
         {start}
         {end}
       </p>
@@ -246,18 +247,20 @@ export function TimeTable({ moduleItemListPara }) {
 
   const eventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-3 h-full space-y-1">
-        <p className="font-semibold">{event.name}</p>
-        {setTime(event.start, event.duration)}
-        <div className="flex flex-col space-y-1 hidden">
-          <div className="flex detail-semester">
-            <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-graduation-cap" /></span><span>{event.study_semester_string}</span>
+      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-1 h-full flex flex-col gap-2">
+        <div>
+          <p className="font-bold text-xs">{event.name}</p>
+          <p className="text-xs">{setTime(event.start, event.duration)}</p>
+        </div>
+        <div className="flex flex-col gap-[3px] text-xs">
+          <div className="flex gap-2 items-center detail-semester">
+            <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" /><span>{event.study_semester_string}</span>
           </div>
-          <div className="flex detail-dozent">
-            <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-user" /></span><span>{event.dozent_string}</span>
+          <div className="flex gap-2 items-center detail-dozent">
+            <FontAwesomeIcon className={"w-[15px]"} icon="user" /><span>{event.dozent_string}</span>
           </div>
-          <div className="flex detail-room">
-            <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-location-dot" /></span><span>{event.room_string}</span>
+          <div className="flex gap-2 items-center detail-room">
+            <FontAwesomeIcon className={"w-[15px]"} icon="location-dot" /><span>{event.room_string}</span>
           </div>
         </div>
       </div>
@@ -266,17 +269,22 @@ export function TimeTable({ moduleItemListPara }) {
 
   const hoverEventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="w-[13vw] rounded-e-md w-full p-3 h-full space-y-1">
-        <p className="font-semibold">{event.name}</p>
-        {setTime(event.start, event.duration)}
-        <div className="flex">
-          <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-graduation-cap" /></span><span>{event.hover_study_semester_string}</span>
+
+      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-1 h-full flex flex-col gap-2">
+        <div>
+          <p className="font-bold text-xs">{event.name}</p>
+          <p className="text-xs">{setTime(event.start, event.duration)}</p>
         </div>
-        <div className="flex">
-          <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-user" /></span><span>{event.hover_dozent_string}</span>
-        </div>
-        <div className="flex">
-          <span className="flex justify-center items-center justify-self-center w-[30px]"><FontAwesomeIcon icon="fa-solid fa-location-dot" /></span><span>{event.hover_room_string}</span>
+        <div className="flex flex-col gap-[3px] text-xs">
+          <div className="flex gap-2 items-center detail-semester">
+            <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" /><span>{event.study_semester_string}</span>
+          </div>
+          <div className="flex gap-2 items-center detail-dozent">
+            <FontAwesomeIcon className={"w-[15px]"} icon="user" /><span>{event.dozent_string}</span>
+          </div>
+          <div className="flex gap-2 items-center detail-room">
+            <FontAwesomeIcon className={"w-[15px]"} icon="location-dot" /><span>{event.room_string}</span>
+          </div>
         </div>
       </div>
     )
@@ -309,24 +317,15 @@ export function TimeTable({ moduleItemListPara }) {
     setEvents(filterForEvents())
     deleteModuleCalendarEntry(moveEvent)
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
-    var div = document.getElementById("removeBorder")
-    div.classList.remove("bg-red-600")
-    div.classList.add("bg-white")
+    setSnackbarData({ type: "success", message: "Module removed from plan.", visible: true })
   };
 
   const handleDragStart = (event) => {
     moveEvent = event.event
-
-    var div = document.getElementById("removeBorder")
-    div.classList.add("bg-red-600")
-    div.classList.remove("bg-white")
   };
 
   const handleMouseUp = () => {
     moveEvent = null
-    var div = document.getElementById("removeBorder")
-    div.classList.remove("bg-red-600")
-    div.classList.add("bg-white")
   }
 
   const filterAction = () => {
@@ -356,38 +355,40 @@ export function TimeTable({ moduleItemListPara }) {
   return (
     <>
       <TimeTableFilter module_list={moduleItemList} filterAction={filterAction}></TimeTableFilter>
-      <div className={"flex flex-col gap-5 h-fit md:flex-row"}>
+      <div className={"flex flex-col gap-5 h-fit md:flex-row select-none"}>
         <SectionContainer className={"p-2 grow"}>
-          <DnDCalendar
-            className="select-none"
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            views={["week"]}
-            defaultView="week"
-            // min={moment("2024-01-01T08:00").toDate()}
-            // max={moment("2024-01-01T23:59").toDate()}
-            min={moment("2024-01-01T08:30").toDate()}
-            max={moment("2024-01-01T20:00").toDate()}
-            defaultDate={moment("2024-01-01T00:00").toDate()}
-            toolbar={false}
-            eventPropGetter={eventStyleGetter}
-            step={15}
-            components={{
-              event: customEvent
-            }}
-            timeslots={2}
-            selectable
-            resizable={false}
-            formats={{ dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture) }}
-            onEventDrop={({ start, end, event }) => { onChangeEventTime(start, end, event._id) }}
-            onDropFromOutside={onDropFromOutside}
-            drilldownView={null}
-            onDragStart={(event) => handleDragStart(event)}
-          />
+          <div onMouseLeave={handleMouseLeave} onMouseUp={handleMouseUp}>
+            <DnDCalendar
+              className="select-none"
+              localizer={localizer}
+              events={events}
+              startAccessor="start"
+              endAccessor="end"
+              views={["week"]}
+              defaultView="week"
+              // min={moment("2024-01-01T08:00").toDate()}
+              // max={moment("2024-01-01T23:59").toDate()}
+              min={moment("2024-01-01T08:30").toDate()}
+              max={moment("2024-01-01T20:00").toDate()}
+              defaultDate={moment("2024-01-01T00:00").toDate()}
+              toolbar={false}
+              eventPropGetter={eventStyleGetter}
+              step={15}
+              components={{
+                event: customEvent
+              }}
+              timeslots={2}
+              selectable
+              resizable={false}
+              formats={{ dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture) }}
+              onEventDrop={({ start, end, event }) => { onChangeEventTime(start, end, event._id) }}
+              onDropFromOutside={onDropFromOutside}
+              drilldownView={null}
+              onDragStart={(event) => handleDragStart(event)}
+            />
+          </div>
         </SectionContainer>
-        <SectionContainer className={"p-0 md:w-[300px] max-h-[1000px]"}>
+        <SectionContainer className={"p-0 px-1 md:w-[270px] max-h-[1000px]"}>
           <ModuleBar moduleItemList={filterForOutside().map(event => (
             <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} />
           ))} />

@@ -1,20 +1,14 @@
-import { useCallback, useEffect, useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import { useEffect, useState } from "react";
+import { momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import moment from 'moment';
 import { useTranslation } from "react-i18next";
-import { ModuleBar } from "../components/ModuleBar"
 import "moment/locale/de";
-import { TimeTableFilter } from "../components/TimeTableFilter";
-import { ModuleItem } from "../components/ModuleItem";
 import { TimeTable } from "../components/TimeTable";
-import { PageTitle } from "../components/PageTitle";
 import { getAllModules } from "../services/moduleService";
 import { getCalendarById, getCalendarEntriesForCalendar } from "../services/calendarService";
 import PageContainer from "../components/PageContainer";
-import { getAllStudySemesters } from "../services/studySemesterService";
 import { useTimeTableFilterStore } from "../stores/timeTableFilterStore.js";
 
 
@@ -308,7 +302,7 @@ export default function MyCalendar() {
 
   return (
     <PageContainer
-      title={t("semester_plan")}
+      title={t("scheduling")}
       showCancelButton={false}
       showPrimaryButton={false}
       showDeleteButton={false}

@@ -9,12 +9,13 @@ export function ModuleBar({ moduleItemList }) {
 
   return (
     <>
-      <div className={"flex justify-between items-center"}>
-        <h2 className="text-3xl font-bold ml-2">Module</h2>
+      <div className={"flex justify-between items-center select-none"}>
+        <h3 className="text-2xl font-bold">{t("modules")}</h3>
         <Tooltip content={t("generatePlan")}>
           <Button
             isIconOnly={true}
             color={"primary"}
+            size={"sm"}
             radius={"sm"}>
             <FontAwesomeIcon icon={"wand-magic-sparkles"} />
           </Button>
