@@ -23,6 +23,7 @@ import { deleteModule } from "../services/moduleService.js";
 import { deleteRoom } from "../services/roomService.js";
 import { deleteStudyCourse } from "../services/studyCourseService.js";
 import { Context } from "../routes/root.jsx";
+import SearchModal from "./SearchModal.jsx";
 
 
 export default function BasicDataTable({ tableData, path, fetchData }) {
@@ -38,6 +39,9 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   const [isFiltered, setIsFiltered] = useState(false)
   const [searchTerm, setSearchTerm] = useState("")
   const [setSnackbarData] = useContext(Context)
+
+  const [Tooltip, setTooltip] = useState("")
+  const [showSearchModal, setShowSearchModal] = useState(false)
   let columnKeys = [];
 
   // Funktion zum Aktualisieren der Länge der Daten
@@ -56,22 +60,26 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         setSearchPlaceholder(t("searchByRoom"));
         setDeleteMessage(t("deleteRoomInfo"));
         setSearchTerm("");
+        setTooltip(t("roomTooltip"));
         break;
       case "/dozent":
         setSearchPlaceholder(t("searchByDozent"));
         setDeleteMessage(t("deleteDozentInfo"));
         setSearchTerm("");
+        setTooltip(t("dozentTooltip"));
         break;
       case "/module":
         setSearchPlaceholder(t("searchByModule"));
         setDeleteMessage(t("deleteModuleInfo"));
         setSearchTerm("");
+        setTooltip(t("moduleTooltip"));
         break;
       case "/studycourse":
         // TODO:
         setSearchPlaceholder(t("searchByStudyCourse"));
         setDeleteMessage(t("deleteStudyCourseInfo"));
         setSearchTerm("");
+        setTooltip(t("studycourseTooltip"));
         break;
       default:
         console.error("Unknown element type:", element);
@@ -306,25 +314,36 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   const myColumns = generateColumns();
 
   const topContent = (
-    <div className="flex w-full justify-between items-center">
-      <h1 className="font-poppins font-bold text-2xl">Überblick ({length})</h1>
-      <Input
-        isClearable
-        placeholder={searchPlaceholder}
-        className="flex-initial w-1/2"
-        startContent={
-          <FontAwesomeIcon
-            icon={"magnifying-glass"}
-            onClick={() => searchFunction(searchTerm)}
+      <div className="flex w-full justify-between items-center">
+        <h1 className="font-poppins font-bold text-2xl">Überblick ({length})</h1>
+        <div className={"flex w-1/2"}>
+          <Input
+            isClearable
+            placeholder={searchPlaceholder}
+            startContent={
+              <FontAwesomeIcon
+                icon={"magnifying-glass"}
+                onClick={() => searchFunction(searchTerm)}
+              />
+            }
+            onKeyDown={handleKeyDown}
+            radius="sm"
+            variant={"underlined"}
+            value={searchTerm}
+            onValueChange={setSearchTerm}
           />
-        }
-        onKeyDown={handleKeyDown}
-        radius="sm"
-        variant={"underlined"}
-        value={searchTerm}
-        onValueChange={setSearchTerm}
-      />
-    </div>
+          <span
+                    className="text-lg cursor-pointer active:opacity-50"
+                    onClick={() => {
+                      console.log("Show search modal");
+                      setShowSearchModal(true);
+                      console.log(showSearchModal)
+                    }}
+                  >
+                  <FontAwesomeIcon icon="fa-regular fa-circle-question" size="xl"/>
+          </span>
+        </div>
+      </div>
   );
 
   function determineRendering(key, value) {
@@ -372,6 +391,15 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
 
   return (
     <>
+      <SearchModal
+        value={showSearchModal}
+        headlineText={path.split("-")[0]}
+        bodyText={Tooltip}
+        onClickCancel={() => {
+          setShowSearchModal(false);
+        }}
+      />
+
       <DeleteModal
         value={showModal}
         onClickCancel={() => {

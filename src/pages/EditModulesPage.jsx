@@ -1,4 +1,4 @@
-import { Input, Checkbox, CheckboxGroup } from "@nextui-org/react";
+import { Input, Checkbox, CheckboxGroup, Tooltip } from "@nextui-org/react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { DropDown } from "../components/DropDown";
@@ -584,6 +584,7 @@ export default function EditModulesPage(
                                 }
                             }}
                         />
+                        <Tooltip content="This is a tooltip">
                         <Input
                             className={"lg:max-w-[250px]"}
                             label={`${t("approximateAttendance")}`}
@@ -596,7 +597,7 @@ export default function EditModulesPage(
                                     event.preventDefault();
                                 }
                             }}
-                        />
+                        /></Tooltip>
                     </div>
                 </SectionContainer>
             </PageContainer>
