@@ -6,17 +6,23 @@ import { runAlgo } from "../services/algorithmService";
 import { getEventStart, getEventEnd, parseEvent } from "../utils/calendarEventUtils";
 
 
-export function ModuleBar({ moduleItemList }) {
+export function ModuleBar({reload, moduleItemList }) {
   const { t } = useTranslation();
 
   async function startAlgo(){
     const result = await runAlgo();
 
-    for (let i = 0; i < result.length; i++) {
-      const start = getEventStart()
-      const end = getEventEnd()
-      const event = parseEvent()
+    var events = []
+
+    for (let i = 0; i < result.data.length; i++) {
+      const start = getEventStart(result.data[i].time_stamp)
+      const end = getEventEnd(start, result.data[i].module.duration)
+      const event = parseEvent(result.data[i] , result.data[i].module, start, end)
+      event.bordercolor = "#a64d79"
+      events.push(event)
     }
+   
+    reload(events)
 
   }
 

@@ -121,9 +121,6 @@ export function TimeTable({moduleItemListPara}) {
               setEvents(filterForEvents())
               setDraggedEvent(null)
               setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, newEvent))
-              console.log("EVENTS: ", events)
-              // console.log("conflict_list")
-              // console.log(conflict_list)
           }
 
       },
@@ -155,8 +152,6 @@ export function TimeTable({moduleItemListPara}) {
             updateModule(module)
             updateModuleCalendarEntry(module)
             setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
-            console.log("conflict_list")
-            console.log(conflict_list)
         },
     );
 
@@ -329,7 +324,6 @@ export function TimeTable({moduleItemListPara}) {
   }
 
   const filterAction = () => {
-    console.log("FILTER")
     setEvents(filterForEvents())
   }
 
@@ -338,6 +332,17 @@ export function TimeTable({moduleItemListPara}) {
     for(const module of module_list){
       setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
     }
+  }
+
+  async function reloadTimeTable(newEntrys){
+    for (let i = 0; i < moduleItemList.length; i++) {
+      if(newEntrys.map(e => e._id).includes(moduleItemList[i]._id)){
+        moduleItemList[i] = newEntrys.filter(e => e._id === moduleItemList[i]._id)[0]
+      }
+    }
+    setEvents(filterForEvents())
+    initConflicts()
+    //window.location.reload(false);
   }
 
   function hideSundayInTimetable() {
@@ -391,7 +396,7 @@ export function TimeTable({moduleItemListPara}) {
           </div>
         </div>
         <div>
-          <ModuleBar moduleItemList={filterForOutside().map(event => (
+          <ModuleBar reload={reloadTimeTable} moduleItemList={filterForOutside().map(event => (
               <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent}/>
             ))} />
         </div>

@@ -159,9 +159,7 @@ export default function MyCalendar() {
           setCurrentCalendar(calendarRes.data);
 
           const calendarEntry_result = await getCalendarEntriesForCalendar(calendarId);
-          console.log("Entrys")
           setcalendarEntries(calendarEntry_result.data);
-          console.log("CalendarEntry: ", calendarEntry_result)
         } catch(error) {
           console.log("Error: ", error);
         }
