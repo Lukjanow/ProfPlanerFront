@@ -334,7 +334,7 @@ export function TimeTable({moduleItemListPara}) {
     }
   }
 
-  async function reloadTimeTable(newEntrys){
+  async function reloadTimeTable(newEntrys, setProgress){
     for (let i = 0; i < moduleItemList.length; i++) {
       if(newEntrys.map(e => e._id).includes(moduleItemList[i]._id)){
         moduleItemList[i] = newEntrys.filter(e => e._id === moduleItemList[i]._id)[0]
@@ -343,6 +343,7 @@ export function TimeTable({moduleItemListPara}) {
     setEvents(filterForEvents())
     initConflicts()
     //window.location.reload(false);
+    setProgress(true)
   }
 
   function hideSundayInTimetable() {
