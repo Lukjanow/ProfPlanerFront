@@ -355,50 +355,44 @@ export function TimeTable({ moduleItemListPara }) {
 
   return (
     <>
-      <div className="flex">
-        <div>
-          <TimeTableFilter module_list={moduleItemList} filterAction={filterAction}></TimeTableFilter>
-          <div>
-            <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent} />
-            <SectionContainer className={"p-0"}>
-              <div id="removeBorder" onMouseLeave={handleMouseLeave} className="p-4" onMouseUp={handleMouseUp}>
-                <DnDCalendar
-                  className="w-[78vw] select-none"
-                  localizer={localizer}
-                  events={events}
-                  startAccessor="start"
-                  endAccessor="end"
-                  views={["week"]}
-                  defaultView="week"
-                  min={moment("2024-01-01T08:30").toDate()}
-                  max={moment("2024-01-01T20:00").toDate()}
-                  defaultDate={moment("2024-01-01T00:00").toDate()}
-                  toolbar={false}
-                  eventPropGetter={eventStyleGetter}
-                  step={15}
-                  components={{
-                    event: customEvent
-                  }}
-                  timeslots={2}
-                  selectable
-                  resizable={false}
-                  formats={{ dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture) }}
-                  onEventDrop={({ start, end, event }) => { onChangeEventTime(start, end, event._id) }}
-                  onDropFromOutside={onDropFromOutside}
-                  drilldownView={null}
-                  onDragStart={(event) => handleDragStart(event)}
-                />
-              </div>
-            </SectionContainer>
-            <ConflictDisplay data={conflict_list} />
-          </div>
-        </div>
-        <div>
+      <TimeTableFilter module_list={moduleItemList} filterAction={filterAction}></TimeTableFilter>
+      <div className={"flex flex-col gap-5 h-fit md:flex-row"}>
+        <SectionContainer className={"p-2 grow"}>
+          <DnDCalendar
+            className="select-none"
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            views={["week"]}
+            defaultView="week"
+            min={moment("2024-01-01T08:30").toDate()}
+            max={moment("2024-01-01T20:00").toDate()}
+            defaultDate={moment("2024-01-01T00:00").toDate()}
+            toolbar={false}
+            eventPropGetter={eventStyleGetter}
+            step={15}
+            components={{
+              event: customEvent
+            }}
+            timeslots={2}
+            selectable
+            resizable={false}
+            formats={{ dayFormat: (date, culture, localizer) => localizer.format(date, "dddd", culture) }}
+            onEventDrop={({ start, end, event }) => { onChangeEventTime(start, end, event._id) }}
+            onDropFromOutside={onDropFromOutside}
+            drilldownView={null}
+            onDragStart={(event) => handleDragStart(event)}
+          />
+        </SectionContainer>
+        <SectionContainer className={"p-0 md:w-[300px] max-h-[1000px]"}>
           <ModuleBar moduleItemList={filterForOutside().map(event => (
             <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} />
           ))} />
-        </div>
+        </SectionContainer>
       </div>
+      <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent} />
+      <ConflictDisplay data={conflict_list} />
     </>
   );
 }

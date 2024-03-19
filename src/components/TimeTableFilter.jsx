@@ -91,7 +91,7 @@ export function TimeTableFilter({ module_list, filterAction }) {
         <Tab
           key="studycourse"
           title={t("studycourse")}
-          className="pb-0 pl-0"
+          className="pb-0 px-0"
         >
           <SectionContainer className={"p-0"}>
             <div className="flex justify-between items-center gap-5">
@@ -110,7 +110,7 @@ export function TimeTableFilter({ module_list, filterAction }) {
         <Tab
           key="lecturer"
           title={t("lecturer")}
-          className="pb-0"
+          className="pb-0 px-0"
         >
           <SectionContainer className={"p-0"}>
             <div className="flex justify-between items-center">
@@ -129,7 +129,7 @@ export function TimeTableFilter({ module_list, filterAction }) {
         <Tab
           key="room"
           title={t("room")}
-          className="pb-0"
+          className="pb-0 px-0"
         >
           <SectionContainer className={"p-0"}>
             <div className="flex justify-between items-center">

@@ -8,7 +8,7 @@ export function ModuleBar({ moduleItemList }) {
   const { t } = useTranslation();
 
   return (
-    <div id="ModuleBar" className="ml-2 mt-10 p-3 shadow-2xl select-none">
+    <>
       <div className={"flex justify-between items-center"}>
         <h2 className="text-3xl font-bold ml-2">Module</h2>
         <Tooltip content={t("generatePlan")}>
@@ -20,11 +20,9 @@ export function ModuleBar({ moduleItemList }) {
           </Button>
         </Tooltip>
       </div>
-      <div className="mt-4 ml-2">
-        <ScrollShadow size={0} className="h-[1220px] w-[14vw] space-y-3">
-          {moduleItemList}
-        </ScrollShadow>
-      </div>
-    </div>
+      <ScrollShadow size={25} className="flex flex-col gap-2 overflow-scroll">
+        {moduleItemList}
+      </ScrollShadow>
+    </>
   )
 }
