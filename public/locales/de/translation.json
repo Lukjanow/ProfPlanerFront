@@ -102,5 +102,6 @@
   "remove": "Entfernen",
   "Message": "Nachricht",
   "action": "Aktion",
-  "generatePlan": "Automatisch generieren"
+  "generatePlan": "Automatisch generieren",
+  "algoWorking" : "Algorithmus arbeitet"
 }

@@ -21,7 +21,7 @@ export function ModuleBar({reload, moduleItemList }) {
             radius={"sm"}
         >
             <CardBody className={"ml-2 flex gap-2 items-center p-0"}>
-              <p className="mt-1">Algorithmus arbeitet...</p>
+              <p className="mt-1">{t("algoWorking")}...</p>
                 <Progress
                     size="sm"
                     isIndeterminate
