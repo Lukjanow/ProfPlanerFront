@@ -1,22 +1,16 @@
-import { useCallback, useEffect, useState } from "react";
-import { Calendar, momentLocalizer } from "react-big-calendar";
-import withDragAndDrop from "react-big-calendar/lib/addons/dragAndDrop";
+import { useEffect, useState } from "react";
+import { momentLocalizer } from "react-big-calendar";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import 'react-big-calendar/lib/addons/dragAndDrop/styles.css'
 import moment from 'moment';
 import { useTranslation } from "react-i18next";
-import {ModuleBar} from "../components/ModuleBar"
 import "moment/locale/de";
-import {TimeTableFilter} from "../components/TimeTableFilter";
-import { ModuleItem } from "../components/ModuleItem";
 import { TimeTable } from "../components/TimeTable";
-import { PageTitle } from "../components/PageTitle";
 import { getAllModules } from "../services/moduleService";
-import {getCalendarById, getCalendarEntriesForCalendar} from "../services/calendarService";
+import { getCalendarById, getCalendarEntriesForCalendar } from "../services/calendarService";
 import PageContainer from "../components/PageContainer";
 import { getAllStudySemesters } from "../services/studySemesterService";
 import {useTimeTableFilterStore} from "../stores/timeTableFilterStore.js";
-import { parseEvent, getEventEnd, getEventStart } from "../utils/calendarEventUtils.js";
 
 
 export default function MyCalendar() {
@@ -121,18 +115,44 @@ export default function MyCalendar() {
     },
     ]; */
 
-    function initModules(module_list, calendarEntry_list){
-      var list = []
+    function getEventStart(time_stamp) {
+      var start = moment("2024-01-01T12:00").toDate()
+      start.setDate(time_stamp.week_day)
+      start.setHours(time_stamp.hour)
+      start.setMinutes(time_stamp.minute)
+      return start
+    }
 
-      for (let i = 0; i < module_list.length; i++) {
-        var hasCalendarEntry = false
-        var moduleCalendarEntry = null
-        for(const calendarEntry of calendarEntry_list){
-          if(calendarEntry.module._id == module_list[i]._id){
-            moduleCalendarEntry = calendarEntry
-            hasCalendarEntry = true
-          }
+    function getEventEnd(start, duration) {
+      const startHours = start.getHours()
+      const startMinutes = start.getMinutes()
+      const durationHours = Math.floor(duration/60)
+      const durationMinutes = duration % 60
+      var endMinutes = startMinutes + durationMinutes
+      var endHours = startHours + durationHours
+      if(endMinutes >= 60){
+        endHours += 1
+        endMinutes -= 60
+      }
+      var end = moment("2024-01-01T12:00").toDate()
+      end.setDate(start.getDay())
+      end.setHours(endHours)
+      end.setMinutes(endMinutes)
+      return end
+    }
+
+  function initModules(module_list, calendarEntry_list) {
+    var list = []
+
+    for (let i = 0; i < module_list.length; i++) {
+      var hasCalendarEntry = false
+      var moduleCalendarEntry = null
+      for (const calendarEntry of calendarEntry_list) {
+        if (calendarEntry.module._id == module_list[i]._id) {
+          moduleCalendarEntry = calendarEntry
+          hasCalendarEntry = true
         }
+      }
 
         if (hasCalendarEntry) {
           //Module mithilfe des CalendarEntrys erstellen und isPlaced=true
@@ -148,15 +168,15 @@ export default function MyCalendar() {
       return list
     }
 
-    useEffect(() => {
-      async function fetchData() {
-        try {
-          const module_result = await getAllModules();
-          setModules(module_result.data);
-          const calendarId = "65d61765c15324dcfc497c4f";
+  useEffect(() => {
+    async function fetchData() {
+      try {
+        const module_result = await getAllModules();
+        setModules(module_result.data);
+        const calendarId = "65d61765c15324dcfc497c4f";
 
-          const calendarRes = await getCalendarById(calendarId);
-          setCurrentCalendar(calendarRes.data);
+        const calendarRes = await getCalendarById(calendarId);
+        setCurrentCalendar(calendarRes.data);
 
           const calendarEntry_result = await getCalendarEntriesForCalendar(calendarId);
           setcalendarEntries(calendarEntry_result.data);
@@ -167,22 +187,22 @@ export default function MyCalendar() {
       fetchData()
     }, []);
 
-    return (
-      <PageContainer
-      title={t("semester_plan")}
-      showCancelButton = {false}
-      showPrimaryButton = {false}
-      showDeleteButton = {false}
+  return (
+    <PageContainer
+      title={t("scheduling")}
+      showCancelButton={false}
+      showPrimaryButton={false}
+      showDeleteButton={false}
     >
-        {// <div className="flex">
+      {// <div className="flex">
         //   <TimeTable moduleItemList={moduleItemDataList}/>
         // </div>
-        }
-        { calendarEntries !== null && modules !== null ?
-            <div className="flex">
-                <TimeTable moduleItemListPara={initModules(modules, calendarEntries)}/>
-            </div> : <TimeTable moduleItemListPara={[]}/>
-        }
-        </PageContainer>
-    );
+      }
+      {calendarEntries !== null && modules !== null ?
+        <div className="flex flex-col gap-5">
+          <TimeTable moduleItemListPara={initModules(modules, calendarEntries)} />
+        </div> : <TimeTable moduleItemListPara={[]} />
+      }
+    </PageContainer>
+  );
 }

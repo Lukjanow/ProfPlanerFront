@@ -1,12 +1,12 @@
 import React from "react";
-import {Autocomplete, AutocompleteItem} from "@nextui-org/react";
-import {animals} from "./Data3";
-import {filterDozent, filterRoom, filterStudySemester} from "../filter/filter"
-import {useTimeTableFilterStore} from "../stores/timeTableFilterStore.js";
+import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
+import { animals } from "./Data3";
+import { filterDozent, filterRoom, filterStudySemester } from "../filter/filter"
+import { useTimeTableFilterStore } from "../stores/timeTableFilterStore.js";
 
 
 // uses Dummy data from Data3.js, pls change!!!
-export function DropDown2({module_list, category, filterAction, dropDownData, cLabel, cPlaceholder}) {
+export function DropDown2({ module_list, category, filterAction, dropDownData, cLabel, cPlaceholder }) {
   const setFilteredType = useTimeTableFilterStore(state => state.setFilteredType);
   const setFilteredValue = useTimeTableFilterStore(state => state.setFilteredValue);
 
@@ -34,16 +34,15 @@ export function DropDown2({module_list, category, filterAction, dropDownData, cL
   }
 
   return (
-    <div className="flex w-full flex-wrap md:flex-nowrap gap-4">
-      <Autocomplete
-        label={cLabel}
-        placeholder={cPlaceholder}
-        className="max-w-xs"
-        defaultItems={dropDownData}
-        onSelectionChange={updateModules}
-      >
-        {(item) => <AutocompleteItem key={item.dropdown_string}>{item.dropdown_string}</AutocompleteItem>}
-      </Autocomplete>
-    </div>
+    <Autocomplete
+      label={cLabel}
+      placeholder={cPlaceholder}
+      defaultItems={dropDownData}
+      size={"sm"}
+      className={"md:w-[450px] select-none"}
+      onSelectionChange={updateModules}
+    >
+      {(item) => <AutocompleteItem key={item.dropdown_string}>{item.dropdown_string}</AutocompleteItem>}
+    </Autocomplete>
   );
 }

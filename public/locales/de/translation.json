@@ -103,5 +103,6 @@
   "Message": "Nachricht",
   "action": "Aktion",
   "generatePlan": "Automatisch generieren",
-  "algoWorking" : "Algorithmus arbeitet"
+  "algoWorking" : "Algorithmus arbeitet",
+  "uploadedXLSXFile": "XLSX-Datei wurde erfolgreich hochgeladen!"
 }

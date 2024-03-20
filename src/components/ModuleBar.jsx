@@ -52,25 +52,24 @@ export function ModuleBar({reload, moduleItemList }) {
   }
 
   return (
-    <div id="ModuleBar" className="ml-2 mt-10 p-3 shadow-2xl select-none">
+    <>
       {progressBar()}
-      <div className={"flex justify-between items-center"}>
-        <h2 className="text-3xl font-bold ml-2">Module</h2>
+      <div className={"flex justify-between items-center select-none"}>
+        <h3 className="text-2xl font-bold">{t("modules")}</h3>
         <Tooltip content={t("generatePlan")}>
           <Button
           onClick={startAlgo}
             isIconOnly={true}
             color={"primary"}
+            size={"sm"}
             radius={"sm"}>
             <FontAwesomeIcon icon={"wand-magic-sparkles"} />
           </Button>
         </Tooltip>
       </div>
-      <div className="mt-4 ml-2">
-        <ScrollShadow size={0} className="h-[1220px] w-[14vw] space-y-3">
-          {moduleItemList}
-        </ScrollShadow>
-      </div>
-    </div>
+      <ScrollShadow size={35} className="flex flex-col gap-2 overflow-scroll">
+        {moduleItemList}
+      </ScrollShadow>
+    </>
   )
 }

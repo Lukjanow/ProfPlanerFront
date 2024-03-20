@@ -13,6 +13,7 @@ export default {
   darkMode: "class",
   plugins: [
     nextui({
+      addCommonColors: true,
       layout: {
         radius: {
           small: "5px",
@@ -21,7 +22,7 @@ export default {
       themes: {
         light: {
           colors: {
-            background: "#F6F6F6",
+            background: "#FCFCFC",
             foreground: "#444444",
             primary: {
               DEFAULT: "#4162D5",

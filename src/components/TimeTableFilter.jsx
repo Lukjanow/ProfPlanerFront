@@ -1,17 +1,18 @@
 import moment from "moment";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Tabs, Tab, Card, CardBody} from "@nextui-org/react";
-import {DropDown2} from "./DropDown2";
+import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
+import { DropDown2 } from "./DropDown2";
 import { useState, useEffect } from "react";
 import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
 import { getAllStudyCourses } from "../services/studyCourseService";
 import { FilledButton } from "./FilledButton";
-import {ExportCalendarButton} from "./ExportCalendarButton.jsx";
+import { ExportCalendarButton } from "./ExportCalendarButton.jsx";
 import { useTranslation } from "react-i18next";
+import { SectionContainer } from "./SectionContainer.jsx";
 
 
-export function TimeTableFilter({module_list, filterAction}) {
+export function TimeTableFilter({ module_list, filterAction }) {
   const { t } = useTranslation();
   const [dozentData, setDozentData] = useState([]);
   const [roomData, setRoomData] = useState([]);
@@ -19,9 +20,9 @@ export function TimeTableFilter({module_list, filterAction}) {
   // const [calendarEntries, setcalendarEntries] = useState([]);
 
   function filterOff(module_list) {
-      for(const module of module_list){
-          module.visible = true
-      }
+    for (const module of module_list) {
+      module.visible = true
+    }
     filterAction()
   }
 
@@ -51,7 +52,7 @@ export function TimeTableFilter({module_list, filterAction}) {
 
         //studySemester
         const studyCourse_result = await getAllStudyCourses();
-        console.log("RESULT",studyCourse_result.data)
+        console.log("RESULT", studyCourse_result.data)
         var studySemester_list = []
         for (const value of studyCourse_result.data) {
           for (let i = 0; i < value.semesterCount; i++) {
@@ -72,52 +73,80 @@ export function TimeTableFilter({module_list, filterAction}) {
         }
         console.log(studySemester_list)
         setStudySemesterData(studySemester_list);
-      } catch(error) {
+      } catch (error) {
         console.log("Error: ", error);
       }
     }
     fetchData()
   }, []);
-  
-  return (
-    <div className="flex w-full flex-col">
-      <Tabs aria-label="Options"
-      className="p-1" color="white" classNames={{tabList:"rounded"}}>
-        <Tab key="photos" title={t("studycourse")}>
-          <Card
 
-          radius="sm">
-            <CardBody
-            className="bg-[#EEEEEE] flex flex-row justify-between items-center">
-              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={studySemesterData} category="study_semester" cLabel={t("studysemester")} cPlaceholder={t("search_for_studysemester")}/>
-              {/* <FilledButton text="Reset"/> */}
+  return (
+    <div className={"select-none"}>
+      <Tabs
+        aria-label="Options"
+        className={"select-none"}
+        classNames={{
+          tabContent: "p-3"
+        }}
+      >
+        <Tab
+          key="studycourse"
+          title={t("studycourse")}
+          className="pb-0 px-0"
+        >
+          <SectionContainer className={"p-0"}>
+            <div className="flex justify-between items-center gap-5">
+              <DropDown2
+                module_list={module_list}
+                filterAction={filterAction}
+                dropDownData={studySemesterData}
+                category="study_semester"
+                cLabel={t("studysemester")}
+                cPlaceholder={t("search_for_studysemester")}
+              />
               <ExportCalendarButton />
-            </CardBody>
-          </Card>  
+            </div>
+          </SectionContainer>
         </Tab>
-        <Tab key="music" title={t("lecturer")}>
-          <Card
-          radius="sm">
-            <CardBody
-            className="bg-[#EEEEEE] flex flex-row justify-between items-center">
-              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={dozentData} category="dozent" cLabel={t("lecturer")} cPlaceholder={t("search_for_teacher")}/>
-              {/* <FilledButton text="Reset" onClick={filterOff}/> */}
+        <Tab
+          key="lecturer"
+          title={t("lecturer")}
+          className="pb-0 px-0"
+        >
+          <SectionContainer className={"p-0"}>
+            <div className="flex justify-between items-center">
+              <DropDown2
+                module_list={module_list}
+                filterAction={filterAction}
+                dropDownData={dozentData}
+                category="dozent"
+                cLabel={t("lecturer")}
+                cPlaceholder={t("search_for_teacher")}
+              />
               <ExportCalendarButton />
-            </CardBody>
-          </Card>  
+            </div>
+          </SectionContainer>
         </Tab>
-        <Tab key="videos" title={t("room")}>
-          <Card
-          radius="sm">
-            <CardBody
-              className="bg-[#EEEEEE] flex flex-row justify-between items-center">
-              <DropDown2 module_list={module_list} filterAction={filterAction} dropDownData={roomData} category="room" cLabel={t("room")} cPlaceholder={t("search_for_room")}/>
-              {/* <FilledButton text="Reset" onClick={filterOff}/> */}
+        <Tab
+          key="room"
+          title={t("room")}
+          className="pb-0 px-0"
+        >
+          <SectionContainer className={"p-0"}>
+            <div className="flex justify-between items-center">
+              <DropDown2
+                module_list={module_list}
+                filterAction={filterAction}
+                dropDownData={roomData}
+                category="room"
+                cLabel={t("room")}
+                cPlaceholder={t("search_for_room")}
+              />
               <ExportCalendarButton />
-            </CardBody>
-          </Card>  
-        </Tab>
-      </Tabs>
-    </div>  
+            </div>
+          </SectionContainer>
+        </Tab >
+      </Tabs >
+    </div>
   );
 }
