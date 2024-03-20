@@ -1,10 +1,10 @@
-import { Tooltip, Button, Input, RadioGroup, Radio, Modal, useDisclosure, ModalContent, ModalHeader, ModalBody, Table, TableHeader, TableColumn, TableBody, TableRow, TableCell, Divider } from "@nextui-org/react"
+import { Tooltip, Button, Input, RadioGroup, Radio, Modal, useDisclosure, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react"
 import { useTranslation } from "react-i18next"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { FilledButton } from "./FilledButton";
 
-export default function ScheduleSwitcher() {
+export default function NewPlanButton() {
     const { t } = useTranslation();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 

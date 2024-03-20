@@ -2,7 +2,6 @@ import { SectionContainer } from "../components/SectionContainer";
 import { Checkbox, CheckboxGroup, Input } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import PageContainer from "../components/PageContainer";
-import ScheduleSwitcher from "../components/ScheduleSwitcher";
 
 
 export default function ConflictsPage() {
@@ -16,7 +15,6 @@ export default function ConflictsPage() {
                         <Input type="email" label="Email" />
                         <Input type="email" label="Email" placeholder="Enter your email" />
                     </div>
-                    <ScheduleSwitcher></ScheduleSwitcher>
                     <CheckboxGroup
                         label="Select cities"
                         defaultValue={["buenos-aires", "london"]}
