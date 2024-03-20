@@ -21,7 +21,7 @@ export function ModuleBar({ moduleItemList }) {
           </Button>
         </Tooltip>
       </div>
-      <ScrollShadow size={25} className="flex flex-col gap-2 overflow-scroll">
+      <ScrollShadow size={35} className="flex flex-col gap-2 overflow-scroll">
         {moduleItemList}
       </ScrollShadow>
     </>

@@ -6,7 +6,7 @@ import { ConflictDisplay } from "./ConflictDisplay";
 import { TimeTableFilter } from "../components/TimeTableFilter";
 import "../styles/components/timeTableEvent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useDisclosure } from "@nextui-org/react";
+import { ScrollShadow, useDisclosure } from "@nextui-org/react";
 import { ModuleInfo } from './ModuleInfo';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment/dist/moment';
@@ -247,12 +247,12 @@ export function TimeTable({ moduleItemListPara }) {
 
   const eventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-1 h-full flex flex-col gap-2">
+      <div hidden={!event.visible} className="rounded-e-md p-1 h-full flex flex-col gap-2">
         <div>
           <p className="font-bold text-xs">{event.name}</p>
           <p className="text-xs">{setTime(event.start, event.duration)}</p>
         </div>
-        <div className="flex flex-col gap-[3px] text-xs">
+        <ScrollShadow size={25} hideScrollBar={true} className="flex flex-col gap-[3px] text-xs">
           <div className="flex gap-2 items-center detail-semester">
             <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" /><span>{event.study_semester_string}</span>
           </div>
@@ -262,15 +262,14 @@ export function TimeTable({ moduleItemListPara }) {
           <div className="flex gap-2 items-center detail-room">
             <FontAwesomeIcon className={"w-[15px]"} icon="location-dot" /><span>{event.room_string}</span>
           </div>
-        </div>
+        </ScrollShadow>
       </div>
     )
   }
 
   const hoverEventContent = (event) => {
     return (
-
-      <div hidden={!event.visible} className="w-[13vw] rounded-e-md p-1 h-full flex flex-col gap-2">
+      <div hidden={!event.visible} className="rounded-e-md p-1 h-full flex flex-col gap-2">
         <div>
           <p className="font-bold text-xs">{event.name}</p>
           <p className="text-xs">{setTime(event.start, event.duration)}</p>
@@ -355,7 +354,7 @@ export function TimeTable({ moduleItemListPara }) {
   return (
     <>
       <TimeTableFilter module_list={moduleItemList} filterAction={filterAction}></TimeTableFilter>
-      <div className={"flex flex-col gap-5 h-fit md:flex-row select-none"}>
+      <div className={"flex flex-col gap-5 h-fit lg:flex-row select-none"}>
         <SectionContainer className={"p-2 grow"}>
           <div onMouseLeave={handleMouseLeave} onMouseUp={handleMouseUp}>
             <DnDCalendar
@@ -388,7 +387,7 @@ export function TimeTable({ moduleItemListPara }) {
             />
           </div>
         </SectionContainer>
-        <SectionContainer className={"p-0 px-1 md:w-[270px] max-h-[1000px]"}>
+        <SectionContainer className={"p-0 px-1 lg:w-[270px] max-h-[1000px]"}>
           <ModuleBar moduleItemList={filterForOutside().map(event => (
             <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} />
           ))} />
