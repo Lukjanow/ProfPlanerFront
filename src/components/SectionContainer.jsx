@@ -8,7 +8,7 @@ export function SectionContainer(props) {
   return (
     <Card
       radius={"sm"}
-      className={"p-5"}
+      className={`p-5 ${props.className}`}
     >
       {
         props.showContentSwitch || props.title !== undefined ?
