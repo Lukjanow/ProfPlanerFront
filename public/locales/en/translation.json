@@ -104,5 +104,6 @@
   "Message": "Message",
   "action": "Action",
   "generatePlan": "Generate automatically",
+  "algoWorking" : "Algorithm is working",
   "uploadedXLSXFile": "XLSX-File was successfully uploaded!"
 }

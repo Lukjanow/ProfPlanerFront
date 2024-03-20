@@ -157,8 +157,6 @@ function checkModuleWarnings(module_list, conflict_list, module){
         }
     }
 
-    // console.log("FILLED DOZENT DICT", dozent_dict)
-    console.log("EMPTY STUDYSEMESTER DICT", study_semester_dict)
 
     //FILL THE DICTIONARIES WITH ALL MODULES WITH THE SAME VALUE
     //for each module in module list
@@ -169,10 +167,8 @@ function checkModuleWarnings(module_list, conflict_list, module){
         // updateDictionary(study_semester_dict, currentModule, module, 'study_semester');
         if (currentModule !== module) {
             for (const studySemester of currentModule.study_semester) {
-                console.log("NEXT SEMESTER", currentModule)
                 for (let j = 0; j < studySemester.semesterNumbers.length; j++) {
                     const semester_name = String(studySemester.studyCourse.name) + " " + "Semester " + String(studySemester.semesterNumbers[j])
-                    console.log(semester_name)
                     for (const [key, value] of Object.entries(study_semester_dict)) {
                         if (semester_name == key) {
                             value.push(currentModule)
@@ -190,8 +186,6 @@ function checkModuleWarnings(module_list, conflict_list, module){
             }
         }
     }
-    // console.log("FILLED DOZENT DICT", dozent_dict)
-    console.log("FILLED STUDYSEMESTER DICT", study_semester_dict)
 
 
     //DELETE ALL CONFLICTS WITH THE CURRENT MODULE
@@ -225,7 +219,6 @@ function checkModuleWarnings(module_list, conflict_list, module){
     for (const [key, value] of Object.entries(study_semester_dict)) {
         const prevValue = getNewSemester(getConflictName(module, key, "study_semester"), false)
         const nextValue = getNewSemester(getConflictName(module, key, "study_semester"), true)
-        console.log("PREV",prevValue)
         var prevList = []
         var nextList = []
         for (let i = 0; i < module_list.length; i++) {
@@ -257,8 +250,7 @@ function checkModuleWarnings(module_list, conflict_list, module){
                 }
             }
         }
-        console.log("PREV",prevList)
-        console.log("NEXT",nextList)
+      
         for (let i = 0; i < value.length; i++) {
             if(overlap(module, value[i])) {
                 conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "study_semester"), 3))  
@@ -291,7 +283,6 @@ function checkModuleWarnings(module_list, conflict_list, module){
             }
             dayModuleList.push(module)
             if(checkMiddayPause(dayModuleList, 11 * 60 + 30, 14 * 60 + 30, 45)) {
-                console.log("DAY_MODULE_LIST:",dayModuleList)
                 conflict_list.push(new Conflict(module, dayModuleList[0], getConflictName(module, key, "study_semester"), 7))
             }
         }
