@@ -52,7 +52,7 @@ export function parseEvent(moduleCalendarEntry, module, start, end){
     return event
 }
 
-function changeColor(col, amt) {
+export function changeColor(col, amt) {
       var usePound = false;
     
       if (col[0] == "#") {

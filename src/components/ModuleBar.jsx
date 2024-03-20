@@ -43,7 +43,7 @@ export function ModuleBar({reload, moduleItemList }) {
       const start = getEventStart(result.data[i].time_stamp)
       const end = getEventEnd(start, result.data[i].module.duration)
       const event = parseEvent(result.data[i] , result.data[i].module, start, end)
-      event.bordercolor = "#a64d79"
+      event.bordercolor = "#f4941e"
       events.push(event)
     }
    
