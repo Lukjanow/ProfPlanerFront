@@ -246,6 +246,8 @@ export function TimeTable({ moduleItemListPara }) {
   }
 
   const handleClickRemoveEvent = () => {
+    modalEvent.bordercolor = changeColor(modalEvent.backgroundcolor, -40) 
+    modalEvent.isAlgo = false
     moduleSetOutside(modalEvent)
     setEvents(filterForEvents())
     deleteModuleCalendarEntry(modalEvent)
@@ -320,6 +322,8 @@ export function TimeTable({ moduleItemListPara }) {
     if (moveEvent == null) {
       return
     }
+    moveEvent.bordercolor = changeColor(moveEvent.backgroundcolor, -40) 
+    moveEvent.isAlgo = false
     moduleSetOutside(moveEvent)
     setEvents(filterForEvents())
     deleteModuleCalendarEntry(moveEvent)
