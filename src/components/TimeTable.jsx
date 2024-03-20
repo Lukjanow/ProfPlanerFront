@@ -17,8 +17,7 @@ import { checkModuleWarnings, deleteConflictsWithCurrentModule } from "../confli
 import { updateCalendarEntry, addCalendarEntryForCalendar, deleteCalendarEntry } from "../services/calendarService";
 import { SectionContainer } from "./SectionContainer";
 import { Context } from "../routes/root.jsx";
-import { commonColors, semanticColors } from "@nextui-org/theme";
-
+import { changeColor } from "../utils/calendarEventUtils.js";
 
 export function TimeTable({ moduleItemListPara }) {
   const { t, i18n } = useTranslation();
@@ -97,6 +96,17 @@ export function TimeTable({ moduleItemListPara }) {
     setmoduleItemList(newList)
   }
 
+  function updateEvents(event) {
+    const newList = []
+    for (let i = 0; i < moduleItemList.length; i++) {
+      if (moduleItemList[i]._id === event._id) {
+        moduleItemList[i] = event
+      }
+      newList.push(moduleItemList[i])
+    }
+    setEvents(filterForEvents(newList))
+  }
+
   function moduleSetOutside(event) {
     const newList = []
     for (let i = 0; i < moduleItemList.length; i++) {
@@ -140,19 +150,22 @@ export function TimeTable({ moduleItemListPara }) {
         )
       );
 
-      let module = null;
+      let editModule = null;
       for (let i = 0; i < events.length; i++) {
         if (events[i]._id === appointmentId) {
-          module = events[i];
+          editModule = events[i];
           break;
         }
       }
-      module.start = start
-      module.end = end
+      editModule.start = start
+      editModule.end = end
+      editModule.bordercolor = changeColor(editModule.backgroundcolor, -40) 
+      editModule.isAlgo = false
 
-      updateModule(module)
-      updateModuleCalendarEntry(module)
-      setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
+      updateModule(editModule)
+      updateEvents(editModule)      
+      updateModuleCalendarEntry(editModule)
+      setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, editModule))
     },
   );
 
@@ -313,6 +326,7 @@ export function TimeTable({ moduleItemListPara }) {
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
     setSnackbarData({ type: "success", message: "Module removed from plan.", visible: true })
   };
+
 
   const handleDragStart = (event) => {
     moveEvent = event.event

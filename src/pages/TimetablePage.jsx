@@ -159,11 +159,11 @@ export default function MyCalendar() {
           //Module mithilfe des CalendarEntrys erstellen und isPlaced=true
           const eventStart = getEventStart(moduleCalendarEntry.time_stamp)
           const eventEnd = getEventEnd(eventStart,moduleCalendarEntry.module.duration)
-          list.push(parseEvent(moduleCalendarEntry, module_list[i], eventStart, eventEnd))
+          list.push(parseEvent(moduleCalendarEntry, module_list[i], eventStart, eventEnd, false))
         } else{
           //Module selbst erstellen und isPlaced=false
           // const all_study_semester_string = getAllStudySemesterString(module_list[i].study_semester)
-          list.push(parseEvent(null, module_list[i],moment("2024-01-01T12:00").toDate(),moment("2024-01-01T15:00").toDate()))
+          list.push(parseEvent(null, module_list[i],moment("2024-01-01T12:00").toDate(),moment("2024-01-01T15:00").toDate(), false))
         }
       }
       return list

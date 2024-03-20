@@ -27,7 +27,7 @@ export function getEventEnd(start, duration) {
       return end
     }
 
-export function parseEvent(moduleCalendarEntry, module, start, end){
+export function parseEvent(moduleCalendarEntry, module, start, end, isAlgo){
         var event = {
             _id: module._id,
             name: module.name,
@@ -43,11 +43,12 @@ export function parseEvent(moduleCalendarEntry, module, start, end){
             hover_room_string: module.room[0] !== null && module.room[0] !== undefined ? getAllRoomString(module.room) : "kein Raum",
             room: module.room,
             backgroundcolor: module.color !== null && module.color !== undefined ? module.color : "#eeeeee",
-            bordercolor: module.color !== null && module.color !== undefined ? changeColor(module.color, -40) : "#bcbcbc",
+            bordercolor: module.color !== null && module.color !== undefined ? changeColor(module.color, -40) : changeColor("#eeeeee", -40),
             duration: module.duration,
             visible: true,
             isPlaced: moduleCalendarEntry === null ? false : true,
-            calendar_entry_id: moduleCalendarEntry === null ? -1 : moduleCalendarEntry._id
+            calendar_entry_id: moduleCalendarEntry === null ? -1 : moduleCalendarEntry._id,
+            isAlgo: isAlgo
           }
     return event
 }

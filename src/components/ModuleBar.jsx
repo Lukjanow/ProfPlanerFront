@@ -42,8 +42,9 @@ export function ModuleBar({reload, moduleItemList }) {
     for (let i = 0; i < result.data.length; i++) {
       const start = getEventStart(result.data[i].time_stamp)
       const end = getEventEnd(start, result.data[i].module.duration)
-      const event = parseEvent(result.data[i] , result.data[i].module, start, end)
+      const event = parseEvent(result.data[i] , result.data[i].module, start, end, true)
       event.bordercolor = "#f4941e"
+      event.isAlgo = true
       events.push(event)
     }
    
