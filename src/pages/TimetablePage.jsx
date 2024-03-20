@@ -11,6 +11,7 @@ import { getCalendarById, getCalendarEntriesForCalendar } from "../services/cale
 import PageContainer from "../components/PageContainer";
 import { getAllStudySemesters } from "../services/studySemesterService";
 import {useTimeTableFilterStore} from "../stores/timeTableFilterStore.js";
+import { parseEvent } from "../utils/calendarEventUtils.js";
 
 
 export default function MyCalendar() {
