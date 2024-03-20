@@ -4,7 +4,8 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { FilledButton } from "./FilledButton";
 
-export default function NewPlanButton() {
+
+export default function NewScheduleModal() {
     const { t } = useTranslation();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
 
@@ -61,7 +62,7 @@ export default function NewPlanButton() {
 
     return (
         <form>
-            <Tooltip content={t("semesterSwitch")}>
+            <Tooltip content={t("newPlan")}>
                 <Button
                     color={"none"}
                     isIconOnly
@@ -72,7 +73,7 @@ export default function NewPlanButton() {
             <Modal isOpen={isOpen} onOpenChange={onOpenChange} backdrop={"blur"} className={"p-4"}>
                 <ModalContent>
                     <ModalBody className="py-5 gap-10">
-                        <ModalHeader className="h-auto text-3xl font-bold justify-between">
+                        <ModalHeader className="h-auto text-3xl font-bold justify-between items-center">
                             {t("newPlan")}
                             <FilledButton
                                 text={t("save")}
@@ -108,6 +109,7 @@ export default function NewPlanButton() {
                             <Input
                                 name={"calendarName"}
                                 className={"h-[80px]"}
+                                radius={"sm"}
                                 isRequired
                                 isInvalid={errors.calendarName}
                                 errorMessage={
