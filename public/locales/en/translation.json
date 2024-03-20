@@ -104,5 +104,10 @@
   "Message": "Message",
   "action": "Action",
   "generatePlan": "Generate automatically",
-  "uploadedXLSXFile": "XLSX-File was successfully uploaded!"
+  "uploadedXLSXFile": "XLSX-File was successfully uploaded!",
+  "semesterCycle": "Semester cycle",
+  "newPlan": "New Plan",
+  "choosePlan": "Choose Plan",
+  "summer": "Summer",
+  "winter": "Winter"
 }

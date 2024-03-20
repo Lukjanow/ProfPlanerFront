@@ -103,5 +103,10 @@
   "Message": "Nachricht",
   "action": "Aktion",
   "generatePlan": "Automatisch generieren",
-  "uploadedXLSXFile": "XLSX-Datei wurde erfolgreich hochgeladen!"
+  "uploadedXLSXFile": "XLSX-Datei wurde erfolgreich hochgeladen!",
+  "semesterCycle": "Semesterzyklus",
+  "newPlan": "Neuer Plan",
+  "choosePlan": "Plan auswählen",
+  "summer": "Sommer",
+  "winter": "Winter"
 }

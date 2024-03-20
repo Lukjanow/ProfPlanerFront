@@ -5,6 +5,7 @@ import logo from "../assets/logo.svg"
 import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Tooltip, Button } from "@nextui-org/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useTranslation } from "react-i18next";
+import ScheduleSwitcher from "./ScheduleSwitcher.jsx";
 
 
 export function Header() {
@@ -26,14 +27,7 @@ export function Header() {
                     <ThemeSwitcher />
                 </NavbarItem>
                 <NavbarItem>
-                    <Tooltip content={t("semesterSwitch")}>
-                        <Button
-                            color={"none"}
-                            isIconOnly
-                            startContent={<FontAwesomeIcon className={"text-xl"} icon={"folder-open"} />}
-                            onClick={null}
-                        />
-                    </Tooltip>
+                    <ScheduleSwitcher />
                 </NavbarItem>
                 <NavbarItem>
                     <Tooltip content={t("signOutButton")}>
