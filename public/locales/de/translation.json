@@ -117,5 +117,6 @@
   "dozentTooltip": "Sie können nicht nur nach Namen suchen, sondern auch nach Attributen!\nSchreiben sie dafür einfach {Attribute}:{Wert} in die Suchleiste.\n\nNach folgenden Attributen können sie suchen:\n\nsalutation:{wert} Findet alle Dozenten mit angegebener Anrede\ntitle:{wert}  Findet alle Dozenten mit angegebenen Titel\nemail:{wert} Findet alle Dozenten mit dieser E-mail\nWenn sie kein Attribute angegeben, wird nach Vor- und Nachname gesucht.\n\nDurch das verwenden von \"<\" und \">\" anstelle von \":\" können sie bei numerischen Werten auch einen Bereich auswählen.",
   "roomTooltip": "Sie können nicht nur nach Namen suchen, sondern auch nach Attributen!\nSchreiben sie dafür einfach {Attribute}:{Wert} in die Suchleiste.\n\nNach folgenden Attributen können sie suchen:\n\ncapacity:{wert}  Findet alle Räume mit angegebener Kapazität\nroomType:{wert}  Findet alle Räume mit angegebenen Raum Typ\nWenn sie kein Attribute angegeben, wird nach der Raumnummer gesucht.\n\nDurch das verwenden von \"<\" und \">\" anstelle von \":\" können sie bei numerischen Werten auch einen Bereich auswählen.",
   "generatePlan": "Automatisch generieren",
+  "algoWorking" : "Algorithmus arbeitet",
   "uploadedXLSXFile": "XLSX-Datei wurde erfolgreich hochgeladen!"
 }

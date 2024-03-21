@@ -17,8 +17,7 @@ import { checkModuleWarnings, deleteConflictsWithCurrentModule } from "../confli
 import { updateCalendarEntry, addCalendarEntryForCalendar, deleteCalendarEntry } from "../services/calendarService";
 import { SectionContainer } from "./SectionContainer";
 import { Context } from "../routes/root.jsx";
-import { commonColors, semanticColors } from "@nextui-org/theme";
-
+import { changeColor } from "../utils/calendarEventUtils.js";
 
 export function TimeTable({ moduleItemListPara }) {
   const { t, i18n } = useTranslation();
@@ -97,6 +96,17 @@ export function TimeTable({ moduleItemListPara }) {
     setmoduleItemList(newList)
   }
 
+  function updateEvents(event) {
+    const newList = []
+    for (let i = 0; i < moduleItemList.length; i++) {
+      if (moduleItemList[i]._id === event._id) {
+        moduleItemList[i] = event
+      }
+      newList.push(moduleItemList[i])
+    }
+    setEvents(filterForEvents(newList))
+  }
+
   function moduleSetOutside(event) {
     const newList = []
     for (let i = 0; i < moduleItemList.length; i++) {
@@ -125,9 +135,6 @@ export function TimeTable({ moduleItemListPara }) {
         setEvents(filterForEvents())
         setDraggedEvent(null)
         setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, newEvent))
-        console.log("EVENTS: ", events)
-        // console.log("conflict_list")
-        // console.log(conflict_list)
       }
 
     },
@@ -143,21 +150,22 @@ export function TimeTable({ moduleItemListPara }) {
         )
       );
 
-      let module = null;
+      let editModule = null;
       for (let i = 0; i < events.length; i++) {
         if (events[i]._id === appointmentId) {
-          module = events[i];
+          editModule = events[i];
           break;
         }
       }
-      module.start = start
-      module.end = end
+      editModule.start = start
+      editModule.end = end
+      editModule.bordercolor = changeColor(editModule.backgroundcolor, -40) 
+      editModule.isAlgo = false
 
-      updateModule(module)
-      updateModuleCalendarEntry(module)
-      setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
-      console.log("conflict_list")
-      console.log(conflict_list)
+      updateModule(editModule)
+      updateEvents(editModule)      
+      updateModuleCalendarEntry(editModule)
+      setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, editModule))
     },
   );
 
@@ -238,6 +246,8 @@ export function TimeTable({ moduleItemListPara }) {
   }
 
   const handleClickRemoveEvent = () => {
+    modalEvent.bordercolor = changeColor(modalEvent.backgroundcolor, -40) 
+    modalEvent.isAlgo = false
     moduleSetOutside(modalEvent)
     setEvents(filterForEvents())
     deleteModuleCalendarEntry(modalEvent)
@@ -312,12 +322,15 @@ export function TimeTable({ moduleItemListPara }) {
     if (moveEvent == null) {
       return
     }
+    moveEvent.bordercolor = changeColor(moveEvent.backgroundcolor, -40) 
+    moveEvent.isAlgo = false
     moduleSetOutside(moveEvent)
     setEvents(filterForEvents())
     deleteModuleCalendarEntry(moveEvent)
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
     setSnackbarData({ type: "success", message: "Module removed from plan.", visible: true })
   };
+
 
   const handleDragStart = (event) => {
     moveEvent = event.event
@@ -328,7 +341,6 @@ export function TimeTable({ moduleItemListPara }) {
   }
 
   const filterAction = () => {
-    console.log("FILTER")
     setEvents(filterForEvents())
   }
 
@@ -337,6 +349,18 @@ export function TimeTable({ moduleItemListPara }) {
     for (const module of module_list) {
       setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, module))
     }
+  }
+
+  async function reloadTimeTable(newEntrys, setProgress){
+    for (let i = 0; i < moduleItemList.length; i++) {
+      if(newEntrys.map(e => e._id).includes(moduleItemList[i]._id)){
+        moduleItemList[i] = newEntrys.filter(e => e._id === moduleItemList[i]._id)[0]
+      }
+    }
+    setEvents(filterForEvents())
+    initConflicts()
+    //window.location.reload(false);
+    setProgress(true)
   }
 
   function hideSundayInTimetable() {
@@ -388,7 +412,7 @@ export function TimeTable({ moduleItemListPara }) {
           </div>
         </SectionContainer>
         <SectionContainer className={"p-0 px-1 lg:w-[270px] max-h-[1000px]"}>
-          <ModuleBar moduleItemList={filterForOutside().map(event => (
+          <ModuleBar reload={reloadTimeTable} moduleItemList={filterForOutside().map(event => (
             <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} />
           ))} />
         </SectionContainer>
