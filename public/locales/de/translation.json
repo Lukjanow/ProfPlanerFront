@@ -114,5 +114,6 @@
   "algoWorking": "Algorithmus arbeitet",
   "generate": "Generieren",
   "undo": "Änderungen durch den Automatismus rückgängig machen.",
-  "importingData": "Daten werden importiert..."
+  "importingData": "Daten werden importiert...",
+  "algoUndo": "Algorithmus erfolgreich zurückgesetzt!"
 }
