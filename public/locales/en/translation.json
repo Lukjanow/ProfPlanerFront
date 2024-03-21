@@ -112,5 +112,7 @@
   "winter": "Winter",
   "sose": "SuSe",
   "wise": "WiSe",
-  "algoWorking" : "Algorithm is working"
+  "algoWorking": "Algorithm is working",
+  "generate": "Generate",
+  "undo": "Undo changes made by the automatism."
 }

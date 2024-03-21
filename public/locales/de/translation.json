@@ -111,5 +111,7 @@
   "winter": "Winter",
   "sose": "SoSe",
   "wise": "WiSe",
-  "algoWorking" : "Algorithmus arbeitet"
+  "algoWorking": "Algorithmus arbeitet",
+  "generate": "Generieren",
+  "undo": "Änderungen durch den Automatismus rückgängig machen."
 }
