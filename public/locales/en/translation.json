@@ -114,5 +114,6 @@
   "wise": "WiSe",
   "algoWorking": "Algorithm is working",
   "generate": "Generate",
-  "undo": "Undo changes made by the automatism."
+  "undo": "Undo changes made by the automatism.",
+  "importingData": "Importing data..."
 }
