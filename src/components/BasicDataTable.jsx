@@ -12,7 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   printArrWithSpecificAction,
-  printMapAsString,
+  printArrAsString,
   printMapAsStringByKey,
   printMapAsStringByKeys, printMapAsStringByNestedKeys,
 } from "../utils/stringUtils.js";
@@ -249,7 +249,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       } else if (key === "content") {
         console.log("Sers");
         return (
-          <TableCell>{printMapAsString(value, "content")}</TableCell>
+          <TableCell>{printArrAsString(value, "content")}</TableCell>
         );
       }
 
