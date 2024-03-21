@@ -97,6 +97,7 @@ export default function BasicDataMenu({ doAfterImport, onItemClick }) {
     const file = e.target.files[0];
 
     if (file) {
+      setShowLoadingBar(true);
       const result = await importDataMerge(file);
       if(Object.keys(result.data)[0] === "filename"){
         await doAfterImport();
@@ -104,6 +105,7 @@ export default function BasicDataMenu({ doAfterImport, onItemClick }) {
         setShowLoadingBar(false);
         setShowImportSnackBar(true);
       } else {
+        setShowLoadingBar(false);
         setisMergeComplete(false)
         setShowImportSnackBar(true);
       }
