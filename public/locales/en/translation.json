@@ -3,7 +3,7 @@
   "hello": "Hello World!",
   "themeSwitch": "Change Appearance",
   "languageSwitch": "Change Language",
-  "semesterSwitch": "Choose Semester",
+  "semesterSwitch": "Choose Schedule",
   "signOutButton": "Sign Out",
   "scheduling": "Scheduling",
   "conflicts": "Conflicts",
@@ -104,6 +104,13 @@
   "Message": "Message",
   "action": "Action",
   "generatePlan": "Generate automatically",
-  "algoWorking" : "Algorithm is working",
-  "uploadedXLSXFile": "XLSX-File was successfully uploaded!"
+  "uploadedXLSXFile": "XLSX-File was successfully uploaded!",
+  "semesterCycle": "Semester cycle",
+  "newPlan": "New Schedule",
+  "choosePlan": "Choose Schedule",
+  "summer": "Summer",
+  "winter": "Winter",
+  "sose": "SuSe",
+  "wise": "WiSe",
+  "algoWorking" : "Algorithm is working"
 }
