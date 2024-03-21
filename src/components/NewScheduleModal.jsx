@@ -1,13 +1,15 @@
 import { Tooltip, Button, Input, RadioGroup, Radio, Modal, useDisclosure, ModalContent, ModalHeader, ModalBody } from "@nextui-org/react"
 import { useTranslation } from "react-i18next"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { FilledButton } from "./FilledButton";
+import { Context } from "../routes/root.jsx";
 
 
 export default function NewScheduleModal() {
     const { t } = useTranslation();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [setSnackbarData] = useContext(Context)
 
     const [calendarName, setCalendarName] = useState("");
     const [semesterCycle, setSemesterCycle] = useState("ss");
