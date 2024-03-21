@@ -42,8 +42,22 @@ async function importData(file) {
         });
 }
 
+async function importDataMerge(file) {
+    const formData = new FormData();
+    formData.append('file', file);
+    return api
+        .post(`/import/excel/basicdata/merge/`, formData)
+        .then(resObj => {
+            return {
+                data: resObj.data,
+                status: resObj.status
+            }
+        });
+}
+
 
 export {
     getExportData,
-    importData
+    importData,
+    importDataMerge
 }
