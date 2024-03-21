@@ -112,5 +112,6 @@
   "winter": "Winter",
   "sose": "SuSe",
   "wise": "WiSe",
-  "algoWorking" : "Algorithm is working"
+  "algoWorking" : "Algorithm is working",
+  "importingData": "Importing data..."
 }

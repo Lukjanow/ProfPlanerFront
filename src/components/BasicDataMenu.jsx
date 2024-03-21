@@ -5,14 +5,16 @@ import { useTranslation } from "react-i18next";
 import {getExportData, importData} from "../services/importExportService.js";
 import SnackBar from "./SnackBar.jsx";
 import TimedComponent from "./TimedComponent.jsx";
+import LoadingBar from "./LoadingBar.jsx";
 
-export default function BasicDataMenu({ onItemClick }) {
+export default function BasicDataMenu({ doAfterImport, onItemClick }) {
   const { t } = useTranslation();
   const [selectedItem, setSelectedItem] = useState(
     localStorage.getItem("selectedItem") || "module"
   ); // Initialisieren des ausgewählten Elements mit dem Wert aus dem localStorage oder "module", falls kein Wert vorhanden ist
   const fileInputRef = useRef(null);
   const [showImportSnackBar, setShowImportSnackBar] = useState(false);
+  const [showLoadingBar, setShowLoadingBar] = useState(false);
 
   useEffect(() => {
     localStorage.setItem("selectedItem", selectedItem); // Speichern des ausgewählten Elements im localStorage
@@ -47,7 +49,6 @@ export default function BasicDataMenu({ onItemClick }) {
       description: t("importAsXLSX"),
       icon: "file-upload",
       doAction: () => {
-        console.log("importBasicDataAsXLSX clicked!");
         fileInputRef.current.click();
       }
     },
@@ -68,8 +69,13 @@ export default function BasicDataMenu({ onItemClick }) {
 
   async function handleChanges(e) {
     const file = e.target.files[0];
-    await importData(file);
-    setShowImportSnackBar(true);
+    if (file) {
+      setShowLoadingBar(true);
+      await importData(file);
+      await doAfterImport();
+      setShowLoadingBar(false);
+      setShowImportSnackBar(true);
+    }
   }
 
   return (
@@ -78,6 +84,10 @@ export default function BasicDataMenu({ onItemClick }) {
             <TimedComponent duration={4000} onClose={() => setShowImportSnackBar(false)}>
               <SnackBar message={t("uploadedXLSXFile")} />
             </TimedComponent>
+        )}
+
+        {showLoadingBar && (
+            <LoadingBar message={t("importingData")} />
         )}
 
         <input
