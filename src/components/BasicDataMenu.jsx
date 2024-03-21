@@ -5,8 +5,9 @@ import { useTranslation } from "react-i18next";
 import {getExportData, importData, importDataMerge} from "../services/importExportService.js";
 import SnackBar from "./SnackBar.jsx";
 import TimedComponent from "./TimedComponent.jsx";
+import LoadingBar from "./LoadingBar.jsx";
 
-export default function BasicDataMenu({ onItemClick }) {
+export default function BasicDataMenu({ doAfterImport, onItemClick }) {
   const { t } = useTranslation();
   const [selectedItem, setSelectedItem] = useState(
     localStorage.getItem("selectedItem") || "module"
@@ -15,6 +16,7 @@ export default function BasicDataMenu({ onItemClick }) {
   const fileInputRefMerge = useRef(null);
   const [showImportSnackBar, setShowImportSnackBar] = useState(false);
   const [isMergeComplete, setisMergeComplete] = useState(false);
+  const [showLoadingBar, setShowLoadingBar] = useState(false);
 
 
   useEffect(() => {
@@ -80,21 +82,31 @@ export default function BasicDataMenu({ onItemClick }) {
 
   async function handleChangesFull(e) {
     const file = e.target.files[0];
-    await importData(file);
-    setisMergeComplete(true)
-    setShowImportSnackBar(true);
+
+    if (file) {
+      setShowLoadingBar(true);
+      await importData(file);
+      await doAfterImport();
+      setisMergeComplete(true)
+      setShowLoadingBar(false);
+      setShowImportSnackBar(true);
+    }
   }
 
   async function handleChangesMerge(e) {
     const file = e.target.files[0];
-    const result = await importDataMerge(file);
 
-    if(Object.keys(result.data)[0] === "filename"){
-      setisMergeComplete(true)
-      setShowImportSnackBar(true);
-    } else {
-      setisMergeComplete(false)
-      setShowImportSnackBar(true);
+    if (file) {
+      const result = await importDataMerge(file);
+      if(Object.keys(result.data)[0] === "filename"){
+        await doAfterImport();
+        setisMergeComplete(true)
+        setShowLoadingBar(false);
+        setShowImportSnackBar(true);
+      } else {
+        setisMergeComplete(false)
+        setShowImportSnackBar(true);
+      }
     }
   }
 
@@ -115,6 +127,10 @@ export default function BasicDataMenu({ onItemClick }) {
             {console.log("Error",isMergeComplete)}
               {getSnackBar()}
             </TimedComponent>
+        )}
+
+        {showLoadingBar && (
+            <LoadingBar message={t("importingData")} />
         )}
 
         <input
