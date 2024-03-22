@@ -20,6 +20,7 @@ export default function MyCalendar() {
   const localizer = momentLocalizer(moment);
   const { t } = useTranslation();
   const [modules, setModules] = useState(null);
+  const [timeTableName, settimeTableName] = useState("")
   const [calendarEntries, setcalendarEntries] = useState(null);
   const setCurrentCalendar = useTimeTableFilterStore(state => state.setCurrentCalendar);
   const timeTableID = useselectedTimetableStore(state => state.timeTableID);
@@ -186,6 +187,7 @@ export default function MyCalendar() {
             opening = calendarList.data[i].last_opening
             calendarId = calendarList.data[i]._id
             frequency = calendarList.data[i].frequency
+            settimeTableName(calendarList.data[i].name)
           }
           
         }
@@ -210,7 +212,7 @@ export default function MyCalendar() {
 
   return (
     <PageContainer
-      title={t("scheduling")}
+      title={t("scheduling") + ": " + timeTableName}
       showCancelButton={false}
       showPrimaryButton={false}
       showDeleteButton={false}

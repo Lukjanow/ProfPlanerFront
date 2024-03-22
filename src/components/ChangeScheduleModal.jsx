@@ -86,7 +86,6 @@ export default function ChangeScheduleModal() {
             console.error("Error updating calendar:", error);
           });
         window.location.reload(false);
-        setSnackbarData({ type: "success", message: t("selectTimetable"), visible: true })
     }
 
     useEffect(() => {
