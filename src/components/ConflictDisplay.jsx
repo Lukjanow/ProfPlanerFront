@@ -1,9 +1,9 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import moment from "moment";
-import React, { useState, useEffect } from 'react';
-import { Card, CardBody, CardFooter, Image } from "@nextui-org/react";
+import React, { useState } from 'react';
+import { Card, CardFooter, ScrollShadow } from "@nextui-org/react";
+import { useTranslation } from "react-i18next";
 
 export function ConflictDisplay(data) {
+    const { t } = useTranslation()
     const conflict_list = data.data;
     const list = conflict_list;
     // const [cardStates, setCardStates] = useState([]);
@@ -17,9 +17,9 @@ export function ConflictDisplay(data) {
 
 
     return (
-        <div className="gap-4 grid grid-cols-10 sm:grid-cols-5">
+        <ScrollShadow size={35} className={"max-h-full space-y-2"}>
             {list.map((item, index) => (
-                <Card shadow="sm" key={index} isPressable onPress={() => {
+                <Card shadow="sm" radius={"sm"} key={index} isPressable onPress={() => {
                     // const newCardStates = [...cardStates];
                     // // Umschalten der Farbe zwischen "white" und "secondary."
                     // newCardStates[item.id] = cardStates[item.id] === "white" ? "secondary" : "white";
@@ -35,19 +35,19 @@ export function ConflictDisplay(data) {
                 }}
                 >
                     <CardFooter className={`text-small justify-between grid grid-rows-2 h-full bg-${
-                    //   cardStates[item.id] === "white"
-                    //     ? "white"
-                    //     : "secondary"
-                    conflictIgnoreList.includes(item.id)
+                        //   cardStates[item.id] === "white"
+                        //     ? "white"
+                        //     : "secondary"
+                        conflictIgnoreList.includes(item.id)
                             ? "white"
                             : "secondary"
-                    }`}>
+                        }`}>
 
                         <b>{item.error_message}</b>
                         <b className="font-normal">{item.module_string}</b>
                     </CardFooter>
                 </Card>
             ))}
-        </div>
+        </ScrollShadow>
     );
 }
