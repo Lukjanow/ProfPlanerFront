@@ -159,11 +159,11 @@ export function TimeTable({ moduleItemListPara }) {
       }
       editModule.start = start
       editModule.end = end
-      editModule.bordercolor = changeColor(editModule.backgroundcolor, -40) 
+      editModule.bordercolor = changeColor(editModule.backgroundcolor, -40)
       editModule.isAlgo = false
 
       updateModule(editModule)
-      updateEvents(editModule)      
+      updateEvents(editModule)
       updateModuleCalendarEntry(editModule)
       setConflicts(checkModuleWarnings(filterForConflict(), conflict_list, editModule))
     },
@@ -246,7 +246,7 @@ export function TimeTable({ moduleItemListPara }) {
   }
 
   const handleClickRemoveEvent = () => {
-    modalEvent.bordercolor = changeColor(modalEvent.backgroundcolor, -40) 
+    modalEvent.bordercolor = changeColor(modalEvent.backgroundcolor, -40)
     modalEvent.isAlgo = false
     moduleSetOutside(modalEvent)
     setEvents(filterForEvents())
@@ -279,7 +279,7 @@ export function TimeTable({ moduleItemListPara }) {
 
   const hoverEventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="rounded-e-md p-1 h-full flex flex-col gap-2">
+      <div hidden={!event.visible} className="rounded-e-md p-1 max-w-72 flex flex-col gap-2">
         <div>
           <p className="font-bold text-xs">{event.name}</p>
           <p className="text-xs">{setTime(event.start, event.duration)}</p>
@@ -322,7 +322,7 @@ export function TimeTable({ moduleItemListPara }) {
     if (moveEvent == null) {
       return
     }
-    moveEvent.bordercolor = changeColor(moveEvent.backgroundcolor, -40) 
+    moveEvent.bordercolor = changeColor(moveEvent.backgroundcolor, -40)
     moveEvent.isAlgo = false
     moduleSetOutside(moveEvent)
     setEvents(filterForEvents())
@@ -351,9 +351,9 @@ export function TimeTable({ moduleItemListPara }) {
     }
   }
 
-  async function reloadTimeTable(newEntrys, setProgress){
+  async function reloadTimeTable(newEntrys, setProgress) {
     for (let i = 0; i < moduleItemList.length; i++) {
-      if(newEntrys.map(e => e._id).includes(moduleItemList[i]._id)){
+      if (newEntrys.map(e => e._id).includes(moduleItemList[i]._id)) {
         moduleItemList[i] = newEntrys.filter(e => e._id === moduleItemList[i]._id)[0]
       }
     }
@@ -411,9 +411,9 @@ export function TimeTable({ moduleItemListPara }) {
             />
           </div>
         </SectionContainer>
-        <SectionContainer className={"p-0 px-1 lg:w-[270px] max-h-[1000px]"}>
+        <SectionContainer className={"p-0 px-1 lg:w-[280px] max-h-[1000px]"}>
           <ModuleBar reload={reloadTimeTable} moduleItemList={filterForOutside().map(event => (
-            <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} />
+            <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} shortDisplay />
           ))} />
         </SectionContainer>
       </div>

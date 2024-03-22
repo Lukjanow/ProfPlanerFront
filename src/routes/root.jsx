@@ -35,9 +35,9 @@ export default function Root() {
                     <SnackBar type={snackbarData.type} message={snackbarData.message} />
                 </TimedComponent>
             )}
-            <Header />
-            <NavigationBar />
             <Context.Provider value={[setSnackbarData]}>
+                <Header />
+                <NavigationBar />
                 <main className={"min-w-full"} id="content">
                     <Outlet />
                     <Footer />

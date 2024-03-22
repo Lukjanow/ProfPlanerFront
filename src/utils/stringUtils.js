@@ -1,9 +1,17 @@
-export function printMapAsString(stringMap) {
-    return stringMap.join(", ");
+export function printArrAsString(stringArr) {
+    return stringArr.join(", ");
+}
+
+export function printStringWithEllipsis(string) {
+    return string + ",...";
+}
+
+export function printArrayWithEllipsis(stringArr) {
+    return stringArr[0] + ",...";
 }
 
 export function printMapAsStringByKey(stringMap, key) {
-    return printMapAsString(stringMap.map(item => item[key]));
+    return printArrAsString(stringMap.map(item => item[key]));
 }
 
 export function printMapAsStringByKeys(stringMap, keys) {
@@ -26,7 +34,7 @@ export function printArrWithSpecificAction(array, doActionInEachArrItem) {
     array.forEach(item => {
         mapResult.push(doActionInEachArrItem(item));
     });
-    return printMapAsString(mapResult);
+    return printArrAsString(mapResult);
 }
 
 export function printValidFileName(string) {

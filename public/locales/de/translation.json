@@ -91,7 +91,8 @@
   "addTraining": "Praktikum hinzufügen",
   "group": "In Gruppe",
   "exportAsPDF": "Exportieren (PDF)",
-  "importAsXLSX": "Importieren (XLSX)",
+  "importFullAsXLSX": "Import ersetzen (XLSX)",
+  "importMergeAsXLSX": "Import einfügen (XLSX)",
   "exportAsXLSX": "Exportieren (XLSX)",
   "semester_plan": "Lehrplanung",
   "studysemester": "Fachsemester",
@@ -104,6 +105,7 @@
   "action": "Aktion",
   "generatePlan": "Automatisch generieren",
   "uploadedXLSXFile": "XLSX-Datei wurde erfolgreich hochgeladen!",
+  "uploadedXLSXFileError": "Fehler beim hochladen der XLSX-Datei!",
   "semesterCycle": "Semesterzyklus",
   "newPlan": "Neuer Plan",
   "choosePlan": "Plan auswählen",
@@ -111,5 +113,8 @@
   "winter": "Winter",
   "sose": "SoSe",
   "wise": "WiSe",
-  "algoWorking" : "Algorithmus arbeitet"
+  "algoWorking": "Algorithmus arbeitet",
+  "generate": "Generieren",
+  "undo": "Änderungen durch den Automatismus rückgängig machen.",
+  "importingData": "Daten werden importiert..."
 }

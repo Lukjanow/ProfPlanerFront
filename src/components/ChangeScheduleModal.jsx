@@ -1,13 +1,16 @@
-import { Tooltip, Button, Modal, useDisclosure, ModalContent, ModalHeader, ModalBody, Avatar, Listbox, ListboxItem, ScrollShadow } from "@nextui-org/react"
+import { Tooltip, Button, Modal, useDisclosure, ModalContent, ModalHeader, ModalBody, Avatar, Listbox, ListboxItem } from "@nextui-org/react"
 import { useTranslation } from "react-i18next"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
+import { Context } from "../routes/root.jsx";
 
 
 export default function ChangeScheduleModal() {
     const { t } = useTranslation();
     const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const [setSnackbarData] = useContext(Context)
     const [selectedKeys, setSelectedKeys] = useState("");
+
 
     const scheduleList = [
         {

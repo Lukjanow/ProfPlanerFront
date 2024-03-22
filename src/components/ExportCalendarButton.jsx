@@ -51,6 +51,23 @@ export function ExportCalendarButton() {
         });
     }
 
+    function removeBottomScrollEffectForContainerEvents() {
+        const eventContainers = timetableClone.querySelectorAll(".rbc-events-container .rbc-event");
+        eventContainers?.forEach(eventContainer => {
+            eventContainer.style.overflow = "unset"; // show details outside the event container
+
+            const bottomScrollEffectComps = eventContainer.querySelectorAll('[data-bottom-scroll="true"]');
+            bottomScrollEffectComps?.forEach(bottomScrollEffectComp => {
+                bottomScrollEffectComp?.setAttribute("data-bottom-scroll", "false");
+                bottomScrollEffectComp.style.overflow = "unset"; // show details outside the event container
+            });
+        });
+    }
+
+    function setBgColor() {
+        timetableClone.classList.add("bg-content1");
+    }
+
     function handleExport() {
         const fileName = getFileName();
 
@@ -61,6 +78,8 @@ export function ExportCalendarButton() {
         const timetableWidth = 1340;
         timetableClone.style.height = `${timetableHeight}px`;
         timetableClone.style.width = `${timetableWidth}px`;
+        removeBottomScrollEffectForContainerEvents();
+        setBgColor();
 
         showHiddenElements();
 
@@ -79,19 +98,11 @@ export function ExportCalendarButton() {
         }
 
         const content = timetableClone.querySelector(".rbc-time-content");
-        const eventsContainer = timetableClone.querySelectorAll(".rbc-events-container .rbc-event");
-
         if (content) {
             content.style.overflow = "inherit";
         }
 
-        // show details outside the event container
-        if (eventsContainer) {
-            eventsContainer.forEach(eventContainer => {
-                eventContainer.style.overflow = "unset";
-            });
-        }
-
+        timetable.style.height = "inherit";
         const parentElement = timetable.parentElement;
         parentElement.appendChild(timetableClone);
 
@@ -121,6 +132,7 @@ export function ExportCalendarButton() {
                 pdf.save(`${fileName}.pdf`);
 
                 parentElement.removeChild(timetableClone);
+                timetable.style.height = "100%";
                 setIsLoading(false);
 
             })
