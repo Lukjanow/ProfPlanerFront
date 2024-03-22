@@ -71,7 +71,6 @@ export default function ChangeScheduleModal() {
     const handleClick = (event) => {
         settimeTableID(event.target.id)
         onClose()
-        setSnackbarData({ type: "success", message: t("selectTimetable"), visible: true })
         var schedule = null
 
         for (let i = 0; i < scheduleList.length; i++) {
@@ -86,6 +85,8 @@ export default function ChangeScheduleModal() {
           .catch((error) => {
             console.error("Error updating calendar:", error);
           });
+        window.location.reload(false);
+        setSnackbarData({ type: "success", message: t("selectTimetable"), visible: true })
     }
 
     useEffect(() => {

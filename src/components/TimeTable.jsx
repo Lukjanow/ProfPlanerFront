@@ -18,6 +18,7 @@ import { updateCalendarEntry, addCalendarEntryForCalendar, deleteCalendarEntry }
 import { SectionContainer } from "./SectionContainer";
 import { Context } from "../routes/root.jsx";
 import { changeColor } from "../utils/calendarEventUtils.js";
+import { useselectedTimetableStore } from "../stores/selectedTimetableStore.js";
 
 export function TimeTable({ moduleItemListPara }) {
   const { t, i18n } = useTranslation();
@@ -34,6 +35,8 @@ export function TimeTable({ moduleItemListPara }) {
   const { isOpen, onOpen, onOpenChange } = useDisclosure();
   const [modalEvent, setModalEvent] = useState('');
   const [setSnackbarData] = useContext(Context)
+
+  const timeTableID = useselectedTimetableStore(state => state.timeTableID);
 
   // State für Termine und außerhalb des Kalenders gezogene Ereignisse
   const [moduleItemList, setmoduleItemList] = useState(moduleItemListPara);
@@ -56,7 +59,7 @@ export function TimeTable({ moduleItemListPara }) {
   }
 
   async function addModuleCalendarEntry(module) {
-    const data = await addCalendarEntryForCalendar("65d61765c15324dcfc497c4f", { module: module._id, time_stamp: getTimeStamp(module.start), comment: null })
+    const data = await addCalendarEntryForCalendar(timeTableID, { module: module._id, time_stamp: getTimeStamp(module.start), comment: null })
     module.calendar_entry_id = data.data._id
   }
 

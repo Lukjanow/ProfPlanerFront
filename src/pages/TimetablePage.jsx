@@ -6,7 +6,7 @@ import moment from 'moment';
 import { useTranslation } from "react-i18next";
 import "moment/locale/de";
 import { TimeTable } from "../components/TimeTable";
-import { getAllModules } from "../services/moduleService";
+import { getAllModules, getModulesByFrequency } from "../services/moduleService";
 import { getAllCalendars, getCalendarById, getCalendarEntriesForCalendar } from "../services/calendarService";
 import PageContainer from "../components/PageContainer";
 import { getAllStudySemesters } from "../services/studySemesterService";
@@ -23,6 +23,7 @@ export default function MyCalendar() {
   const [calendarEntries, setcalendarEntries] = useState(null);
   const setCurrentCalendar = useTimeTableFilterStore(state => state.setCurrentCalendar);
   const timeTableID = useselectedTimetableStore(state => state.timeTableID);
+  const settimeTableID = useselectedTimetableStore(state => state.settimeTableID);
 
     /* const moduleItemDataList = [
       {
@@ -174,23 +175,26 @@ export default function MyCalendar() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const module_result = await getAllModules();
-        setModules(module_result.data);
         const calendarList = await getAllCalendars();
 
         var calendarId = null
         var opening = 0
+        var frequency = 0
 
         for (let i = 0; i < calendarList.data.length; i++) {
           if(calendarList.data[i].last_opening > opening){
             opening = calendarList.data[i].last_opening
             calendarId = calendarList.data[i]._id
+            frequency = calendarList.data[i].frequency
           }
           
         }
 
         if(calendarId != null){
+          const module_result = await getModulesByFrequency(frequency);
+          setModules(module_result.data);
 
+          settimeTableID(calendarId)
           const calendarRes = await getCalendarById(calendarId);
           setCurrentCalendar(calendarRes.data);
 
