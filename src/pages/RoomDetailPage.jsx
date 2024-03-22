@@ -69,7 +69,7 @@ export default function RoomDetailPage() {
         const newRoom = new RoomModel(
           roomNumber,
           parseInt(capacity),
-          roomTypesOptions[0]
+          roomType[0]
         );
         updateRoom(roomId, newRoom)
           .then((response) => {
@@ -88,7 +88,7 @@ export default function RoomDetailPage() {
       const newRoom = new RoomModel(
         roomNumber,
         parseInt(capacity),
-        roomTypesOptions[0]
+        roomType[0]
       );
 
       addRoom(newRoom)

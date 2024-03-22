@@ -51,6 +51,18 @@ export function ExportCalendarButton() {
         });
     }
 
+    function removeBottomScrollEffectForContainerEvents() {
+        const eventContainers = timetableClone.querySelectorAll(".rbc-time-view .rbc-time-content .rbc-events-container");
+        eventContainers.forEach(eventContainer => {
+            const bottomScrollEffectComp = eventContainer.querySelector('[data-bottom-scroll="true"]');
+            bottomScrollEffectComp?.setAttribute("data-bottom-scroll", "false");
+        });
+    }
+
+    function setBgColor() {
+        timetableClone.classList.add("bg-content1");
+    }
+
     function handleExport() {
         const fileName = getFileName();
 
@@ -61,6 +73,8 @@ export function ExportCalendarButton() {
         const timetableWidth = 1340;
         timetableClone.style.height = `${timetableHeight}px`;
         timetableClone.style.width = `${timetableWidth}px`;
+        removeBottomScrollEffectForContainerEvents();
+        setBgColor();
 
         showHiddenElements();
 
@@ -92,6 +106,7 @@ export function ExportCalendarButton() {
             });
         }
 
+        timetable.style.height = "inherit";
         const parentElement = timetable.parentElement;
         parentElement.appendChild(timetableClone);
 
@@ -121,6 +136,7 @@ export function ExportCalendarButton() {
                 pdf.save(`${fileName}.pdf`);
 
                 parentElement.removeChild(timetableClone);
+                timetable.style.height = "100%";
                 setIsLoading(false);
 
             })
