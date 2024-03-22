@@ -264,7 +264,7 @@ export function TimeTable({ moduleItemListPara }) {
         </div>
         <ScrollShadow size={25} hideScrollBar={true} className="flex flex-col gap-[3px] text-xs">
           <div className="flex gap-2 items-center detail-semester">
-            <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" /><span>{event.study_semester_string}</span>
+            <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" /><span>{event.study_semester_string_short}</span>
           </div>
           <div className="flex gap-2 items-center detail-dozent">
             <FontAwesomeIcon className={"w-[15px]"} icon="user" /><span>{event.dozent_string}</span>
@@ -435,18 +435,6 @@ export function TimeTable({ moduleItemListPara }) {
               <ConflictDisplay data={conflict_list} />
             </Tab>
           </Tabs>
-
-
-
-
-
-
-
-
-
-
-
-
         </SectionContainer>
       </div >
       <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent} />

@@ -7,30 +7,30 @@ import {
 
 
 export function getEventStart(time_stamp) {
-      var start = moment("2024-01-01T12:00").toDate()
-      start.setDate(time_stamp.week_day)
-      start.setHours(time_stamp.hour)
-      start.setMinutes(time_stamp.minute)
-      return start
-    }
+    var start = moment("2024-01-01T12:00").toDate()
+    start.setDate(time_stamp.week_day)
+    start.setHours(time_stamp.hour)
+    start.setMinutes(time_stamp.minute)
+    return start
+}
 
 export function getEventEnd(start, duration) {
-      const startHours = start.getHours()
-      const startMinutes = start.getMinutes()
-      const durationHours = Math.floor(duration/60)
-      const durationMinutes = duration % 60
-      var endMinutes = startMinutes + durationMinutes
-      var endHours = startHours + durationHours
-      if(endMinutes >= 60){
+    const startHours = start.getHours()
+    const startMinutes = start.getMinutes()
+    const durationHours = Math.floor(duration / 60)
+    const durationMinutes = duration % 60
+    var endMinutes = startMinutes + durationMinutes
+    var endHours = startHours + durationHours
+    if (endMinutes >= 60) {
         endHours += 1
         endMinutes -= 60
-      }
-      var end = moment("2024-01-01T12:00").toDate()
-      end.setDate(start.getDay())
-      end.setHours(endHours)
-      end.setMinutes(endMinutes)
-      return end
     }
+    var end = moment("2024-01-01T12:00").toDate()
+    end.setDate(start.getDay())
+    end.setHours(endHours)
+    end.setMinutes(endMinutes)
+    return end
+}
 
 export function parseEvent(moduleCalendarEntry, module, start, end, isAlgo) {
     const study_semester_string = module.study_semester
@@ -78,31 +78,31 @@ export function parseEvent(moduleCalendarEntry, module, start, end, isAlgo) {
 }
 
 export function changeColor(col, amt) {
-      var usePound = false;
+    var usePound = false;
 
-      if (col[0] == "#") {
-          col = col.slice(1);
-          usePound = true;
-      }
+    if (col[0] == "#") {
+        col = col.slice(1);
+        usePound = true;
+    }
 
-      var num = parseInt(col,16);
-      var r = (num >> 16) + amt;
+    var num = parseInt(col, 16);
+    var r = (num >> 16) + amt;
 
-      if (r > 255) r = 255;
-      else if  (r < 0) r = 0;
+    if (r > 255) r = 255;
+    else if (r < 0) r = 0;
 
-      var b = ((num >> 8) & 0x00FF) + amt;
+    var b = ((num >> 8) & 0x00FF) + amt;
 
-      if (b > 255) b = 255;
-      else if  (b < 0) b = 0;
+    if (b > 255) b = 255;
+    else if (b < 0) b = 0;
 
-      var g = (num & 0x0000FF) + amt;
+    var g = (num & 0x0000FF) + amt;
 
-      if (g > 255) g = 255;
-      else if (g < 0) g = 0;
+    if (g > 255) g = 255;
+    else if (g < 0) g = 0;
 
-      return (usePound?"#":"") + (g | (b << 8) | (r << 16)).toString(16);
-  }
+    return (usePound ? "#" : "") + (g | (b << 8) | (r << 16)).toString(16);
+}
 
 // function getAllStudySemesterString(study_semester) {
 //     var all_study_semester_string = String(study_semester[0].name)
