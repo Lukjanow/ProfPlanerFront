@@ -279,7 +279,7 @@ export function TimeTable({ moduleItemListPara }) {
 
   const hoverEventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="rounded-e-md p-1 h-full flex flex-col gap-2">
+      <div hidden={!event.visible} className="rounded-e-md p-1 max-w-72 flex flex-col gap-2">
         <div>
           <p className="font-bold text-xs">{event.name}</p>
           <p className="text-xs">{setTime(event.start, event.duration)}</p>

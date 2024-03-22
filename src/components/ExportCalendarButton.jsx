@@ -52,10 +52,15 @@ export function ExportCalendarButton() {
     }
 
     function removeBottomScrollEffectForContainerEvents() {
-        const eventContainers = timetableClone.querySelectorAll(".rbc-time-view .rbc-time-content .rbc-events-container");
-        eventContainers.forEach(eventContainer => {
-            const bottomScrollEffectComp = eventContainer.querySelector('[data-bottom-scroll="true"]');
-            bottomScrollEffectComp?.setAttribute("data-bottom-scroll", "false");
+        const eventContainers = timetableClone.querySelectorAll(".rbc-events-container .rbc-event");
+        eventContainers?.forEach(eventContainer => {
+            eventContainer.style.overflow = "unset"; // show details outside the event container
+
+            const bottomScrollEffectComps = eventContainer.querySelectorAll('[data-bottom-scroll="true"]');
+            bottomScrollEffectComps?.forEach(bottomScrollEffectComp => {
+                bottomScrollEffectComp?.setAttribute("data-bottom-scroll", "false");
+                bottomScrollEffectComp.style.overflow = "unset"; // show details outside the event container
+            });
         });
     }
 
@@ -93,17 +98,8 @@ export function ExportCalendarButton() {
         }
 
         const content = timetableClone.querySelector(".rbc-time-content");
-        const eventsContainer = timetableClone.querySelectorAll(".rbc-events-container .rbc-event");
-
         if (content) {
             content.style.overflow = "inherit";
-        }
-
-        // show details outside the event container
-        if (eventsContainer) {
-            eventsContainer.forEach(eventContainer => {
-                eventContainer.style.overflow = "unset";
-            });
         }
 
         timetable.style.height = "inherit";
