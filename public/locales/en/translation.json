@@ -117,5 +117,13 @@
   "algoWorking": "Algorithm is working",
   "generate": "Generate",
   "undo": "Undo changes made by the automatism.",
-  "importingData": "Importing data..."
+  "importingData": "Importing data...",
+  "warning": "Warning",
+  "and": "and",
+  "eventSameDozent": "Events from the same teacher collide!",
+  "eventDozentNotPresent": "Teacher is absent during the event!",
+  "eventSameSemester": "Events of the same semester collide!",
+  "eventSequentialSemesters": "Events from consecutive semesters collide!",
+  "eventSameRoom": "Events collide with the same room!",
+  "breakTooShort": "Lunch break in a semester is shorter than 45 minutes!"
 }

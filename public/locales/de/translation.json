@@ -116,5 +116,13 @@
   "algoWorking": "Algorithmus arbeitet",
   "generate": "Generieren",
   "undo": "Änderungen durch den Automatismus rückgängig machen.",
-  "importingData": "Daten werden importiert..."
+  "importingData": "Daten werden importiert...",
+  "warning": "Warnung",
+  "and": "und",
+  "eventSameDozent": "Veranstaltungen derselben Lehrperson kollidieren!",
+  "eventDozentNotPresent": "Lehrperson ist während der Veranstaltung abwesend!",
+  "eventSameSemester": "Veranstaltungen des selben Semesters kollidieren!",
+  "eventSequentialSemesters": "Veranstaltungen aus aufeinanderfolgenden Semestern kollidieren!",
+  "eventSameRoom": "Veranstaltung mit demselben Raum kollidieren!",
+  "breakTooShort": "Mittagspause in einem Semester ist kürzer als 45 Minuten!"
 }

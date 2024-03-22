@@ -30,23 +30,23 @@ export function ModuleItem({ moduleItemData, dragEvent, shortDisplay = false }) 
       <div className="flex flex-col gap-[3px] text-xs">
         <div className="flex gap-1 items-center detail-semester">
           <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" />
-            <span>{shortDisplay
-              ? study_semester_string_short
-              : study_semester_string
-            }</span>
+          <span>{shortDisplay
+            ? study_semester_string_short
+            : study_semester_string
+          }</span>
         </div>
         <div className="flex gap-1 items-center detail-dozent">
-          <FontAwesomeIcon className={"w-[15px]"} icon="user"/>
+          <FontAwesomeIcon className={"w-[15px]"} icon="user" />
           <span>{shortDisplay
-              ? dozent_string_short
-              : dozent_string
+            ? dozent_string_short
+            : dozent_string
           }</span>
         </div>
         <div className="flex gap-1 items-center detail-room">
-          <FontAwesomeIcon className={"w-[15px]"} icon="location-dot"/>
+          <FontAwesomeIcon className={"w-[15px]"} icon="location-dot" />
           <span>{shortDisplay
-              ? room_string_short
-              : room_string
+            ? room_string_short
+            : room_string
           }</span>
         </div>
       </div>

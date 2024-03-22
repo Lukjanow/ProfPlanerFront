@@ -33,16 +33,6 @@ export function Header() {
                 <NavbarItem>
                     <ChangeScheduleModal />
                 </NavbarItem>
-                <NavbarItem>
-                    <Tooltip content={t("signOutButton")}>
-                        <Button
-                            color={"none"}
-                            isIconOnly
-                            startContent={<FontAwesomeIcon className={"text-xl"} icon={"right-from-bracket"} />}
-                            onClick={null}
-                        />
-                    </Tooltip>
-                </NavbarItem>
             </NavbarContent>
         </Navbar>
     )
