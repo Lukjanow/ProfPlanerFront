@@ -98,7 +98,8 @@ export default function ChangeScheduleModal() {
                     calendarList.push({
                         _id: calendars.data[i]._id,
                         calendarName: calendars.data[i].name,
-                        semesterCylce: calendars.data[i].frequency,
+                        semesterCylce: calendars.data[i].frequency === 1 ? "ws" : "ss",
+                        frequency: calendars.data[i].frequency,
                         entrie: calendars.data[i].entrie
                         })
                 }

@@ -207,9 +207,7 @@ export default function MyCalendar() {
       }
       fetchData()
     }, []);
-function test(){
-  console.log("id",timeTableID)
-}
+
   return (
     <PageContainer
       title={t("scheduling")}
@@ -222,7 +220,7 @@ function test(){
         // </div>
       }
       {calendarEntries !== null && modules !== null ?
-        <div onClick={test} className="flex flex-col gap-5">
+        <div className="flex flex-col gap-5">
           <TimeTable moduleItemListPara={initModules(modules, calendarEntries)} />
         </div> : <TimeTable moduleItemListPara={[]} />
       }
