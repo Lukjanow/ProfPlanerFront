@@ -7,11 +7,12 @@ import { useTranslation } from "react-i18next";
 import "moment/locale/de";
 import { TimeTable } from "../components/TimeTable";
 import { getAllModules } from "../services/moduleService";
-import { getCalendarById, getCalendarEntriesForCalendar } from "../services/calendarService";
+import { getAllCalendars, getCalendarById, getCalendarEntriesForCalendar } from "../services/calendarService";
 import PageContainer from "../components/PageContainer";
 import { getAllStudySemesters } from "../services/studySemesterService";
 import {useTimeTableFilterStore} from "../stores/timeTableFilterStore.js";
 import { parseEvent } from "../utils/calendarEventUtils.js";
+import { useselectedTimetableStore } from "../stores/selectedTimetableStore.js";
 
 
 export default function MyCalendar() {
@@ -21,6 +22,7 @@ export default function MyCalendar() {
   const [modules, setModules] = useState(null);
   const [calendarEntries, setcalendarEntries] = useState(null);
   const setCurrentCalendar = useTimeTableFilterStore(state => state.setCurrentCalendar);
+  const timeTableID = useselectedTimetableStore(state => state.timeTableID);
 
     /* const moduleItemDataList = [
       {
@@ -174,20 +176,36 @@ export default function MyCalendar() {
       try {
         const module_result = await getAllModules();
         setModules(module_result.data);
-        const calendarId = "65d61765c15324dcfc497c4f";
+        const calendarList = await getAllCalendars();
 
-        const calendarRes = await getCalendarById(calendarId);
-        setCurrentCalendar(calendarRes.data);
+        var calendarId = null
+        var opening = 0
+
+        for (let i = 0; i < calendarList.data.length; i++) {
+          if(calendarList.data[i].last_opening > opening){
+            opening = calendarList.data[i].last_opening
+            calendarId = calendarList.data[i]._id
+          }
+          
+        }
+
+        if(calendarId != null){
+
+          const calendarRes = await getCalendarById(calendarId);
+          setCurrentCalendar(calendarRes.data);
 
           const calendarEntry_result = await getCalendarEntriesForCalendar(calendarId);
           setcalendarEntries(calendarEntry_result.data);
+        }
         } catch(error) {
           console.log("Error: ", error);
         }
       }
       fetchData()
     }, []);
-
+function test(){
+  console.log("id",timeTableID)
+}
   return (
     <PageContainer
       title={t("scheduling")}
@@ -200,7 +218,7 @@ export default function MyCalendar() {
         // </div>
       }
       {calendarEntries !== null && modules !== null ?
-        <div className="flex flex-col gap-5">
+        <div onClick={test} className="flex flex-col gap-5">
           <TimeTable moduleItemListPara={initModules(modules, calendarEntries)} />
         </div> : <TimeTable moduleItemListPara={[]} />
       }

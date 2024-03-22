@@ -6,6 +6,7 @@ import { FilledButton } from "./FilledButton";
 import { Context } from "../routes/root.jsx";
 import { CalendarModel } from "../models/calendarModel.js";
 import { addCalendar } from "../services/calendarService.js";
+import { useselectedTimetableStore } from "../stores/selectedTimetableStore.js";
 
 
 export default function NewScheduleModal() {
@@ -21,6 +22,8 @@ export default function NewScheduleModal() {
         semesterCycle: false
     });
 
+    const settimeTableID = useselectedTimetableStore(state => state.settimeTableID);
+
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -30,9 +33,10 @@ export default function NewScheduleModal() {
 
         if (Object.keys(validationErrors).length === 0) {
             const frequency = semesterCycle === "ss" ? 2 : 1
-            const newCalendar = new CalendarModel(calendarName, [], frequency)
+            const newCalendar = new CalendarModel(calendarName, [], frequency, Math.floor(Date.now() / 1000))
             addCalendar(newCalendar).then(response => {
                     console.log("Plan created: ", response);
+                    settimeTableID(response.data._id)
                     onOpenChange()
                     setSnackbarData({ type: "success", message: "Plan created.", visible: true })
                 })

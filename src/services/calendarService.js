@@ -38,11 +38,15 @@ async function addCalendar(calendarModel) {
 async function updateCalendar(id, {
         name = null,
         entryIdList = null,
+        frequency = null,
+        last_opening = null
     }) {
     return api
         .put(`/calendar/${id}`, {
             ...(name !== null && {name}),
-            ...(entryIdList !== null && {entries: entryIdList})
+            ...(entryIdList !== null && {entries: entryIdList}),
+            ...(frequency !== null && {frequency: frequency}),
+            ...(last_opening !== null && {last_opening: last_opening})
         })
         .then(resObj => {
             return {

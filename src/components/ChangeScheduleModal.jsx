@@ -3,8 +3,9 @@ import { useTranslation } from "react-i18next"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useContext } from "react";
 import { Context } from "../routes/root.jsx";
-import { getAllCalendars } from "../services/calendarService.js";
+import { getAllCalendars, updateCalendar } from "../services/calendarService.js";
 import { useselectedTimetableStore } from "../stores/selectedTimetableStore.js";
+import { CalendarModel } from "../models/calendarModel.js";
 
 
 export default function ChangeScheduleModal() {
@@ -13,8 +14,8 @@ export default function ChangeScheduleModal() {
     const [setSnackbarData] = useContext(Context)
     const [scheduleList, setscheduleList] = useState([]);
 
-
     const settimeTableID = useselectedTimetableStore(state => state.settimeTableID);
+
     /* const scheduleList = [
         {
             calendarName: "Erster Entwurf 2024",
@@ -71,6 +72,20 @@ export default function ChangeScheduleModal() {
         settimeTableID(event.target.id)
         onClose()
         setSnackbarData({ type: "success", message: t("selectTimetable"), visible: true })
+        var schedule = null
+
+        for (let i = 0; i < scheduleList.length; i++) {
+            if(scheduleList[i]._id === event.target.id){
+                schedule = scheduleList[i]
+            }
+        }
+        updateCalendar(schedule._id, {last_opening:Math.floor(Date.now() / 1000)})
+          .then((response) => {
+            console.log("Calendar updated: ", response);
+          })
+          .catch((error) => {
+            console.error("Error updating calendar:", error);
+          });
     }
 
     useEffect(() => {
