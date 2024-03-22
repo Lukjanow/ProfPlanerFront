@@ -3,16 +3,19 @@ import { useTranslation } from "react-i18next"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState, useContext } from "react";
 import { Context } from "../routes/root.jsx";
+import { getAllCalendars } from "../services/calendarService.js";
+import { useselectedTimetableStore } from "../stores/selectedTimetableStore.js";
 
 
 export default function ChangeScheduleModal() {
     const { t } = useTranslation();
-    const { isOpen, onOpen, onOpenChange } = useDisclosure();
+    const { isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
     const [setSnackbarData] = useContext(Context)
-    const [selectedKeys, setSelectedKeys] = useState("");
+    const [scheduleList, setscheduleList] = useState([]);
 
 
-    const scheduleList = [
+    const settimeTableID = useselectedTimetableStore(state => state.settimeTableID);
+    /* const scheduleList = [
         {
             calendarName: "Erster Entwurf 2024",
             semesterCylce: "ss"
@@ -61,26 +64,35 @@ export default function ChangeScheduleModal() {
             calendarName: "2022/2023",
             semesterCylce: "ws"
         },
-    ]
+    ] */
 
 
-    const handleClick = () => {
-        // addDozent(newTeacher)
-        //     .then(response => {
-        //         console.log("Plan loaded: ", response);
-        //         onOpenChange()
-        //         setSnackbarData({ type: "success", message: "Plan loaded.", visible: true })
-        //     })
-        //     .catch(error => {
-        //         console.error("Error loading plan:", error);
-        //         onOpenChange()
-        //         setSnackbarData({ type: "error", message: "Error loading plan.", visible: true })
-        //     })
+    const handleClick = (event) => {
+        settimeTableID(event.target.id)
+        onClose()
+        setSnackbarData({ type: "success", message: t("selectTimetable"), visible: true })
     }
 
     useEffect(() => {
-        // getSchedules
-    }, [scheduleList])
+        async function fetchData() {
+            try {
+                const calendars = await getAllCalendars();
+                const calendarList = []
+                for (let i = 0; i < calendars.data.length; i++) {
+                    calendarList.push({
+                        _id: calendars.data[i]._id,
+                        calendarName: calendars.data[i].name,
+                        semesterCylce: calendars.data[i].frequency,
+                        entrie: calendars.data[i].entrie
+                        })
+                }
+                setscheduleList(calendarList)
+            } catch(error) {
+                console.log("Error: ", error);
+            }
+        }
+        fetchData()
+    }, [])
 
     return (
         <form>
@@ -101,8 +113,8 @@ export default function ChangeScheduleModal() {
                                 scheduleList.map((items) => (
                                     <ListboxItem
                                         className="flex flex-row"
-                                        key={items.calendarName}
-                                        onPress={() => handleClick()}
+                                        id={items._id}
+                                        onPress={(event) => handleClick(event)}
                                         startContent={
                                             <Avatar
                                                 radius={"sm"}

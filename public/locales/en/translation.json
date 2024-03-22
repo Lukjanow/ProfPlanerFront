@@ -117,5 +117,6 @@
   "algoWorking": "Algorithm is working",
   "generate": "Generate",
   "undo": "Undo changes made by the automatism.",
-  "importingData": "Importing data..."
+  "importingData": "Importing data...",
+  "selectTimetable": "Timetable selected."
 }

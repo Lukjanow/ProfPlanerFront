@@ -116,5 +116,6 @@
   "algoWorking": "Algorithmus arbeitet",
   "generate": "Generieren",
   "undo": "Änderungen durch den Automatismus rückgängig machen.",
-  "importingData": "Daten werden importiert..."
+  "importingData": "Daten werden importiert...",
+  "selectTimetable": "Plan ausgewählt."
 }
