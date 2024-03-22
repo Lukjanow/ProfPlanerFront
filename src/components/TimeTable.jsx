@@ -279,7 +279,7 @@ export function TimeTable({ moduleItemListPara }) {
 
   const hoverEventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="rounded-e-md p-1 h-full flex flex-col gap-2">
+      <div hidden={!event.visible} className="rounded-e-md p-1 max-w-72 flex flex-col gap-2">
         <div>
           <p className="font-bold text-xs">{event.name}</p>
           <p className="text-xs">{setTime(event.start, event.duration)}</p>
@@ -413,7 +413,7 @@ export function TimeTable({ moduleItemListPara }) {
         </SectionContainer>
         <SectionContainer className={"p-0 px-1 lg:w-[280px] max-h-[1000px]"}>
           <ModuleBar reload={reloadTimeTable} moduleItemList={filterForOutside().map(event => (
-            <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} />
+            <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} shortDisplay />
           ))} />
         </SectionContainer>
       </div>
