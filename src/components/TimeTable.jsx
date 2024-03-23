@@ -6,12 +6,12 @@ import { ConflictDisplay } from "./ConflictDisplay";
 import { TimeTableFilter } from "../components/TimeTableFilter";
 import "../styles/components/timeTableEvent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ScrollShadow, useDisclosure } from "@nextui-org/react";
+import { Badge, ScrollShadow, useDisclosure } from "@nextui-org/react";
 import { ModuleInfo } from './ModuleInfo';
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment/dist/moment';
 import 'moment/dist/locale/de';
-import { Tooltip } from "@nextui-org/react";
+import { Tooltip, Tabs, Tab, Chip } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import { checkModuleWarnings, deleteConflictsWithCurrentModule } from "../conflicts/conflicts";
 import { updateCalendarEntry, addCalendarEntryForCalendar, deleteCalendarEntry } from "../services/calendarService";
@@ -264,7 +264,7 @@ export function TimeTable({ moduleItemListPara }) {
         </div>
         <ScrollShadow size={25} hideScrollBar={true} className="flex flex-col gap-[3px] text-xs">
           <div className="flex gap-2 items-center detail-semester">
-            <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" /><span>{event.study_semester_string}</span>
+            <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" /><span>{event.study_semester_string_short}</span>
           </div>
           <div className="flex gap-2 items-center detail-dozent">
             <FontAwesomeIcon className={"w-[15px]"} icon="user" /><span>{event.dozent_string}</span>
@@ -279,7 +279,7 @@ export function TimeTable({ moduleItemListPara }) {
 
   const hoverEventContent = (event) => {
     return (
-      <div hidden={!event.visible} className="rounded-e-md p-1 h-full flex flex-col gap-2">
+      <div hidden={!event.visible} className="rounded-e-md p-1 max-w-72 flex flex-col gap-2">
         <div>
           <p className="font-bold text-xs">{event.name}</p>
           <p className="text-xs">{setTime(event.start, event.duration)}</p>
@@ -351,7 +351,7 @@ export function TimeTable({ moduleItemListPara }) {
     }
   }
 
-  async function reloadTimeTable(newEntrys, setProgress) {
+  function reloadTimeTable(newEntrys, setProgress) {
     for (let i = 0; i < moduleItemList.length; i++) {
       if (newEntrys.map(e => e._id).includes(moduleItemList[i]._id)) {
         moduleItemList[i] = newEntrys.filter(e => e._id === moduleItemList[i]._id)[0]
@@ -361,6 +361,22 @@ export function TimeTable({ moduleItemListPara }) {
     initConflicts()
     //window.location.reload(false);
     setProgress(true)
+  }
+
+  function undoAlgo(){
+    console.log("Algo events", moduleItemList)
+
+    for (let i = 0; i < moduleItemList.length; i++) {
+      if(moduleItemList[i].isAlgo){
+        moduleItemList[i].bordercolor = changeColor(moduleItemList[i].backgroundcolor, -40)
+        moduleItemList[i].isAlgo = false
+        moduleSetOutside(moduleItemList[i])
+        setEvents(filterForEvents())
+        deleteModuleCalendarEntry(moduleItemList[i])
+        setConflicts(deleteConflictsWithCurrentModule(conflict_list, moduleItemList[i]))
+      }
+    }
+    setSnackbarData({ type: "success", message: t("algoUndo"), visible: true })
   }
 
   function hideSundayInTimetable() {
@@ -412,13 +428,32 @@ export function TimeTable({ moduleItemListPara }) {
           </div>
         </SectionContainer>
         <SectionContainer className={"p-0 px-1 lg:w-[280px] max-h-[1000px]"}>
-          <ModuleBar reload={reloadTimeTable} moduleItemList={filterForOutside().map(event => (
-            <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} />
-          ))} />
+          <Tabs aria-label="sidebar_Options" fullWidth>
+            <Tab
+              key="modules"
+              title={t("modules")}
+              className={"overflow-hidden"}
+            >
+              <ModuleBar undo={undoAlgo} reload={reloadTimeTable} moduleItemList={filterForOutside().map(event => (
+                <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} shortDisplay />
+              ))} />
+            </Tab>
+            <Tab
+              key="conflicts"
+              title={
+                <div className="flex items-center gap-2">
+                  <span>{t("conflicts")}</span>
+                  <Chip size="sm" variant="faded">{conflict_list.length}</Chip>
+                </div>
+              }
+              className="overflow-hidden"
+            >
+              <ConflictDisplay data={conflict_list} />
+            </Tab>
+          </Tabs>
         </SectionContainer>
-      </div>
+      </div >
       <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent} />
-      <ConflictDisplay data={conflict_list} />
     </>
   );
 }

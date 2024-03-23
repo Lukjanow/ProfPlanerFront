@@ -79,7 +79,7 @@
   "assistent": "assistierende Person",
   "duration": "Dauer in Minuten",
   "wRoom": "Wunschraum",
-  "approximateAttendance": "Erwartete Anzahl an Studenten",
+  "approximateAttendance": "Studentenanzahl",
   "groupNumber": "Anzahl Gruppen",
   "note": "Notizen",
   "writeNotes": "Hier können sie Notizen machen",
@@ -130,5 +130,16 @@
   "algoWorking": "Algorithmus arbeitet",
   "generate": "Generieren",
   "undo": "Änderungen durch den Automatismus rückgängig machen.",
-  "importingData": "Daten werden importiert..."
+  "importingData": "Daten werden importiert...",
+  "algoUndo": "Algorithmus erfolgreich zurückgesetzt!",
+  "warning": "Warnung",
+  "and": "und",
+  "eventSameDozent": "Veranstaltungen derselben Lehrperson kollidieren!",
+  "eventDozentNotPresent": "Lehrperson ist während der Veranstaltung abwesend!",
+  "eventSameSemester": "Veranstaltungen des selben Semesters kollidieren!",
+  "eventSequentialSemesters": "Veranstaltungen aus aufeinanderfolgenden Semestern kollidieren!",
+  "eventSameRoom": "Veranstaltung mit demselben Raum kollidieren!",
+  "breakTooShort": "Mittagspause in einem Semester ist kürzer als 45 Minuten!",
+  "createNewDozent": "Neue Lehrperson erstellen",
+  "createNewRoom": "Neuen Raum erstellen"
 }

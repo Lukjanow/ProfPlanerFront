@@ -1,11 +1,14 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-export function ModuleItem({ moduleItemData, dragEvent }) {
+export function ModuleItem({ moduleItemData, dragEvent, shortDisplay = false }) {
   const {
     name,
     study_semester_string,
+    study_semester_string_short,
     dozent_string,
+    dozent_string_short,
     room_string,
+    room_string_short,
     backgroundcolor,
     bordercolor,
     visible,
@@ -26,15 +29,27 @@ export function ModuleItem({ moduleItemData, dragEvent }) {
       </div>
       <div className="flex flex-col gap-[3px] text-xs">
         <div className="flex gap-1 items-center detail-semester">
-          <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" /><span>{study_semester_string}</span>
+          <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" />
+          <span>{shortDisplay
+            ? study_semester_string_short
+            : study_semester_string
+          }</span>
         </div>
         <div className="flex gap-1 items-center detail-dozent">
-          <FontAwesomeIcon className={"w-[15px]"} icon="user" /><span>{dozent_string}</span>
+          <FontAwesomeIcon className={"w-[15px]"} icon="user" />
+          <span>{shortDisplay
+            ? dozent_string_short
+            : dozent_string
+          }</span>
         </div>
         <div className="flex gap-1 items-center detail-room">
-          <FontAwesomeIcon className={"w-[15px]"} icon="location-dot" /><span>{room_string}</span>
+          <FontAwesomeIcon className={"w-[15px]"} icon="location-dot" />
+          <span>{shortDisplay
+            ? room_string_short
+            : room_string
+          }</span>
         </div>
       </div>
-    </div >
+    </div>
   );
 }

@@ -17,7 +17,7 @@ import DeleteModal from "../components/DeleteModal.jsx";
 import { Context } from "../routes/root.jsx";
 
 
-export default function RoomDetailPage() {
+export default function RoomDetailPage({ isShownAsModal = false, closeModal }) {
   const { t } = useTranslation();
   const { roomId } = useParams();
   const navigate = useNavigate();
@@ -95,6 +95,11 @@ export default function RoomDetailPage() {
         .then((response) => {
           console.log("Room saved: ", response);
           setSnackbarData({ type: "success", message: "Room saved.", visible: true })
+
+          if (isShownAsModal) {
+            closeModal()
+            return;
+          }
           navigate("/basicdata")
         })
         .catch((error) => {
@@ -146,6 +151,7 @@ export default function RoomDetailPage() {
         primaryButtonTitle={t("save")}
         showDeleteButton={roomId ? true : false}
         onClickDelete={() => setShowModal(true)}
+        onClickCancel={() => isShownAsModal ? closeModal() : navigate("/basicdata")}
       >
         <DeleteModal
           value={showModal}
