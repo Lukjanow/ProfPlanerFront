@@ -49,7 +49,7 @@ export default function EditModulesPage() {
     const [studyContent, setStudyContent] = React.useState([]) //Contains qsp and semester count to study course
     const [room, setRooms] = useState([])     //rooms to display
     const [teachers, setTeachers] = useState([])     //teachers to display
-    
+
     const [NewSemester, setNewSemester] = React.useState(false)
 
     const dealwithStudySemester = useRef([])
@@ -133,7 +133,7 @@ export default function EditModulesPage() {
                         semesterNumbers: false,
                         content: false
                     },
-                    e.semesterNumbers = e.semesterNumbers.map(String)
+                        e.semesterNumbers = e.semesterNumbers.map(String)
                     let object = studyContent.find(item => item.studyCourse == e.studyCourse)
                     e.renderContent = object["content"]
                     e.renderSemester = object["semesterCount"]
@@ -406,7 +406,9 @@ export default function EditModulesPage() {
                 primaryButtonTitle={`${t("save")}`}
                 showDeleteButton={moduleId ? true : false}
                 onClickDelete={() => setShowModal(true)}
-                onClickPrimary={(e) => handleSubmit(e)}>
+                onClickPrimary={(e) => handleSubmit(e)}
+                onClickCancel={() => navigate("/basicdata")}
+            >
 
                 <Modal
                     isOpen={showRoomModal}
@@ -589,7 +591,7 @@ export default function EditModulesPage() {
                                 <DropDown
                                     Items={data.renderContent}
                                     description={`${t("focusOfQualification")}`}
-                                    onChange={(e) => {setstudyHelp(Array.from(e), index, "content")}} values={data.content} selectionMode="multiple"
+                                    onChange={(e) => { setstudyHelp(Array.from(e), index, "content") }} values={data.content} selectionMode="multiple"
                                     error={data.errors.content}
                                     required={true}
                                 />
@@ -694,19 +696,19 @@ export default function EditModulesPage() {
                             }}
                         />
                         <Tooltip content="This is a tooltip">
-                        <Input
-                            className={"lg:max-w-[250px]"}
-                            label={`${t("approximateAttendance")}`}
-                            color="default"
-                            type="number"
-                            onValueChange={(value) => { setModuleAttendance(value) }}
-                            value={ModuleAttendance}
-                            onKeyPress={(event) => {
-                                if (!/[0-9]/.test(event.key)) {
-                                    event.preventDefault();
-                                }
-                            }}
-                        /></Tooltip>
+                            <Input
+                                className={"lg:max-w-[250px]"}
+                                label={`${t("approximateAttendance")}`}
+                                color="default"
+                                type="number"
+                                onValueChange={(value) => { setModuleAttendance(value) }}
+                                value={ModuleAttendance}
+                                onKeyPress={(event) => {
+                                    if (!/[0-9]/.test(event.key)) {
+                                        event.preventDefault();
+                                    }
+                                }}
+                            /></Tooltip>
                     </div>
                 </SectionContainer>
             </PageContainer>
