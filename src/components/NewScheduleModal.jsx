@@ -39,6 +39,7 @@ export default function NewScheduleModal() {
                     settimeTableID(response.data._id)
                     onOpenChange()
                     setSnackbarData({ type: "success", message: "Plan created.", visible: true })
+                    window.location.reload(false);
                 })
                 .catch(error => {
                     console.error("Error creating plan:", error);
