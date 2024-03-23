@@ -6,12 +6,13 @@ import moment from 'moment';
 import { useTranslation } from "react-i18next";
 import "moment/locale/de";
 import { TimeTable } from "../components/TimeTable";
-import { getAllModules } from "../services/moduleService";
-import { getCalendarById, getCalendarEntriesForCalendar } from "../services/calendarService";
+import { getAllModules, getModulesByFrequency } from "../services/moduleService";
+import { getAllCalendars, getCalendarById, getCalendarEntriesForCalendar } from "../services/calendarService";
 import PageContainer from "../components/PageContainer";
 import { getAllStudySemesters } from "../services/studySemesterService";
 import {useTimeTableFilterStore} from "../stores/timeTableFilterStore.js";
 import { parseEvent } from "../utils/calendarEventUtils.js";
+import { useselectedTimetableStore } from "../stores/selectedTimetableStore.js";
 
 
 export default function MyCalendar() {
@@ -19,8 +20,11 @@ export default function MyCalendar() {
   const localizer = momentLocalizer(moment);
   const { t } = useTranslation();
   const [modules, setModules] = useState(null);
+  const [timeTableName, settimeTableName] = useState("")
   const [calendarEntries, setcalendarEntries] = useState(null);
   const setCurrentCalendar = useTimeTableFilterStore(state => state.setCurrentCalendar);
+  const timeTableID = useselectedTimetableStore(state => state.timeTableID);
+  const settimeTableID = useselectedTimetableStore(state => state.settimeTableID);
 
     /* const moduleItemDataList = [
       {
@@ -172,15 +176,33 @@ export default function MyCalendar() {
   useEffect(() => {
     async function fetchData() {
       try {
-        const module_result = await getAllModules();
-        setModules(module_result.data);
-        const calendarId = "65d61765c15324dcfc497c4f";
+        const calendarList = await getAllCalendars();
 
-        const calendarRes = await getCalendarById(calendarId);
-        setCurrentCalendar(calendarRes.data);
+        var calendarId = null
+        var opening = 0
+        var frequency = 0
+
+        for (let i = 0; i < calendarList.data.length; i++) {
+          if(calendarList.data[i].last_opening > opening){
+            opening = calendarList.data[i].last_opening
+            calendarId = calendarList.data[i]._id
+            frequency = calendarList.data[i].frequency
+            settimeTableName(calendarList.data[i].name)
+          }
+          
+        }
+
+        if(calendarId != null){
+          const module_result = await getModulesByFrequency(frequency);
+          setModules(module_result.data);
+
+          settimeTableID(calendarId)
+          const calendarRes = await getCalendarById(calendarId);
+          setCurrentCalendar(calendarRes.data);
 
           const calendarEntry_result = await getCalendarEntriesForCalendar(calendarId);
           setcalendarEntries(calendarEntry_result.data);
+        }
         } catch(error) {
           console.log("Error: ", error);
         }
@@ -190,7 +212,7 @@ export default function MyCalendar() {
 
   return (
     <PageContainer
-      title={t("scheduling")}
+      title={t("scheduling") + ": " + timeTableName}
       showCancelButton={false}
       showPrimaryButton={false}
       showDeleteButton={false}

@@ -132,6 +132,7 @@
   "generate": "Generate",
   "undo": "Undo changes made by the automatism.",
   "importingData": "Importing data...",
+  "selectTimetable": "Timetable selected.",
   "algoUndo": "Algorithm successfully resetet!",
   "warning": "Warning",
   "and": "and",

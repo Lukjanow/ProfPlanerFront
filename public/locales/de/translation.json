@@ -131,6 +131,7 @@
   "generate": "Generieren",
   "undo": "Änderungen durch den Automatismus rückgängig machen.",
   "importingData": "Daten werden importiert...",
+  "selectTimetable": "Plan ausgewählt.",
   "algoUndo": "Algorithmus erfolgreich zurückgesetzt!",
   "warning": "Warnung",
   "and": "und",

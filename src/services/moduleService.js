@@ -137,6 +137,17 @@ async function deleteModule(id) {
         });
 }
 
+async function getModulesByFrequency(frequency) {
+    return api
+        .get(`/moduledata/frequency/${frequency}`)
+        .then(resObj => {
+            return {
+                data: resObj.data.map(item => new ModuleModel().setJsonObj(item)),
+                status: resObj.status
+            }
+        });
+}
+
 export {
     getAllModules,
     getAllBasicDataModules,
@@ -149,5 +160,6 @@ export {
     addModule,
     updateModule,
     deleteModule,
-    getModuleByIdwithoutData
+    getModuleByIdwithoutData,
+    getModulesByFrequency
 }
