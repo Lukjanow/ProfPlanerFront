@@ -7,7 +7,7 @@ import { getEventStart, getEventEnd, parseEvent } from "../utils/calendarEventUt
 import { useState } from "react";
 
 
-export function ModuleBar({ reload, moduleItemList }) {
+export function ModuleBar({undo, reload, moduleItemList }) {
   const { t } = useTranslation();
   const [showProgress, setshowProgress] = useState(true)
 
@@ -67,7 +67,7 @@ export function ModuleBar({ reload, moduleItemList }) {
         </Tooltip>
         <Tooltip content={t("undo")}>
           <Button
-            onClick={null}
+            onClick={undo}
             isIconOnly={true}
             color={"primary"}
             size={"sm"}

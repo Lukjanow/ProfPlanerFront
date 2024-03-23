@@ -118,6 +118,7 @@
   "generate": "Generate",
   "undo": "Undo changes made by the automatism.",
   "importingData": "Importing data...",
+  "algoUndo": "Algorithm successfully resetet!",
   "warning": "Warning",
   "and": "and",
   "eventSameDozent": "Events from the same teacher collide!",

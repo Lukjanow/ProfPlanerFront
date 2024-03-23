@@ -117,6 +117,7 @@
   "generate": "Generieren",
   "undo": "Änderungen durch den Automatismus rückgängig machen.",
   "importingData": "Daten werden importiert...",
+  "algoUndo": "Algorithmus erfolgreich zurückgesetzt!",
   "warning": "Warnung",
   "and": "und",
   "eventSameDozent": "Veranstaltungen derselben Lehrperson kollidieren!",
