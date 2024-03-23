@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next"
 
 export default function ConflictItem({ content, isIgnored = false, onPress }) {
     const { t } = useTranslation()
-    const itemColor = isIgnored ? "default" : "danger"
+    const itemColor = isIgnored ? "default" : "warning"
 
 
     return (
-        <Card className={`w-full border-1 border-${itemColor}-400`} shadow="sm" radius={"sm"} isPressable onPress={onPress}>
+        <Card className={`w-full border-0 border-${itemColor}-400`} shadow="sm" radius={"sm"} isPressable onPress={onPress}>
             <div className={`w-full bg-${itemColor}-400 px-3 py-1 flex gap-2 items-center text-white text-xs`}>
                 <FontAwesomeIcon icon={"circle-exclamation"} />
                 {t("warning")}

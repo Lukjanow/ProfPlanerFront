@@ -366,11 +366,11 @@ export function TimeTable({ moduleItemListPara }) {
     setProgress(true)
   }
 
-  function undoAlgo(){
+  function undoAlgo() {
     console.log("Algo events", moduleItemList)
 
     for (let i = 0; i < moduleItemList.length; i++) {
-      if(moduleItemList[i].isAlgo){
+      if (moduleItemList[i].isAlgo) {
         moduleItemList[i].bordercolor = changeColor(moduleItemList[i].backgroundcolor, -40)
         moduleItemList[i].isAlgo = false
         moduleSetOutside(moduleItemList[i])
@@ -435,7 +435,7 @@ export function TimeTable({ moduleItemListPara }) {
             <Tab
               key="modules"
               title={t("modules")}
-              className={"overflow-hidden"}
+              className={"overflow-x-hidden overflow-y-auto"}
             >
               <ModuleBar undo={undoAlgo} reload={reloadTimeTable} moduleItemList={filterForOutside().map(event => (
                 <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} shortDisplay />
@@ -449,7 +449,7 @@ export function TimeTable({ moduleItemListPara }) {
                   <Chip size="sm" variant="faded">{conflict_list.length}</Chip>
                 </div>
               }
-              className="overflow-hidden"
+              className={"overflow-x-hidden overflow-y-auto"}
             >
               <ConflictDisplay data={conflict_list} />
             </Tab>
