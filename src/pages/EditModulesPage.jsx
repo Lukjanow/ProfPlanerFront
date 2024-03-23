@@ -492,10 +492,25 @@ export default function EditModulesPage() {
                             value={ModuleCode}
                             className={"lg:max-w-[250px]"}
                         />
-                        <DropDown Items={WinSom} description={`${t("offeredIn")}`}
-                            onChange={setModuleFrequency} values={ModuleFrequency}
-                            required={true} error={errors.frequency}>
-                        </DropDown>
+                        <Select
+                            label={t("offeredIn")}
+                            isRequired
+                            selectedKeys={ModuleFrequency}
+                            onSelectionChange={setModuleFrequency}
+                            isInvalid={errors.frequency}
+                            errorMessage={errors.frequency ? `${t("offeredIn")} ${t("isRequired")}` : ""}
+                        >
+                            {
+                                WinSom.map(item => (
+                                    <SelectItem
+                                        key={item.key}
+                                        value={item.key}
+                                    >
+                                        {item.label}
+                                    </SelectItem>
+                                ))
+                            }
+                        </Select>
                     </div>
                     <Checkbox
                         defaultSelected
