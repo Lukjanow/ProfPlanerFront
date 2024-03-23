@@ -439,7 +439,7 @@ export default function EditModulesPage() {
                     }}
                     onClickDelete={handleDelete}
                     headlineText={t("deleteQuestion")}
-                    bodyText={t("ModuleDelteText")}
+                    bodyText={t("ModuleDeleteText")}
                 />
                 <SectionContainer title={`${t("general")}`}>
                     <div className="flex lg:flex-row flex-col gap-5">
