@@ -17,6 +17,7 @@ import { getAllStudyCourses } from "../services/studyCourseService.js";
 import { Context } from "../routes/root.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DozentDetailPage from "./DozentDetailPage.jsx";
+import RoomDetailPage from "./RoomDetailPage.jsx";
 
 //TODO: Checkbox acting weird, QSP doesn't change when editing
 
@@ -27,7 +28,9 @@ export default function EditModulesPage() {
     const [showModal, setShowModal] = useState(false);
     const [setSnackbarData] = useContext(Context);
     const [showDozentModal, setShowDozentModal] = useState(false);
-    const [isSelectOpen, setIsSelectOpen] = React.useState(false);
+    const [isDozentSelectOpen, setIsDozentSelectOpen] = React.useState(false);
+    const [showRoomModal, setShowRoomModal] = useState(false);
+    const [isRoomSelectOpen, setIsRoomSelectOpen] = React.useState(false);
 
     const [ModuleID, setModuleID] = React.useState("")
     const [ModuleName, setModuleName] = React.useState("")
@@ -392,6 +395,17 @@ export default function EditModulesPage() {
     }, [showDozentModal])
 
 
+    useEffect(() => {
+        getAllRooms()
+            .then(response => {
+                setRoomsHelper(response.data)
+            })
+            .catch(error => {
+                console.error("Error fetching rooms:", error);
+            });
+    }, [showRoomModal])
+
+
     return (
         <form>
             <PageContainer title={(moduleId) ? `${ModuleID} ${ModuleName}` : `${t("newModule")}`}
@@ -400,6 +414,17 @@ export default function EditModulesPage() {
                 onClickDelete={() => setShowModal(true)}
                 onClickPrimary={(e) => handleSubmit(e)}>
 
+                <Modal
+                    isOpen={showRoomModal}
+                    backdrop={"blur"}
+                    isDismissable={false}
+                    size={"5xl"}
+                    hideCloseButton={true}
+                >
+                    <ModalContent>
+                        <RoomDetailPage isShownAsModal={true} closeModal={() => setShowRoomModal(false)} />
+                    </ModalContent>
+                </Modal>
                 <Modal
                     isOpen={showDozentModal}
                     backdrop={"blur"}
@@ -568,31 +593,28 @@ export default function EditModulesPage() {
 
 
                 <SectionContainer title={"Veranstaltung"}>
-                    <div className="flex gap-5" style={{ marginTop: "25px" }}>
+                    <div className="flex flex-col lg:flex-row gap-5">
                         <Select
                             label={t("lecturer")}
-                            id="test"
-                            isRequired
                             isMultiline
                             selectionMode={"multiple"}
                             selectedKeys={ModuleDozent}
                             onSelectionChange={setModuleDozent}
-                            isOpen={isSelectOpen}
-                            onOpenChange={(open) => setIsSelectOpen(open)}
+                            isOpen={isDozentSelectOpen}
+                            onOpenChange={(open) => setIsDozentSelectOpen(open)}
                             isInvalid={errors.dozent}
                             errorMessage={errors.dozent ? `${t("lecturer")} ${t("isRequired")}` : ""}
                         >
-                            {console.log(ModuleDozent)}
                             <SelectItem
                                 startContent={<FontAwesomeIcon icon={"plus"} />}
                                 showDivider
                                 href="#toPreventSelect"
                                 onPress={() => {
                                     setShowDozentModal(true)
-                                    setIsSelectOpen(false)
+                                    setIsDozentSelectOpen(false)
                                 }}
                             >
-                                Neue Lehrperson hinzufügen
+                                {t("createNewDozent")}
                             </SelectItem>
                             {
                                 teachers.map(item => (
@@ -605,19 +627,39 @@ export default function EditModulesPage() {
                                 ))
                             }
                         </Select>
-
-
-
-                        <DropDown Items={room} description={`${t("wRoom")}`}
-                            selectionMode="multiple"
-                            add={{
-                                href: "/basicdata/room-details",
-                                Item: "Raum"
-                            }}
-                            onChange={setModuleRoom}
-                            values={ModuleRoom}
+                        <Select
+                            label={t("room")}
+                            isMultiline
+                            selectionMode={"multiple"}
+                            selectedKeys={ModuleRoom}
+                            onSelectionChange={setModuleRoom}
+                            isOpen={isRoomSelectOpen}
+                            onOpenChange={(open) => setIsRoomSelectOpen(open)}
+                            isInvalid={errors.room}
+                            errorMessage={errors.room ? `${t("room")} ${t("isRequired")}` : ""}
                         >
-                        </DropDown>
+                            <SelectItem
+                                startContent={<FontAwesomeIcon icon={"plus"} />}
+                                showDivider
+                                href="#toPreventSelect"
+                                onPress={() => {
+                                    setShowRoomModal(true)
+                                    setIsRoomSelectOpen(false)
+                                }}
+                            >
+                                {t("createNewRoom")}
+                            </SelectItem>
+                            {
+                                room.map(item => (
+                                    <SelectItem
+                                        key={item.key}
+                                        value={item.key}
+                                    >
+                                        {item.label}
+                                    </SelectItem>
+                                ))
+                            }
+                        </Select>
                         <Input
                             isRequired
                             isInvalid={errors.duration}
