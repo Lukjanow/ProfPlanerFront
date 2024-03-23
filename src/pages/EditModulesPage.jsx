@@ -1,4 +1,4 @@
-import { Input, Checkbox, CheckboxGroup, Select, SelectItem, ModalContent, useDisclosure, Modal } from "@nextui-org/react";
+import { Input, Checkbox, CheckboxGroup, Select, SelectItem, ModalContent, useDisclosure, Modal, Tooltip } from "@nextui-org/react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { DropDown } from "../components/DropDown";
@@ -19,7 +19,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DozentDetailPage from "./DozentDetailPage.jsx";
 import RoomDetailPage from "./RoomDetailPage.jsx";
 
-//TODO: Checkbox acting weird, QSP doesn't change when editing
 
 export default function EditModulesPage() {
     const { t } = useTranslation();
@@ -50,6 +49,8 @@ export default function EditModulesPage() {
     const [studyContent, setStudyContent] = React.useState([]) //Contains qsp and semester count to study course
     const [room, setRooms] = useState([])     //rooms to display
     const [teachers, setTeachers] = useState([])     //teachers to display
+    
+    const [NewSemester, setNewSemester] = React.useState(false)
 
     const dealwithStudySemester = useRef([])
 
@@ -132,7 +133,7 @@ export default function EditModulesPage() {
                         semesterNumbers: false,
                         content: false
                     },
-                        e.semesterNumbers = e.semesterNumbers.map(String)
+                    e.semesterNumbers = e.semesterNumbers.map(String)
                     let object = studyContent.find(item => item.studyCourse == e.studyCourse)
                     e.renderContent = object["content"]
                     e.renderSemester = object["semesterCount"]
@@ -164,7 +165,6 @@ export default function EditModulesPage() {
         } catch (error) {
             console.log(error)
         }
-        console.log("Found:", object)
         list[index]["renderContent"] = object["content"]
         list[index]["renderSemester"] = object["semesterCount"]
         setModuleStudySemester(list)
@@ -216,15 +216,15 @@ export default function EditModulesPage() {
     const WinSom = [
         {
             key: "1",
-            label: "Wintersemester"
+            label: t("wSem")
         },
         {
             key: "2",
-            label: "Sommersemester"
+            label: t("sSem")
         },
         {
             key: "3",
-            label: "Winter- und Sommersemester"
+            label: t("wAsSem")
         }
     ]
 
@@ -233,8 +233,6 @@ export default function EditModulesPage() {
         e.preventDefault()
 
         const validationErrors = validateForm();
-
-        console.log(validationErrors)
         if (!Object.values(validationErrors).includes(true)) {
             if (moduleId) {
                 let studySemester = JSON.parse(JSON.stringify(ModuleStudySemester))
@@ -242,18 +240,17 @@ export default function EditModulesPage() {
                 studySemester.forEach(function (v) { delete v.renderContent })
                 studySemester.forEach(function (v) { delete v.renderSemester })
                 studySemester.forEach(function (v) { v.studyCourse = v.studyCourse[0] })
-                studySemester.forEach(function (v) { v.content = Array.from(v.content) })
                 const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt((ModuleFrequency instanceof Set) ? ModuleFrequency.values().next().value : ModuleFrequency[0]), ModuleSelected, color)
                 console.log("new Module:", newModule)
                 updateModule(moduleId, newModule)
                     .then(response => {
                         console.log("Module updated: ", response);
-                        setSnackbarData({ type: "success", message: "Module updated.", visible: true })
+                        setSnackbarData({ type: "success", message: t("ModuleSaved"), visible: true })
                         navigate("/basicdata")
                     })
                     .catch(error => {
                         console.error("Error updating Module:", error);
-                        setSnackbarData({ type: "error", message: "Error updating Module.", visible: true })
+                        setSnackbarData({ type: "error", message: t("ModuleError"), visible: true })
                     })
 
                 return
@@ -263,17 +260,16 @@ export default function EditModulesPage() {
             studySemester.forEach(function (v) { delete v.renderContent })
             studySemester.forEach(function (v) { delete v.renderSemester })
             studySemester.forEach(function (v) { v.studyCourse = v.studyCourse[0] })
-            studySemester.forEach(function (v) { v.content = Array.from(v.content) })
             const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt(ModuleFrequency.values().next().value), ModuleSelected, color)
             addModule(newModule)
                 .then(response => {
                     console.log("Module saved: ", response);
-                    setSnackbarData({ type: "success", message: "Module saved.", visible: true })
+                    setSnackbarData({ type: "success", message: t("ModuleSaved"), visible: true })
                     navigate("/basicdata")
                 })
                 .catch(error => {
                     console.error("Error saving Module:", error);
-                    setSnackbarData({ type: "error", message: "Error saving Module.", visible: true })
+                    setSnackbarData({ type: "error", message: t("ModuleError"), visible: true })
                 })
         } else {
             console.error("Error: ", errors);
@@ -284,12 +280,12 @@ export default function EditModulesPage() {
         deleteModule(moduleId)
             .then(response => {
                 console.log("Module deleted: ", response);
-                setSnackbarData({ type: "success", message: "Module deleted.", visible: true })
+                setSnackbarData({ type: "success", message: t("ModuleDelete"), visible: true })
                 navigate("/basicdata")
             })
             .catch(error => {
                 console.error("Error deleting Module:", error);
-                setSnackbarData({ type: "error", message: "Error deleting Module.", visible: true })
+                setSnackbarData({ type: "error", message: t("ModuleDeleteError"), visible: true })
             })
     }
 
@@ -345,15 +341,13 @@ export default function EditModulesPage() {
         return errors;
     };
 
-    const [NewSemester, setNewSemester] = React.useState(false)
-
     const handleNewSemester = () => {
         setModuleStudySemester(old => [...old, {
             _id: old.length,
             studyCourse: [],
             semesterNumbers: [],
             content: [],
-            type: "",
+            type: [""],
             errors: {
                 studyCourse: false,
                 semesterNumbers: false,
@@ -443,7 +437,7 @@ export default function EditModulesPage() {
                     }}
                     onClickDelete={handleDelete}
                     headlineText={t("deleteQuestion")}
-                    bodyText={"This can't be reversed and can cause Issues in the Planer"}
+                    bodyText={t("ModuleDelteText")}
                 />
                 <SectionContainer title={`${t("general")}`}>
                     <div className="flex lg:flex-row flex-col gap-5">
@@ -550,7 +544,7 @@ export default function EditModulesPage() {
 
                 <SectionContainer title={t("semester")}>
                     <div className="flex gap-5" style={{ marginBottom: "10px" }}>
-                        <OutlinedButton text="Füge ein Semester hinzu" icon="plus" showIcon={true} color={"primary"}
+                        <OutlinedButton text={t("addSemester")} icon="plus" showIcon={true} color={"primary"}
                             onClick={() => {
                                 handleNewSemester()
                             }}></OutlinedButton>
@@ -585,9 +579,9 @@ export default function EditModulesPage() {
                                     value={data.type}
                                     onValueChange={(e) => setstudyHelp(e, index, "type")}>
                                     <div className="flex lg:flex-row flex-col gap-5">
-                                        <Checkbox value="Pflicht">Pflicht</Checkbox>
-                                        <Checkbox value="Qualifikationsschwerpunkt">Qualifikationsschwerpunkt/Wahlpflichtmodul</Checkbox>
-                                        <Checkbox value="Andere">Anderes</Checkbox>
+                                        <Checkbox value="Pflicht">{t("mandatory")}</Checkbox>
+                                        <Checkbox value="Qualifikationsschwerpunkt">{t("focusOfQualification")}/{t("compulsoryElectivemodule")}</Checkbox>
+                                        <Checkbox value="Andere">{t("other")}</Checkbox>
                                     </div>
                                 </CheckboxGroup>
                             </div>
@@ -595,7 +589,7 @@ export default function EditModulesPage() {
                                 <DropDown
                                     Items={data.renderContent}
                                     description={`${t("focusOfQualification")}`}
-                                    onChange={(e) => setstudyHelp(e, index, "content")} values={data.content} selectionMode="multiple"
+                                    onChange={(e) => {setstudyHelp(Array.from(e), index, "content")}} values={data.content} selectionMode="multiple"
                                     error={data.errors.content}
                                     required={true}
                                 />
@@ -607,7 +601,7 @@ export default function EditModulesPage() {
                 </SectionContainer>
 
 
-                <SectionContainer title={"Veranstaltung"}>
+                <SectionContainer title={t("event")}>
                     <div className="flex flex-col lg:flex-row gap-5">
                         <Select
                             label={t("lecturer")}
@@ -699,6 +693,7 @@ export default function EditModulesPage() {
                                 }
                             }}
                         />
+                        <Tooltip content="This is a tooltip">
                         <Input
                             className={"lg:max-w-[250px]"}
                             label={`${t("approximateAttendance")}`}
@@ -711,7 +706,7 @@ export default function EditModulesPage() {
                                     event.preventDefault();
                                 }
                             }}
-                        />
+                        /></Tooltip>
                     </div>
                 </SectionContainer>
             </PageContainer>
