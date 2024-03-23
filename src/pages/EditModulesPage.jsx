@@ -1,4 +1,4 @@
-import { Input, Checkbox, CheckboxGroup } from "@nextui-org/react";
+import { Input, Checkbox, CheckboxGroup, Select, SelectItem, ModalContent, useDisclosure, Modal } from "@nextui-org/react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { DropDown } from "../components/DropDown";
@@ -15,16 +15,22 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
 import { getAllStudyCourses } from "../services/studyCourseService.js";
 import { Context } from "../routes/root.jsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DozentDetailPage from "./DozentDetailPage.jsx";
+import RoomDetailPage from "./RoomDetailPage.jsx";
 
 //TODO: Checkbox acting weird, QSP doesn't change when editing
 
-export default function EditModulesPage(
-) {
+export default function EditModulesPage() {
     const { t } = useTranslation();
     const { moduleId } = useParams();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [setSnackbarData] = useContext(Context);
+    const [showDozentModal, setShowDozentModal] = useState(false);
+    const [isDozentSelectOpen, setIsDozentSelectOpen] = React.useState(false);
+    const [showRoomModal, setShowRoomModal] = useState(false);
+    const [isRoomSelectOpen, setIsRoomSelectOpen] = React.useState(false);
 
     const [ModuleID, setModuleID] = React.useState("")
     const [ModuleName, setModuleName] = React.useState("")
@@ -378,6 +384,28 @@ export default function EditModulesPage(
     }, [NewSemester, studyCourse, ModuleStudySemester, studyContent])
 
 
+    useEffect(() => {
+        getAllDozents()
+            .then(response => {
+                setTeachersHelper(response.data)
+            })
+            .catch(error => {
+                console.error("Error fetching dozents:", error);
+            });
+    }, [showDozentModal])
+
+
+    useEffect(() => {
+        getAllRooms()
+            .then(response => {
+                setRoomsHelper(response.data)
+            })
+            .catch(error => {
+                console.error("Error fetching rooms:", error);
+            });
+    }, [showRoomModal])
+
+
     return (
         <form>
             <PageContainer title={(moduleId) ? `${ModuleID} ${ModuleName}` : `${t("newModule")}`}
@@ -386,6 +414,28 @@ export default function EditModulesPage(
                 onClickDelete={() => setShowModal(true)}
                 onClickPrimary={(e) => handleSubmit(e)}>
 
+                <Modal
+                    isOpen={showRoomModal}
+                    backdrop={"blur"}
+                    isDismissable={false}
+                    size={"5xl"}
+                    hideCloseButton={true}
+                >
+                    <ModalContent>
+                        <RoomDetailPage isShownAsModal={true} closeModal={() => setShowRoomModal(false)} />
+                    </ModalContent>
+                </Modal>
+                <Modal
+                    isOpen={showDozentModal}
+                    backdrop={"blur"}
+                    isDismissable={false}
+                    size={"5xl"}
+                    hideCloseButton={true}
+                >
+                    <ModalContent>
+                        <DozentDetailPage isShownAsModal={true} closeModal={() => setShowDozentModal(false)} />
+                    </ModalContent>
+                </Modal>
                 <DeleteModal
                     value={showModal}
                     onClickCancel={() => {
@@ -442,10 +492,25 @@ export default function EditModulesPage(
                             value={ModuleCode}
                             className={"lg:max-w-[250px]"}
                         />
-                        <DropDown Items={WinSom} description={`${t("offeredIn")}`}
-                            onChange={setModuleFrequency} values={ModuleFrequency}
-                            required={true} error={errors.frequency}>
-                        </DropDown>
+                        <Select
+                            label={t("offeredIn")}
+                            isRequired
+                            selectedKeys={ModuleFrequency}
+                            onSelectionChange={setModuleFrequency}
+                            isInvalid={errors.frequency}
+                            errorMessage={errors.frequency ? `${t("offeredIn")} ${t("isRequired")}` : ""}
+                        >
+                            {
+                                WinSom.map(item => (
+                                    <SelectItem
+                                        key={item.key}
+                                        value={item.key}
+                                    >
+                                        {item.label}
+                                    </SelectItem>
+                                ))
+                            }
+                        </Select>
                     </div>
                     <Checkbox
                         defaultSelected
@@ -543,30 +608,73 @@ export default function EditModulesPage(
 
 
                 <SectionContainer title={"Veranstaltung"}>
-                    <div className="flex gap-5" style={{ marginTop: "25px" }}>
-                        <DropDown Items={teachers}
-                            description={`${t("lecturer")}`} selectionMode="multiple"
-                            add={{
-                                href: "/basicdata/dozent-details",
-                                Item: "Lehrende"
-                            }}
-                            onChange={setModuleDozent}
-                            values={ModuleDozent}
-                            width="500px"
-                            error={errors.dozent}
-                            required={true}
+                    <div className="flex flex-col lg:flex-row gap-5">
+                        <Select
+                            label={t("lecturer")}
+                            isMultiline
+                            selectionMode={"multiple"}
+                            selectedKeys={ModuleDozent}
+                            onSelectionChange={setModuleDozent}
+                            isOpen={isDozentSelectOpen}
+                            onOpenChange={(open) => setIsDozentSelectOpen(open)}
+                            isInvalid={errors.dozent}
+                            errorMessage={errors.dozent ? `${t("lecturer")} ${t("isRequired")}` : ""}
                         >
-                        </DropDown>
-                        <DropDown Items={room} description={`${t("wRoom")}`}
-                            selectionMode="multiple"
-                            add={{
-                                href: "/basicdata/room-details",
-                                Item: "Raum"
-                            }}
-                            onChange={setModuleRoom}
-                            values={ModuleRoom}
+                            <SelectItem
+                                startContent={<FontAwesomeIcon icon={"plus"} />}
+                                showDivider
+                                href="#toPreventSelect"
+                                onPress={() => {
+                                    setShowDozentModal(true)
+                                    setIsDozentSelectOpen(false)
+                                }}
+                            >
+                                {t("createNewDozent")}
+                            </SelectItem>
+                            {
+                                teachers.map(item => (
+                                    <SelectItem
+                                        key={item.key}
+                                        value={item.key}
+                                    >
+                                        {item.label}
+                                    </SelectItem>
+                                ))
+                            }
+                        </Select>
+                        <Select
+                            label={t("room")}
+                            isMultiline
+                            selectionMode={"multiple"}
+                            selectedKeys={ModuleRoom}
+                            onSelectionChange={setModuleRoom}
+                            isOpen={isRoomSelectOpen}
+                            onOpenChange={(open) => setIsRoomSelectOpen(open)}
+                            isInvalid={errors.room}
+                            errorMessage={errors.room ? `${t("room")} ${t("isRequired")}` : ""}
                         >
-                        </DropDown>
+                            <SelectItem
+                                startContent={<FontAwesomeIcon icon={"plus"} />}
+                                showDivider
+                                href="#toPreventSelect"
+                                onPress={() => {
+                                    setShowRoomModal(true)
+                                    setIsRoomSelectOpen(false)
+                                }}
+                            >
+                                {t("createNewRoom")}
+                            </SelectItem>
+                            {
+                                room.map(item => (
+                                    <SelectItem
+                                        key={item.key}
+                                        value={item.key}
+                                    >
+                                        {item.label}
+                                    </SelectItem>
+                                ))
+                            }
+                        </Select>
                         <Input
                             isRequired
                             isInvalid={errors.duration}

@@ -12,7 +12,7 @@ import DeleteModal from "../components/DeleteModal.jsx";
 import { Context } from "../routes/root.jsx";
 
 
-export default function DozentDetailPage() {
+export default function DozentDetailPage({ isShownAsModal = false, closeModal }) {
     const { t } = useTranslation();
     const { dozentId } = useParams();
     const navigate = useNavigate();
@@ -90,6 +90,11 @@ export default function DozentDetailPage() {
                 .then(response => {
                     console.log("Dozent saved: ", response);
                     setSnackbarData({ type: "success", message: "Dozent saved.", visible: true })
+
+                    if (isShownAsModal) {
+                        closeModal()
+                        return;
+                    }
                     navigate("/basicdata")
                 })
                 .catch(error => {
@@ -120,7 +125,6 @@ export default function DozentDetailPage() {
         let errors = {};
 
         if (!prename.trim()) {
-            console.log("Hallo");
             errors.prename = true;
         }
 
@@ -146,6 +150,7 @@ export default function DozentDetailPage() {
                 primaryButtonTitle={t("save")}
                 showDeleteButton={dozentId ? true : false}
                 onClickDelete={() => setShowModal(true)}
+                onClickCancel={() => isShownAsModal ? closeModal() : navigate("/basicdata")}
             >
                 <DeleteModal
                     value={showModal}

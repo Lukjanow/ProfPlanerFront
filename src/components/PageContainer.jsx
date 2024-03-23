@@ -17,6 +17,7 @@ export default function PageContainer({
   primaryButtonTitle,
   onClickPrimary,
   showCancelButton = true,
+  onClickCancel,
   children,
   row
 }) {
@@ -45,7 +46,7 @@ export default function PageContainer({
               <OutlinedButton
                 text={t("cancel")}
                 color={"primary"}
-                onClick={() => navigate("/basicdata")}
+                onClick={onClickCancel}
               />
             ) : (
               <></>
