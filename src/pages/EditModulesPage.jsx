@@ -448,7 +448,8 @@ export default function EditModulesPage(
                         </DropDown>
                     </div>
                     <Checkbox
-                        defaultSelected color="primary"
+                        defaultSelected
+                        color="primary"
                         onChange={setModuleSelected}
                         value={ModuleSelected}
                         isRequired

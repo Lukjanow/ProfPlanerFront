@@ -22,19 +22,9 @@ export function NavigationBar() {
       icon: "calendar-days",
     },
     {
-      path: "conflicts",
-      label: t("conflicts"),
-      icon: "triangle-exclamation",
-    },
-    {
       path: "basicdata",
       label: t("basicData"),
       icon: "database",
-    },
-    {
-      path: "settings",
-      label: t("settings"),
-      icon: "gear",
     },
   ];
 
@@ -44,13 +34,7 @@ export function NavigationBar() {
         {navigationBarItems.map((navigationBarItem, index) => (
           <NavbarItem className={"w-20 h-20 px-0"} key={index}>
             <Button color="" className={`p-0 h-20 ${activeNavItem === navigationBarItem.path ? "bg-activeButton" : ""}`}>
-              {navigationBarItem.path === "conflicts" ? (
-                <Badge content="8" color="danger" size="md" showOutline={false}>
-                  <NavigationBarItem item={navigationBarItem} />
-                </Badge>
-              ) : (
-                <NavigationBarItem item={navigationBarItem} />
-              )}
+              <NavigationBarItem item={navigationBarItem} />
             </Button>
           </NavbarItem>
         ))}

@@ -4,8 +4,6 @@ import ErrorPage from "../pages/ErrorPage.jsx";
 import TimetablePage from "../pages/TimetablePage.jsx";
 import ComponentPage from "../pages/ComponentPage.jsx";
 import BasicDataPage from "../pages/BasicDataPage.jsx";
-import SettingsPage from "../pages/SettingsPage.jsx";
-import ConflictsPage from "../pages/ConflictsPage.jsx";
 import ApiDebugPage from "../pages/ApiDebugPage.jsx";
 import RoomDetailPage from "../pages/RoomDetailPage.jsx";
 import DozentDetailPage from "../pages/DozentDetailPage.jsx";
@@ -14,7 +12,6 @@ import Testpage from "../pages/Testpage.jsx";
 import StudyCourseDetailPage from "../pages/StudyCourseDetailPage.jsx";
 
 
-// TODO: make for example /dozent-details, /room-details a child from /basicdata
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,11 +21,6 @@ const router = createBrowserRouter([
       {
         path: "timetable",
         element: <TimetablePage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "conflicts",
-        element: <ConflictsPage />,
         errorElement: <ErrorPage />,
       },
       {
@@ -81,11 +73,6 @@ const router = createBrowserRouter([
             errorElement: <ErrorPage />,
           },
         ]
-      },
-      {
-        path: "settings",
-        element: <SettingsPage />,
-        errorElement: <ErrorPage />,
       },
       {
         path: "debug",
