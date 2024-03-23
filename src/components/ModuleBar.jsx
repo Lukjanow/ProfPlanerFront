@@ -8,7 +8,7 @@ import { useState } from "react";
 import { useselectedTimetableStore } from "../stores/selectedTimetableStore";
 
 
-export function ModuleBar({ reload, moduleItemList }) {
+export function ModuleBar({undo, reload, moduleItemList }) {
   const { t } = useTranslation();
   const [showProgress, setshowProgress] = useState(true)
   const timeTableID = useselectedTimetableStore(state => state.timeTableID);
@@ -56,33 +56,30 @@ export function ModuleBar({ reload, moduleItemList }) {
   return (
     <>
       {progressBar()}
-      <div className={"flex justify-between items-center select-none"}>
-        <h3 className="text-2xl font-bold">{t("modules")}</h3>
-        <div className={"flex gap-1"}>
-          <Tooltip content={t("generatePlan")}>
-            <Button
-              onClick={startAlgo}
-              color={"primary"}
-              size={"sm"}
-              radius={"sm"}>
-              <FontAwesomeIcon icon={"wand-magic-sparkles"} />
-              {t("generate")}
-            </Button>
-          </Tooltip>
-          <Tooltip content={t("undo")}>
-            <Button
-              onClick={null}
-              isIconOnly={true}
-              color={"primary"}
-              size={"sm"}
-              radius={"sm"}
-              variant={"bordered"}>
-              <FontAwesomeIcon icon={"rotate-left"} />
-            </Button>
-          </Tooltip>
-        </div>
+      <div className={"flex justify-start items-center gap-1 select-none pb-2"}>
+        <Tooltip content={t("generatePlan")}>
+          <Button
+            onClick={startAlgo}
+            color={"primary"}
+            size={"sm"}
+            radius={"sm"}>
+            <FontAwesomeIcon icon={"wand-magic-sparkles"} />
+            {t("generate")}
+          </Button>
+        </Tooltip>
+        <Tooltip content={t("undo")}>
+          <Button
+            onClick={undo}
+            isIconOnly={true}
+            color={"primary"}
+            size={"sm"}
+            radius={"sm"}
+            variant={"bordered"}>
+            <FontAwesomeIcon icon={"rotate-left"} />
+          </Button>
+        </Tooltip>
       </div>
-      <ScrollShadow size={35} className="flex flex-col gap-2 overflow-scroll">
+      <ScrollShadow size={35} className={"max-h-full space-y-2"}>
         {moduleItemList}
       </ScrollShadow>
     </>
