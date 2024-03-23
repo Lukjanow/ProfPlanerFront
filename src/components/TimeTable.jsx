@@ -351,7 +351,7 @@ export function TimeTable({ moduleItemListPara }) {
     }
   }
 
-  async function reloadTimeTable(newEntrys, setProgress) {
+  function reloadTimeTable(newEntrys, setProgress) {
     for (let i = 0; i < moduleItemList.length; i++) {
       if (newEntrys.map(e => e._id).includes(moduleItemList[i]._id)) {
         moduleItemList[i] = newEntrys.filter(e => e._id === moduleItemList[i]._id)[0]
@@ -361,6 +361,22 @@ export function TimeTable({ moduleItemListPara }) {
     initConflicts()
     //window.location.reload(false);
     setProgress(true)
+  }
+
+  function undoAlgo(){
+    console.log("Algo events", moduleItemList)
+
+    for (let i = 0; i < moduleItemList.length; i++) {
+      if(moduleItemList[i].isAlgo){
+        moduleItemList[i].bordercolor = changeColor(moduleItemList[i].backgroundcolor, -40)
+        moduleItemList[i].isAlgo = false
+        moduleSetOutside(moduleItemList[i])
+        setEvents(filterForEvents())
+        deleteModuleCalendarEntry(moduleItemList[i])
+        setConflicts(deleteConflictsWithCurrentModule(conflict_list, moduleItemList[i]))
+      }
+    }
+    setSnackbarData({ type: "success", message: t("algoUndo"), visible: true })
   }
 
   function hideSundayInTimetable() {
@@ -418,7 +434,7 @@ export function TimeTable({ moduleItemListPara }) {
               title={t("modules")}
               className={"overflow-hidden"}
             >
-              <ModuleBar reload={reloadTimeTable} moduleItemList={filterForOutside().map(event => (
+              <ModuleBar undo={undoAlgo} reload={reloadTimeTable} moduleItemList={filterForOutside().map(event => (
                 <ModuleItem key={event._id} moduleItemData={event} dragEvent={setDraggedEvent} shortDisplay />
               ))} />
             </Tab>
