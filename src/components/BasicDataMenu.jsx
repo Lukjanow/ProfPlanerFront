@@ -1,8 +1,7 @@
-import {useState, useEffect, useRef, useImperativeHandle} from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {Button, Divider, Listbox, ListboxItem, ListboxSection} from "@nextui-org/react";
+import { useState, useEffect, useRef } from "react";
+import { Listbox, ListboxItem, ListboxSection } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
-import {getExportData, importData, importDataMerge} from "../services/importExportService.js";
+import { getExportData, importData, importDataMerge } from "../services/importExportService.js";
 import SnackBar from "./SnackBar.jsx";
 import TimedComponent from "./TimedComponent.jsx";
 import LoadingBar from "./LoadingBar.jsx";
@@ -99,7 +98,7 @@ export default function BasicDataMenu({ doAfterImport, onItemClick }) {
     if (file) {
       setShowLoadingBar(true);
       const result = await importDataMerge(file);
-      if(Object.keys(result.data)[0] === "filename"){
+      if (Object.keys(result.data)[0] === "filename") {
         await doAfterImport();
         setisMergeComplete(true)
         setShowLoadingBar(false);
@@ -112,80 +111,80 @@ export default function BasicDataMenu({ doAfterImport, onItemClick }) {
     }
   }
 
-  const getSnackBar = () =>{
-    var snachBAr = <SnackBar message={t("uploadedXLSXFile")}/>
+  const getSnackBar = () => {
+    var snachBAr = <SnackBar message={t("uploadedXLSXFile")} />
 
-    if(!isMergeComplete){
-      snachBAr = <SnackBar message={t("uploadedXLSXFileError")} type="error"/>
+    if (!isMergeComplete) {
+      snachBAr = <SnackBar message={t("uploadedXLSXFileError")} type="error" />
     }
 
     return snachBAr
   }
 
   return (
-      <>
-        {showImportSnackBar && (
-            <TimedComponent duration={4000} onClose={() => setShowImportSnackBar(false)}>
-            {console.log("Error",isMergeComplete)}
-              {getSnackBar()}
-            </TimedComponent>
-        )}
+    <>
+      {showImportSnackBar && (
+        <TimedComponent duration={4000} onClose={() => setShowImportSnackBar(false)}>
+          {console.log("Error", isMergeComplete)}
+          {getSnackBar()}
+        </TimedComponent>
+      )}
 
-        {showLoadingBar && (
-            <LoadingBar message={t("importingData")} />
-        )}
+      {showLoadingBar && (
+        <LoadingBar message={t("importingData")} />
+      )}
 
-        <input
-            hidden
-            onChange={handleChangesFull}
-            type="file"
-            accept=".xlsx"
-            ref={fileInputRefFull}
-        />
-        <input
-            hidden
-            onChange={handleChangesMerge}
-            type="file"
-            accept=".xlsx"
-            ref={fileInputRefMerge}
-        />
-        <Listbox
-            variant="flat"
-            aria-label="Listbox menu with descriptions"
-            className="w-[200px] px-1 py-2 rounded-small bg-content1 shadow-small h-fit"
-        >
-          <ListboxSection showDivider>
-            {items.map((item) => (
-                <ListboxItem
-                    key={item.key}
-                    selectionMode={"single"}
-                    // startContent={
-                    //   <FontAwesomeIcon className={"text-md w-[25px]"} icon={item.icon} />
-                    // }
-                    className={`${selectedItem === item.key ? "bg-primary-100" : ""} p-3`}
-                    onClick={() => handleItemClick(item.key)}
-                >
-                  {item.description}
-                </ListboxItem>
-            ))}
-          </ListboxSection>
+      <input
+        hidden
+        onChange={handleChangesFull}
+        type="file"
+        accept=".xlsx"
+        ref={fileInputRefFull}
+      />
+      <input
+        hidden
+        onChange={handleChangesMerge}
+        type="file"
+        accept=".xlsx"
+        ref={fileInputRefMerge}
+      />
+      <Listbox
+        variant="flat"
+        aria-label="Listbox menu with descriptions"
+        className="w-[200px] px-1 py-2 rounded-small bg-content1 shadow-small h-fit"
+      >
+        <ListboxSection showDivider>
+          {items.map((item) => (
+            <ListboxItem
+              key={item.key}
+              selectionMode={"single"}
+              // startContent={
+              //   <FontAwesomeIcon className={"text-md w-[25px]"} icon={item.icon} />
+              // }
+              className={`${selectedItem === item.key ? "bg-default-200" : ""} p-3`}
+              onClick={() => handleItemClick(item.key)}
+            >
+              {item.description}
+            </ListboxItem>
+          ))}
+        </ListboxSection>
 
-          <ListboxSection>
-            {actionItems.map((item) => (
-                <ListboxItem
-                    key={item.key}
-                    selectionMode={"single"}
-                    // startContent={
-                    //   <FontAwesomeIcon className={"text-md w-[25px]"} icon={item.icon} />
-                    // }
-                    className={`p-3`}
-                    onClick={item.doAction}
-                >
-                  {item.description}
-                </ListboxItem>
-            ))}
-          </ListboxSection>
-        </Listbox>
-      </>
+        <ListboxSection>
+          {actionItems.map((item) => (
+            <ListboxItem
+              key={item.key}
+              selectionMode={"single"}
+              // startContent={
+              //   <FontAwesomeIcon className={"text-md w-[25px]"} icon={item.icon} />
+              // }
+              className={`p-3`}
+              onClick={item.doAction}
+            >
+              {item.description}
+            </ListboxItem>
+          ))}
+        </ListboxSection>
+      </Listbox>
+    </>
   );
 }

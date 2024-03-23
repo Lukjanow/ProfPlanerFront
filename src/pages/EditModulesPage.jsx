@@ -1,4 +1,4 @@
-import { Input, Checkbox, CheckboxGroup } from "@nextui-org/react";
+import { Input, Checkbox, CheckboxGroup, Select, SelectItem, ModalContent, useDisclosure, Modal } from "@nextui-org/react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { DropDown } from "../components/DropDown";
@@ -15,16 +15,19 @@ import { useNavigate } from "react-router-dom";
 import DeleteModal from "../components/DeleteModal.jsx";
 import { getAllStudyCourses } from "../services/studyCourseService.js";
 import { Context } from "../routes/root.jsx";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import DozentDetailPage from "./DozentDetailPage.jsx";
 
 //TODO: Checkbox acting weird, QSP doesn't change when editing
 
-export default function EditModulesPage(
-) {
+export default function EditModulesPage() {
     const { t } = useTranslation();
     const { moduleId } = useParams();
     const navigate = useNavigate();
     const [showModal, setShowModal] = useState(false);
     const [setSnackbarData] = useContext(Context);
+    const [showDozentModal, setShowDozentModal] = useState(false);
+    const [isSelectOpen, setIsSelectOpen] = React.useState(false);
 
     const [ModuleID, setModuleID] = React.useState("")
     const [ModuleName, setModuleName] = React.useState("")
@@ -378,6 +381,17 @@ export default function EditModulesPage(
     }, [NewSemester, studyCourse, ModuleStudySemester, studyContent])
 
 
+    useEffect(() => {
+        getAllDozents()
+            .then(response => {
+                setTeachersHelper(response.data)
+            })
+            .catch(error => {
+                console.error("Error fetching dozents:", error);
+            });
+    }, [showDozentModal])
+
+
     return (
         <form>
             <PageContainer title={(moduleId) ? `${ModuleID} ${ModuleName}` : `${t("newModule")}`}
@@ -386,6 +400,17 @@ export default function EditModulesPage(
                 onClickDelete={() => setShowModal(true)}
                 onClickPrimary={(e) => handleSubmit(e)}>
 
+                <Modal
+                    isOpen={showDozentModal}
+                    backdrop={"blur"}
+                    isDismissable={false}
+                    size={"5xl"}
+                    hideCloseButton={true}
+                >
+                    <ModalContent>
+                        <DozentDetailPage isShownAsModal={true} closeModal={() => setShowDozentModal(false)} />
+                    </ModalContent>
+                </Modal>
                 <DeleteModal
                     value={showModal}
                     onClickCancel={() => {
@@ -544,19 +569,45 @@ export default function EditModulesPage(
 
                 <SectionContainer title={"Veranstaltung"}>
                     <div className="flex gap-5" style={{ marginTop: "25px" }}>
-                        <DropDown Items={teachers}
-                            description={`${t("lecturer")}`} selectionMode="multiple"
-                            add={{
-                                href: "/basicdata/dozent-details",
-                                Item: "Lehrende"
-                            }}
-                            onChange={setModuleDozent}
-                            values={ModuleDozent}
-                            width="500px"
-                            error={errors.dozent}
-                            required={true}
+                        <Select
+                            label={t("lecturer")}
+                            id="test"
+                            isRequired
+                            isMultiline
+                            selectionMode={"multiple"}
+                            selectedKeys={ModuleDozent}
+                            onSelectionChange={setModuleDozent}
+                            isOpen={isSelectOpen}
+                            onOpenChange={(open) => setIsSelectOpen(open)}
+                            isInvalid={errors.dozent}
+                            errorMessage={errors.dozent ? `${t("lecturer")} ${t("isRequired")}` : ""}
                         >
-                        </DropDown>
+                            {console.log(ModuleDozent)}
+                            <SelectItem
+                                startContent={<FontAwesomeIcon icon={"plus"} />}
+                                showDivider
+                                href="#toPreventSelect"
+                                onPress={() => {
+                                    setShowDozentModal(true)
+                                    setIsSelectOpen(false)
+                                }}
+                            >
+                                Neue Lehrperson hinzufügen
+                            </SelectItem>
+                            {
+                                teachers.map(item => (
+                                    <SelectItem
+                                        key={item.key}
+                                        value={item.key}
+                                    >
+                                        {item.label}
+                                    </SelectItem>
+                                ))
+                            }
+                        </Select>
+
+
+
                         <DropDown Items={room} description={`${t("wRoom")}`}
                             selectionMode="multiple"
                             add={{
