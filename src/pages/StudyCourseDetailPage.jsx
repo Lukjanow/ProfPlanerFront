@@ -67,13 +67,13 @@ export default function StudyCourseDetailPage() {
 
         updateStudyCourse(studycourseId, newStudyCourse)
           .then((response) => {
-            console.log("StudyCourse updated: ", response);
-            setSnackbarData({ type: "success", message: "StudyCourse updated.", visible: true })
+            console.log(t("successfullyUpdatedStudyCourse"), response);
+            setSnackbarData({ type: "success", message: t("successfullyUpdatedStudyCourse"), visible: true })
             navigate("/basicdata")
           })
           .catch((error) => {
-            console.error("Error updating studyCourse:", error);
-            setSnackbarData({ type: "error", message: "Error updating studyCourse.", visible: true })
+            console.error(t("errorUpdatingStudyCourse"), error);
+            setSnackbarData({ type: "error", message: t("errorUpdatingStudyCourse"), visible: true })
           });
 
         return;
@@ -87,13 +87,13 @@ export default function StudyCourseDetailPage() {
 
       addStudyCourse(newStudyCourse)
         .then((response) => {
-          console.log("StudyCourse saved: ", response);
-          setSnackbarData({ type: "success", message: "StudyCourse saved.", visible: true })
+          console.log(t("successfullySavedStudyCourse"), response);
+          setSnackbarData({ type: "success", message: t("successfullySavedStudyCourse"), visible: true })
           navigate("/basicdata")
         })
         .catch((error) => {
-          console.error("Error saving studyCourse:", error);
-          setSnackbarData({ type: "error", message: "Error saving studyCourse.", visible: true })
+          console.error(t("errorSavingStudyCourse"), error);
+          setSnackbarData({ type: "error", message: t("errorSavingStudyCourse"), visible: true })
         });
     } else {
       console.error("Error: ", errors);
@@ -103,13 +103,13 @@ export default function StudyCourseDetailPage() {
   const handleDelete = () => {
     deleteStudyCourse(studycourseId)
       .then((response) => {
-        console.log("StudyCourse deleted: ", response);
-        setSnackbarData({ type: "success", message: "StudyCourse deleted.", visible: true })
+        console.log(t("successfullyDeletedStudyCourse"), response);
+        setSnackbarData({ type: "success", message: t("successfullyDeletedStudyCourse"), visible: true })
         navigate("/basicdata")
       })
       .catch((error) => {
-        console.error("Error deleting studyCourse:", error);
-        setSnackbarData({ type: "error", message: "Error deleting studyCourse.", visible: true })
+        console.error(t("errorDeletingStudyCourse"), error);
+        setSnackbarData({ type: "error", message: t("errorDeletingStudyCourse"), visible: true })
       });
   };
 

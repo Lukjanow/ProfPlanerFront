@@ -73,13 +73,13 @@ export default function RoomDetailPage({ isShownAsModal = false, closeModal }) {
         );
         updateRoom(roomId, newRoom)
           .then((response) => {
-            console.log("Room updated: ", response);
-            setSnackbarData({ type: "success", message: "Room updated.", visible: true })
+            console.log(t("successfullyUpdatedRoom"), response);
+            setSnackbarData({ type: "success", message: t("successfullyUpdatedRoom"), visible: true })
             navigate("/basicdata")
           })
           .catch((error) => {
-            console.error("Error updating room:", error);
-            setSnackbarData({ type: "error", message: "Error updating Room.", visible: true })
+            console.error(t("errorUpdatingRoom"), error);
+            setSnackbarData({ type: "error", message: t("errorUpdatingRoom"), visible: true })
           });
 
         return;
@@ -93,8 +93,8 @@ export default function RoomDetailPage({ isShownAsModal = false, closeModal }) {
 
       addRoom(newRoom)
         .then((response) => {
-          console.log("Room saved: ", response);
-          setSnackbarData({ type: "success", message: "Room saved.", visible: true })
+          console.log(t("successfullySavedRoom"), response);
+          setSnackbarData({ type: "success", message: t("successfullySavedRoom"), visible: true })
 
           if (isShownAsModal) {
             closeModal()
@@ -103,8 +103,8 @@ export default function RoomDetailPage({ isShownAsModal = false, closeModal }) {
           navigate("/basicdata")
         })
         .catch((error) => {
-          console.error("Error saving room:", error);
-          setSnackbarData({ type: "error", message: "Error saving Room.", visible: true })
+          console.error(t("errorSavingRoom"), error);
+          setSnackbarData({ type: "error", message: t("errorSavingRoom"), visible: true })
         });
     } else {
       console.error("Error: ", errors);
@@ -114,13 +114,13 @@ export default function RoomDetailPage({ isShownAsModal = false, closeModal }) {
   const handleDelete = () => {
     deleteRoom(roomId)
       .then((response) => {
-        console.log("Room deleted: ", response);
-        setSnackbarData({ type: "success", message: "Room deleted.", visible: true })
+        console.log(t("successfullyDeletedRoom"), response);
+        setSnackbarData({ type: "success", message: t("successfullyDeletedRoom"), visible: true })
         navigate("/basicdata")
       })
       .catch((error) => {
-        console.error("Error deleting room:", error);
-        setSnackbarData({ type: "error", message: "Error deleting Room.", visible: true })
+        console.error(t("errorDeletingRoom"), error);
+        setSnackbarData({ type: "error", message: t("errorDeletingRoom"), visible: true })
       });
   };
 

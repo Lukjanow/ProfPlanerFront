@@ -331,7 +331,7 @@ export function TimeTable({ moduleItemListPara }) {
     setEvents(filterForEvents())
     deleteModuleCalendarEntry(moveEvent)
     setConflicts(deleteConflictsWithCurrentModule(conflict_list, moveEvent))
-    setSnackbarData({ type: "success", message: "Module removed from plan.", visible: true })
+    setSnackbarData({ type: "success", message: t("moduleSuccessfullyDeletedFromPlan"), visible: true })
   };
 
 

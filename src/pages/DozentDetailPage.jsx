@@ -73,13 +73,13 @@ export default function DozentDetailPage({ isShownAsModal = false, closeModal })
                 const newTeacher = new DozentModel(salutation[0], title[0], prename, lastname, email)
                 updateDozent(dozentId, newTeacher)
                     .then(response => {
-                        console.log("Dozent updated: ", response);
-                        setSnackbarData({ type: "success", message: "Dozent updated.", visible: true })
+                        console.log(t("successfullyUpdatedDozent"), response);
+                        setSnackbarData({ type: "success", message: t("successfullyUpdatedDozent"), visible: true })
                         navigate("/basicdata")
                     })
                     .catch(error => {
-                        console.error("Error updating dozent:", error);
-                        setSnackbarData({ type: "error", message: "Error updating dozent.", visible: true })
+                        console.error(t("errorUpdatingDozent"), error);
+                        setSnackbarData({ type: "error", message: t("errorUpdatingDozent"), visible: true })
                     })
 
                 return
@@ -88,8 +88,8 @@ export default function DozentDetailPage({ isShownAsModal = false, closeModal })
             const newTeacher = new DozentModel(salutation[0], title[0], prename, lastname, email)
             addDozent(newTeacher)
                 .then(response => {
-                    console.log("Dozent saved: ", response);
-                    setSnackbarData({ type: "success", message: "Dozent saved.", visible: true })
+                    console.log(t("successfullySavedDozent"), response);
+                    setSnackbarData({ type: "success", message: t("successfullySavedDozent"), visible: true })
 
                     if (isShownAsModal) {
                         closeModal()
@@ -98,8 +98,8 @@ export default function DozentDetailPage({ isShownAsModal = false, closeModal })
                     navigate("/basicdata")
                 })
                 .catch(error => {
-                    console.error("Error saving dozent:", error);
-                    setSnackbarData({ type: "error", message: "Error saving dozent.", visible: true })
+                    console.error(t("errorSavingDozent"), error);
+                    setSnackbarData({ type: "error", message: t("errorSavingDozent"), visible: true })
                 })
         } else {
             console.error("Error: ", errors);
@@ -110,13 +110,13 @@ export default function DozentDetailPage({ isShownAsModal = false, closeModal })
     const handleDelete = () => {
         deleteDozent(dozentId)
             .then(response => {
-                console.log("Dozent deleted: ", response);
-                setSnackbarData({ type: "success", message: "Dozent deleted.", visible: true })
+                console.log(t("successfullyDeletedDozent"), response);
+                setSnackbarData({ type: "success", message: t("successfullyDeletedDozent"), visible: true })
                 navigate("/basicdata")
             })
             .catch(error => {
-                console.error("Error deleting dozent:", error);
-                setSnackbarData({ type: "error", message: "Error deleting dozent.", visible: true })
+                console.error(t("errorDeletingDozent"), error);
+                setSnackbarData({ type: "error", message: t("errorDeletingDozent"), visible: true })
             })
     }
 

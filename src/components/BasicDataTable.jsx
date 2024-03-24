@@ -87,7 +87,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
     if (isFiltered == true) {
       setLength(filteredItems.length)
       if (length == 0) {
-        setSnackbarData({ type: "error", message: "No Items found for your Searchterm", visible: true })
+        setSnackbarData({ type: "error", message: t("noItemsForSearchTerm"), visible: true })
       }
     }
     if (searchTerm == "" && isFiltered == true) {
@@ -127,7 +127,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
     switch (element) {
       case "/room":
         deleteFunction = deleteRoom;
-        elementType = "room";
+        elementType = "room"; /**/
         break;
       case "/dozent":
         deleteFunction = deleteDozent;
@@ -135,11 +135,11 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         break;
       case "/module":
         deleteFunction = deleteModule;
-        elementType = "module";
+        elementType = "module"; /**/
         break;
       case "/studycourse":
         deleteFunction = deleteStudyCourse;
-        elementType = "studycourse"
+        elementType = "studycourse" /**/
         break;
       default:
         console.error("Unknown element type:", element);
@@ -149,15 +149,15 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
 
     deleteFunction(id)
       .then(response => {
-        console.log(`${elementType} deleted: `, response);
-        setSnackbarData({ type: "success", message: `${elementType} deleted.`, visible: true })
+        console.log(`${t(elementType)} ${t("successfullyDeleted")}`, response);
+        setSnackbarData({ type: "success", message: `${t(elementType)} ${t("successfullyDeleted")}`, visible: true })
         navigate("/basicdata")
         setShowModal(false);
         fetchData()
       })
       .catch(error => {
-        console.error(`Error deleting ${elementType}: `, error);
-        setSnackbarData({ type: "error", message: `Error deleting ${elementType}.`, visible: true })
+        console.error(`${t("errorDeleting")} ${t(elementType)}.`, error);
+        setSnackbarData({ type: "error", message: `${t("errorDeleting")} ${t(elementType)}.`, visible: true })
       })
   };
 

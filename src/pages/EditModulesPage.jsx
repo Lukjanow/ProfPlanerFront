@@ -243,13 +243,13 @@ export default function EditModulesPage() {
                 console.log("new Module:", newModule)
                 updateModule(moduleId, newModule)
                     .then(response => {
-                        console.log("Module updated: ", response);
-                        setSnackbarData({ type: "success", message: t("ModuleSaved"), visible: true })
+                        console.log(t("successfullyUpdatedModule"), response);
+                        setSnackbarData({ type: "success", message: t("successfullyUpdatedModule"), visible: true })
                         navigate("/basicdata")
                     })
                     .catch(error => {
-                        console.error("Error updating Module:", error);
-                        setSnackbarData({ type: "error", message: t("ModuleError"), visible: true })
+                        console.error(t("errorUpdatingModule"), error);
+                        setSnackbarData({ type: "error", message: t("errorUpdatingModule"), visible: true })
                     })
 
                 return
@@ -262,13 +262,13 @@ export default function EditModulesPage() {
             const newModule = new ModuleModel(ModuleID, ModuleName, ModuleCode, Array.from(ModuleDozent), Array.from(ModuleRoom), studySemester, parseInt(ModuleDuration), parseInt(ModuleAttendance), parseInt(ModuleFrequency.values().next().value), ModuleSelected, color)
             addModule(newModule)
                 .then(response => {
-                    console.log("Module saved: ", response);
-                    setSnackbarData({ type: "success", message: t("ModuleSaved"), visible: true })
+                    console.log(t("successfullySavedModule"), response);
+                    setSnackbarData({ type: "success", message: t("successfullySavedModule"), visible: true })
                     navigate("/basicdata")
                 })
                 .catch(error => {
-                    console.error("Error saving Module:", error);
-                    setSnackbarData({ type: "error", message: t("ModuleError"), visible: true })
+                    console.error(t("errorSavingModule"), error);
+                    setSnackbarData({ type: "error", message: t("errorSavingModule"), visible: true })
                 })
         } else {
             console.error("Error: ", errors);
@@ -278,13 +278,13 @@ export default function EditModulesPage() {
     const handleDelete = () => {
         deleteModule(moduleId)
             .then(response => {
-                console.log("Module deleted: ", response);
-                setSnackbarData({ type: "success", message: t("ModuleDelete"), visible: true })
+                console.log(t("successfullyDeletedModule"), response);
+                setSnackbarData({ type: "success", message: t("successfullyDeletedModule"), visible: true })
                 navigate("/basicdata")
             })
             .catch(error => {
-                console.error("Error deleting Module:", error);
-                setSnackbarData({ type: "error", message: t("ModuleDeleteError"), visible: true })
+                console.error(t("errorDeletingModule"), error);
+                setSnackbarData({ type: "error", message: t("errorDeletingModule"), visible: true })
             })
     }
 
@@ -562,7 +562,7 @@ export default function EditModulesPage() {
                                     onSelectionChange={(e) => setstudyHelp(Array.from(e), index, "studyCourse")}
                                     isInvalid={data.errors.studyCourse}
                                     errorMessage={data.errors.studyCourse ? `${t("studycourse")} ${t("isRequired")}` : ""}
-                                    >
+                                >
                                     {
                                         studyCourseDrop.map(item => (
                                             <SelectItem
@@ -582,7 +582,7 @@ export default function EditModulesPage() {
                                     onSelectionChange={(e) => setstudyHelp(Array.from(e), index, "semesterNumbers")}
                                     isInvalid={data.errors.semesterNumbers}
                                     errorMessage={data.errors.semesterNumbers ? `${t("semester")} ${t("isRequired")}` : ""}
-                                    >
+                                >
                                     {
                                         data.renderSemester.map(item => (
                                             <SelectItem
@@ -612,7 +612,7 @@ export default function EditModulesPage() {
                                 </CheckboxGroup>
                             </div>
                             {(data.type.includes("Qualifikationsschwerpunkt")) ?
-                                    <Select
+                                <Select
                                     label={t("focusOfQualification")}
                                     isRequired
                                     selectedKeys={data.content}
@@ -621,7 +621,7 @@ export default function EditModulesPage() {
                                     isInvalid={data.errors.content}
                                     errorMessage={data.errors.content ? `${t("content")} ${t("isRequired")}` : ""}
                                     style={{ marginBottom: "10px" }}
-                                    >
+                                >
                                     {
                                         data.renderContent.map(item => (
                                             <SelectItem

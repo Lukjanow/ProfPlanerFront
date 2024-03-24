@@ -34,17 +34,18 @@ export default function NewScheduleModal() {
         if (Object.keys(validationErrors).length === 0) {
             const frequency = semesterCycle === "ss" ? 2 : 1
             const newCalendar = new CalendarModel(calendarName, [], frequency, Math.floor(Date.now() / 1000))
-            addCalendar(newCalendar).then(response => {
+            addCalendar(newCalendar)
+                .then(response => {
                     console.log("Plan created: ", response);
                     settimeTableID(response.data._id)
                     onOpenChange()
-                    setSnackbarData({ type: "success", message: "Plan created.", visible: true })
+                    setSnackbarData({ type: "success", message: t("successfullyCreatedPlan"), visible: true })
                     window.location.reload(false);
                 })
                 .catch(error => {
                     console.error("Error creating plan:", error);
                     onOpenChange()
-                    setSnackbarData({ type: "error", message: "Error creating plan.", visible: true })
+                    setSnackbarData({ type: "error", message: t("errorCreatingPlan"), visible: true })
                 })
         } else {
             console.error("Error: ", errors);
