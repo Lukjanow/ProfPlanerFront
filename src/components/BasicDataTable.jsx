@@ -41,7 +41,6 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
   const [searchTerm, setSearchTerm] = useState("")
   const [setSnackbarData] = useContext(Context)
 
-  const [Tooltip, setTooltip] = useState("")
   const [showSearchModal, setShowSearchModal] = useState(false)
   let columnKeys = [];
 
@@ -61,26 +60,22 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         setSearchPlaceholder(t("searchByRoom"));
         setDeleteMessage(t("deleteRoomInfo"));
         setSearchTerm("");
-        setTooltip(t("roomTooltip"));
         break;
       case "/dozent":
         setSearchPlaceholder(t("searchByDozent"));
         setDeleteMessage(t("deleteDozentInfo"));
         setSearchTerm("");
-        setTooltip(t("dozentTooltip"));
         break;
       case "/module":
         setSearchPlaceholder(t("searchByModule"));
         setDeleteMessage(t("deleteModuleInfo"));
         setSearchTerm("");
-        setTooltip(t("moduleTooltip"));
         break;
       case "/studycourse":
         // TODO:
         setSearchPlaceholder(t("searchByStudyCourse"));
         setDeleteMessage(t("deleteStudyCourseInfo"));
         setSearchTerm("");
-        setTooltip(t("studycourseTooltip"));
         break;
       default:
         console.error("Unknown element type:", element);
@@ -396,7 +391,6 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       <SearchModal
         value={showSearchModal}
         headlineText={path.split("-")[0]}
-        bodyText={Tooltip}
         onClickCancel={() => {
           setShowSearchModal(false);
         }}
