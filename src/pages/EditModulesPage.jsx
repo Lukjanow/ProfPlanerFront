@@ -1,7 +1,6 @@
-import { Input, Checkbox, CheckboxGroup, Select, SelectItem, ModalContent, useDisclosure, Modal, Tooltip } from "@nextui-org/react";
+import { Input, Checkbox, CheckboxGroup, Select, SelectItem, ModalContent, useDisclosure, Modal } from "@nextui-org/react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
-import { DropDown } from "../components/DropDown";
 import { SectionContainer } from "../components/SectionContainer";
 import React, { useEffect, useRef, useState, useContext } from "react";
 import { ModuleItem } from "../components/ModuleItem";
@@ -49,7 +48,7 @@ export default function EditModulesPage() {
     const [studyContent, setStudyContent] = React.useState([]) //Contains qsp and semester count to study course
     const [room, setRooms] = useState([])     //rooms to display
     const [teachers, setTeachers] = useState([])     //teachers to display
-    
+
     const [NewSemester, setNewSemester] = React.useState(false)
 
     const dealwithStudySemester = useRef([])
@@ -133,7 +132,7 @@ export default function EditModulesPage() {
                         semesterNumbers: false,
                         content: false
                     },
-                    e.semesterNumbers = e.semesterNumbers.map(String)
+                        e.semesterNumbers = e.semesterNumbers.map(String)
                     let object = studyContent.find(item => item.studyCourse == e.studyCourse)
                     e.renderContent = object["content"]
                     e.renderSemester = object["semesterCount"]
@@ -406,7 +405,9 @@ export default function EditModulesPage() {
                 primaryButtonTitle={`${t("save")}`}
                 showDeleteButton={moduleId ? true : false}
                 onClickDelete={() => setShowModal(true)}
-                onClickPrimary={(e) => handleSubmit(e)}>
+                onClickPrimary={(e) => handleSubmit(e)}
+                onClickCancel={() => navigate("/basicdata")}
+            >
 
                 <Modal
                     isOpen={showRoomModal}
@@ -437,7 +438,7 @@ export default function EditModulesPage() {
                     }}
                     onClickDelete={handleDelete}
                     headlineText={t("deleteQuestion")}
-                    bodyText={t("ModuleDelteText")}
+                    bodyText={t("ModuleDeleteText")}
                 />
                 <SectionContainer title={`${t("general")}`}>
                     <div className="flex lg:flex-row flex-col gap-5">
@@ -554,20 +555,45 @@ export default function EditModulesPage() {
                     {ModuleStudySemester.map((data, index) => (
                         <div key={index} style={{ borderBottom: "solid black 2px" }}>
                             <div className="flex lg:flex-row flex-col gap-5">
-                                <DropDown Items={studyCourseDrop} description={`${t("studycourse")}`}
-                                    onChange={(e) => setstudyHelp(Array.from(e), index, "studyCourse")}
-                                    values={data.studyCourse}
-                                    error={data.errors.studyCourse}
-                                    width="500px"
-                                    required={true}>
-                                </DropDown>
-                                <DropDown Items={data.renderSemester}
-                                    description={`${t("semester")}`} selectionMode="multiple"
-                                    onChange={(e) => setstudyHelp(Array.from(e), index, "semesterNumbers")}
-                                    values={data.semesterNumbers}
-                                    error={data.errors.semesterNumbers}
-                                    required={true}>
-                                </DropDown>
+                                <Select
+                                    label={t("studycourse")}
+                                    isRequired
+                                    selectedKeys={data.studyCourse}
+                                    onSelectionChange={(e) => setstudyHelp(Array.from(e), index, "studyCourse")}
+                                    isInvalid={data.errors.studyCourse}
+                                    errorMessage={data.errors.studyCourse ? `${t("studycourse")} ${t("isRequired")}` : ""}
+                                    >
+                                    {
+                                        studyCourseDrop.map(item => (
+                                            <SelectItem
+                                                key={item.key}
+                                                value={item.key}
+                                            >
+                                                {item.label}
+                                            </SelectItem>
+                                        ))
+                                    }
+                                </Select>
+                                <Select
+                                    label={t("semester")}
+                                    isRequired
+                                    selectedKeys={data.semesterNumbers}
+                                    selectionMode="multiple"
+                                    onSelectionChange={(e) => setstudyHelp(Array.from(e), index, "semesterNumbers")}
+                                    isInvalid={data.errors.semesterNumbers}
+                                    errorMessage={data.errors.semesterNumbers ? `${t("semester")} ${t("isRequired")}` : ""}
+                                    >
+                                    {
+                                        data.renderSemester.map(item => (
+                                            <SelectItem
+                                                key={item.key}
+                                                value={item.key}
+                                            >
+                                                {item.label}
+                                            </SelectItem>
+                                        ))
+                                    }
+                                </Select>
                                 {
                                     (index > 0) ? <OutlinedButton text={`${t("delete")}`} onClick={() => deleteStudy(index)} color="danger" /> : null
                                 }
@@ -586,13 +612,27 @@ export default function EditModulesPage() {
                                 </CheckboxGroup>
                             </div>
                             {(data.type.includes("Qualifikationsschwerpunkt")) ?
-                                <DropDown
-                                    Items={data.renderContent}
-                                    description={`${t("focusOfQualification")}`}
-                                    onChange={(e) => {setstudyHelp(Array.from(e), index, "content")}} values={data.content} selectionMode="multiple"
-                                    error={data.errors.content}
-                                    required={true}
-                                />
+                                    <Select
+                                    label={t("focusOfQualification")}
+                                    isRequired
+                                    selectedKeys={data.content}
+                                    selectionMode="multiple"
+                                    onSelectionChange={(e) => setstudyHelp(Array.from(e), index, "content")}
+                                    isInvalid={data.errors.content}
+                                    errorMessage={data.errors.content ? `${t("content")} ${t("isRequired")}` : ""}
+                                    style={{ marginBottom: "10px" }}
+                                    >
+                                    {
+                                        data.renderContent.map(item => (
+                                            <SelectItem
+                                                key={item.key}
+                                                value={item.key}
+                                            >
+                                                {item.label}
+                                            </SelectItem>
+                                        ))
+                                    }
+                                </Select>
                                 : null
                             }
                         </div>
@@ -604,6 +644,7 @@ export default function EditModulesPage() {
                 <SectionContainer title={t("event")}>
                     <div className="flex flex-col lg:flex-row gap-5">
                         <Select
+                            isRequired
                             label={t("lecturer")}
                             isMultiline
                             selectionMode={"multiple"}

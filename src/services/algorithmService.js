@@ -1,8 +1,8 @@
 import api from "./api.js";
 
-async function runAlgo() {
+async function runAlgo(data) {
     return api
-        .post(`/algorithm`)
+        .post(`/algorithm`, data)
         .then(resObj => {
             return {
                 data: resObj.data,

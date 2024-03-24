@@ -5,11 +5,13 @@ import { useTranslation } from "react-i18next";
 import { runAlgo } from "../services/algorithmService";
 import { getEventStart, getEventEnd, parseEvent } from "../utils/calendarEventUtils";
 import { useState } from "react";
+import { useselectedTimetableStore } from "../stores/selectedTimetableStore";
 
 
-export function ModuleBar({undo, reload, moduleItemList }) {
+export function ModuleBar({ undo, reload, moduleItemList }) {
   const { t } = useTranslation();
   const [showProgress, setshowProgress] = useState(true)
+  const timeTableID = useselectedTimetableStore(state => state.timeTableID);
 
   const progressBar = () => {
     return (
@@ -34,7 +36,7 @@ export function ModuleBar({undo, reload, moduleItemList }) {
 
   async function startAlgo() {
     setshowProgress(false)
-    const result = await runAlgo();
+    const result = await runAlgo({ id: timeTableID });
 
     var events = []
 
@@ -77,7 +79,7 @@ export function ModuleBar({undo, reload, moduleItemList }) {
           </Button>
         </Tooltip>
       </div>
-      <ScrollShadow size={35} className={"max-h-full space-y-2"}>
+      <ScrollShadow size={35} className={"max-h-full overflow-y-auto space-y-2 p-[1px]"} style={{ maxHeight: "calc(100% - 40px)" }}>
         {moduleItemList}
       </ScrollShadow>
     </>

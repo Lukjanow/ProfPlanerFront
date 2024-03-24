@@ -10,7 +10,7 @@ export function ConflictDisplay(data) {
 
 
     return (
-        <ScrollShadow size={35} className={"max-h-full space-y-2"}>
+        <ScrollShadow size={35} className={"max-h-full overflow-y-auto space-y-2 p-[1px]"}>
             {list.map((item, index) => (
                 <ConflictItem
                     key={index}
