@@ -1,4 +1,4 @@
-import { Input, Checkbox, CheckboxGroup, Select, SelectItem, ModalContent, useDisclosure, Modal } from "@nextui-org/react";
+import { Input, Checkbox, CheckboxGroup, Select, SelectItem, ModalContent, useDisclosure, Modal, Divider, Card, Button } from "@nextui-org/react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer";
@@ -17,6 +17,7 @@ import { Context } from "../routes/root.jsx";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DozentDetailPage from "./DozentDetailPage.jsx";
 import RoomDetailPage from "./RoomDetailPage.jsx";
+import { FilledButton } from "../components/FilledButton.jsx";
 
 
 export default function EditModulesPage() {
@@ -543,17 +544,18 @@ export default function EditModulesPage() {
                     </div>
                 </SectionContainer>
 
-                <SectionContainer title={t("semester")}>
-                    <div className="flex gap-5" style={{ marginBottom: "10px" }}>
-                        <OutlinedButton text={t("addSemester")} icon="plus" showIcon={true} color={"primary"}
-                            onClick={() => {
+                <SectionContainer
+                    title={t("studycourse")}
+                    primaryButton={
+                        <FilledButton size={"sm"} text={t("addSemester")} icon="plus" showIcon={true} color={"primary"}
+                            onClick={(e) => {
+                                e.preventDefault()
                                 handleNewSemester()
-                            }}></OutlinedButton>
-
-                    </div>
-                    <div style={{ borderBottom: "solid black 2px" }}></div>
+                            }}></FilledButton>
+                    }
+                >
                     {ModuleStudySemester.map((data, index) => (
-                        <div key={index} style={{ borderBottom: "solid black 2px" }}>
+                        <Card className={"p-6 gap-5"} shadow={"sm"} radius={"sm"} key={index}>
                             <div className="flex lg:flex-row flex-col gap-5">
                                 <Select
                                     label={t("studycourse")}
@@ -594,23 +596,17 @@ export default function EditModulesPage() {
                                         ))
                                     }
                                 </Select>
-                                {
-                                    (index > 0) ? <OutlinedButton text={`${t("delete")}`} onClick={() => deleteStudy(index)} color="danger" /> : null
-                                }
                             </div>
-                            <div className="flex lg:flex-row flex-col gap-5" style={{ marginBottom: "10px" }}>
-                                <CheckboxGroup
-                                    label="Modulart auswählen"
-                                    color="primary"
-                                    value={data.type}
-                                    onValueChange={(e) => setstudyHelp(e, index, "type")}>
-                                    <div className="flex lg:flex-row flex-col gap-5">
-                                        <Checkbox value="Pflicht">{t("mandatory")}</Checkbox>
-                                        <Checkbox value="Qualifikationsschwerpunkt">{t("focusOfQualification")}/{t("compulsoryElectivemodule")}</Checkbox>
-                                        <Checkbox value="Andere">{t("other")}</Checkbox>
-                                    </div>
-                                </CheckboxGroup>
-                            </div>
+                            <CheckboxGroup
+                                label="Modulart auswählen"
+                                color="primary"
+                                value={data.type}
+                                orientation="horizontal"
+                                onValueChange={(e) => setstudyHelp(e, index, "type")}>
+                                <Checkbox value="Pflicht">{t("mandatory")}</Checkbox>
+                                <Checkbox value="Qualifikationsschwerpunkt">{t("focusOfQualification")}/{t("compulsoryElectivemodule")}</Checkbox>
+                                <Checkbox value="Andere">{t("other")}</Checkbox>
+                            </CheckboxGroup>
                             {(data.type.includes("Qualifikationsschwerpunkt")) ?
                                 <Select
                                     label={t("focusOfQualification")}
@@ -635,7 +631,15 @@ export default function EditModulesPage() {
                                 </Select>
                                 : null
                             }
-                        </div>
+                            {
+                                (index > 0) ?
+                                    <Button className={"lg:w-28"} color={"danger"} radius={"sm"} size={"sm"} onClick={() => deleteStudy(index)}>
+                                        <FontAwesomeIcon icon={"trash"} />
+                                        {t("delete")}
+                                    </Button> :
+                                    null
+                            }
+                        </Card>
                     ))}
 
                 </SectionContainer>

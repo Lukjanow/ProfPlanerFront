@@ -104,7 +104,7 @@
   "Message": "Nachricht",
   "action": "Aktion",
   "event": "Veranstaltung",
-  "addSemester": "Füge ein Studiengang hinzu",
+  "addSemester": "Studiengang hinzufügen",
   "ModuleDeleteText": "Diese Aktion kann nicht rückgänig gemacht werden und kann zu Problemen im Wochenplan führen.",
   "ModuleSaved": "Module erfolgreich gespeichert",
   "ModuleError": "Module konnte nicht gespeichert werden. Siehe Konsole für Details.",

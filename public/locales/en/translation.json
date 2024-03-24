@@ -106,7 +106,7 @@
   "action": "Action",
   "generatePlan": "Generate automatically",
   "event": "Event",
-  "addSemester": "Add a Study Course",
+  "addSemester": "Add studycourse",
   "ModuleDeleteText": "This can't be reversed and can cause Issues in the Planer",
   "ModuleSaved": "Module saved.",
   "ModuleError": "Error saving Module.",
