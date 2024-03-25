@@ -324,7 +324,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
           }
           onKeyDown={handleKeyDown}
           radius="sm"
-          variant={"underlined"}
+          size="sm"
           value={searchTerm}
           onValueChange={setSearchTerm}
         />
