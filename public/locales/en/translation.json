@@ -180,5 +180,6 @@
   "successfullyDeleted": "sucessfully deleted.",
   "errorDeleting": "Error deleting the",
   "noItemsForSearchTerm": "No items found for your searchterm.",
-  "dozent": "Teacher"
+  "dozent": "Teacher",
+  "overview": "Overview"
 }

@@ -124,9 +124,9 @@ export default function DozentDetailPage({ isShownAsModal = false, closeModal })
     const validateForm = () => {
         let errors = {};
 
-        if (!prename.trim()) {
-            errors.prename = true;
-        }
+        // if (!prename.trim()) {
+        //     errors.prename = true;
+        // }
 
         if (!lastname.trim()) {
             errors.lastname = true;
@@ -183,9 +183,9 @@ export default function DozentDetailPage({ isShownAsModal = false, closeModal })
                         />
                         <Input
                             name={"prename"}
-                            isRequired
-                            isInvalid={errors.prename}
-                            errorMessage={errors.prename ? `${t("prename")} ${t("isRequired")}` : ""}
+                            // isRequired
+                            // isInvalid={errors.prename}
+                            // errorMessage={errors.prename ? `${t("prename")} ${t("isRequired")}` : ""}
                             type="text"
                             label={t("prename")}
                             className={"lg:max-w-[350px]"}
@@ -193,11 +193,11 @@ export default function DozentDetailPage({ isShownAsModal = false, closeModal })
                             onValueChange={
                                 (value) => {
                                     setPrename(value)
-                                    if (!value.trim()) {
-                                        setErrors({ ...errors, prename: true })
-                                    } else {
-                                        setErrors({ ...errors, prename: false })
-                                    }
+                                    // if (!value.trim()) {
+                                    //     setErrors({ ...errors, prename: true })
+                                    // } else {
+                                    //     setErrors({ ...errors, prename: false })
+                                    // }
                                 }
                             }
                         />

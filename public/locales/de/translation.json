@@ -179,5 +179,6 @@
   "successfullyDeleted": "erfolgreich gelöscht.",
   "errorDeleting": "Fehler beim löschen des",
   "noItemsForSearchTerm": "Kein Ergebnis zu deinem Suchbegriff.",
-  "dozent": "Lehrperson"
+  "dozent": "Lehrperson",
+  "overview": "Überblick"
 }
