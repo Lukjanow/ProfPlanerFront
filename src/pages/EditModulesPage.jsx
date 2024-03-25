@@ -54,7 +54,6 @@ export default function EditModulesPage() {
     const dealwithStudySemester = useRef([])
 
     const [errors, setErrors] = useState({
-        module_id: false,
         name: false,
         frequency: false,
         dozent: false,
@@ -156,7 +155,7 @@ export default function EditModulesPage() {
         if (attribute == "studyCourse") {
             list[index]["semesterNumbers"] = []
             list[index]["content"] = []
-            list[index]["type"] = ""
+            list[index]["type"] = []
         }
         let object
         try {
@@ -204,8 +203,6 @@ export default function EditModulesPage() {
                     .catch(error => {
                         console.error("Error fetching Module:", error);
                     })
-            } else {
-                handleNewSemester()
             }
         })
     }, [moduleId])
@@ -298,10 +295,6 @@ export default function EditModulesPage() {
             }
         })
 
-        if (!ModuleID.trim()) {
-            errors.module_id = true;
-        }
-
         if (!ModuleName.trim()) {
             errors.name = true;
         }
@@ -346,7 +339,7 @@ export default function EditModulesPage() {
             studyCourse: [],
             semesterNumbers: [],
             content: [],
-            type: [""],
+            type: [],
             errors: {
                 studyCourse: false,
                 semesterNumbers: false,
@@ -471,14 +464,8 @@ export default function EditModulesPage() {
                             errorMessage={errors.module_id ? `${t("moduleNr")} ${t("isRequired")}` : ""}
                             onValueChange={(value) => {
                                 setModuleID(value)
-                                if (!value.trim()) {
-                                    setErrors({ ...errors, module_id: true })
-                                } else {
-                                    setErrors({ ...errors, module_id: false })
-                                }
                             }}
                             value={ModuleID}
-                            isRequired
                         />
                         <Input
                             label="Code"
@@ -623,7 +610,7 @@ export default function EditModulesPage() {
                                 color="primary"
                                 value={data.type}
                                 orientation="horizontal"
-                                onValueChange={(e) => setstudyHelp(e, index, "type")}>
+                                onValueChange={(e) => (console.log(e, data), setstudyHelp(e, index, "type"))}>
                                 <Checkbox value="Pflicht">{t("mandatory")}</Checkbox>
                                 <Checkbox value="Qualifikationsschwerpunkt">{t("focusOfQualification")}/{t("compulsoryElectivemodule")}</Checkbox>
                                 <Checkbox value="Andere">{t("other")}</Checkbox>
@@ -652,14 +639,10 @@ export default function EditModulesPage() {
                                 </Select>
                                 : null
                             }
-                            {
-                                (index > 0) ?
-                                    <Button className={"lg:w-28"} color={"danger"} radius={"sm"} size={"sm"} onClick={() => deleteStudy(index)}>
-                                        <FontAwesomeIcon icon={"trash"} />
-                                        {t("delete")}
-                                    </Button> :
-                                    null
-                            }
+                            <Button className={"lg:w-28"} color={"danger"} radius={"sm"} size={"sm"} onClick={() => deleteStudy(index)}>
+                                <FontAwesomeIcon icon={"trash"} />
+                                {t("delete")}
+                            </Button>
                         </Card>
                     ))}
 
