@@ -53,7 +53,7 @@
   "deleteModuleInfo": "Wenn du dieses Modul löscht, werden alle Zuweisungen verloren gehen!",
   "deleteStudyCourseInfo": "Wenn du diesen Studiengang löscht, werden alle Zuweisungen verloren gehen!",
   "room": "Raum",
-  "actions": "Aktionen",
+  "actions": "AKTIONEN",
   "searchByRoom": "Suche nach Raumeigenschaften",
   "searchByDozent": "Suche nach Dozenteigenschaften",
   "searchByModule": "Suche nach Moduleigenschaften",
