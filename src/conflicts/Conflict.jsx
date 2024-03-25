@@ -4,10 +4,17 @@ class Conflict {
   constructor(mod1, mod2, name, index = 0, name2 = "") {
     this.mod1 = mod1;
     this.mod2 = mod2;
+    this.name1 = name;
+    this.name2 = name2;
     if (mod1._id != mod2._id) {
       this.module_string = String(mod1.name) + ", " + String(mod2.name)
     } else {
       this.module_string = String(mod1.name)
+    }
+    if (name2 != "") {
+      this.area_string = String(name) + ", " + String(name2)
+    } else {
+      this.area_string = String(name)
     }
     this.index = index;
     if (mod1._id === mod2._id) {

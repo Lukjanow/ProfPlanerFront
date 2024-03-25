@@ -17,7 +17,7 @@ export default function ConflictItem({ content, isIgnored = false, onPress }) {
                 <p className={"font-bold text-sm"}>{t(content.error_message)}</p>
                 <div className={"text-sm"}>
                     <div className="flex gap-2 items-center justify-start">
-                        <FontAwesomeIcon className={"w-[15px]"} icon="tag" /><span className={"text-xs"}>{content.module_string}</span>
+                        <FontAwesomeIcon className={"w-[15px]"} icon="tag" /><span className={"text-xs"}>{content.area_string}</span>
                     </div>
                 </div>
             </CardBody>
