@@ -1,10 +1,10 @@
 import React, { useEffect } from 'react'
 import { Modal, ModalContent, ModalHeader, ModalBody, ModalFooter, Button, useDisclosure } from '@nextui-org/react';
-import {useTranslation} from "react-i18next";
+import { useTranslation } from "react-i18next";
 
 
 export default function DeleteModal(props) {
-    const {t} = useTranslation();
+    const { t } = useTranslation();
     const { isOpen, onOpen, onClose } = useDisclosure();
 
     useEffect(() => {
@@ -26,13 +26,13 @@ export default function DeleteModal(props) {
                                 </p>
                             </ModalBody>
                             <ModalFooter>
-                                <Button onPress={() => {
+                                <Button radius={"sm"} onPress={() => {
                                     props.onClickCancel();
                                     onClose();
                                 }}>
                                     {t("cancel")}
                                 </Button>
-                                <Button onPress={() => {
+                                <Button radius={"sm"} onPress={() => {
                                     props.onClickDelete();
                                     onClose();
                                 }} color="danger">
