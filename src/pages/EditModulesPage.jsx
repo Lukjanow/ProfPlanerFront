@@ -519,32 +519,32 @@ export default function EditModulesPage() {
                         <p>{t("colorSelector")}</p>
                     </div>
                     <div className="flex gap-5 flex-wrap">
-                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#90D7FF]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#90D7FF" ? "#90D7FF" : "")}>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#90D7FF]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#90D7FF" ? "#90D7FF" : null)}>
                             {color === "#90D7FF" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
                         </Card>
-                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#E6D1DC]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#E6D1DC" ? "#E6D1DC" : "")}>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#E6D1DC]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#E6D1DC" ? "#E6D1DC" : null)}>
                             {color === "#E6D1DC" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
                         </Card>
-                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFD773]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFD773" ? "#FFD773" : "")}>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFD773]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFD773" ? "#FFD773" : null)}>
                             {color === "#FFD773" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
                         </Card>
-                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#AEF6C7]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#AEF6C7" ? "#AEF6C7" : "")}>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#AEF6C7]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#AEF6C7" ? "#AEF6C7" : null)}>
                             {color === "#AEF6C7" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
                         </Card>
-                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFE0B5]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFE0B5" ? "#FFE0B5" : "")}>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFE0B5]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFE0B5" ? "#FFE0B5" : null)}>
                             {color === "#FFE0B5" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
                         </Card>
-                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFA099]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFA099" ? "#FFA099" : "")}>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFA099]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFA099" ? "#FFA099" : null)}>
                             {color === "#FFA099" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
                         </Card>
-                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#BCE784]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#BCE784" ? "#BCE784" : "")}>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#BCE784]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#BCE784" ? "#BCE784" : null)}>
                             {color === "#BCE784" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
                         </Card>
-                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFAC75]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFAC75" ? "#FFAC75" : "")}>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFAC75]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFAC75" ? "#FFAC75" : null)}>
                             {color === "#FFAC75" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
                         </Card>
                     </div>
-                    < div className={`text-[#444444] border-1 border-s-8 rounded-e-md p-3 h-full flex flex-col gap-2 lg:w-[300px]`} style={{ backgroundColor: color !== "" ? color : "#EEEEEE", borderColor: changeColor(color !== "" ? color : "#C6C6C6", -40) }}>
+                    < div className={`text-[#444444] border-1 border-s-8 rounded-e-md p-3 h-full flex flex-col gap-2 lg:w-[300px]`} style={{ backgroundColor: color !== null ? color : "#EEEEEE", borderColor: changeColor(color !== null ? color : "#C6C6C6", -40) }}>
                         <div>
                             <p className="font-bold text-xs">{"Modulname"}</p>
                         </div>
