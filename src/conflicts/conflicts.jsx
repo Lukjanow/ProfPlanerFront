@@ -98,7 +98,7 @@ function getNewSemester(semester, next=true){
     } else {
         newSemesterNumber -= 1
     }
-    let newSemester = semester.slice(0, -1) + String(newSemesterNumber);
+    const newSemester = semester.slice(0, -1) + String(newSemesterNumber);
     return newSemester
 }
 
@@ -139,11 +139,6 @@ function checkModuleWarnings(module_list, conflict_list, module){
     for (let i = 0; i < module.room.length; i++) {
         room_dict[module.room[i]._id] = []
     }
-
-    // var study_semester_dict = {}
-    // for (let i = 0; i < module.study_semester.length; i++) {
-    //     study_semester_dict[module.study_semester[i]._id] = []
-    // }
 
     var study_semester_dict = {}
     for (let i = 0; i < module.study_semester.length; i++) {
@@ -200,19 +195,34 @@ function checkModuleWarnings(module_list, conflict_list, module){
     for (const [key, value] of Object.entries(dozent_dict)) {
         for (let i = 0; i < value.length; i++) {
             if(overlap(module, value[i])) {
-                // if(module.type === "Modul" && value[i].type === "Modul") {
-                //     conflict_list.push(new Conflict(module, value[i], key, 1))
-                // } else if((module.type === "Modul" && value[i].type === "Abwesenheit") || (module.type === "Abwesenheit" && value[i].type === "Modul")) {
-                //     conflict_list.push(new Conflict(module, value[i], key, 2))
-                // }
-                conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "dozent"), 1))
+                const name1 = getConflictName(module, key, "dozent")
+                var isInList = false
+                for (const conflict of conflict_list) {
+                    if (conflict.error_message == "eventSameDozent" & conflict.name1 == name1) {
+                        isInList = true
+                        break
+                    }
+                }
+                if (!isInList) {
+                    conflict_list.push(new Conflict(module, value[i], name1, 1))
+                }
             }
         }
     }
     for (const [key, value] of Object.entries(room_dict)) {
         for (let i = 0; i < value.length; i++) {
             if(overlap(module, value[i])) {
-                conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "room"), 6))
+                const name1 = getConflictName(module, key, "room")
+                var isInList = false
+                for (const conflict of conflict_list) {
+                    if (conflict.error_message == "eventSameRoom" & conflict.name1 == name1) {
+                        isInList = true
+                        break
+                    }
+                }
+                if (!isInList) {
+                    conflict_list.push(new Conflict(module, value[i], name1, 6))
+                } 
             }
         }
     }
@@ -250,20 +260,55 @@ function checkModuleWarnings(module_list, conflict_list, module){
                 }
             }
         }
-      
         for (let i = 0; i < value.length; i++) {
-            if(overlap(module, value[i])) {
-                conflict_list.push(new Conflict(module, value[i], getConflictName(module, key, "study_semester"), 3))  
+            for(const study_semester of module.study_semester){
+                if(key.includes(study_semester.studyCourse.name)){
+                    if(study_semester.semesterNumbers.length == 1){
+                        if(overlap(module, value[i])) {
+                            const name1 = getConflictName(module, key, "study_semester")
+                            var isInList = false
+                            for (const conflict of conflict_list) {
+                                if (conflict.error_message == "eventSameSemester" & conflict.name1 == name1) {
+                                    isInList = true
+                                    break
+                                }
+                            }
+                            if (!isInList) {
+                                conflict_list.push(new Conflict(module, value[i], name1, 3))
+                            }
+                        }
+                    }
+                }
             }
         }
         for (let i = 0; i < prevList.length; i++) {
             if(overlap(module, prevList[i])) {
-                    conflict_list.push(new Conflict(module, prevList[i], getConflictName(module, key, "study_semester"), 5, getNewSemester(getConflictName(module, key, "study_semester"), false)))  
+                const name1 = getNewSemester(getConflictName(module, key, "study_semester"), false)
+                var isInList = false
+                for (const conflict of conflict_list) {
+                    if (conflict.error_message == "eventSequentialSemesters" & conflict.name1 == name1) {
+                        isInList = true
+                        break
+                    }
+                }
+                if (!isInList) {
+                    conflict_list.push(new Conflict(prevList[i], module, name1, 5, getConflictName(module, key, "study_semester")))
+                }  
             }
         }
         for (let i = 0; i < nextList.length; i++) {
             if(overlap(module, nextList[i])) {
-                    conflict_list.push(new Conflict(module, nextList[i], getConflictName(module, key, "study_semester"), 5, getNewSemester(getConflictName(module, key, "study_semester"), true)))  
+                const name1 = getConflictName(module, key, "study_semester")
+                var isInList = false
+                for (const conflict of conflict_list) {
+                    if (conflict.error_message == "eventSequentialSemesters" & conflict.name1 == name1) {
+                        isInList = true
+                        break
+                    }
+                }
+                if (!isInList) {
+                    conflict_list.push(new Conflict(module, nextList[i], name1, 5, getNewSemester(getConflictName(module, key, "study_semester"))))
+                }
             }
         }
         //CONFLICT 7
@@ -288,10 +333,6 @@ function checkModuleWarnings(module_list, conflict_list, module){
         }
     }
 
-    //4 KONFLIKTE IN DER KONSOLE AUSGEBEN
-    // for (let i = 0; i < conflict_list.length; i++) {
-    //     conflict_list[i].printError()
-    // }
     return conflict_list
 }
 
