@@ -38,6 +38,8 @@
   "studycourse": "Studycourse",
   "capacity": "Capacity",
   "equipment": "Equipment",
+  "studySemester": "Studycourses",
+  "content": "Qualification focus",
   "isRequired": " is required.",
   "isInvalid": " is invalid.",
   "noContentAvailable": "No Content Available!",

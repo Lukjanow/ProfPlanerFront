@@ -37,6 +37,8 @@
   "studycourse": "Studiengang",
   "capacity": "Kapazität",
   "equipment": "Austattung",
+  "studySemester": "Studiengänge",
+  "content": "Qualifikationsschwerpunkte",
   "isRequired": " wird benötigt.",
   "isInvalid": " ist ungültig.",
   "noContentAvailable": "Keine Inhalte verfügbar!",
