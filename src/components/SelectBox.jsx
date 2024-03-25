@@ -16,6 +16,7 @@ export default function SelectBox({ title, name, items, isMultiple = false, isRe
             onChange={onChange}
             selectedKeys={selectedKeys}
             className={className}
+            radius={"sm"}
         >
             {
                 items.map(item => (

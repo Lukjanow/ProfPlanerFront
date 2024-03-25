@@ -41,7 +41,7 @@ export default function EditModulesPage() {
     const [ModuleAttendance, setModuleAttendance] = React.useState("0")
     const [ModuleFrequency, setModuleFrequency] = React.useState(["3"])
     const [ModuleSelected, setModuleSelected] = React.useState(true)
-    const [color, setColor] = React.useState("")
+    const [color, setColor] = React.useState(null)
 
     const [studyCourse, setStudyCourse] = React.useState([])  //all info
     const [studyCourseDrop, setStudyCourseDrop] = React.useState([])  //Study course to display

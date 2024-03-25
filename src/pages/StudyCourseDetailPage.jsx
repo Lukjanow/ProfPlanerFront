@@ -160,6 +160,7 @@ export default function StudyCourseDetailPage() {
               type="text"
               label={t("name")}
               className={"lg:max-w-[350px]"}
+              radius={"sm"}
               value={name}
               onValueChange={(value) => {
                 setName(value);
@@ -180,6 +181,7 @@ export default function StudyCourseDetailPage() {
               type="number"
               label={t("semesterCount")}
               className={"lg:max-w-[350px]"}
+              radius={"sm"}
               value={subjectSemesterCount}
               onValueChange={(value) => {
                 setSubjectSemesterCount(value);
@@ -221,6 +223,7 @@ export default function StudyCourseDetailPage() {
                     }}
                   />
                 }
+                radius={"sm"}
                 value={qualificationFocus}
                 onValueChange={(value) => {
                   setQualificationFocus(value);

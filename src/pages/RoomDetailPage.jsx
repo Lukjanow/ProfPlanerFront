@@ -183,6 +183,7 @@ export default function RoomDetailPage({ isShownAsModal = false, closeModal }) {
               type="text"
               label={t("roomNumber")}
               className={"lg:max-w-[350px]"}
+              radius={"sm"}
               value={roomNumber}
               onValueChange={(value) => {
                 setRoomNumber(value);
@@ -203,6 +204,7 @@ export default function RoomDetailPage({ isShownAsModal = false, closeModal }) {
               type="text"
               label={t("capacity")}
               className={"lg:max-w-[350px]"}
+              radius={"sm"}
               value={capacity}
               onValueChange={(value) => {
                 setCapacity(value);
