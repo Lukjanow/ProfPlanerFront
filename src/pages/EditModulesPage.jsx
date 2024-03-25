@@ -1,10 +1,8 @@
-import { Input, Checkbox, CheckboxGroup, Select, SelectItem, ModalContent, useDisclosure, Modal, Divider, Card, Button } from "@nextui-org/react";
+import { Input, Checkbox, CheckboxGroup, Select, SelectItem, ModalContent, Modal, Card, Button } from "@nextui-org/react";
 import PageContainer from "../components/PageContainer";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "../components/SectionContainer";
 import React, { useEffect, useRef, useState, useContext } from "react";
-import { ModuleItem } from "../components/ModuleItem";
-import { OutlinedButton } from "../components/OutlinedButton";
 import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
 import { ModuleModel } from "../models/moduleModel";
@@ -18,6 +16,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import DozentDetailPage from "./DozentDetailPage.jsx";
 import RoomDetailPage from "./RoomDetailPage.jsx";
 import { FilledButton } from "../components/FilledButton.jsx";
+import { changeColor } from "../utils/calendarEventUtils.js";
 
 
 export default function EditModulesPage() {
@@ -519,28 +518,50 @@ export default function EditModulesPage() {
                     <div className="flex gap-5">
                         <p>{t("colorSelector")}</p>
                     </div>
-                    <div className="flex gap-5">
-                        <div className="flex gap-5 flex-col" id="colorGrid">
-                            <div className="flex gap-5">
-                                <div style={{ backgroundColor: "#90D7FF", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#90D7FF")}></div>
-                                <div style={{ backgroundColor: "#C4B2BC", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#C4B2BC")}></div>
-                                <div style={{ backgroundColor: "#87C38F", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#87C38F")}></div>
-                                <div style={{ backgroundColor: "#FFCB47", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#FFCB47")}></div>
-                                <div style={{ backgroundColor: "#AEF6C7", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#AEF6C7")}></div>
+                    <div className="flex gap-5 flex-wrap">
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#90D7FF]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#90D7FF" ? "#90D7FF" : "")}>
+                            {color === "#90D7FF" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
+                        </Card>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#E6D1DC]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#E6D1DC" ? "#E6D1DC" : "")}>
+                            {color === "#E6D1DC" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
+                        </Card>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFD773]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFD773" ? "#FFD773" : "")}>
+                            {color === "#FFD773" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
+                        </Card>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#AEF6C7]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#AEF6C7" ? "#AEF6C7" : "")}>
+                            {color === "#AEF6C7" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
+                        </Card>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFE0B5]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFE0B5" ? "#FFE0B5" : "")}>
+                            {color === "#FFE0B5" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
+                        </Card>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFA099]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFA099" ? "#FFA099" : "")}>
+                            {color === "#FFA099" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
+                        </Card>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#BCE784]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#BCE784" ? "#BCE784" : "")}>
+                            {color === "#BCE784" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
+                        </Card>
+                        <Card className={"flex justify-center items-center w-[60px] h-[60px] bg-[#FFAC75]"} radius={"md"} shadow={"sm"} isPressable onPress={() => setColor(color !== "#FFAC75" ? "#FFAC75" : "")}>
+                            {color === "#FFAC75" ? <FontAwesomeIcon className={"text-xl text-default-500"} icon={"check"} /> : <></>}
+                        </Card>
+                    </div>
+                    < div className={`text-[#444444] border-1 border-s-8 rounded-e-md p-3 h-full flex flex-col gap-2 lg:w-[300px]`} style={{ backgroundColor: color !== "" ? color : "#EEEEEE", borderColor: changeColor(color !== "" ? color : "#C6C6C6", -40) }}>
+                        <div>
+                            <p className="font-bold text-xs">{"Modulname"}</p>
+                        </div>
+                        <div className="flex flex-col gap-[3px] text-xs">
+                            <div className="flex gap-1 items-center detail-semester">
+                                <FontAwesomeIcon className={"w-[15px]"} icon="graduation-cap" />
+                                <span>{"Studiengang"}</span>
                             </div>
-                            <div className="flex gap-5">
-                                <div style={{ backgroundColor: "#FFE0B5", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#FFE0B5")}></div>
-                                <div style={{ backgroundColor: "#E3655B", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#E3655B")}></div>
-                                <div style={{ backgroundColor: "#BCE784", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#BCE784")}></div>
-                                <div style={{ backgroundColor: "#FF6700", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#FF6700")}></div>
-                                <div style={{ backgroundColor: "#8D80AD", width: "50px", height: "50px", margin: "5px", cursor: "pointer", fontSize: "0", border: "solid black 1px" }} onClick={() => setColor("#8D80AD")}></div>
+                            <div className="flex gap-1 items-center detail-dozent">
+                                <FontAwesomeIcon className={"w-[15px]"} icon="user" />
+                                <span>{"Dozent"}</span>
+                            </div>
+                            <div className="flex gap-1 items-center detail-room">
+                                <FontAwesomeIcon className={"w-[15px]"} icon="location-dot" />
+                                <span>{"Raum"}</span>
                             </div>
                         </div>
-                        <ModuleItem moduleItemData={{
-                            name: ModuleName,
-                            backgroundcolor: color,
-                            visible: true
-                        }} />
                     </div>
                 </SectionContainer>
 
