@@ -130,6 +130,7 @@
   "selectTimetable": "Plan ausgewählt.",
   "algoUndo": "Algorithmus erfolgreich zurückgesetzt!",
   "warning": "Warnung",
+  "ignoredWarning": "Ignorierte Warnung",
   "and": "und",
   "eventSameDozent": "Veranstaltungen derselben Lehrperson kollidieren!",
   "eventDozentNotPresent": "Lehrperson ist während der Veranstaltung abwesend!",

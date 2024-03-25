@@ -11,7 +11,7 @@ export default function ConflictItem({ content, isIgnored = false, onPress }) {
         <Card className={`w-full border-0 border-${itemColor}-400`} shadow="sm" radius={"sm"} isPressable onPress={onPress}>
             <div className={`w-full bg-${itemColor}-400 px-3 py-1 flex gap-2 items-center text-white text-xs`}>
                 <FontAwesomeIcon icon={"circle-exclamation"} />
-                {t("warning")}
+                {isIgnored ? t("ignoredWarning") : t("warning")}
             </div>
             <CardBody className={"gap-2"}>
                 <p className={"font-bold text-sm"}>{t(content.error_message)}</p>

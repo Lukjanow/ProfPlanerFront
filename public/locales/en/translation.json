@@ -131,6 +131,7 @@
   "selectTimetable": "Timetable selected.",
   "algoUndo": "Algorithm successfully resetet!",
   "warning": "Warning",
+  "ignoredWarning": "Ignored warning",
   "and": "and",
   "eventSameDozent": "Events from the same teacher collide!",
   "eventDozentNotPresent": "Teacher is absent during the event!",
