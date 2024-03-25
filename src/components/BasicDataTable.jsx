@@ -311,7 +311,7 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
 
   const topContent = (
     <div className="flex w-full justify-between items-center">
-      <h1 className="font-poppins font-bold text-2xl">Überblick ({length})</h1>
+      <h1 className="font-poppins font-bold text-2xl">{t("overview")} ({length})</h1>
       <div className={"flex w-1/2 items-center"}>
         <Input
           isClearable
@@ -348,9 +348,9 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
       if (value.length === 0) {
         return <TableCell>-</TableCell>;
       }
-      /* 
+      /*
             console.log("key:", key);
-      
+
             console.log("value:", value); */
 
       // if (value[0] && value[0].studyCourse) {

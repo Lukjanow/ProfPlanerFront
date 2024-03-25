@@ -93,7 +93,7 @@ export default function SearchModal(props) {
                                     props.onClickCancel();
                                     onClose();
                                 }}>
-                                    Schließen
+                                    {t("close")}
                                 </Button>
                             </ModalFooter>
                         </>
