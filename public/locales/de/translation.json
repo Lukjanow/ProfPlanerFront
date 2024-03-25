@@ -183,5 +183,6 @@
   "errorDeleting": "Fehler beim löschen des",
   "noItemsForSearchTerm": "Kein Ergebnis zu deinem Suchbegriff.",
   "dozent": "Lehrperson",
-  "overview": "Überblick"
+  "overview": "Überblick",
+  "deleteModuleFromPlanInfo": "Bestätige mit Löschen, um das Modul aus dem Plan zu entfernen."
 }

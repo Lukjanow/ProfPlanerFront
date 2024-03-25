@@ -6,8 +6,7 @@ import { ConflictDisplay } from "./ConflictDisplay";
 import { TimeTableFilter } from "../components/TimeTableFilter";
 import "../styles/components/timeTableEvent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Badge, ScrollShadow, useDisclosure } from "@nextui-org/react";
-import { ModuleInfo } from './ModuleInfo';
+import { ScrollShadow, useDisclosure } from "@nextui-org/react";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment/dist/moment';
 import 'moment/dist/locale/de';
@@ -19,6 +18,7 @@ import { SectionContainer } from "./SectionContainer";
 import { Context } from "../routes/root.jsx";
 import { changeColor } from "../utils/calendarEventUtils.js";
 import { useselectedTimetableStore } from "../stores/selectedTimetableStore.js";
+import DeleteModal from "./DeleteModal.jsx";
 
 export function TimeTable({ moduleItemListPara }) {
   const { t, i18n } = useTranslation();
@@ -32,7 +32,7 @@ export function TimeTable({ moduleItemListPara }) {
   const localizer = momentLocalizer(moment)
 
   const DnDCalendar = withDragAndDrop(Calendar);
-  const { isOpen, onOpen, onOpenChange } = useDisclosure();
+  const [showModal, setShowModal] = useState(false);
   const [modalEvent, setModalEvent] = useState('');
   const [setSnackbarData] = useContext(Context)
 
@@ -245,7 +245,7 @@ export function TimeTable({ moduleItemListPara }) {
   function handleRightClick(event, click) {
     setModalEvent(event)
     click.preventDefault();
-    onOpen()
+    setShowModal(true)
   }
 
   const handleClickRemoveEvent = () => {
@@ -456,7 +456,18 @@ export function TimeTable({ moduleItemListPara }) {
           </Tabs>
         </SectionContainer>
       </div >
-      <ModuleInfo isOpen={isOpen} onOpenChange={onOpenChange} event={modalEvent} removeFunction={handleClickRemoveEvent} />
+      <DeleteModal
+        value={showModal}
+        onClickCancel={() => {
+          setShowModal(false);
+        }}
+        onClickDelete={() => {
+          handleClickRemoveEvent();
+          setShowModal(false)
+        }}
+        headlineText={t("deleteQuestion")}
+        bodyText={t("deleteModuleFromPlanInfo")}
+      />
     </>
   );
 }

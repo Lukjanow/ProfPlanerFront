@@ -184,5 +184,6 @@
   "errorDeleting": "Error deleting the",
   "noItemsForSearchTerm": "No items found for your searchterm.",
   "dozent": "Teacher",
-  "overview": "Overview"
+  "overview": "Overview",
+  "deleteModuleFromPlanInfo": "Confirm to remove the module from the plan."
 }
