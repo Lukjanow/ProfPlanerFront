@@ -155,7 +155,7 @@ export default function EditModulesPage() {
         if (attribute == "studyCourse") {
             list[index]["semesterNumbers"] = []
             list[index]["content"] = []
-            list[index]["type"] = ""
+            list[index]["type"] = []
         }
         let object
         try {
