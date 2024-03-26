@@ -1,15 +1,179 @@
-import {nextui} from "@nextui-org/react";
+import { nextui } from "@nextui-org/react";
 
 /** @type {import('tailwindcss').Config} */
 export default {
-    content: [
-        "./index.html",
-        "./src/**/*.{js,jsx,ts,tsx}",
-        "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
-    ],
-    theme: {
-        extend: {},
-    },
-    darkMode: "class",
-    plugins: [nextui()],
-}
+  content: [
+    "./index.html",
+    "./src/**/*.{js,jsx,ts,tsx}",
+    "./node_modules/@nextui-org/theme/dist/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  darkMode: "class",
+  plugins: [
+    nextui({
+      addCommonColors: true,
+      layout: {
+        radius: {
+          small: "5px",
+        },
+      },
+      themes: {
+        light: {
+          colors: {
+            background: "#FCFCFC",
+            foreground: "#444444",
+            primary: {
+              DEFAULT: "#4162D5",
+              foreground: "#FFFFFF",
+              100: "#D9E4FC",
+              200: "#B5C9FA",
+              300: "#8DA8F2",
+              400: "#6E8BE5",
+              500: "#4162D5",
+              600: "#2F4AB7",
+              700: "#203699",
+              800: "#14247B",
+              900: "#0C1866",
+            },
+            secondary: {
+              DEFAULT: "#E34234",
+            },
+            success: {
+              DEFAULT: "#17D15B",
+              foreground: "#FFFFFF",
+              100: "#D1FCCF",
+              200: "#A1FAA7",
+              300: "#70F185",
+              400: "#4BE374",
+              500: "#17D15B",
+              600: "#10B35C",
+              700: "#0B9659",
+              800: "#077952",
+              900: "#04644D",
+            },
+            info: {
+              DEFAULT: "#0776FF",
+              foreground: "#FFFFFF",
+              100: "#CDECFF",
+              200: "#9BD5FF",
+              300: "#6ABAFF",
+              400: "#45A0FF",
+              500: "#0776FF",
+              600: "#055BDB",
+              700: "#0343B7",
+              800: "#022F93",
+              900: "#01217A",
+            },
+            warning: {
+              DEFAULT: "#FF8B07",
+              foreground: "#FFFFFF",
+              100: "#FFF1CD",
+              200: "#FFDE9B",
+              300: "#FFC76A",
+              400: "#FFB045",
+              500: "#FF8B07",
+              600: "#DB6D05",
+              700: "#B75203",
+              800: "#933B02",
+              900: "#7A2A01",
+            },
+            danger: {
+              DEFAULT: "#FF3C35",
+              foreground: "#FFFFFF",
+              100: "#FFE5D6",
+              200: "#FFC5AE",
+              300: "#FF9E85",
+              400: "#FF7967",
+              500: "#FF3C35",
+              600: "#DB262F",
+              700: "#B71A2F",
+              800: "#93102D",
+              900: "#7A0A2C"
+            },
+            activeButton: "#D3D3D3"
+          },
+        },
+        dark: {
+          colors: {
+            background: "#2A2A2A",
+            foreground: "#EAEAEA",
+            primary: {
+              DEFAULT: "#6980FF",
+              foreground: "#FFFFFF",
+              100: "#E1E7FF",
+              200: "#C3CFFF",
+              300: "#A4B5FF",
+              400: "#8EA1FF",
+              500: "#6980FF",
+              600: "#4C60DB",
+              700: "#3444B7",
+              800: "#212D93",
+              900: "#141D7A",
+            },
+            success: {
+              DEFAULT: "#17D15B",
+              foreground: "#FFFFFF",
+              100: "#D1FCCF",
+              200: "#A1FAA7",
+              300: "#70F185",
+              400: "#4BE374",
+              500: "#17D15B",
+              600: "#10B35C",
+              700: "#0B9659",
+              800: "#077952",
+              900: "#04644D",
+            },
+            info: {
+              DEFAULT: "#0776FF",
+              foreground: "#FFFFFF",
+              100: "#CDECFF",
+              200: "#9BD5FF",
+              300: "#6ABAFF",
+              400: "#45A0FF",
+              500: "#0776FF",
+              600: "#055BDB",
+              700: "#0343B7",
+              800: "#022F93",
+              900: "#01217A",
+            },
+            warning: {
+              DEFAULT: "#FF8B07",
+              foreground: "#FFFFFF",
+              100: "#FFF1CD",
+              200: "#FFDE9B",
+              300: "#FFC76A",
+              400: "#FFB045",
+              500: "#FF8B07",
+              600: "#DB6D05",
+              700: "#B75203",
+              800: "#933B02",
+              900: "#7A2A01",
+            },
+            danger: {
+              DEFAULT: "#FF3C35",
+              foreground: "#FFFFFF",
+              100: "#FFE5D6",
+              200: "#FFC5AE",
+              300: "#FF9E85",
+              400: "#FF7967",
+              500: "#FF3C35",
+              600: "#DB262F",
+              700: "#B71A2F",
+              800: "#93102D",
+              900: "#7A0A2C"
+            },
+            activeButton: "#3F3F3F",
+            content1: "#373737",
+            default: {
+              100: "#454545",
+              200: "#505050",
+              50: "#FF0000"
+            }
+          },
+        },
+      },
+    }),
+  ],
+};

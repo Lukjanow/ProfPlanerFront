@@ -1,47 +1,48 @@
-import {Link, Outlet} from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import { NavigationBar } from "../components/NavigationBar.jsx";
+import { Header } from "../components/Header.jsx";
+import { Footer } from "../components/Footer.jsx";
+import { useTranslation } from "react-i18next";
+import { useLangStore } from "../stores/langStore.js";
+import { useEffect, useState } from "react";
+import SnackBar from "../components/SnackBar.jsx";
+import TimedComponent from "../components/TimedComponent.jsx";
+import { createContext } from "react";
+
+
+export const Context = createContext();
+
 
 export default function Root() {
+    const { i18n } = useTranslation();
+    const lang = useLangStore(state => state.lang);
+    const setLang = useLangStore(state => state.setLang);
+    const { t } = useTranslation();
+    const [snackbarData, setSnackbarData] = useState({
+        type: "success",
+        message: t("message"),
+        visible: false
+    })
+
+    useEffect(() => {
+        setLang(i18n, lang);
+    }, []);
+
     return (
         <>
-            <div id="sidebar">
-                <h1>React Router Contacts</h1>
-                <div>
-                    <form id="search-form" role="search">
-                        <input
-                            id="q"
-                            aria-label="Search contacts"
-                            placeholder="Search"
-                            type="search"
-                            name="q"
-                        />
-                        <div
-                            id="search-spinner"
-                            aria-hidden
-                            hidden={true}
-                        />
-                        <div
-                            className="sr-only"
-                            aria-live="polite"
-                        ></div>
-                    </form>
-                    <form method="post">
-                        <button type="submit">New</button>
-                    </form>
-                </div>
-                <nav>
-                    <ul>
-                        <li>
-                            <Link to={`contacts/1`}>Your Name</Link>
-                        </li>
-                        <li>
-                            <Link to={`contacts/2`}>Your Friend</Link>
-                        </li>
-                    </ul>
-                </nav>
-            </div>
-            <div id="detail">
-                <Outlet/>
-            </div>
+            {snackbarData.visible && (
+                <TimedComponent duration={4000} onClose={() => setSnackbarData(prevState => ({ ...prevState, visible: false }))}>
+                    <SnackBar type={snackbarData.type} message={snackbarData.message} />
+                </TimedComponent>
+            )}
+            <Context.Provider value={[setSnackbarData]}>
+                <Header />
+                <NavigationBar />
+                <main className={"min-w-full"} id="content">
+                    <Outlet />
+                    <Footer />
+                </main>
+            </Context.Provider >
         </>
     );
 }
