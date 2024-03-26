@@ -2,11 +2,11 @@
 
 <!-- PROJECT LOGO -->
 <br />
-<div align="center">
+<div style="text-align: center">
   <a href="https://gitlab.rlp.net/top/24s/profplaner/pp_frontend_react">
     <img src="src/assets/logo.svg" alt="ProfPlaner - Logo" width="80" height="80">
   </a>
-  <h3 align="center">ProfPlaner - Frontend</h3>
+  <h3  style="text-align: center">ProfPlaner - Frontend</h3>
   <br />
 </div>
 
@@ -29,7 +29,7 @@
   </ol>
 </details>
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -55,7 +55,7 @@
    npm run dev
    ```
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p  style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -80,7 +80,7 @@
 | Components          | NextUI             | https://nextui.org/docs/guide/introduction                                                            |
 | Calendar Component  | react-big-calendar | https://jquense.github.io/react-big-calendar/examples/index.html?path=/story/about-big-calendar--page |
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p  style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
@@ -91,4 +91,4 @@
 
 Distributed under the Server Side Public License, v 1. See `LICENSE` for more information.
 
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
+<p  style="text-align: right">(<a href="#readme-top">back to top</a>)</p>
