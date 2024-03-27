@@ -2,8 +2,7 @@ import { LangSwitcher } from "./LangSwitcher.jsx";
 import { ThemeSwitcher } from "./ThemeSwitcher.jsx";
 import "../styles/components/Header.scss"
 import logo from "../assets/logo.svg"
-import { Navbar, NavbarBrand, NavbarContent, NavbarItem, Tooltip, Button } from "@nextui-org/react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { Navbar, NavbarBrand, NavbarContent, NavbarItem } from "@nextui-org/react";
 import { useTranslation } from "react-i18next";
 import NewScheduleModal from "./NewScheduleModal.jsx";
 import ChangeScheduleModal from "./ChangeScheduleModal.jsx";

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { ScrollShadow } from "@nextui-org/react";
-import { useTranslation } from "react-i18next";
 import ConflictItem from './ConflictItem';
 
 export function ConflictDisplay(data) {

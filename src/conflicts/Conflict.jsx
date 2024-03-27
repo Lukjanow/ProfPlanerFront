@@ -1,5 +1,3 @@
-import { useTranslation } from "react-i18next";
-
 class Conflict {
   constructor(mod1, mod2, name, index = 0, name2 = "") {
     this.mod1 = mod1;

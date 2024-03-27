@@ -2,13 +2,10 @@ import { Outlet, createBrowserRouter } from "react-router-dom";
 import Root from "./root.jsx";
 import ErrorPage from "../pages/ErrorPage.jsx";
 import TimetablePage from "../pages/TimetablePage.jsx";
-import ComponentPage from "../pages/ComponentPage.jsx";
 import BasicDataPage from "../pages/BasicDataPage.jsx";
-import ApiDebugPage from "../pages/ApiDebugPage.jsx";
 import RoomDetailPage from "../pages/RoomDetailPage.jsx";
 import DozentDetailPage from "../pages/DozentDetailPage.jsx";
-import EditModulesPage from "../pages/EditModulesPage.jsx";
-import Testpage from "../pages/Testpage.jsx";
+import ModuleDetailPage from "../pages/ModuleDetailPage.jsx";
 import StudyCourseDetailPage from "../pages/StudyCourseDetailPage.jsx";
 
 
@@ -54,12 +51,12 @@ const router = createBrowserRouter([
           },
           {
             path: "module-details",
-            element: <EditModulesPage />,
+            element: <ModuleDetailPage />,
             errorElement: <ErrorPage />,
           },
           {
             path: "module-details/:moduleId",
-            element: <EditModulesPage />,
+            element: <ModuleDetailPage />,
             errorElement: <ErrorPage />,
           },
           {
@@ -73,22 +70,7 @@ const router = createBrowserRouter([
             errorElement: <ErrorPage />,
           },
         ]
-      },
-      {
-        path: "debug",
-        element: <ApiDebugPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "component",
-        element: <ComponentPage />,
-        errorElement: <ErrorPage />,
-      },
-      {
-        path: "test",
-        element: <Testpage />,
-        errorElement: <ErrorPage />,
-      },
+      }
     ],
   },
 ]);

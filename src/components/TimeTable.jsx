@@ -6,7 +6,7 @@ import { ConflictDisplay } from "./ConflictDisplay";
 import { TimeTableFilter } from "../components/TimeTableFilter";
 import "../styles/components/timeTableEvent.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { ScrollShadow, useDisclosure } from "@nextui-org/react";
+import { ScrollShadow } from "@nextui-org/react";
 import { Calendar, momentLocalizer } from 'react-big-calendar'
 import moment from 'moment/dist/moment';
 import 'moment/dist/locale/de';

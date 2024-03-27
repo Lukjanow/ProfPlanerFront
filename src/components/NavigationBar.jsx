@@ -1,6 +1,5 @@
 import "../styles/components/NavigationBar.scss";
 import {
-  Badge,
   Button,
   Navbar,
   NavbarContent,
