@@ -1,12 +1,9 @@
-import moment from "moment";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Tabs, Tab, Card, CardBody } from "@nextui-org/react";
-import { DropDown2 } from "./DropDown2";
+import { Tabs, Tab } from "@nextui-org/react";
+import { FilterDropDown } from "./FilterDropDown";
 import { useState, useEffect } from "react";
 import { getAllDozents } from "../services/dozentService";
 import { getAllRooms } from "../services/roomService";
 import { getAllStudyCourses } from "../services/studyCourseService";
-import { FilledButton } from "./FilledButton";
 import { ExportCalendarButton } from "./ExportCalendarButton.jsx";
 import { useTranslation } from "react-i18next";
 import { SectionContainer } from "./SectionContainer.jsx";
@@ -96,7 +93,7 @@ export function TimeTableFilter({ module_list, filterAction }) {
         >
           <SectionContainer className={"p-0"}>
             <div className="flex justify-between items-center gap-5">
-              <DropDown2
+              <FilterDropDown
                 module_list={module_list}
                 filterAction={filterAction}
                 dropDownData={studySemesterData}
@@ -115,7 +112,7 @@ export function TimeTableFilter({ module_list, filterAction }) {
         >
           <SectionContainer className={"p-0"}>
             <div className="flex justify-between items-center">
-              <DropDown2
+              <FilterDropDown
                 module_list={module_list}
                 filterAction={filterAction}
                 dropDownData={dozentData}
@@ -134,7 +131,7 @@ export function TimeTableFilter({ module_list, filterAction }) {
         >
           <SectionContainer className={"p-0"}>
             <div className="flex justify-between items-center">
-              <DropDown2
+              <FilterDropDown
                 module_list={module_list}
                 filterAction={filterAction}
                 dropDownData={roomData}

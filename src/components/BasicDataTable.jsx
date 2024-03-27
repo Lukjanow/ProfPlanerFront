@@ -72,7 +72,6 @@ export default function BasicDataTable({ tableData, path, fetchData }) {
         setSearchTerm("");
         break;
       case "/studycourse":
-        // TODO:
         setSearchPlaceholder(t("searchByStudyCourse"));
         setDeleteMessage(t("deleteStudyCourseInfo"));
         setSearchTerm("");

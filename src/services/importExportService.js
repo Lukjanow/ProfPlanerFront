@@ -1,21 +1,20 @@
-// TODO: add import and export routes
 import api from "./api.js";
 
 async function getExportData() {
     return api
-        .get(`/export/excel/basicdata/`, { responseType: 'blob' }) 
+        .get(`/export/excel/basicdata/`, { responseType: 'blob' })
         .then(response => {
             const url = window.URL.createObjectURL(new Blob([response.data]));
             const link = document.createElement('a');
             link.href = url;
 
             const tmp = new Date()
-            const date = tmp.toLocaleDateString('de-DE').replaceAll(".","-")
+            const date = tmp.toLocaleDateString('de-DE').replaceAll(".", "-")
             const time = tmp.getHours() + "-" + tmp.getMinutes() + "-" + tmp.getSeconds();
-    
+
             const filename = date + "_" + time + "_basicdata"
 
-            link.setAttribute('download', filename + ".xlsx"); 
+            link.setAttribute('download', filename + ".xlsx");
             document.body.appendChild(link);
             link.click();
             link.remove();

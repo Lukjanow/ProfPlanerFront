@@ -1,4 +1,4 @@
-import {create} from "zustand";
+import { create } from "zustand";
 import {
     addDozent, deleteDozent,
     getAllDozents,
@@ -6,38 +6,37 @@ import {
     updateDozent
 } from "../services/dozentService.js";
 
-// TODO: unused, should be removed!
 export const useDozentStore = create(
     (set, get) => ({
         dozentList: [],
         initDozentList: async () => {
-           await get().refreshDozentList();
+            await get().refreshDozentList();
         },
         refreshDozentList: async () => {
             const oldDozentList = get().dozentList;
-            const {data} = await getAllDozents();
+            const { data } = await getAllDozents();
             const updatedDozentList = data.map(newDozent => {
                 const oldDozent = oldDozentList.find(d => d.id === newDozent.id);
                 return newDozent ? newDozent : oldDozent;
             });
-            set(() => ({dozentList: updatedDozentList}));
+            set(() => ({ dozentList: updatedDozentList }));
         },
         getDozentById: async (id) => {
-            const {data} = await getDozentById(id);
+            const { data } = await getDozentById(id);
             return data;
         },
         addDozent: async (dozentModel) => {
-            const {data} = await addDozent(dozentModel);
+            const { data } = await addDozent(dozentModel);
             await get().refreshDozentList();
             return data;
         },
-        updateDozent: async (id, {prename, lastname, email, title, salutation}) => {
-            const {data} = await updateDozent(id, {prename, lastname, email, title, salutation});
+        updateDozent: async (id, { prename, lastname, email, title, salutation }) => {
+            const { data } = await updateDozent(id, { prename, lastname, email, title, salutation });
             await get().refreshDozentList();
             return data;
         },
         deleteDozent: async (id) => {
-            const {data} = await deleteDozent(id);
+            const { data } = await deleteDozent(id);
             await get().refreshDozentList();
             return data;
         },

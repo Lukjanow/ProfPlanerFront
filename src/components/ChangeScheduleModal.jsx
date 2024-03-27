@@ -1,71 +1,17 @@
 import { Tooltip, Button, Modal, useDisclosure, ModalContent, ModalHeader, ModalBody, Avatar, Listbox, ListboxItem } from "@nextui-org/react"
 import { useTranslation } from "react-i18next"
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect, useState, useContext } from "react";
-import { Context } from "../routes/root.jsx";
+import { useEffect, useState } from "react";
 import { getAllCalendars, updateCalendar } from "../services/calendarService.js";
 import { useselectedTimetableStore } from "../stores/selectedTimetableStore.js";
-import { CalendarModel } from "../models/calendarModel.js";
 
 
 export default function ChangeScheduleModal() {
     const { t } = useTranslation();
-    const { isOpen, onOpen, onOpenChange, onClose} = useDisclosure();
-    const [setSnackbarData] = useContext(Context)
+    const { isOpen, onOpen, onOpenChange, onClose } = useDisclosure();
     const [scheduleList, setscheduleList] = useState([]);
 
     const settimeTableID = useselectedTimetableStore(state => state.settimeTableID);
-
-    /* const scheduleList = [
-        {
-            calendarName: "Erster Entwurf 2024",
-            semesterCylce: "ss"
-        },
-        {
-            calendarName: "2023/2024",
-            semesterCylce: "ws"
-        },
-        {
-            calendarName: "2023",
-            semesterCylce: "ss"
-        },
-        {
-            calendarName: "2022/2023",
-            semesterCylce: "ws"
-        },
-        {
-            calendarName: "2022/2023",
-            semesterCylce: "ss"
-        },
-        {
-            calendarName: "2022/2023",
-            semesterCylce: "ws"
-        },
-        {
-            calendarName: "2022/2023",
-            semesterCylce: "ss"
-        },
-        {
-            calendarName: "2022/2023",
-            semesterCylce: "ws"
-        },
-        {
-            calendarName: "2022/2023",
-            semesterCylce: "ss"
-        },
-        {
-            calendarName: "2022/2023",
-            semesterCylce: "ws"
-        },
-        {
-            calendarName: "2022/2023",
-            semesterCylce: "ss"
-        },
-        {
-            calendarName: "2022/2023",
-            semesterCylce: "ws"
-        },
-    ] */
 
 
     const handleClick = (event) => {
@@ -74,17 +20,17 @@ export default function ChangeScheduleModal() {
         var schedule = null
 
         for (let i = 0; i < scheduleList.length; i++) {
-            if(scheduleList[i]._id === event.target.id){
+            if (scheduleList[i]._id === event.target.id) {
                 schedule = scheduleList[i]
             }
         }
-        updateCalendar(schedule._id, {last_opening:Math.floor(Date.now() / 1000)})
-          .then((response) => {
-            console.log("Calendar updated: ", response);
-          })
-          .catch((error) => {
-            console.error("Error updating calendar:", error);
-          });
+        updateCalendar(schedule._id, { last_opening: Math.floor(Date.now() / 1000) })
+            .then((response) => {
+                console.log("Calendar updated: ", response);
+            })
+            .catch((error) => {
+                console.error("Error updating calendar:", error);
+            });
         window.location.reload(false);
     }
 
@@ -100,10 +46,10 @@ export default function ChangeScheduleModal() {
                         semesterCylce: calendars.data[i].frequency === 1 ? "ws" : "ss",
                         frequency: calendars.data[i].frequency,
                         entrie: calendars.data[i].entrie
-                        })
+                    })
                 }
                 setscheduleList(calendarList)
-            } catch(error) {
+            } catch (error) {
                 console.log("Error: ", error);
             }
         }

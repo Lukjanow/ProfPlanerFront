@@ -19,7 +19,7 @@ import { FilledButton } from "../components/FilledButton.jsx";
 import { changeColor } from "../utils/calendarEventUtils.js";
 
 
-export default function EditModulesPage() {
+export default function ModuleDetailPage() {
     const { t } = useTranslation();
     const { moduleId } = useParams();
     const navigate = useNavigate();

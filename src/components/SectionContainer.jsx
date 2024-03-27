@@ -1,6 +1,5 @@
 import { Switch, Card, CardBody, CardHeader } from "@nextui-org/react";
 import { useState } from "react";
-import { FilledButton } from "./FilledButton";
 
 
 export function SectionContainer(props) {

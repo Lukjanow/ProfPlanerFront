@@ -1,12 +1,11 @@
 import React from "react";
 import { Autocomplete, AutocompleteItem } from "@nextui-org/react";
-import { animals } from "./Data3";
 import { filterDozent, filterRoom, filterStudySemester } from "../filter/filter"
 import { useTimeTableFilterStore } from "../stores/timeTableFilterStore.js";
 
 
 // uses Dummy data from Data3.js, pls change!!!
-export function DropDown2({ module_list, category, filterAction, dropDownData, cLabel, cPlaceholder }) {
+export function FilterDropDown({ module_list, category, filterAction, dropDownData, cLabel, cPlaceholder }) {
   const setFilteredType = useTimeTableFilterStore(state => state.setFilteredType);
   const setFilteredValue = useTimeTableFilterStore(state => state.setFilteredValue);
 

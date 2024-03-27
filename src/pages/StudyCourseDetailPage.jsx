@@ -215,7 +215,6 @@ export default function StudyCourseDetailPage() {
                         setQualificationFocusList((prevItems) => [...prevItems, qualificationFocus])
                         setQualificationFocus("")
                         setErrors({ ...errors, qualificationFocus: false });
-                        // TODO: Don't use an setTimeout() for waiting to re-render  
                         setTimeout(() => {
                           qualificationFocusInputRef.current.focus();
                         }, 0);
