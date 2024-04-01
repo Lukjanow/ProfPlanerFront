@@ -35,7 +35,7 @@
 
 1. Clone the repository
    ```sh
-   git clone https://gitlab.rlp.net/top/24s/profplaner/pp_frontend_react.git
+   git clone https://github.com/Lormdo/ProfPlanerFront.git
    ```
 2. Install NPM packages
    ```sh
