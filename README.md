@@ -51,7 +51,9 @@
    npm run dev
    ```
 
+## Disclaimer
 
+To be able to make full use of the Site, you'll also need the code from https://github.com/Lormdo/ProfPlanerBack
 
 
 
